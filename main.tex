@@ -1,0 +1,87 @@
+\documentclass[a4paper,11pt,oneside]{memoir}
+
+% packages
+\usepackage{newpxtext} % palatino font
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[backend=biber]{biblatex}
+\usepackage{cleveref}
+
+% numbering
+\setsecnumdepth{subsubsection}
+\settocdepth{subsubsection}
+
+% styles
+\pagestyle{ruled}
+\chapterstyle{southall}
+
+% links
+\hypersetup{
+	colorlinks,
+	citecolor={blue!80!black},
+	urlcolor={blue!80!black},
+	linkcolor={blue!80!black}
+}
+
+% footnotes at the side
+\footnotesinmargin
+
+% bibliography
+\addbibresource{references.bib}
+
+% for development only
+\usepackage{lipsum}
+
+\begin{document}
+
+% title pages
+\begin{titlingpage}
+
+    % title page
+    % TODO: do properly
+    \begin{center}
+        {\HUGE\bfseries Dealing with Unrelible Information}
+        \par
+        \vspace{2cm}
+        {\Large A thesis submitted in partial fulfilment of the requirement for the
+        degree of Doctor of Philosophy}
+        \par
+        \vspace{2cm}
+        {\LARGE Joseph Singleton}
+        \par
+        \vspace{10cm}
+        {\Large XXX 2022}
+    \end{center}
+
+    \clearpage
+
+    % abstract
+    \begin{abstract}
+        \input{abstract.tex}
+    \end{abstract}
+
+\end{titlingpage}
+
+\frontmatter
+\tableofcontents
+
+\clearpage
+
+\chapter*{Ackowledgements}
+\addcontentsline{toc}{chapter}{Ackowledgements}
+\input{acknowledgements.tex}
+
+\chapter*{List of Publications}
+\addcontentsline{toc}{chapter}{List of Publications}
+\input{publications.tex}
+
+\mainmatter
+
+\input{body}
+
+\printbibliography
+
+\appendix
+\input{appendix}
+
+\end{document}
