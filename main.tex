@@ -14,6 +14,7 @@
 % styles
 \pagestyle{ruled}
 \chapterstyle{southall}
+\renewcommand{\midpartskip}{\par\parbox{\textwidth}{\hrulefill}\par}
 
 % links
 \hypersetup{
@@ -29,8 +30,16 @@
 % bibliography
 \addbibresource{references.bib}
 
+% metadata
+\title{
+    Handling Unreliable Information
+}
+
 % for development only
 \usepackage{lipsum}
+\newenvironment{notes}
+    {\begingroup \color{violet}}
+    {\endgroup}
 
 \begin{document}
 
@@ -40,7 +49,7 @@
     % title page
     % TODO: do properly
     \begin{center}
-        {\HUGE\bfseries Dealing with Unrelible Information}
+        {\HUGE\bfseries \thetitle}
         \par
         \vspace{2cm}
         {\Large A thesis submitted in partial fulfilment of the requirement for the
@@ -80,8 +89,5 @@
 \input{body}
 
 \printbibliography
-
-\appendix
-\input{appendix}
 
 \end{document}
