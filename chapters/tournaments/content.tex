@@ -1,2 +1,1557 @@
 \chapter{Bipartite Tournaments}
-    \section{Summary}
+\label{chapter_bipartite_tournaments}
+
+\section{Introduction}
+\label{tourn_sec_introduction}
+
+A tournament consists of a finite set of players equipped with a \emph{beating
+relation} describing pairwise comparisons between each pair of players.
+Determining a ranking of the players in a tournament has applications in voting
+in social choice~\cite{brandt2016a} (where players represent alternatives and
+$x$ beats $y$ if a majority of voters prefer $x$ over $y$), paired comparisons
+analysis~\cite{gonzalez2014paired} (where players may represent products and
+the beating relation the preferences of a user), search engines
+\cite{slutzki2006scoring}, sports tournaments~\cite{bozoki2016application} and
+other domains.
+
+In this paper we introduce \emph{bipartite tournaments}, which consist of two
+disjoint sets of players $A$ and $B$ such that comparisons only take place
+between players from opposite sets. We consider ranking methods which produce
+two rankings for each tournament -- one for each side of the bipartition. Such
+tournaments model situations in which two different kinds of entity compete
+\emph{indirectly} via matches against entities of the opposite kind.
+%
+The notion of competition may be abstract, which allows the model to be applied
+in a variety of settings. An important example is
+education~\cite{jiao2017algorithms}, where $A$ represents students, $B$ exam
+questions, and student $a$ `beats' question $b$ by answering it correctly. Here
+the ranking of students reflects their performance in the exam, and the ranking
+of questions reflects their \emph{difficulty}. The simultaneous ranking of both
+sides allows one ranking to influence the other; e.g. so that students are
+rewarded for correctly answering difficult questions. This may prove
+particularly useful in the context of crowdsourced questions provided by
+students themselves, which may vary in their difficulty (see for example the
+PeerWise system \cite{denny_peerwise_2008}).
+
+A related example is \emph{truth discovery}~\cite{li_survey_2016,
+singleton_booth_2020}: the task of finding true information on a number of
+topics when faced with conflicting reports from sources of varying (but
+unknown) reliability. Many truth discovery algorithms operate iteratively,
+alternately estimating the reliability of sources based on current estimates of
+the true information, and obtaining new estimates of the truth based on source
+reliability levels. The former is an instance of a bipartite tournament;
+similar to the education example, $A$ represents data sources, $B$ topics of
+interest, and $a$ defeats $b$ by providing true information on topic $b$
+(according to the current estimates of the truth). Applying a bipartite
+tournament ranking method at this step may therefore facilitate development of
+\emph{difficulty-aware} truth discovery algorithms, which reward sources for
+providing accurate information on difficult topics
+\cite{galland_corroborating_2010}.
+%
+Other application domains include the evaluation of generative models
+in machine learning~\cite{olsson2018skill} (where $A$ represents generators and
+$B$ discriminators) and solo sports contests (e.g. where $A$ represents golfers
+and $B$ golf courses).
+
+In principle, bipartite tournaments are a special case of \emph{generalised}
+tournaments
+\cite{gonzalez2014paired,slutzki2005ranking,csato2019impossibility}, which
+allow intensities of victories and losses beyond a binary win or loss (thus
+permitting draws or multiple comparisons), and drop the requirement that every
+player is compared to all others.  However, many existing ranking methods in
+the literature do not apply to bipartite tournaments due to the violation of an
+\emph{irreducibility} requirement, which requires that the tournament graph be
+strongly connected. In any case, bipartite tournament ranking presents a unique
+problem -- since we aim to rank players with only indirect information
+available -- which we believe is worthy of study in its own right.
+
+In this work we focus particularly on ranking via \emph{chain graphs} and
+\emph{chain editing}. A chain graph is a bipartite graph in which the
+neighbourhoods of vertices on one side form a chain with respect to set
+inclusion. A (bipartite) tournament of this form represents an `ideal'
+situation in which the capabilities of the players are perfectly nested: weaker
+players defeat a subset of the opponents that stronger players defeat. In this
+case a natural ranking can be formed according to the set of opponents defeated
+by each player. These rankings respect the tournament results in an intuitive
+sense: if a player $a$ defeats $b$ and $b'$ ranks worse than $b$, then $a$ must
+defeat $b'$ also.
+%
+Unfortunately, this perfect nesting may not hold in reality: a weak player may
+win a difficult match by coincidence, and a strong player may lose a match by
+accident.
+%
+With this in mind, \textcite{jiao2017algorithms} suggested an appealing ranking
+method for bipartite tournaments: apply \emph{chain editing} to the input
+tournament -- i.e. find the minimum number of edge changes required to form a
+chain graph -- and output the corresponding rankings. Whilst their work
+focused on algorithms for chain editing and its variants, we look to study the
+properties of the ranking method itself through the lens of computational social
+choice.
+
+\paragraph{Contribution.} Our primary contribution is the introduction of a
+class of ranking mechanisms for bipartite tournaments defined by chain editing.
+We also provide a new probabilistic characterisation of chain editing via
+maximum likelihood estimation. To our knowledge this is the first in-depth
+study of chain editing as a ranking mechanism. Secondly, we introduce a new
+class of `chain-definable' mechanisms by relaxing the minimisation constraint
+of chain editing in order to obtain tractable algorithms and to resolve the
+failure of an important anonymity axiom.
+
+\paragraph{Paper outline.} In \Cref{tourn_sec_preliminaries} we define the
+framework for bipartite tournaments and introduce chain graphs.
+\Cref{tourn_sec_ranking_via_chain_editing} outlines how one may use chain editing to
+rank a tournament, and characterises the resulting mechanisms in a
+probabilistic setting. Axiomatic properties are considered in
+\Cref{tourn_sec_axiomatic_analysis}. \Cref{tourn_sec_match_preference_operators} defines a
+concrete scheme for producing chain-editing-based rankings.
+\Cref{tourn_sec_relaxing_chain_min} introduces new ranking methods by relaxing the
+chain editing requirement. Related work is discussed in
+\Cref{tourn_sec_related_work}, and we conclude in \Cref{tourn_sec_conclusion}.
+Note that some proofs are omitted and can be found
+in \cref{chapter_tourn_proofs}.
+
+\section{Preliminaries}
+\label{tourn_sec_preliminaries}
+
+In this section we define our framework for bipartite tournaments, introduce
+chain graphs and discuss the link between them.
+
+\subsection{Bipartite Tournaments}
+
+Following the literature on generalised
+tournaments~\cite{gonzalez2014paired, slutzki2005ranking,
+csato2019impossibility}, we represent a tournament as a matrix, whose entries
+represent the results of matches between participants. In what follows, $[n]$
+denotes the set $\{1,\ldots,n\}$ whenever $n \in \N$.
+
+\begin{definition}%[Bipartite Tournament]
+
+    A \emph{bipartite tournament} -- hereafter simply a \emph{tournament} -- is
+    a triple $(A, B, K)$, where $A = [m]$ and $B = [n]$ for some $m, n \in \N$,
+    and $K$ is an $m \times n$ matrix with $K_{ab} \in \{0, 1\}$ for all $(a,
+    b) \in A \times B$. The set of all tournaments will be denoted by $\K$.
+
+\end{definition}
+
+Here $A$ and $B$ represent the two sets of players in the
+tournament.\footnotemark{} An entry $K_{ab}$ gives the result of the match
+between $a \in A$ and $b \in B$: it is 1 if $a$ defeats $b$ and 0 otherwise.
+Note that we do not allow for the possibility of draws, and every $a \in A$
+faces every $b \in B$.
+%
+When there is no ambiguity we denote a tournament simply by $K$, with the
+understanding that $A = [\text{rows}(K)]$ and $B = [\text{columns}(K)]$.
+
+The \emph{neighbourhood} of a player $a \in A$ in $K$ is the set $K(a) = \{b
+\in B \mid K_{ab} = 1\} \subseteq B$, i.e. the set of players which $a$
+defeats. The neighbourhood of $b \in B$ is the set $K^{-1}(b) = \{a \in A \mid
+K_{ab} = 1\} \subseteq A$, i.e. the set of players defeating $b$.
+
+\footnotetext{
+    Note that $A$ and $B$ are not disjoint as sets: $1$ is always contained in
+    both $A$ and $B$, for instance. This poses no real problem, however, since
+    we view the number $1$ merely a \emph{label} for a player. It will always
+    be clear from context whether a given integer should be taken as a label
+    for a player on the $A$ side or the $B$ side.
+}
+
+Given a tournament $K$, our goal is to place a ranking on each of $A$ and $B$. We
+define a ranking \emph{operator} for this purpose.
+
+\begin{definition}%[Operator]
+
+    An \emph{operator} $\phi$ assigns each tournament $K$ a pair $\phi(K) =
+    ({\ale_K^\phi}, {\ble_K^\phi})$ of total preorders on $A$ and $B$
+    respectively.\footnotemark{}
+
+\end{definition}
+
+\footnotetext{
+    A total preorder is a transitive and complete binary relation.
+}
+
+For $a, a' \in A$, we interpret $a \ale_K^\phi a'$ to mean that $a'$ is ranked
+\emph{at least as strong} as $a$ in the tournament $K$, according to the
+operator $\phi$ (similarly, $b \ble_K^\phi b'$ means $b'$ is ranked at least as
+strong as $b$). The strict and symmetric parts of ${\ale_K^\phi}$ are denoted
+by ${\alt_K^\phi}$ and ${\aeq_K^\phi}$.
+
+As a simple example, consider $\phicount$, where $a \ale_K^\phicount a'$ iff
+$|K(a)| \le |K(a')|$ and $b \ble_K^\phicount b'$ iff $|K^{-1}(b)| \ge
+|K^{-1}(b')|$. This operator simply ranks players by number of victories. It is
+a bipartite version of the \emph{points system} introduced
+by~\textcite{rubinstein1980ranking}, and generalises \emph{Copeland's
+rule}~\cite{brandt2016a}.
+
+\subsection{Chain Graphs}
+
+Each bipartite tournament $K$ naturally corresponds to a bipartite graph $G_K$,
+with vertices $A \sqcup B$ and an edge between $a$ and $b$ whenever $K_{ab} =
+1$.\footnotemark{} The task of ranking a tournament admits a particularly
+simple solution if this graph happens to be a \emph{chain graph}.
+
+\footnotetext{
+    $A \sqcup B$ is the \emph{disjoint union} of $A$ and $B$, which we define
+    as $\{(a, \asymb) \mid a \in A\} \cup \{(b, \bsymb) \mid b \in B\}$, where
+    $\asymb$ and $\bsymb$ are constant symbols.
+}
+
+%\begin{definition}[Chain graph~\cite{yannakakis1981computing}]
+\begin{definition}[\cite{yannakakis1981computing}]
+\label{tourn_def_chain_graph}
+
+    A bipartite graph $G = (U, V, E)$ is a \emph{chain graph} if there is an
+    ordering $U = \{u_1,\ldots,u_k\}$ of $U$ such that $N(u_1) \subseteq \cdots
+    \subseteq N(u_k)$, where $N(u_i) = \{v \in V \mid (u_i, v) \in E\}$ is the
+    neighbourhood of $u_i$ in $G$.
+
+\end{definition}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+
+        \def \m {3}
+        \def \n {4}
+        \def \width {2}
+        \def \height {2}
+        \def \edges {{{1,1},{1,2}}}
+
+        \tikzset{mynode/.style={circle,draw}}
+
+        \footnotesize
+
+        % Draw vertices
+        \foreach \a in {1,...,\m} {
+            \def \y {\height * (\a - 1) / (\m - 1)}
+            \node (a-\a) at (0, -{\y}) [mynode] {$u_{\a}$};
+        }
+        \foreach \b in {1,...,\n} {
+            \def \y {\height * (\b - 1) / (\n - 1)}
+            \def \index {\pgfmathparse{int(1 + \n - \b)}\pgfmathresult}
+            \node (b-\b) at (\width, -{\y}) [mynode] {$v_{\index}$};
+        }
+        % Draw edges
+        \def \drawedge#1#2{\draw[-] (a-#1) -- (b-#2);}
+        \drawedge{1}{1}
+        \drawedge{2}{1} \drawedge{2}{2}
+        \drawedge{3}{1} \drawedge{3}{2} \drawedge{3}{3} \drawedge{3}{4}
+
+    \end{tikzpicture}
+    \caption{An example of a chain graph}
+    \label{tourn_fig_chain_graph_example}
+\end{figure}
+
+In other words, a chain graph is a bipartite graph where the neighbourhoods of
+the vertices on one side can be ordered so as to form a chain with respect to
+set inclusion. It is easily seen that this nesting property holds for $U$ if
+and only if it holds for $V$. \Cref{tourn_fig_chain_graph_example} shows an example
+of a chain graph.
+
+Now, as our terminology might suggest, the neighbourhood $K(a)$ of some player
+$a \in A$ in a tournament $K$ coincides with the neighbourhood of the
+corresponding vertex in $G_K$. If $G_K$ is a chain graph we can therefore
+enumerate $A$ as $\{a_1,\ldots,a_m\}$ such that $K(a_i) \subseteq K(a_{i+1})$
+for each $1 \le i < m$. This indicates that each $a_{i+1}$ has performed
+\emph{at least as well} as $a_i$ in a strong sense: every opponent which $a_i$
+defeated was also defeated by $a_{i+1}$, and $a_{i+1}$ may have additionally
+defeated opponents which $a_i$ did not.\footnotemark{} It seems only natural in
+this case that one should rank $a_i$ (weakly) below $a_{i+1}$.
+%
+\footnotetext{
+    Note that this is a more robust notion of performance than comparing the
+    neighbourhoods of $a_i$ and $a_{i+1}$ by \emph{cardinality}, which may fail
+    to account for differences in the strength of opponents when counting wins
+    and losses.
+}
+%
+Appealing to transitivity and the fact that each $a \in A$ appears as
+\emph{some} $a_i$, we see that any tournament $K$ where $G_K$ is a chain graph
+comes pre-equipped with a natural total preorder on $A$, where $a'$ ranks
+higher than than $a$ if and only if $K(a) \subseteq K(a')$. The duality of the
+neighbourhood-nesting property for chain graphs implies that $B$ can also be
+totally preordered, with $b'$ ranked higher than $b$ if and only if $K^{-1}(b)
+\supseteq K^{-1}(b')$.\footnotemark{}
+%
+Moreover, these total preorders relate to the tournament results in an
+important sense: if $a$ defeats $b$ and $b'$ ranks worse than $b$, then $a$
+must defeat $b'$ also. That is, the neighbourhood of each $a \in A$ is
+\emph{downwards closed} w.r.t the ranking of $B$, and the neighbourhood of each
+$b \in B$ is \emph{upwards closed} in $A$.
+
+\footnotetext{
+    Note that the ordering of the $B$s is reversed compared to the $A$s, since
+    the larger $K^{-1}(b)$ the \emph{worse} $b$ has performed.
+}
+
+Tournaments corresponding to chain graphs will be said to satisfy the
+\emph{chain property}, and will accordingly be called \emph{chain tournaments}.
+We give a simpler (but equivalent) definition which does not refer to the
+underlying graph $G_K$. First, define relations ${\anle_K}, {\bnle_K}$ on
+$A$ and $B$ respectively by $a \anle_K a'$ iff $K(a) \subseteq K(a')$ and $b
+\bnle_K b'$ iff $K^{-1}(b) \supseteq K^{-1}(b')$, for any tournament $K$.
+
+\begin{definition}%[Chain property]
+    A tournament $K$ has the \emph{chain property} if $\anle_K$ is a total
+    preorder.
+\end{definition}
+
+According to the duality principle mentioned already, the chain property
+implies that $\bnle_K$ is also a total preorder. Note that the relations
+$\anle_K$ and $\bnle_K$ are analogues of the \emph{covering relation} for
+non-bipartite tournaments \cite{brandt2016a}.
+
+\begin{example}
+    Consider
+    $
+        K = \left[\begin{smallmatrix}
+            1 & 0 & 0 & 0 \\
+            1 & 1 & 0 & 0 \\
+            1 & 1 & 1 & 1
+        \end{smallmatrix}\right]
+    $. Then $K(1) \subset K(2) \subset K(3)$, so $K$ has the chain
+    property.  In fact, $K$ is the tournament corresponding to the chain graph
+    $G$ from \Cref{tourn_fig_chain_graph_example}.
+
+\end{example}
+
+\section{Ranking via Chain Editing}
+\label{tourn_sec_ranking_via_chain_editing}
+
+We have seen that chain tournaments
+come equipped with natural rankings of $A$ and $B$. Such tournaments represent
+an `ideal' situation, wherein the abilities of the players on both sides of the
+tournament are perfectly nested. Of course this may not be so in reality:
+the nesting may be broken by some $a \in A$ winning a match it ought not to by
+chance, or by losing a match by accident.
+
+One idea for recovering a ranking in this case, originally suggested
+by \textcite{jiao2017algorithms}, is to apply \emph{chain editing}: find the
+minimum number of edge changes required to convert the graph $G_K$ into a chain
+graph. This process can be seen as correcting the `noise' in an observed
+tournament $K$ to obtain an ideal ranking. In this section we introduce the
+class of operators producing rankings in this way.
+
+\subsection{Chain-minimal Operators}
+
+To define chain-editing in our framework we once again present an equivalent
+definition which does not refer to the underlying graph $G_K$: the number of
+edge changes between graphs can be replaced by the \emph{Hamming distance}
+between tournament matrices.
+
+\begin{definition}
+    For $m, n \in \N$, let $\ch_{m,n}$ denote the set of all $m \times n$
+    chain tournaments. For an $m \times n$ tournament $K$,
+    write $\minch{K} = \argmin_{K' \in \ch_{m,n}}{d(K, K')} \subseteq \K$ for
+    the set of chain tournaments closest to $K$ w.r.t the Hamming
+    distance $d(K, K') = |\{(a,b) \in A \times B \mid K_{ab} \ne K'_{ab}\}|$.
+    Let $\mindist{K}$ denote this minimum distance.
+\end{definition}
+
+Note that chain editing, which is \complexityclass{NP}-hard in
+general~\cite{jiao2017algorithms}, amounts to finding a single element of
+$\minch{K}$.\footnotemark{} We comment further on the computational complexity
+of chain editing in \Cref{tourn_sec_related_work}. The following
+property characterises chain editing-based operators $\phi$.
+
+\footnotetext{
+    The decision problem associated with chain editing -- which in tournament
+    terms is the question of whether $\mindist{K} \le k$ for a given integer
+    $k$ -- is \complexityclass{NP}-complete~\cite{drange2015threshold}.
+}
+
+\begin{axiom}[chain-min]
+    For every tournament $K$ there is $K' \in \minch{K}$ such that $\phi(K) =
+    ({\anle_{K'}}, {\bnle_{K'}})$.
+\end{axiom}
+
+\sloppy
+That is, the ranking of $K$ is obtained by choosing the neighbourhood-subset
+rankings for some closest chain tournament $K'$. Operators satisfying
+\axiomref{chain-min} will be called \emph{chain-minimal}.
+
+\begin{example}
+    \label{tourn_ex_minch}
+    Consider
+    $
+        K = \left[\begin{smallmatrix}
+            1 & 0 & 1 & 0 \\
+            1 & 1 & 0 & 0 \\
+            0 & 1 & 1 & 1
+        \end{smallmatrix}\right]
+    $.
+    $K$ does not have the chain property, since neither $K(1) \subseteq K(2)$
+    nor $K(2) \subseteq K(1)$. The set $\minch{K}$ consists of four
+    tournaments a distance of 2 from $K$:
+    \[
+        \minch{K} = \left\{
+            \left[\begin{smallmatrix}
+                1 & \bm{{\color{red}1}} & 1 & 0 \\
+                1 & 1 & 0 & 0 \\
+                \bm{{\color{red}1}} & 1 & 1 & 1
+            \end{smallmatrix}\right],
+            \left[\begin{smallmatrix}
+                1 & 0 & \bm{{\color{red}0}} & 0 \\
+                1 & 1 & 0 & 0 \\
+                \bm{{\color{red}1}} & 1 & 1 & 1
+            \end{smallmatrix}\right],
+            \left[\begin{smallmatrix}
+                1 & 0 & 1 & 0 \\
+                1 & \bm{{\color{red}0}} & 0 & 0 \\
+                \bm{{\color{red}1}} & 1 & 1 & 1
+            \end{smallmatrix}\right],
+            \left[\begin{smallmatrix}
+                1 & 0 & 1 & 0 \\
+                1 & 1 & \bm{{\color{red}1}} & 0 \\
+                \bm{{\color{red}1}} & 1 & 1 & 1
+            \end{smallmatrix}\right]
+        \right\}
+    \]
+
+    \sloppy
+    The corresponding rankings are $(213, \{12\}34)$, $(123, 12\{34\})$, $(213,
+    13\{24\})$ and $(123, \{13\}24)$.\footnotemark{}
+    % Note that while the
+    % intersection of these rankings is not a total preorder, $3 \in A$
+    % ranks maximally in each case.
+
+    % Note that the $(3, 1)$
+    % entry of $K$ is changed to a $1$ in each matrix of $\minch{K}$, and
+    % consequently $3 \in A$ ranks maximally in each case. This can be
+    % interpreted as $3 \in A$ being the strongest player of $A$ in any `ideal'
+    % ranking; otherwise more than 2 changes would be required to obtain a chain
+    % tournament.
+
+    \footnotetext{
+        Here $a_1a_2a_3$ is shorthand for the ranking $a_1 \alt a_2 \alt a_3$
+        of $A$, and similar for $B$. Elements in brackets are ranked equally.
+    }
+
+\end{example}
+
+\Cref{tourn_ex_minch} shows that there is no unique chain-minimal operator, since for
+a given tournament $K$ there may be several closest chain tournaments to choose
+from. In \Cref{tourn_sec_match_preference_operators} we introduce a principled way to
+single out a \emph{unique} chain tournament and thereby construct a
+well-defined chain-minimal operator.
+
+\subsection{A Maximum Likelihood Interpretation}
+\label{tourn_sec_mle}
+
+So far we have motivated \axiomref{chain-min} as a way to fix
+errors in a tournament and recover the ideal or \emph{true} ranking. In this
+section we make this notion precise by defining a probabilistic model in which
+chain-minimal rankings arise as maximum likelihood estimates.
+%
+The maximum likelihood approach has been applied for (non-bipartite)
+tournaments (e.g. the Bradley-Terry
+model~\cite{bradley_terry_52,gonzalez2014paired}), voting in social choice
+theory~\cite{elkind2016rationalizations}, truth
+discovery~\cite{wang_truth_2012}, belief merging~\cite{everaere2020} and other
+related problems.
+
+In this approach we take an epistemic view of tournament ranking: it is assumed
+there exists a true `state of the world' which determines the tournament
+results along with objective rankings of $A$ and $B$. A given
+tournament $K$ is then seen as a \emph{noisy observation} derived from the
+true state, and a \emph{maximum likelihood estimate} is a state for which the
+probability of observing $K$ is maximal.
+
+More specifically, a state of the world is represented as a vector of
+\emph{skill levels} for the players in $A$ and $B$.\footnotemark{}
+
+\footnotetext{
+    For simplicity we use numerical skill levels here, although it would
+   suffice to have a partial preorder on $A \sqcup B$ such that each
+   $a \in A$ is comparable with every $b \in B$.
+}
+
+\begin{definition}
+   \label{tourn_def_stateworld}
+
+    For a fixed size $m \times n$, a \emph{state of the world} is a tuple
+    $\theta = \tuple{\bm{x}, \bm{y}}$, where $\bm{x} \in \R^m$ and
+    $\bm{y} \in \R^n$ satisfies the following properties:
+   \begin{equation}
+        \forall a, a' \in A \quad (
+            x_a < x_{a'} \implies \exists b \in B: x_a < y_b \le x_{a'}
+        )
+        \label{tourn_eqn_state_condition_a}
+   \end{equation}
+   \begin{equation}
+        \forall b, b' \in B \quad(
+            y_b < y_{b'} \implies \exists a \in A: y_b \le x_a < y_{b'}
+        )
+        \label{tourn_eqn_state_condition_b}
+   \end{equation}
+   where $A = [m]$, $B = [n]$. Write $\Theta_{m,n}$ for the set of all $m
+   \times n$ states.
+
+\end{definition}
+
+For $a \in A$, $x_a$ is the \emph{skill level} of $a$ in state $\theta$ (and
+similarly for $y_b$). These skill levels represent the true capabilities of the
+players in $A$ and $B$ in state $\theta$: $a$ is capable of defeating $b$ if
+and only if $x_a \ge y_b$.
+%
+Note that \labelcref{tourn_eqn_state_condition_a} suggests a simple form of
+\emph{explainability}: $a'$ can only be strictly more skilful than $a$ if there
+is some $b \in B$ which \emph{explains} this fact, i.e. some $b$ which $a'$ can
+defeat but $a$ cannot (\labelcref{tourn_eqn_state_condition_b} is analogous for the
+$B$s). These conditions are intuitive if we assume that skill levels are
+relative to the sets $A$ and $B$ currently under consideration (i.e.
+they do not reflect the abilities of players in future matches against new
+contenders outside of $A$ or $B$). Finally note that our states of the world
+are \emph{richer} than the output of an operator, in contrast to other work in
+the literature~\cite{bradley_terry_52, gonzalez2014paired,
+elkind2016rationalizations}. Specifically, a state $\theta$ contains extra
+information in the form of comparisons between $A$ and $B$.
+
+Noise is introduced in the observed tournament $K$ via \emph{false positives}
+(where $a \in A$ defeats a more skilled $b \in B$ by accident) and \emph{false
+negatives} (where $a \in A$ is defeated by an inferior $b \in B$ by
+mistake).\footnote{Note that a false positive for $a$ is a false negative for
+$b$ and vice versa.} The noise model is therefore parametrised by the false
+positive and false negative rates $\bm{\alpha} = \tuple{\alpha_+, \alpha_-}
+\in [0,1]^2$, which we assume are the same for all $a \in A$.\footnotemark{} We
+also assume that noise occurs independently across all matches.
+
+\footnotetext{
+    %
+    This is a strong assumption, and it may be more realistic to model the
+    false positive/negative rates as a function of $x_a$. We leave this to
+    future work.
+    %}
+}
+
+\begin{definition}
+   \label{tourn_def_probdist}
+
+   Let $\bm{\alpha} = \tuple{\alpha_+, \alpha_-} \in [0,1]^2$. For each $m,
+   n \in \N$ and $\theta = \tuple{\bm{x}, \bm{y}} \in \Theta_{m,n}$, consider
+   independent binary random variables $X_{ab}$ representing the outcome of a
+   match between $a \in [m]$ and $b \in [n]$, where
+   \begin{equation}
+        \label{tourn_eqn_probdist_random_var_one}
+        P_{\bm{\alpha}}(X_{ab} = 1 \mid \theta)
+        = \begin{cases}
+            \alpha_+,& x_a < y_b \\
+            1 - \alpha_-,& x_a \ge y_b
+        \end{cases}
+   \end{equation}
+   \begin{equation}
+        \label{tourn_eqn_probdist_random_var_zero}
+        P_{\bm{\alpha}}(X_{ab} = 0 \mid \theta)
+        = \begin{cases}
+            1 - \alpha_+,& x_a < y_b \\
+            \alpha_-,& x_a \ge y_b
+        \end{cases}
+   \end{equation}
+
+   This defines a probability distribution $P_{\bm{\alpha}}({\cdot} \mid
+   \theta)$ over $m \times n$ tournaments by
+   \[
+      P_{\bm{\alpha}}(K \mid \theta) = \prod_{(a, b) \in [m] \times [n]}{
+           P_{\bm{\alpha}}(X_{ab} = K_{ab} \mid \theta)
+      }
+   \]
+\end{definition}
+
+Here $P_{\bm{\alpha}}(K \mid \theta)$ is the probability of observing the
+tournament results $K$ when the false positive and negative rates are given by
+$\bm{\alpha}$ and the true state of the world is $\theta$. Note that the
+four cases in \labelcref{tourn_eqn_probdist_random_var_one} and
+\labelcref{tourn_eqn_probdist_random_var_zero} correspond to a false positive, true
+positive, true negative and false negative respectively. We can now define a
+maximum likelihood operator.
+
+\begin{definition}
+
+    Let $\bm{\alpha} \in [0,1]^2$ and $m, n \in \N$. Then $\theta \in
+    \Theta_{m,n}$ is a \emph{maximum likelihood estimate} (MLE) for an $m
+    \times n$ tournament $K$ w.r.t $\bm{\alpha}$ if $\theta \in
+    \argmax_{\theta' \in \Theta_{m,n}}{P_{\bm{\alpha}}(K \mid \theta')}$. An
+    operator $\phi$ is a \emph{maximum likelihood operator} w.r.t
+    $\bm{\alpha}$ if for any $m, n \in \N$ and any $m \times n$ tournament $K$
+    there is an MLE $\theta = \tuple{\bm{x}, \bm{y}} \in \Theta_{m,n}$ for $K$
+    such that $a \ale_K^\phi a'$ iff $x_a \le x_{a'}$ and $b \ble_K^\phi b'$
+    iff $y_b \le y_{b'}$.
+
+\end{definition}
+
+Now, consider the tournament $K_\theta$ associated with each state $\theta =
+\tuple{\bm{x}, \bm{y}}$, given by $[K_\theta]_{ab} = 1$ if $x_a \ge y_b$ and
+$[K_\theta]_{ab} = 0$ otherwise. Note that $K_\theta$ is the unique tournament
+with non-zero probability when
+there are no false positive or false negatives. Expressed in terms of
+$K_\theta$, the MLEs take a particularly simple form if $\alpha_+ = \alpha_-$,
+i.e. if false positives and false negatives occur at the same rate.
+
+\begin{lemma}
+   \label{tourn_result_mle_hamming}
+
+   Let $\bm{\alpha} = \tuple{\beta, \beta}$ for some $\beta < \frac{1}{2}$.
+   Then $\theta$ is an MLE for $K$ if and only if $\theta \in \argmin_{\theta'
+   \in \Theta_{m,n}}{d(K, K_{\theta'})}$.
+\end{lemma}
+
+\begin{proof}[Proof (sketch)]
+
+    Let $K$ be an $m \times n$ tournament. It can be shown (and we do so in the
+    appendix) that for any $\theta \in \Theta_{m,n}$
+    \begin{equation*}
+       \begin{split}
+           P_{\bm{\alpha}}(K \mid \theta)
+           =
+           \Big(
+           \prod_{a \in A}
+             &\alpha_+^{|K(a) \setminus K_\theta(a)|}
+             (1 - \alpha_-)^{|K(a) \cap K_\theta(a)|}
+             \\
+             &\quad (1 - \alpha_+)^{|B \setminus (K(a) \cup K_\theta(a))|}
+             \alpha_-^{|K_\theta(a) \setminus K(a)|}
+           \Big)
+       \end{split}
+    \end{equation*}
+    Plugging in $\alpha_+ = \alpha_- = \beta$ and simplifying, one can obtain
+    \[
+       \begin{aligned}
+       P_{\bm{\alpha}}(K \mid \theta)
+           &=  c
+               \prod_{a \in A}{
+                \left(
+                  \frac{\beta}{1 - \beta}
+                \right)^{
+                  |K(a) \symdiff K_\theta(a)|
+                }
+           }
+       \end{aligned}
+    \]
+    where $X \symdiff Y = (X \setminus Y) \cup (Y \setminus X)$ is the
+    symmetric difference of two sets $X$ and $Y$, and $c = (1
+    - \beta)^{|A| \cdot |B|}$ is a positive constant that does not depend on
+    $\theta$. Now, $P_{\bm{\alpha}}(K \mid \theta)$ is positive, and is maximal
+    when its logarithm is. We have
+    \[
+       \begin{aligned}
+           \log{P_{\bm{\alpha}}(K \mid \theta)}
+           % &=
+           %    \log{c}
+           %    + \sum_{a \in A}{
+           %        |K(a) \symdiff K_\theta(a)|
+           %        \log{\left(\frac{\beta}{1 - \beta}\right)}
+           %    } \\
+           &=
+              \log{c}
+              +
+              \log{\left(\frac{\beta}{1 - \beta}\right)}
+              \sum_{a \in A}{
+                  |K(a) \symdiff K_\theta(a)|
+              } \\
+           &=
+              \log{c}
+              +
+              \log{\left(\frac{\beta}{1 - \beta}\right)}
+              d(K, K_\theta)
+       \end{aligned}
+    \]
+    Since $\log{c}$ is constant and $\beta < 1/2$ implies
+    $\log{\left(\frac{\beta}{1 - \beta}\right)} < 0$, it follows that
+    $\log{P_{\bm{\alpha}}(K \mid \theta)}$ is maximised exactly when $d(K,
+    K_\theta)$ is minimised, which proves the result.
+\end{proof}
+
+This result characterises the MLE states for $K$ as those for which $K_\theta$
+is the closest to $K$. As it turns out, the tournaments $K_\theta$ that arise
+in this way are exactly those with the chain property.
+
+\begin{lemma}
+   \label{tourn_result_chain_iff_ktheta}
+
+   An $m \times n$ tournament $K$ has the chain property if and only if $K =
+   K_\theta$ for some $\theta \in \Theta_{m,n}$.
+
+\end{lemma}
+
+The proof of \Cref{tourn_result_chain_iff_ktheta} relies crucially on
+\labelcref{tourn_eqn_state_condition_a} and \labelcref{tourn_eqn_state_condition_b} in the
+definition of a state. Combining all the results so far we obtain our first
+main result: the maximum likelihood operators for $\bm{\alpha} =
+\tuple{\beta,\beta}$ are exactly the chain-minimal operators.
+
+\begin{theorem}
+   \label{tourn_result_mle_iff_chainmin_operator}
+   Let $\bm{\alpha} = \tuple{\beta, \beta}$ for some $\beta < \frac{1}{2}$.
+   Then $\phi$ is a maximum likelihood operator w.r.t $\bm{\alpha}$
+   if and only if $\phi$ satisfies \axiomref{chain-min}.
+\end{theorem}
+
+\begin{proof}[Proof (sketch)]
+
+    First note that by \Cref{tourn_result_mle_hamming}, a state $\theta$ is an MLE
+    for an $m \times n$ tournament $K$ iff $K_\theta$ is closest to $K$ amongst
+    all other tournaments $\{K_{\theta'} \mid \theta' \in \Theta_{m,n}\}$. But
+    by \Cref{tourn_result_chain_iff_ktheta}, this set is exactly the $m \times n$
+    tournaments with the chain property. It follows from the definition of
+    $\minch{K}$ that $\theta$ is an MLE if and only if $K_\theta \in
+    \minch{K}$. Consequently, $K' \in \minch{K}$ if and only if $K' = K_\theta$
+    for some MLE $\theta$ for $K$.
+    %
+    We see that \axiomref{chain-min} can be
+    equivalently stated as follows: for all $K$ there exists an MLE
+    $\theta$ such that $\phi(K) = ({\anle_{K_\theta}}, {\bnle_{K_\theta}})$.
+    Using properties \labelcref{tourn_eqn_state_condition_a} and
+    \labelcref{tourn_eqn_state_condition_b} in \Cref{tourn_def_stateworld} for $\theta$ it
+    is straightforward to show that $a \anle_{K_\theta} a'$ iff $x_a \le
+    x_{a'}$ and $b \bnle_{K_\theta} b'$ iff $y_b \le y_{b'}$ for all $a, a' \in
+    A$, $b, b' \in B$ (where $\theta = \tuple{\bm{x}, \bm{y}}$). This means
+    that the above reformulation of \axiomref{chain-min} coincides with the
+    definition of a maximum likelihood operator, and we are done.
+\end{proof}
+
+Similar results can be obtained for
+other limiting values of $\bm{\alpha}$. If $\alpha_+ = 0$ and $\alpha_- \in (0,
+1)$ then the MLE operators correspond to \emph{chain completion}: finding
+the minimum number of edge \emph{additions} required to make $G_K$ a chain graph. This
+models situations where false positives never occur, although false negatives
+may (e.g. numerical entry questions in the case where $A$ represents students
+and $B$ exam questions~\cite{jiao2017algorithms}). Similarly, the case
+$\alpha_- = 0$ and $\alpha_+ \in (0, 1)$ corresponds to \emph{chain deletion},
+where edge additions are not allowed.
+
+\section{Axiomatic analysis}
+\label{tourn_sec_axiomatic_analysis}
+
+Chain-minimal operators have theoretical backing in a probabilistic sense due
+to the results of \Cref{tourn_sec_mle}, but are they appropriate ranking methods in
+practise? To address this question we consider the \emph{normative} properties
+of chain-minimal operators via the axiomatic method of social choice theory. We
+formulate several axioms for bipartite tournament ranking
+% -- mostly adaptations of standard ones --
+and assess whether they
+are compatible with \axiomref{chain-min}. It will be seen that an important
+\emph{anonymity} axiom fails for all chain-minimal operators; later in
+\Cref{tourn_sec_match_preference_operators} we describe a scenario in which this is
+acceptable and define a class of concrete operators for this case, and in
+\Cref{tourn_sec_relaxing_chain_min} we relax the \axiomref{chain-min} requirement in
+order to gain anonymity.
+
+\subsection{The Axioms}
+
+We will consider five axioms -- mainly adaptations of standard social choice
+properties to the bipartite tournament setting.
+
+\paragraph{Symmetry Properties.}
+%
+We consider two symmetry properties. The first is a classic \emph{anonymity}
+axiom, which says that an operator $\phi$ should not be sensitive to the
+`labels' used to identify participants in a tournament. Axioms of this form are
+standard in social choice theory; a tournament version goes at least as far
+back as~\cite{rubinstein1980ranking}.
+
+We need some notation: for a tournament $K$ and permutations $\sigma: A \to A$,
+$\pi: B \to B$, let $\sigma(K)$ and $\pi(K)$ denote the tournament obtained by
+permuting the rows and columns of $K$ by $\sigma$ and $\pi$ respectively, i.e.
+$[\sigma(K)]_{ab} = K_{\sigma^{-1}(a), b}$ and $[\pi(K)]_{ab} = K_{a,
+\pi^{-1}(b)}$. Note that in the statement of the axioms we omit universal
+quantification over $K$, $a, a' \in A$ and $b, b' \in B$ for
+brevity.
+
+\begin{axiom}[anon]
+    Let $\sigma:A \to A$ and $\pi:B \to B$ be permutations. Then $a \ale_K^\phi
+    a'$ iff $\sigma(a) \ale_{\pi(\sigma(K))}^\phi \sigma(a')$.
+\end{axiom}
+
+Our second axiom is specific to bipartite tournaments, and expresses a
+\emph{duality} between the two sides $A$ and $B$: given the two sets of
+conceptually disjoint entities participating in a bipartite tournament, it
+should not matter which one we label $A$ and which one we label $B$. We need
+the notion of a \emph{dual tournament}.
+
+\begin{definition}%[Dual tournament]
+
+    The \emph{dual tournament} of $K$ is $\dual{K} = \bm{1} - K^\tr$, where
+    $\bm{1}$ denotes the matrix consisting entirely of 1s.
+
+\end{definition}
+
+$\dual{K}$ is essentially the same tournament as $K$, but with the roles of $A$
+and $B$ swapped. In particular, $A_K = B_\dual{K}$, $B_K = A_\dual{K}$ and
+$K_{ab} = 1$ iff $\dual{K}_{ba} = 0$. Also note that $\dual{\dual{K}} = K$.
+The duality axiom states that the ranking of the $B$s in $K$ is the same as the
+$A$s in $\dual{K}$.
+
+\begin{axiom}[dual]
+    $b \ble_K^\phi b'$ iff $b \ale_\dual{K}^\phi b'$.
+\end{axiom}
+
+Whilst \axiomref{dual} is not necessarily a universally desirable property --
+one can imagine situations where $A$ and $B$ are not fully abstract and should
+not be treated symmetrically -- it is important to consider in any study of
+bipartite tournaments. Note that \axiomref{dual} implies $a \ale_K^\phi
+a'$ iff $a \ble_{\dual{K}}^\phi a'$, so that a \axiomref{dual}-operator can be
+defined by giving the ranking for one of $A$ or $B$ only, and defining the
+other by duality. This explains our choice to define \axiomref{anon} (and
+subsequent axioms) solely in terms of the $A$ ranking: the analogous anonymity
+constraint for the $B$ ranking follows from \axiomref{anon} together with
+\axiomref{dual}.
+
+\paragraph{An Independence Property.}
+%
+\emph{Independence axioms} play a crucial role in social choice. We present a
+bipartite adaptation of a classic axiom introduced
+in~\cite{rubinstein1980ranking}, which has subsequently been called
+\emph{Independence of Irrelevant Matches}~\cite{gonzalez2014paired}.
+
+\begin{axiom}[IIM]
+
+    If $K_1, K_2$ are tournaments of the same size with identical $a$-th and
+    $a'$-th rows, then $a \ale_{K_1}^\phi a'$ iff $a \ale_{K_2}^\phi a'$.
+
+\end{axiom}
+
+\axiomref{IIM} is a strong property, which says the relative ranking of $a$ and
+$a'$ does not depend on the results of any match not involving $a$ or $a'$.
+This axiom has been questioned for generalised
+tournaments~\cite{gonzalez2014paired}, and a similar argument can be made
+against it here: although each player in $A$ faces the same opponents, we may
+wish to take the \emph{strength} of opponents into account, e.g. by rewarding
+victories against highly-ranked players in $B$. Consequently we do not view
+\axiomref{IIM} as an essential requirement, but rather introduce it to
+facilitate comparison with our work and the existing tournament literature.
+
+\paragraph{Monotonicity Properties.}
+%
+Our final axioms are monotonicity properties, which express the idea that
+\emph{more victories are better}. The first axiom follows our original
+intuition for constructing the natural ranking associated with a chain graph;
+namely that $K(a) \subseteq K(a')$ indicates $a'$ has performed at least as
+well as $a$.
+
+\begin{axiom}[mon]
+    If $K(a) \subseteq K(a')$ then $a \ale_K^\phi a'$.
+\end{axiom}
+
+Note that \axiomref{mon} simply says ${\ale_K^\phi}$ extends the (in general,
+partial) preorder ${\anle_K}$.
+%
+Yet another standard axiom is \emph{positive responsiveness}.
+
+\begin{axiom}[pos-resp]
+
+    If $a \ale_K^\phi a'$ and $K_{a',b} = 0$ for some $b \in B$, then $a
+    \alt_{K + \bm{1}_{a', b}}^\phi a'$, where $\bm{1}_{a', b}$ is the matrix
+    with 1 in position $(a', b)$ and zeros elsewhere.
+
+\end{axiom}
+
+That is, adding an extra victory for $a$ should only improve its ranking, with
+ties now broken in its favour. This version of positive responsiveness was
+again introduced in~\cite{rubinstein1980ranking}, where together with
+\axiomref{anon} and \axiomref{IIM} it characterises the \emph{points system}
+ranking method for round-robin tournaments, which simply ranks players
+according to the number of victories. The analogous operator in our framework
+is $\phicount$, and it can be shown that $\phicount$ is uniquely characterised
+by \axiomref{anon}, \axiomref{IIM}, \axiomref{pos-resp} and \axiomref{dual}.
+%
+Finally, note that \axiomref{pos-resp} also acts as a kind of
+\emph{strategyproofness}: $a$ cannot improve its ranking by deliberately losing
+a match. Specifically, if $K_{ab} = 1$ and $a \ale_K^\phi a'$, then
+\axiomref{pos-resp} implies $a \alt_{K - \bm{1}_{ab}}^\phi a'$.
+
+% \subsection{Axiom Satisfaction for Chain-minimal Operators}
+\subsection{Axiom Compatibility with \axiomref{chain-min}}
+
+% \begin{table}[t]
+%     \caption{Satisfaction of the axioms}
+%     \label{tourn_tab_axiom_satisfaction}
+%     % Shortcuts for table readability
+%     \def\a{anon}
+%     \def\d{dual}
+%     \def\iim{IIM}
+%     \def\m{mon}
+%     \def\p{pos-resp}
+%     \def\yes{\checkmark}
+%     \def\no{\sffamily{X}}
+%     \def\notsure{?}
+%     \begin{tabular}{cccccc}
+%       \toprule
+%                     & \a   & \d   & \iim & \m       & \p   \\
+%       \midrule
+%       chain-min     & \no  & \yes & \no  & \yes & \no  \\
+%       chain-def     & \yes & \yes & \yes & \yes     & \yes \\
+%       $\phicardint$ & \yes & \yes & \no  & \yes     & \no \\
+%       \bottomrule
+%     \end{tabular}
+% \end{table}
+
+We come to analysing the compatibility of \axiomref{chain-min} with the axioms.
+First, the negative results.
+
+\begin{theorem}
+    \label{tourn_result_chainmin_axiom_incompatibilities}
+
+    There is no operator satisfying \axiomref{chain-min} and any of
+    \axiomref{anon}, \axiomref{IIM} or \axiomref{pos-resp}.
+
+\end{theorem}
+
+The counterexample for \axiomref{anon} is particularly simple: take $K =
+\left[\begin{smallmatrix} 1&0\\0&1 \end{smallmatrix}\right]$. Swapping the rows
+and columns brings us back to $K$, so \axiomref{anon} implies $1, 2 \in A$ rank
+equally. However, it is easily seen for every $K' \in \minch{K}$, either $K(1)
+\subset K(2)$ or $K(2) \subset K(1)$, i.e no chain-minimal operator can rank 1
+and 2 equally.
+
+The MLE results of \Cref{tourn_sec_mle} provides informal
+explanation for this result. For $K$ above to arise in the noise model of
+\Cref{tourn_def_probdist} there must have been two `mistakes' (false positives or
+false negatives). This is less likely than a single mistake from just one of
+$1,2 \in A$, but the likelihood maximisation forces us to choose one or the
+other. A similar argument explains the \axiomref{pos-resp} failure.
+
+It is also worth noting that \axiomref{anon} only fails at the last step of
+chain editing, where a single element of $\minch{K}$ is chosen. Indeed, the set
+$\minch{K}$ itself \emph{does} exhibit the kind of symmetry one might expect:
+we have $\minch{\pi(\sigma(K))} = \{\pi(\sigma(K')) \mid K' \in \minch{K}\}$.
+This means that an operator which aggregates the rankings from \emph{all} $K'
+\in \minch{K}$ -- e.g. any anonymous social welfare function --
+would satisfy \axiomref{anon}. The other axioms are compatible with
+\axiomref{chain-min}.
+
+\begin{theorem}
+    \label{tourn_result_chainmin_axiom_compatibilities}
+
+    For each of \axiomref{dual} and \axiomref{mon}, there exists an operator
+    satisfying \axiomref{chain-min} and the stated property.
+
+\end{theorem}
+
+Despite the simplicity of \axiomref{mon},
+\Cref{tourn_result_chainmin_axiom_compatibilities} is deceptively difficult to prove.
+We describe operators satisfying \axiomref{chain-def} and \axiomref{dual} or \axiomref{mon}
+non-constructively by first taking an \emph{arbitrary} chain-minimal operator
+$\phi$, and using properties of the set $\minch{K}$ to produce $\phi'$
+satisfying \axiomref{dual} or \axiomref{mon}. Note also that we have not yet
+constructed an operator satisfying \axiomref{dual}, \axiomref{mon} and
+\axiomref{chain-min} simultaneously, although we conjecture that such operators
+do exist.
+
+\section{Match-preference operators}
+\label{tourn_sec_match_preference_operators}
+
+% The counterexample for \axiomref{chain-min} and \axiomref{anon} in
+% \Cref{tourn_result_chainmin_axiom_incompatibilities} suggests that chain-minimal
+% operators require some form of tie-breaking mechanism when the
+% tournaments in $\minch{K}$ cannot be distinguished while respecting
+% anonymity. In this section we define a class of chain-minimal operators which
+% use additional information to implement such tie-breaking in a principled way.
+
+The counterexample for \axiomref{chain-min} and \axiomref{anon} suggests that
+chain-minimal operators require some form of tie-breaking mechanism when the
+tournaments in $\minch{K}$ cannot be distinguished while respecting anonymity.
+While this limits the use of chain-minimal operators as general purpose ranking
+methods, it is not such a problem if additional information is available to
+guide the tie-breaking. In this section we introduce a new class of operators
+for this case.
+
+The core idea is to single out a unique chain tournament close to $K$ by paying
+attention to not only the \emph{number} of entries in $K$ that need to be
+changed to produce a chain tournament, \emph{which} entries. Specifically, we
+assume the availability of a total order on the set of matrix indices $\N
+\times \N$ (the \emph{matches}) which indicates our willingness to change an
+entry in $K$: the higher up $(a, b)$ is in the ranking, the more acceptable it
+is to change $K_{ab}$ during chain editing.
+
+This total order -- called the \emph{match-preference relation} -- is fixed for
+all tournaments $K$; this means we are dealing with extra information about how
+tournaments are \emph{constructed in matrix form}, not extra information about
+any specific tournament $K$.
+
+One possible motivation for such a ranking comes from cases where matches occur
+at distinct points in time. In this case the matches occurring more recently
+are (presumably) more representative of the players' \emph{current} abilities,
+and we should therefore prefer to modify the outcome of old matches where
+possible.
+
+For the formal definition we need notation for the \emph{vectorisation} of a
+tournament $K$: for a total order ${\trianglelefteq}$ on $\N \times \N$ and an
+$m \times n$ tournament $K$, we write $\vect_{\trianglelefteq}(K)$ for the
+vector in $\{0,1\}^{mn}$ obtained by collecting the entries of $K$ in the order
+given by ${\trianglelefteq} \rs (A \times B)$,\footnotemark{} starting with the
+minimal entry. That is, $\vect_{\trianglelefteq}(K) = (K_{a_1,b_1}, \ldots,
+K_{a_{mn},b_{mn}})$, where $(a_1,b_1), \ldots, (a_{mn},b_{mn})$ is the unique
+enumeration of $A \times B$ such that $(a_i,b_i) \trianglelefteq
+(a_{i+1},b_{i+1})$ for each $i$.
+
+\footnotetext{
+    This denotes the restriction of ${\trianglelefteq}$ to $A \times B$, i.e.
+    ${\trianglelefteq} \cap ((A \times B) \times (A \times B))$.
+}
+
+The operator corresponding to $\trianglelefteq$ is defined using the notion of
+a \emph{choice function}: a function $\alpha$ which maps any tournament $K$ to
+an element of $\minch{K}$. Any such function defines a chain-minimal operator
+$\phi$ by setting $\phi(K) = ({\anle_{\alpha(K)}}, {\bnle_{\alpha(K)}})$.
+
+\begin{definition}%[Match-preference operator]
+   \label{tourn_def_matchpref_operator}
+
+    Let $\trianglelefteq$ be a total order on $\N \times \N$. Define an
+    operator $\phi_{\trianglelefteq}$ according to the choice function
+    \begin{equation}
+        \label{tourn_eqn_match_preference_alpha_definition}
+        \alpha_{\trianglelefteq}(K)
+        = \argmin_{K' \in \minch{K}}{
+            \vect_{\trianglelefteq}(K \oplus K')
+        }
+    \end{equation}
+    where $[K \oplus K']_{ab} = |K_{ab} - K_{ab}'|$, and the minimum is taken
+    w.r.t the lexicographic ordering on $\{0,1\}^{|A| \cdot
+    |B|}$.\footnotemark{} Operators generated in this way will be called
+    \emph{match-preference operators}.
+
+\end{definition}
+
+\footnotetext{
+    Note that $K \oplus K'$ is 1 in exactly the entries where $K$ and $K'$
+    differ.
+}
+
+\begin{example}
+    \label{tourn_ex_match_preference_example}
+
+    Let $\trianglelefteq$ be the lexicographic order\footnotemark{} on $\N
+    \times \N$ so that $\vect_{\trianglelefteq}(K \oplus K')$ is obtained by
+    collecting the entries of $K \oplus K'$ row-by-row, from top to
+    bottom and left to right.
+    %
+    Take $K$ from \Cref{tourn_ex_minch}. Writing $K_1,\ldots,K_4$ for the elements of
+    $\minch{K}$ in the order that they appear in \Cref{tourn_ex_minch} and setting
+    $v_i = \vect_{\trianglelefteq}(K \oplus K_i)$, we have
+    \begin{align*}
+        v_1 = (0\bm{{\color{red}1}}00\ 0000\ \bm{{\color{red}1}}0000);
+        & \quad \quad
+        v_2 = (00\bm{{\color{red}1}}0\ 0000\ \bm{{\color{red}1}}0000) \\
+        v_3 = (0000\ 0\bm{{\color{red}1}}00\ \bm{{\color{red}1}}0000);
+        & \quad \quad
+        v_4 = (0000\ 00\bm{{\color{red}1}}0\ \bm{{\color{red}1}}0000)
+    \end{align*}
+    The lexicographic minimum is the one with the 1 entries as far right as
+    possible, which in this case is $v_4$. Consequently
+    $\phi_{\trianglelefteq}$ ranks $K$ according to $K_4$, i.e. $1
+    \alt_K^{\phi_{\trianglelefteq}} 2 \alt_K^{\phi_{\trianglelefteq}} 3$ and $1
+    \beq_K^{\phi_{\trianglelefteq}} 3 \blt_K^{\phi_{\trianglelefteq}} 2
+    \blt_K^{\phi_{\trianglelefteq}} 4$.
+
+\end{example}
+
+\footnotetext{
+    That is, $(a, b) \trianglelefteq (a', b')$ iff $a < a'$ or ($a = a'$ and
+    $b \le b'$).
+}
+
+% To conclude the discussion of match-preference operators, we note that one can
+% compute $\alpha_{\trianglelefteq}(K)$ via an optimisation process akin to chain
+% editing, and thereby avoid the need to enumerate $\minch{K}$ in full as per
+% \cref{tourn_eqn_match_preference_alpha_definition}. Specifically,
+% $\alpha_{\trianglelefteq}(K)$ is the unique closest chain tournament to $K$
+% w.r.t a \emph{weighted} Hamming distance.
+
+To conclude the discussion of match-preference operators, we note that one can
+compute $\alpha_{\trianglelefteq}(K)$ as the unique closest chain tournament to
+$K$ w.r.t a \emph{weighted} Hamming distance, and thereby avoid the need to
+enumerate $\minch{K}$ in full as per
+\cref{tourn_eqn_match_preference_alpha_definition}.
+
+\begin{theorem}
+   \label{tourn_prop_matchpref_weightings}
+
+    Let $\trianglelefteq$ be a total order on $\N \times \N$. Then for any $m,
+    n \in \N$ there exists a function $w: [m] \times [n] \to \R_{\ge 0}$ such
+    that for all $m \times n$ tournaments $K$:
+    \begin{equation}
+        \label{tourn_eqn_matchpref_argmin}
+        \argmin_{K' \in \ch_{m,n}}{d_w(K, K')} = \{\alpha_{\trianglelefteq}(K)\}
+    \end{equation}
+    where $d_w(K, K') = \sum_{(a,b) \in [m] \times [n]}{w(a,b) \cdot |K_{ab} -
+    K'_{ab}|}$.
+
+\end{theorem}
+
+% We omit the proof, but note that the weights of $w$ depend only on the size of
+% $K$, and are given by $w(a, b) = 1 + 2^{-p(a,b)}$, where $p(a, b)$ is the
+% position of the pair $(a,b)$ in ${\trianglelefteq} \rs (A \times B)$. For
+% $\trianglelefteq$ from \Cref{tourn_ex_match_preference_example} and $m = 2$, $n = 3$,
+% the weight function (represented as a matrix) is
+
+For example, the weights corresponding to $\trianglelefteq$ from
+\Cref{tourn_ex_match_preference_example} and $m = 2$, $n = 3$ are
+$
+    w = \left[\begin{smallmatrix}
+        1.5 & 1.25 & 1.125 \\
+        1.0625 & 1.03125 & 1.015625
+    \end{smallmatrix}\right]
+$.
+
+\section{Relaxing chain-min}
+\label{tourn_sec_relaxing_chain_min}
+
+Having studied chain-minimal operators in some detail, we turn to two remaining
+problems: \axiomref{chain-min} is incompatible with \axiomref{anon}, and
+computing a chain-minimal operator is \complexityclass{NP}-hard. In this
+section we obtain both anonymity and tractability by relaxing the
+\axiomref{chain-min} requirement to a property we call
+\emph{chain-definability}. We go on to characterise the class of operators with
+this weaker property via a greedy approximation algorithm, single out a
+particularly intuitive instance, and revisit the axioms of
+\Cref{tourn_sec_axiomatic_analysis}.
+
+\subsection{Chain-definability}
+
+The source of the difficulties with \axiomref{chain-min} lies in the
+minimisation aspect of chain editing. A natural way to retain the spirit of
+\axiomref{chain-min} without the complications is to require that $\phi(K)$
+corresponds to \emph{some} chain tournament, not necessarily one closest to
+$K$. We call this property \emph{chain-definability}.
+
+\begin{axiom}[chain-def]
+    For every $m \times n$ tournament $K$ there is $K' \in \ch_{m,n}$ such that
+    $\phi(K) = ({\anle_{K'}}, {\bnle_{K'}})$.
+\end{axiom}
+
+Clearly \axiomref{chain-min} implies \axiomref{chain-def}. `Chain-definable'
+operators can also be cast in the MLE framework of \Cref{tourn_sec_mle} as those
+whose rankings correspond to \emph{some} (not necessarily MLE) state $\theta$.
+
+At first glance it may seem difficult to determine whether a given pair of
+rankings correspond to a chain tournament, since the number of such tournaments
+grows rapidly with $m$ and $n$.
+%
+Fortunately, \axiomref{chain-def} can be characterised without reference to
+chain tournaments by considering the number of \emph{ranks} of ${\ale_K^\phi}$
+and ${\ble_K^\phi}$. In what follows $\ranks{\preceq}$ denotes the number of
+ranks of a total preorder $\preceq$, i.e. the number of equivalence classes of
+its symmetric part.
+
+\begin{theorem}
+    \label{tourn_result_chain_def_ranks_characterisation}
+
+    $\phi$ satisfies \axiomref{chain-def} if and only if $|\ranks{\ale_K^\phi}
+    - \ranks{\ble_K^\phi}| \le 1$ for every tournament $K$.
+\end{theorem}
+
+\subsection{Interleaving Operators}
+\label{tourn_sec_interleaving}
+
+According to \Cref{tourn_result_chain_def_ranks_characterisation}, to construct a
+chain-definable operator it is enough to ensure that the number of ranks of
+$\ale_K^\phi$ and $\ble_K^\phi$ differ by at most one. A simple way to achieve
+this is to iteratively select and remove the top-ranked players of $A$ and $B$
+simultaneously, until one of $A$ or $B$ is exhausted. We call such operators
+\emph{interleaving operators}. Closely related ranking methods have been
+previously introduced for non-bipartite tournaments by
+\textcite{bouyssou2004monotonicity}.
+
+Formally, our procedure is defined by two functions $f$ and $g$ which select
+the next top ranks given a tournament $K$ and subsets $A' \subseteq A$, $B'
+\subseteq B$ of the remaining players.
+
+\begin{definition}%[Selection functions]
+    \label{tourn_def_selectionfunction}
+
+     An $\asymb$-\emph{selection function} is a mapping $f: \K \times 2^\N \times
+     2^\N \to 2^\N$ such that for any tournament $K$, $A' \subseteq A$ and $B'
+     \subseteq B$:
+    \begin{inlinelist}
+        \item \label{tourn_item_f_sel_1} $f(K, A', B') \subseteq A'$;
+        \item \label{tourn_item_f_sel_2} If $A' \ne \emptyset$ then $f(K, A', B') \ne
+              \emptyset$;
+        \item \label{tourn_item_f_sel_3} $f(K, A', \emptyset) = A'$
+    \end{inlinelist}.
+
+    Similarly, a $\bsymb$-\emph{selection function} is a mapping $g: \K \times 2^\N
+    \times 2^\N \to 2^\N$ such that
+    \begin{inlinelist}
+        \item \label{tourn_item_g_sel_1} $g(K, A', B') \subseteq B'$;
+        \item \label{tourn_item_g_sel_2} If $B' \ne \emptyset$ then $g(K, A', B') \ne
+              \emptyset$;
+        \item \label{tourn_item_g_sel_3} $g(K, \emptyset, B') = B'$
+    \end{inlinelist}.
+
+\end{definition}
+
+The corresponding interleaving operator ranks players according to how soon
+they are selected in this way; the earlier the better.
+
+\begin{definition}%[Interleaving operator]
+    \label{tourn_def_interleaving}
+
+    Let $f$ and $g$ be selection functions and $K$ a tournament. Write $A_0
+    = A$, $B_0 = B$, and for $i \ge 0$:
+    \[
+        A_{i+1} = A_i \setminus f(K, A_i, B_i);
+        \quad
+        B_{i+1} = B_i \setminus g(K, A_i, B_i)
+    \]
+    For $a \in A$ and $b \in B$, write $r(a) = \max{\{ i \mid a \in A_i \}}$
+    and $s(b) = \max{\{ i \mid b \in B_i \}}$.\footnotemark{} We define the
+    corresponding \emph{interleaving operator} $\phi = \intop{f,g}$ by $a
+    \ale_K^\phi a'$ iff $r(a) \ge r(a')$ and $b \ble_K^\phi b'$ iff $s(b) \ge
+    s(b')$.
+
+    \footnotetext{
+        We show in the appendix that the recursive procedure eventually
+        terminates with $A_i$ and $B_i$ becoming empty (and remaining so) after
+        finitely many iterations, so $r$ and $s$ are well-defined.
+    }
+
+\end{definition}
+
+Note that $A_i$ and $B_i$ are the players left remaining after $i$ applications
+of $f$ and $g$, i.e. after removing the top $i$ ranks from both sides. Before
+giving a concrete example, we note that interleaving is not just \emph{one} way
+to satisfying \axiomref{chain-def}, it is the \emph{only} way.
+
+\begin{theorem}
+   \label{tourn_result_chaindef_iff_interleaving}
+
+    An operator $\phi$ satisfies \axiomref{chain-def} if and only if $\phi =
+    \intop{f,g}$ for some selection functions $(f, g)$.
+
+\end{theorem}
+
+\Cref{tourn_result_chaindef_iff_interleaving} justifies our study of interleaving
+operators, and provides a different perspective on chain-definability via the
+selection functions $f$ and $g$. We come to an important example.
+
+\begin{example}
+    \label{tourn_ex_cardint}
+
+    Define the \emph{cardinality-based interleaving operator} $\phicardint =
+    \intop{f,g}$ where $f(K, A', B') = \argmax_{a \in A'}{|K(a) \cap B'|}$ and
+    \\  % Prevent a really long line
+    $g(K, A', B') = \argmin_{b \in B'}{|K^{-1}(b) \cap A'|}$, so that the
+    `winners' at each iteration are the $A$s with the most wins, and the $B$s
+    with the least losses, when restricting to $A'$ and $B'$ only.  We take the
+    $\argmin$/$\argmax$ to be the emptyset whenever $A'$ or $B'$ is empty.
+
+    \Cref{tourn_tab_cardint_example} shows the iteration of the algorithm for a $4
+    \times 5$ tournament $K$. In each row $i$ we show $K$ with the rows and
+    columns of $A \setminus A_i$ and $B \setminus B_i$ greyed out, so as to
+    make it more clear how the $f$ and $g$ values are
+    calculated.\footnotemark{} For brevity we also write $f$ and $g$ in place
+    of $f(K, A_i, B_i)$ and $g(K, A_i, B_i)$ respectively.
+
+    The $r$ and $s$ values can be read off as 0, 2, 1, 3 for $A$ and 0, 3, 1,
+    1, 2 for $B$, giving the ranking on $A$ as $4 \alt 2 \alt 3 \alt 1$, and
+    the ranking on $B$ as $2 \blt 5 \blt 3 \beq 4 \blt 1$. Note also that each
+    $f(K, A_i, B_i)$ is a rank of $\ale_K^\phi$ (and similar for $g(K, A_i,
+    B_i)$), so the rankings can in fact be read off by looking at the $f$ and
+    $g$ columns of \Cref{tourn_tab_cardint_example}.
+
+    \footnotetext{
+        Note that while $f$ and $g$ for $\phicardint$ are independent of the
+		greyed out entries, we do not require this property for selection
+        functions in general.
+    }
+
+\end{example}
+
+\begin{table}
+	\caption{Iteration of the interleaving algorithm for $\phicardint$}
+    \label{tourn_tab_cardint_example}
+    \footnotesize
+
+	% Define some helper commands to make it easier to have large matrices in
+	% each row of the table
+	\def\g#1{{\color{lightgray}#1}}
+	\def\r#1{\bm{{\color{red}#1}}}
+	\def\kzero{
+		\left[
+			\begin{smallmatrix}
+				1 & 1 & 1 & 1 & 0 \\
+				0 & 1 & 0 & 0 & 1 \\
+				0 & 1 & 0 & 1 & 1 \\
+				0 & 1 & 1 & 0 & 0 \\
+			\end{smallmatrix}
+		\right]
+	}
+	\def\kone{
+		\left[
+			\begin{smallmatrix}
+				\g{1} & \g{1} & \g{1} & \g{1} & \g{0} \\
+				\g{0} & 1     & 0     & 0     & 1 \\
+				\g{0} & 1     & 0     & 1     & 1 \\
+				\g{0} & 1     & 1     & 0     & 0 \\
+			\end{smallmatrix}
+		\right]
+	}
+	\def\ktwo{
+		\left[
+			\begin{smallmatrix}
+				\g{1} & \g{1} & \g{1} & \g{1} & \g{0} \\
+				\g{0} & 1     & \g{0} & \g{0} & 1 \\
+				\g{0} & \g{1} & \g{0} & \g{1} & \g{1} \\
+				\g{0} & 1     & \g{1} & \g{0} & 0 \\
+			\end{smallmatrix}
+		\right]
+	}
+	\def\kthree{
+		\left[
+			\begin{smallmatrix}
+				\g{1} & \g{1} & \g{1} & \g{1} & \g{0} \\
+				\g{0} & \g{1} & \g{0} & \g{0} & \g{1} \\
+				\g{0} & \g{1} & \g{0} & \g{1} & \g{1} \\
+				\g{0} & 1     & \g{1} & \g{0} & \g{0} \\
+			\end{smallmatrix}
+		\right]
+	}
+
+	\def\kpzero{
+		\left[
+			\begin{smallmatrix}
+				1 & 1 & 1 & 1 & \r{1} \\
+				0 & 1 & 0 & 0 & 1     \\
+				0 & 1 & 0 & 1 & 1     \\
+				0 & 1 & 1 & 0 & 0     \\
+			\end{smallmatrix}
+		\right]
+	}
+	\def\kpone{
+		\left[
+			\begin{smallmatrix}
+				1 & 1 & 1     & 1 & \r{1} \\
+				0 & 1 & 0     & 0 & 1     \\
+				0 & 1 & \r{1} & 1 & 1     \\
+				0 & 1 & \r{0} & 0 & 0     \\
+			\end{smallmatrix}
+		\right]
+	}
+
+	\def\es{\emptyset}
+
+	\begin{tabular}{ccccccc}
+\toprule
+$i$ & $K$        & $A_i$         & $B_i$           & $f$         & $g$       & $K'_i$    \\
+\midrule
+$0$ & $\kzero$   & $\{1,2,3,4\}$ & $\{1,2,3,4,5\}$ & $\{1\}$     & $\{1\}$   & $\kpzero$ \\[2mm]
+$1$ & $\kone$    & $\{2,3,4\}$   & $\{2,3,4,5\}$   & $\{3\}$     & $\{3,4\}$ & $\kpone$  \\[2mm]
+$2$ & $\ktwo$    & $\{2,4\}$     & $\{2,5\}$       & $\{2\}$     & $\{5\}$   & -         \\[2mm]
+$3$ & $\kthree$  & $\{4\}$       & $\{2\}$         & $\{4\}$     & $\{2\}$   & -         \\[2mm]
+$4$ & -          & $\es$         & $\es$    	   & $\es$       & $\es$     & -         \\
+\bottomrule
+	\end{tabular}
+\end{table}
+
+The interleaving algorithm can also be seen as a greedy algorithm for
+converting $K$ into a chain graph directly. Indeed, by setting the
+neighbourhood of each $a \in f(K, A_i, B_i)$ to $B_i$, and removing each $b \in
+g(K, A_i, B_i)$ from the neighbourhoods of all $a \in A_{i+1}$, we eventually
+obtain a chain graph. We show this process in the $K'_i$ column of
+\Cref{tourn_tab_cardint_example}, where only three entries need to be
+changed.\footnotemark{} The selection functions $f$ and $g$ can therefore be
+seen as \emph{heuristics} with the goal of finding a chain graph `close' to
+$K$.
+
+\footnotetext{
+    In this example $\minch{K}$ contains a single tournament a distance of 2
+    from $K$, so $\phicardint$ makes one more change than necessary.
+}
+
+The operator $\phicardint$ from \Cref{tourn_ex_cardint} uses simple cardinality-based
+heuristics, and can be seen as a chain-definable version of $\phicount$ (which
+is not chain-definable). It is also the bipartite counterpart to repeated
+applications of Copeland's rule \cite{bouyssou2004monotonicity}. Note that
+$f(K, A_i, B_i)$ and $g(K, A_i, B_i)$ can be computed in $O(N^2)$ time at each
+iteration $i$, where $N = |A| + |B|$. Since there cannot be more than $N$
+iterations, it follows that the rankings of $\phicardint$ can be computed in
+$O(N^3)$ time.
+
+% \subsection{Axiom Satisfaction for Chain-definable Operators}
+\subsection{Axiom Compatibility}
+
+We now revisit the axioms of \Cref{tourn_sec_axiomatic_analysis} in relation to
+chain-definable operators in general and $\phicardint$ specifically. Firstly,
+the weakening of \axiomref{chain-min} pays off: \axiomref{chain-def} is
+compatible with all our axioms.
+
+\begin{theorem}
+    \label{tourn_result_chaindef_axiom_compatibilities}
+
+    For each of \axiomref{anon}, \axiomref{dual}, \axiomref{IIM},
+    \axiomref{mon} and \axiomref{pos-resp}, there exists an operator satisfying
+    \axiomref{chain-def} and the stated property.
+
+\end{theorem}
+
+Unfortunately, these cannot all hold at the same time. Indeed, taking
+$
+    K = \left[\begin{smallmatrix}
+        0 & 0 & 1 & 1 \\
+        0 & 1 & 0 & 1
+    \end{smallmatrix}\right]^\tr
+$
+and assuming \axiomref{anon} and \axiomref{pos-resp}, the ranking on $A$ is
+fully determined as $1 \alt 2 \aeq 3 \alt 4$, and $\ranks{\ale_K^\phi} = 3$.
+However, \axiomref{anon} with \axiomref{dual} implies the ranking of $B$ is
+flat, i.e.  $\ranks{\ble_K^\phi} = 1$. This contradicts \axiomref{chain-def} by
+\Cref{tourn_result_chain_def_ranks_characterisation}, yielding the following
+impossibility result.
+
+\begin{theorem}
+    \label{tourn_result_chaindef_impossibility}
+
+    There is no operator satisfying \axiomref{chain-def}, \axiomref{anon},
+    \axiomref{dual} and \axiomref{pos-resp}.
+
+\end{theorem}
+
+For the specific operator $\phicardint$ we have the following.
+
+\begin{theorem}
+    \label{tourn_result_phicardint_axioms}
+
+    $\phicardint$ satisfies \axiomref{chain-def}, \axiomref{anon},
+    \axiomref{dual} and \axiomref{mon}, and does not satisfy \axiomref{IIM} or
+    \axiomref{pos-resp}.
+
+\end{theorem}
+
+Note that \axiomref{anon} \emph{is} satisfied. This makes $\phicardint$ an
+important example of a well-motivated, tractable, chain-definable
+and anonymous operator, meeting the criteria outlined at the start of
+this section.
+
+\section{Related Work}
+\label{tourn_sec_related_work}
+
+\paragraph{On chain graphs.}
+%
+Chain graphs were originally introduced by \textcite{yannakakis1981computing}, who
+proved that \emph{chain completion} -- finding the minimum number of edges that
+when added to a bipartite graph form a chain graph -- is
+\complexityclass{NP}-complete. Hardness results have subsequently been obtained
+for chain \emph{deletion}~\cite{natanzon2001complexity} (where only edge
+deletions are allowed) and chain \emph{editing}~\cite{drange2015threshold}
+(where both additions and deletions are allowed). We refer the reader to the
+work of \textcite{jiao2017algorithms} and \textcite{drange2015threshold} for a more
+detailed account of this literature.
+%
+Outside of complexity theory, chain graphs have been studied for their spectral
+properties in \cite{andelic_2015,ghorbani2017spectral}, and the more general
+notion of a \emph{nested colouring} was introduced in \cite{cook2015nested}.
+
+\paragraph{On tournaments in social choice.}
+%
+Tournaments have important applications in the design of voting rules, where an
+alternative $x$ beats $y$ in a pairwise comparison if a majority of voters
+prefer $x$ to $y$.  Various \emph{tournament solutions} have been proposed,
+which select a set of `winners' from a given tournament.\footnote{Note that a
+ranking, such as we consider in this paper, induces a set of winners by taking
+the maximally ranked players.}
+%
+Of particular relevance to our work are the \emph{Slater set} and
+\emph{Kemeney's rule} \cite{brandt2016a}, which find minimal sets of edges to
+invert in the tournament graph such that the beating relation becomes a total
+order.\footnotemark{}
+% The tournament winners are then those ranked maximally in
+% such orders.
+These methods are intuitively similar to chain editing: both
+involve making minimal changes to the tournament until some property is
+satisfied. A rough analogue to the Slater set in our framework is the union of
+the top-ranked players from each $K' \in \minch{K}$. Solutions based on the
+covering relation -- such as the \emph{uncovered} and \emph{Banks} set
+\cite{brandt2016a} -- also bear similarity to chain editing.
+
+\footnotetext{
+    Note that like chain editing, Kemeny's rule also admits a maximum
+    likelihood characterisation~\cite{elkind2016rationalizations}.
+}
+
+Finally, note that directed versions of chain graphs (obtained by orienting
+edges from $A$ to $B$ and adding missing edges from $B$ to $A$) correspond to
+\emph{acyclic tournaments}, and a topological sort of $A$ becomes a
+linearisation of the chain ranking $\anle_K$. This suggests a connection
+between chain deletion and the standard \emph{feedback arc set} problem for
+removing cycles and obtaining a ranking.
+
+\paragraph{On generalised tournaments.}
+%
+A \emph{generalised} tournament~\cite{gonzalez2014paired} is a pair $(X, T)$,
+where $X = [t]$ for some $t \in \N$ and $T \in \R_{\ge 0}^{t \times t}$ is a
+non-negative $t \times t$ matrix with $T_{ii} = 0$ for all $i \in X$. In this
+formalism each encounter between a pair of players $i$ and $j$ is represented
+by \emph{two} numbers: $T_{ij}$ and $T_{ji}$. This allows one to model both
+intensities of victories and losses (including draws) via the difference
+$T_{ij} - T_{ji}$, and the case where a comparison is not available (where
+$T_{ij} = T_{ji} = 0$).
+
+Any $m \times n$ bipartite tournament $K$ has a natural generalised tournament
+representation via the $(m + n) \times (m + n)$ \emph{anti-diagonal block
+matrix}
+$
+    T = \left[\begin{smallmatrix}
+        0 & K \\
+        \dual{K} & 0
+    \end{smallmatrix}\right]
+$, where the top-left and bottom-right blocks are the $m \times m$ and $n
+\times n$ zero matrices respectively.  However, such anti-diagonal block
+matrices are often excluded in the generalised tournament literature due to an
+assumption of \emph{irreducibility}, which requires that the directed graph
+corresponding to $T$ is strongly connected. This is not the case in general for
+$T$ constructed as above, which means not all existing tournament
+operators (and tournament axioms) are well-defined for bipartite
+inputs.\footnotemark{} Consequently, bipartite tournaments are a special case
+of generalised tournaments \emph{in principle}, but not in practise.
+
+\footnotetext{
+    We note that \textcite{slutzki2005ranking} side-step the reducibility issue by
+    decomposing $T$ into irreducible components and ranking each separately,
+    although their methods may give only \emph{partial} orders.
+    % This is acceptable in our setting so long as all players in $A$ (resp. $B$)
+    % are comparable; in future work we aim to determine which additional
+    % constraints on $K$ (if any) can guarantee this.
+}
+
+\section{Conclusion}
+\label{tourn_sec_conclusion}
+
+\paragraph{Summary.}
+%
+In this paper we studied chain editing, an interesting problem from
+computational complexity theory, as a ranking mechanism for bipartite
+tournaments. We analysed such mechanisms from a probabilistic viewpoint via the
+MLE characterisation, and in axiomatic terms. To resolve both the failure of an
+important anonymity axiom and \complexityclass{NP}-hardness, we weakened the
+chain editing requirement to one of \emph{chain definability}, and
+characterised the resulting class of operators by the intuitive interleaving
+algorithm.
+
+\paragraph{Limitations and future work.}
+%
+The hardness of chain editing remains a limitation of our approach. A possible
+remedy is to look to one of the numerous variant problems that are
+polynomial-time solvable~\cite{jiao2017algorithms}; determining their
+applicability to ranking is an interesting topic for future work. One could
+develop approximation algorithms for chain editing, possibly based on existing
+approximations of chain completion \cite{natanzon2000polynomial}. The
+interleaving operators of \Cref{tourn_sec_interleaving} go in this direction, but we
+did not yet obtain any theoretical or experimental bounds on the approximation
+ratio.
+
+A second limitation of our work lies in the assumptions of the probabilistic
+model; namely that the true state of the world can be reduced to vectors of
+numerical skill levels which totally describe the tournament participants. This
+assumption may be violated when the competitive element of a tournament is
+\emph{multi-faceted}, since a single number cannot represent multiple
+orthogonal components of a player's capabilities. Nevertheless, if skill levels
+are taken as \emph{aggregations} of these components, chain editing may prove
+to be a useful, albeit simplified, model.
+
+Finally, there is room for more detailed axiomatic investigation. In this paper
+we have stuck with fairly standard social choice axioms and performed
+preliminary analysis. However, the indirect nature of the comparisons in a
+bipartite tournament presents unique challenges; new axioms may need to be
+formulated to properly evaluate bipartite ranking methods in a normative
+sense.
