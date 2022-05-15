@@ -1,0 +1,759 @@
+\chapter{Proofs for \cref{chapter_td}}
+\label{chapter_td_proofs}
+
+\label{app:proofs}
+
+\section{Proof of \cref{td_thm_poi_voting}}
+
+The following lemma is required before the proof.
+
+\begin{lemma}
+\label{td_lemma_poi_voting_lemma}
+
+Suppose a network $N=(V, E)$ contains claims only for a single object $o \in
+\O$; that is, there exists $o \in \O$ such that $(s, f) \in E$ implies
+$obj_N(f) = o$ for all $s \in \S, f \in \F$. Then for any Symmetric operator
+$T$ and $f_1, f_2 \in \F$, $|\src_N(f_1)| = |\src_N(f_2)| > 0$ implies $f_1
+\feq_N^T f_2$.
+
+\end{lemma}
+
+\begin{proof}
+
+Suppose $N$ has the stated property, $T$ satisfies symmetry, and $|\src_N(f_1)|
+= |\src_N(f_2)| > 0$. Then there is a bijection $\phi: \src_N(f_1) \to
+\src_N(f_2)$. Note that since $f_1$ and $f_2$ are for the same object no source
+can claim both facts, i.e. $\src_N(f_1) \cap \src_N(f_2) = \emptyset$.
+
+Define a permutation $\pi$ by
+\[
+    \pi(s) = \begin{cases}
+        \phi(s) & \text{ if } s \in \src_N(f_1) \\
+        \phi^{-1}(s) & \text{ if } s \in \src_N(f_2) \\
+        s & \text{ otherwise }
+    \end{cases}
+\]
+\[
+    \pi(f) = \begin{cases}
+        f_2 & \text{ if } f = f_1 \\
+        f_2 & \text{ if } f = f_2 \\
+        f & \text{ otherwise }
+    \end{cases}
+\]
+and $\pi(o) = o$ for all $o \in \O$. That is, $\pi$ swaps facts $f_1$ and
+$f_2$, and swaps the sources of $f_1$ with their counterparts in $f_2$. Note
+that $\pi = \pi^{-1}$.
+
+Write $N' = \pi(N)$. We claim that $N' = N$. Write $E, E'$ for the edges
+in $N$ and $N'$ respectively. First we will show $E \subseteq E'$. Suppose $(s,
+f) \in E$. There are three cases.
+
+\textbf{Case 1:} $f=f_1$. Here we have $(s, f_1) \in E$, so $s \in
+\src_N(f_1)$. Consequently $\pi(s) = \phi(s) \in \src_N(f_2)$, i.e. $(\pi(s),
+f_2) \in E$. By the definition of a graph isomorphism we get $(\pi(\pi(s)),
+\pi(f_2)) \in E'$. Noting that $\pi(f_2) = f_1 = f$ and $\pi(\pi(s)) = s$ (since
+$\pi=\pi^{-1}$), we have $(s, f) \in E'$ as desired.
+
+\textbf{Case 2:} $f = f_2$. Similar to the above case, here we have $s \in
+\src_N(f_2)$ and so $\pi(s) = \phi^{-1}(s) \in \src_N(f_1)$, i.e. $(\pi(s),
+f_1) \in E$. As before, applying the definition of a graph isomorphism and
+using $\pi=\pi^{-1}$, we get $(s, f) \in E'$.
+
+\textbf{Case 3:} $f \notin \{f_1, f_2\}$. By hypothesis $f$ relates to the
+same object as $f_1$ and $f_2$. This means $s \notin \src_N(f_1)$ and $s
+\notin \src_N(f_2)$, since otherwise $s$ would make claims for multiple facts
+for a single object. Hence we have $\pi(s)=s$ and $\pi(f)=f$. This means $(s,
+f) = (\pi(s), \pi(f)) \in E'$ as required.
+
+To complete the claim $E \subseteq E'$, suppose $(f, o) \in E$. There are again
+three cases: $f = f_1$, $f = f_2$, or $f \notin \{f_1,f_2\}$. In each case the
+definition of $\pi$ and $\pi(N)$ easily yield $(f, o) \in E'$. Hence $E
+\subseteq E'$.
+
+Now for the reverse direction: we must show $E' \subseteq E$. Let $(x, y) \in
+E'$.  By definition of a graph isomorphism, we have $(\pi^{-1}(x), \pi^{-1}(y))
+\in E$.  Using $\pi^{-1} = \pi$ and the first part we get $(\pi(x), \pi(y)) =
+(\pi^{-1}(x), \pi^{-1}(y)) \in E \subseteq E'$. The definition of a graph
+isomorphism then yields $(x, y) \in E$ and so $E' \subseteq E$. Hence $E = E'$
+and $N = N'$.
+
+To conclude the proof, we apply Symmetry of $T$ to get
+\begin{align*}
+    f_1 \fle_N^T f_2
+    & \iff \pi(f_1) \fle_{N'}^T \pi(f_2) \\
+    & \iff f_2 \fle_{N'}^T f_1 \\
+    & \iff f_2 \fle_N^T f_1
+\end{align*}
+and so $f_1 \feq_N^T f_2$ as required.
+\end{proof}
+
+\begin{proof}[Proof of \cref{td_thm_poi_voting}]
+
+Suppose $T$ is an operator satisfying Symmetry, Monotonicity and POI. Let $N
+\in \N$, $o \in \O$ and $f_1, f_2 \in \obj_N^{-1}(o)$. We need to show that
+$f_1 \fle_N^T f_2$ iff $|\src_N(f_1)| \le |\src_N(f_2)|$.
+
+Let $N'$ be the network obtained from $N$ by removing all claims for facts
+other than those for object $o$; that is, $N' = (V, E')$ where $E$ is the set
+of edges in $N$ and
+\[
+    E' = (E \cap (\S \times \obj_N^{-1}(o))) \cup (E \cap (\F \times \O))
+\]
+Note that the fact-object affiliations are the same in $N'$ as in $N$, and the
+set of sources for each fact in $\obj_N^{-1}(o)$ is the same. Therefore POI
+applies, and it is sufficient to show that
+$f_1 \fle_{N'}^T f_2$ iff $|\src_{N'}(f_1)| \le |\src_{N'}(f_2)|$.
+
+First suppose $|\src_{N'}(f_1)| \le |\src_{N'}(f_2)|$. If $|\src_{N'}(f_1)| =
+|\src_{N'}(f_2)|$, then we have $f_1 \feq_{N'}^T f_2$ by Symmetry and
+\cref{td_lemma_poi_voting_lemma}; in particular $f_1 \fle_{N'}^T f_2$. Otherwise
+$|\src_{N'}(f_2)| - |\src_{N'}(f_1)| = k > 0$. Removing $k$ sources from $f_2$
+to obtain a new network $N''$, we can apply the lemma to get $f_1 \feq_{N''}^T
+f_2$. We may then add these sources \emph{back} to obtain $N'$ again; $k$
+applications of Monotonicity then give $f_1 \flt_{N'}^T f_2$ as required.
+
+To complete the proof we show that $f_1 \fle_{N'}^T f_2$ implies
+$|\src_{N'}(f_1)| \le |\src_{N'}(f_2)|$. Indeed, suppose $f_1  \fle_{N'}^T f_2$
+but $|\src_{N'}(f_1) > |\src_{N'}(f_2)|$. Then the argument above gives $f_1
+\fgt_{N'}^T f_2$, which is clearly a contradiction. Hence the proof is
+complete.
+\end{proof}
+
+\section{Proof of \cref{td_thm_voting_characterisation}}
+
+The proof of this theorem is similar in spirit to that of
+\cref{td_thm_poi_voting}. Like in that case, a preliminary result is required
+first.
+
+\begin{lemma}
+\label{td_lemma_voting_characterisation_lemma}
+Let $N$ be a network and $f_1, f_2 \in \F$. Write $o_1 = \obj_{N}(f_1)$, $o_2
+= \obj_N(f_2)$. Suppose $N$ has the following properties:
+
+\begin{enumerate}
+    \item There is $o^* \in \O \setminus \{o_1, o_2\}$ such that $f \in \F
+          \setminus \{f_1, f_2\} \implies \obj_{N}(f) = o^*$; and
+
+    \item $\src_{N}(f) = \emptyset$ for all $f \in \F \setminus \{f_1, f_2\}$.
+
+\end{enumerate}
+
+Then for any operator $T$ satisfying Symmetry, $|\src_{N}(f_1)| =
+|\src_{N}(f_2)|$ implies $f_1 \feq_{N}^T f_2$.
+\end{lemma}
+
+\begin{proof}
+The proof is similar to that of \cref{td_lemma_poi_voting_lemma}.
+Suppose $|src_{N}(f_1)| = |\src_{N}(f_2)|$. Write
+\begin{align*}
+    Q_1 & = \src_{N}(f_1) \setminus \src_{N}(f_2) \\
+    Q_2 & = \src_{N}(f_2) \setminus \src_{N}(f_1)
+\end{align*}
+Then $|Q_1| = |Q_2|$, so there exists a bijection $\phi: Q_1 \to Q_2$. Define a
+permutation $\pi$ as follows:
+\[
+    \pi(s) = \begin{cases}
+        \phi(s) & \text{ if } s \in Q_1 \\
+        \phi^{-1}(s) & \text{ if } s \in Q_2 \\
+        s & \text{ otherwise }
+    \end{cases}
+\]
+\[
+    \pi(f) = \begin{cases}
+        f_2 & \text{ if } f = f_1 \\
+        f_1 & \text{ if } f = f_2 \\
+        f & \text{ otherwise }
+    \end{cases}
+\]
+\[
+    \pi(o) = \begin{cases}
+        o_2 & \text{ if } o = o_1 \\
+        o_1 & \text{ if } o = o_2 \\
+        o & \text{ otherwise }
+    \end{cases}
+\]
+
+That is, $\pi$ swaps $f_1$ and $f_2$, swaps $o_1$ and $o_2$, and swaps sources
+in $Q_1$ with their counterparts in $Q_2$. Note that $\pi = \pi^{-1}$. Write
+$N' = \pi(N)$. We claim that $N' = N$. Write $E, E'$ for the edges in $N$ and
+$N'$ respectively. First we show that $E \subseteq E'$. For this, first
+suppose $(s, f) \in E$ for some $s \in \S$, $f \in \F$. By definition of $E$,
+either $f = f_1$ or $f = f_2$.
+
+\textbf{Case 1:} $f = f_1$. Here $\pi(f) = f_2$, and we have either $s \in
+Q_1$ or $s \in \src_{N}(f_1) \cap \src_{N}(f_2)$. In the first case, $\pi(s)
+= \phi(s) \in Q_2 \subseteq \src_{N}(f_2) = \src_{N}(\pi(f))$. In the second
+case $\pi(s) = s \in \src_{N}(f_2) = \src_{N}(\pi(f))$. In either case,
+$(\pi(s), \pi(f)) \in E$.
+
+Applying the definition of a graph isomorphism we get $(\pi(\pi(s)),
+\pi(\pi(f))) \in E'$. But $\pi = \pi^{-1}$, so this means $(s, f) \in E'$ as
+desired.
+
+\textbf{Case 2:} $f = f_2$. This case is similar. Here $\pi(f) = f_1$. If $s
+\in Q_2$, then $\pi(s) = \phi^{-1}(s) \in Q_1 \subseteq \src_{N}(f_1) =
+\src_{N}(\pi(f))$. Otherwise $s \in \src_{N}(f_1) \cap \src_{N}(f_2)$ and
+$\pi(s) = s \in \src_{N}(f_1) = \src_{N}(\pi(f))$. Again, we have $(\pi(s),
+\pi(f)) \in E$ in either case, so $(s, f) \in E'$.
+
+Note that these two cases cover all possibilities since by hypothesis
+$\src_{N}(f) = \emptyset$ if $f \notin \{f_1, f_2\}$.
+
+Next, suppose $(f, o) \in E$. If $f = f_1$ then $o = o_1$, so $(\pi(f),
+\pi(o)) = (f_2, o_2) \in E$. Similarly if $f = f_2$ then $o = o_2$ and
+$(\pi(f), \pi(o)) = (f_1, o_1) \in E$. If $f \notin \{f_1, f_2\}$ then $\pi(f)
+= f$ and $o = o^*$, so $\pi(o) = o$. We see that in all cases, $(\pi(f),
+\pi(f)) \in E$. Applying the same argument as in case 1 above, we see that
+$(f, o) \in E'$. This shows $E \subseteq E'$.
+
+To complete the claim that $N = N'$ we must show $E' \subseteq E$. This can be
+shown using the same argument used in \cref{td_lemma_poi_voting_lemma}.
+Indeed, suppose $(x, y) \in E'$. Then by definition of a graph isomorphism,
+$(\pi^{-1}(x), \pi^{-1}(y)) \in E$. Using the fact that $\pi=\pi^{-1}$
+and $E \subseteq E'$ we get $(\pi(x), \pi(y)) \in E'$, which then yields $(x,
+y) \in E$ as required. Hence $E = E'$ and $N = N'$.
+
+Finally, using Symmetry of $T$ we have
+\begin{align*}
+    f_1 \fle_N^T f_2 & \iff
+    \pi(f_1) \fle_{\pi(N)}^T \pi(f_2) \\ & \iff
+    f_2 \fle_{N'}^T f_1 \\ & \iff
+    f_2 \fle_N^T f_1
+\end{align*}
+Consequently $f_1 \feq_N^T f_2$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{td_thm_voting_characterisation}]
+
+The `if' direction is clear since \voting{} satisfies Strong Independence,
+Monotonicity and Symmetry (see \cref{td_thm_voting_axioms}). For the other
+direction, suppose $T$ satisfies the stated axioms. Let $N$ be a network and
+$f_1, f_2 \in \F$. We will construct a network $N'$ where all claims for facts
+other than $f_1, f_2$ are removed, and these facts are grouped under a single
+object. To do so, let $o_1 = \obj_N(f_1)$, $o_2 = \obj_N(f_2)$ and take $o^*
+\in \O \setminus \{o_1, o_2\}$.  Define an edge set $E'$ by
+\[
+    (s, f) \in E' \iff f \in \{f_1, f_2\} \text{ and } s \in \src_N(f)
+\]
+\[
+    (f, o) \in E'
+    \iff
+        (f \in \{f_1, f_2\} \text{ and } o = \obj_N(f))
+        \text{ or }
+        (f \notin \{f_1, f_2\} \text{ and } o = o^*)
+\]
+Then let $N'$ be the network with edge set $E'$. Note that $\src_{N'}(f_j) =
+\src_N(f_j)$. By Strong Independence it is therefore sufficient to show that
+$f_1 \fle_{N'}^T f_2$ iff $|src_{N'}(f_1)| \le |\src_{N'}(f_2)|$. Note also
+that $N'$ satisfies the hypothesis of \cref{td_lemma_voting_characterisation_lemma}.
+
+Now, suppose $|\src_{N'}(f_1)| \le |\src_{N'}(f_2)|$. If $|\src_{N'}(f_1)| =
+|\src_{N'}(f_2)|$ then by \cref{td_lemma_voting_characterisation_lemma} $f_1
+\feq_{N'}^T f_2$, and in particular $f_1 \fle_{N'}^T f_2$.
+
+Otherwise, $|\src_{N'}(f_2)| - |\src_{N'}(f_1)| = k > 0$. Consider $N''$ where
+$k$ sources from $\src_{N'}(f_2)$ are removed, and all other claims remain. By
+the lemma, $f_1 \feq_{N''}^T f_2$. Applying Monotonicity $k$ times we can
+produce $N'$ from $N''$ and get $f_1 \flt_{N'}^T f_2$ as desired.
+
+For the other implication, suppose $f_1 \fle_{N'}^T f_2$ and, for
+contradiction, $|\src_{N'}(f_1)| > |\src_{N'}(f_2)|$. Applying Monotonicity
+again as above gives $f_1 \fgt_{N'}^T f_2$ and the required contradiction.
+\end{proof}
+
+\section{Proof of \cref{td_thm_voting_axioms}}
+
+\begin{proof}
+
+We will show that \voting{} satisfies Symmetry, Unanimity, Groundedness,
+Monotonicity, POI, Strong Independence and PCI, and that Coherence is
+\emph{not} satisfied. For Symmetry and PCI we use the (stronger) numerical
+variants \emph{numerical Symmetry} and \emph{numerical PCI}, introduced in
+\cref{td_sec_axioms_for_iterative_and_recursive_operators}. $T$ will denote
+the (numerical) \voting{} operator in what follows.
+
+\paragraph{Symmetry.} Suppose $N$ and $\pi(N)$ are equivalent networks. Let $f
+\in \F$. By definition of equivalent networks we have $s \in \src_N(f)$ iff
+$\pi(s) \in \src_{\pi(N)}(\pi(f))$ for all $s \in \S$. Consequently $\pi$
+restricted to $\src_N(f)$ is a bijection into $\src_{\pi(N)}(\pi(f))$, and
+hence
+\[
+    T_N(f) = |\src_N(f)| = |\src_{\pi(N)}(\pi(f))| = T_{\pi(N)}(\pi(f))
+\]
+
+Now let $s \in \S$. Clearly we have $T_N(s) = 1 = T_{\pi(N)}(\pi(s))$. Hence
+$T$ satisfies numerical Symmetry and therefore Symmetry.
+
+\paragraph{Unanimity and Groundedness.} Suppose $N \in \N$ and $f \in \F$. If
+$\src_N(f) = \S$ then for any $g \in \F$,
+\[
+    T_N(g) = |\src_N(g)| \le |\S| = |\src_N(f)| = T_N(f)
+\]
+so $g \fle_N^{T} f$ and Unanimity is satisfied. If instead $\src_N(f)
+= \emptyset$, we have
+\[
+    T_N(g) = |\src_N(g)| \ge 0 = |\src_N(f)| = T_N(f)
+\]
+so $f \fle_N^{T} g$ and Groundedness is satisfied.
+
+\paragraph{Monotonicity.} Let $N, N', s$ and $f$ be as given in the statement
+of Monotonicity. It is clear that $|\src_{N'}(f)| = |\src_N(f)| + 1$. Also, for
+any $g \in \F$, $g \ne f$, the set of sources in $N'$ is the same as in $N$ but
+with $s$ possibly removed. Hence $|\src_{N'}(g)| \le |\src_N(g)$. Therefore $g
+\fle_N^{T} f$ implies
+\[
+    |\src_{N'}(g)| \le |\src_N(g)| \le |\src_N(f)| < |\src_{N'}(f)|
+\]
+and so $g \flt_{N'}^{T} f$ as required.
+
+\paragraph{Independence axioms.} Next we show Strong Independence, which
+implies POI. Suppose $N_1, N_2 \in \N$, $f_1, f_2 \in \F$ and $\src_{N_1}(f_j)
+= \src_{N_2}(f_j)$ for each $j \in \{1, 2\}$. Clearly we have
+\[
+    T_{N_1}(f_j) = |\src_{N_1}(f_j)| = |\src_{N_2}(f_j)| = T_{N_2}(f_j)
+\]
+Consequently
+\begin{align*}
+    f_1 \fle_{N_1}^{T} f_2
+    & \iff T_{N_1}(f_1) \le T_{N_1}(f_2) \\
+    & \iff T_{N_2}(f_1) \le T_{N_2}(f_2) \\
+    & \iff f_1 \fle_{N_2}^{T} f_2
+\end{align*}
+as required for Strong Independence.
+
+For PCI we proceed as with Symmetry by showing numerical PCI. Let $N_1, N_2$
+have a common connected component $G$. Let $f \in G \cap \F$. By definition of
+a connected component, $s \in \src_{N_1}(f)$ iff $s \in \src_{N_2}(f)$, so
+$\src_{N_1}(f) = \src_{N_2}(f)$.
+Hence
+\[
+    T_{N_1}(f)
+    = |\src_{N_1}(f)|
+    = |\src_{N_2}(f)|
+    = T_{N_2}(f)
+\]
+For $s \in G \cap \S$, we trivially have $T_{N_1}(s) = 1 = T_{N_1}(s)$. Hence
+numerical PCI is satisfied.
+
+\paragraph{Coherence.} The violation of Coherence follows from
+\cref{td_thm_impossibility}, since we have already shown that Symmetry,
+Monotonicity and POI are satisfied.
+\end{proof}
+
+\section{Proof of \cref{td_lemma_ordering_epsilon_lemma}}
+
+\begin{proof}
+The first statement follows easily from the definition of the limit. We shall
+prove only the second one.
+
+First we prove the `if' direction. Write $D = T^*_N(f_1) - T^*_n(f_2)$. We need
+to show that $D < 0$. Write $d_n = T_N^n(f_1) - T_N^n(f_2)$ so that $D =
+\limn{d_n}$. Take $\epsilon = \rho / 2 > 0$. Then for sufficiently large $n$ we
+have $d_n \le -\rho / 2 < 0$. Taking $n \to \infty$, we have $D = \limn{d_n}
+\le -\rho / 2 < 0$ as required.
+
+For the `only if' direction, suppose $D < 0$. Let $\rho = -D$. Then for any
+$\epsilon > 0$, by the definition of the limit there is $K \in \Nat$ such that
+$|d_n - D| < \epsilon$ for $n \ge K$; in particular, $d_n < \epsilon + D =
+\epsilon - \rho$ as required.
+\end{proof}
+
+\section{Proof of \cref{td_thm_sums_axioms}}
+
+The following results will be helpful to simplify the proof of
+\cref{td_thm_sums_axioms}.
+
+\begin{lemma}
+\label{td_lemma_norm_properties}
+$\norm$ has the following properties.
+\begin{enumerate}
+    \item $\norm$ preserves numerical Symmetry, in the sense that $\norm(T)$
+          satisfies numerical Symmetry whenever $T$ does.
+    \item $\norm$ leaves rankings unchanged, in the following sense. For $T \in
+          \num$, $N \in \N$, $s_1, s_2 \in \S$, $f_1, f_2 \in \F$,
+          \begin{align*}
+              s_1 \sle_N^T s_2 & \iff s_1 \sle_N^{\norm(T)} s_2 \\
+              f_1 \fle_N^T f_2 & \iff f_1 \fle_N^{\norm(T)} f_2
+          \end{align*}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+For part (i), suppose $T$ satisfies numerical Symmetry, and write $T' = U(T)$. Let $N$ and
+$\pi(N)$ be equivalent networks. First note that
+\[
+    \max_{x \in \S}{|T_N(x)|}
+    = \max_{x \in \S}{|T_{\pi(N)}(\pi(x))}|
+    = \max_{x \in \S}{|T_{\pi(N)}(x)|}
+\]
+where the second equality follows since $\pi$ restricted to $\S$ is a
+surjection into $\S$ by the definition of equivalent networks. If this maximum
+is 0, then $T'_N(s)=0=T'_{\pi(N)}(s)$ for all $s \in \S$. Otherwise,
+\[
+    T'_N(s)
+    = \frac{T_N(s)}{\max\limits_{x \in \S}{|T_N(x)|}}
+    = \frac{T_{\pi(N)}(\pi(s))}{\max\limits_{x \in \S}{|T_{\pi(N)}(x)|}}
+    = T'_{\pi(N)}(\pi(s))
+\]
+One can show that $T'_N(f) = T'_{\pi(N)}(\pi(f))$ by an identical argument.
+Hence $T'=U(T)$ satisfies numerical Symmetry also.
+
+Now we prove part (ii). First suppose $s_1 \sle_N^T s_2$. Write $T' =
+\norm(T)$. We have $T'_N(x) = \alpha T_N(x)$ for some $\alpha \ge 0$ and all $x
+\in \S$ (either $\alpha = 1 / \max_{x \in \S}{|T_N(x)|}$ or $\alpha = 0$). We
+therefore have
+\begin{align*}
+    s_1 \sle_N^T s_2
+    & \implies T_N(s_1) \le T_N(s_2) \\
+    & \implies \alpha T_N(s_1) \le \alpha T_N(s_2) \\
+    & \implies T'_N(s_1) \le T'_N(s_2) \\
+    & \implies s_1 \sle_N^{T'} s_2
+\end{align*}
+as desired.
+
+Now suppose $s_1 \sle_N^{T'} s_2$, i.e. $\alpha T_N(s_1) \le \alpha T_N(s_2)$.
+If $\alpha > 0$ then dividing by $\alpha$ readily gives $s_1 \sle_N^T s_2$.
+Otherwise, $\alpha = 0$. This means $\max_{x \in \S}{|T_N(x)|} = 0$, and thus
+$T_N(x) = 0$ for all $x \in \S$. In particular $T_N(s_1) = 0 \le 0 = T_N(s_2)$
+so $s_1 \sle_N^T s_2$.
+
+The second statement regarding fact ranking may be shown using an identical
+argument.
+\end{proof}
+
+\begin{corollary}
+\label{td_cor_norm_preservation}
+$\norm$ preserves Coherence, Unanimity, Groundedness and PCI.
+\end{corollary}
+
+\begin{proof}[Proof of \cref{td_thm_sums_axioms}]
+
+Throughout this proof, $(T^n)_{n \in \Nat}$ will denote the iterative operator
+\sums{}, $T^*$ will denote the limit operator, and $U = \norm \circ
+U^{\text{Sums}}$ will denote the update function for \sums{}.
+
+\paragraph{Coherence.} Source-Coherence was shown in the body of the paper.
+The proof that Fact-Coherence is satisfied is similar, and uses
+\cref{td_lemma_fact_coherence_lemma}. Suppose $N \in \N$, $T = T^n$ for some $n
+\in \Nat$, $\epsilon, \rho > 0$, and $\src_N(f_1)$ is $(\epsilon, \rho)$-less
+trustworthy than $\src_N(f_2)$ with respect to $N$ and $\tilde{T}$ under a
+bijection $\phi$, where $\tilde{T} = U(T)$. Let $\hat{s} \in \src_N(f_1)$ be
+such that $\tilde{T}_N(s) - \tilde{T}_N(\phi(s)) \le \epsilon - \rho$.
+
+Write $T' = U^{\text{Sums}}(T)$ so that $\tilde{T} = \norm(T')$, and set
+\[
+    \alpha = \frac{1}{\max\limits_{x \in \S}{|T'_N(x)|}}
+\]
+We may assume without loss of generality that $\epsilon < \frac{1}{|\S|}\rho$.
+Note that for $s \in \S$, $\tilde{T}_N(s) = {\alpha}T'_N(s)$ and therefore
+$T'_N(s) = \frac{1}{\alpha}\tilde{T}_N(s)$. Writing
+\[
+    \beta = \frac{1}{\max\limits_{y \in \F}{|T'_N(y)|}}
+\]
+and applying a similar argument as for showing Source-Coherence, we find
+\begin{align*}
+    \tilde{T}_N(f_1) - \tilde{T}_N(f_2)
+    &= \beta \sum_{s \in \src_N(f_1)}{ \Big(
+        T'_N(s) - T'_N(\phi(s))
+    \Big) } \\
+    &= \frac{\beta}{\alpha} \sum_{s \in \src_N(f_1)}{ \Big(
+        \tilde{T}_N(s) - \tilde{T}_N(\phi(s))
+    \Big) } \\
+    &= \frac{\beta}{\alpha} \left[
+        \underbrace{
+            \Big(
+                \tilde{T}_N(\hat{s}) - \tilde{T}_N(\phi(\hat{s}))
+            \Big)
+        }_{\le \epsilon - \rho}
+        +
+        \sum_{s \in \src_N(f_1) \setminus \{\hat{s}\} }{
+            \underbrace{
+                \Big(
+                    \tilde{T}_N(s) - \tilde{T}_N(\phi(s))
+                \Big)
+            }_{\le \epsilon}
+        }
+    \right] \\
+    & \le \frac{\beta}{\alpha}
+      \cdot
+      \underbrace{
+          \Big(|\S|\epsilon - \rho \Big)
+      }_{< 0}
+\end{align*}
+Now we need to bound $\beta / \alpha$ from below. Since we assume $T =
+T^n$ for some $n \in \Nat$, for any $y \in \F$ we have
+\[
+    |T'_N(y)| =
+        \sum_{s \in \src_N(y)}{
+            \underbrace{T'_N(s)}_{\le |\F|}
+        }
+    \le |\src_N(y)| \cdot |\F|
+    \le |\S| \cdot |\F|
+\]
+Therefore
+\[
+    \beta \ge \frac{1}{|\S| \cdot |\F|}
+\]
+
+Next, we claim there is some fact $\bar{f} \in \F$ with $T_N(\bar{f}) \ge 1 /
+2$ and $\src_N(\bar{f}) \ne \emptyset$. Indeed, if $T = T^1 = T^{\text{fixed}}$
+then take any fact with at least one associated source.\footnotemark{}
+Otherwise, since we assume not all scores are 0 in the limit, there is some
+$\bar{f}$ with $T_N(\bar{f}) = 1$ due to the application of $\norm$. Clearly
+$\src_N(\bar{f}) \ne \emptyset$, since we would have $T_N(\bar{f}) = 0$
+otherwise.
+
+\footnotetext{
+    Note that this is always possible since a truth discovery network contains
+    at least one claim by definition.
+}
+
+Let $\bar{x} \in \src_N(\bar{f})$. Then
+\[
+    |T'_N(\bar{x})|
+    = T'_N(\bar{x})
+    = \underbrace{T_N(\bar{f})}_{\ge 1 / 2}
+       + \underbrace{
+           \sum_{f \in \facts_N(\bar{x}) \setminus \{\bar{f}\}}{
+               T_N(f)
+           }
+         }_{\ge 0}
+    \ge \frac{1}{2}
+\]
+This means
+\[
+    \frac{1}{\alpha}
+    = \max_{x \in \S}{|T'_N(x)|}
+    \ge |T'_N(\bar{x})|
+    \ge \frac{1}{2}
+\]
+and so, finally,
+\[
+    \frac{\beta}{\alpha}
+    \ge \frac{1}{|\S| \cdot |\F|} \cdot \frac{1}{2}
+\]
+
+Combined with what was shown before, this means
+\[
+    \tilde{T}_N(f_1) - \tilde{T}_N(f_2)
+    \le \frac{1}{2 \cdot |\S| \cdot |\F|} \Big(|\S|\epsilon - \rho\Big)
+\]
+and Fact-Coherence follows from \cref{td_lemma_fact_coherence_lemma}.
+
+\paragraph{Symmetry.} As a consequence of \cref{td_lemma_ns_npci_preservation}, to
+show Symmetry it is sufficient to show that $T^{\text{fixed}}$ satisfies
+numerical Symmetry, and that $U = \norm \circ U^{\text{Sums}}$ preserves
+numerical Symmetry. Since $T^{\text{fixed}}$ is constant with value $1/2$, it
+is clear that numerical Symmetry is satisfied.  Moreover,
+\cref{td_lemma_norm_properties} part (i) already shows that $\norm$ preserves
+numerical Symmetry, so we only need to show that $U^{\text{Sums}}$ does.
+
+To that end, suppose $T \in \num$ satisfies numerical symmetry, and write $T' =
+U^{\text{Sums}}(T)$. Let $N$ and $\pi(N)$ be equivalent networks and $s \in
+\S$. Then
+\begin{align*}
+    T'_{\pi(N)}(\pi(s))
+    &= \sum_{y \in \facts_{\pi(N)}(\pi(s))}{T_{\pi(N)}(y)}
+\end{align*}
+
+Note that $f \in \facts_N(s)$ iff $\pi(f) \in \facts_{\pi(N)}(\pi(s))$.
+Rephrased slightly, we have $y \in \facts_{\pi(N)}(\pi(s))$ iff $\pi^{-1}(y)
+\in \facts_N(s)$. Hence we may make a `substitution` $f = \pi^{-1}(y)$ and sum
+over $\facts_N(s)$, i.e.
+\[
+    T'_{\pi(N)}(\pi(s))
+    = \sum_{f \in \facts_N(s)}{T_{\pi(N)}(\pi(f))}
+\]
+Applying numerical symmetry for $T$, we get
+\begin{align*}
+    T'_{\pi(N)}(\pi(s))
+    &= \sum_{f \in \facts_N(s)}{T_N(f)} \\
+    &= T'_N(s)
+\end{align*}
+Following the same tactic, one may also show that $T'_{\pi(N)}(\pi(f)) =
+T'_N(f)$ for all $f \in \F$. Hence $U^{\text{Sums}}$ preserves numerical
+Symmetry, and we are done.
+
+\paragraph{Unanimity and Groundedness.}
+
+Unanimity and Groundedness can be proved together using
+\cref{td_lemma_unam_groundedness_preservation} and \cref{td_cor_norm_preservation}.
+By these results it is sufficient that $T^{\text{fixed}}$ satisfies Unanimity
+and Groundedness -- this is trivial -- and that $U^{\text{Sums}}$ preserves
+them.
+
+Suppose $T$ satisfies Unanimity and Groundedness and write $T' =
+U^{\text{Sums}}(T)$. Assume without loss of generality that $T = T^n$ for some
+$n \in \Nat$ so that $T'_N \ge 0$. Suppose $N \in \N$, $f \in \F$ and that
+$\src_N(f) = \S$. Let $g \in \F$. We must show that $g \fle_N^{T'} f$. We have
+\[ T'_N(g) = \sum_{s \in \src_N(g)}{T'_N(s)} \le \sum_{s \in \S}{T'_N(s)} =
+T'_N(f) \] i.e. $g \fle_N^{T'} f$ as required for Unanimity. For Groundedness,
+suppose $\src_N(f) = \emptyset$. We must show $f \fle_N^{T'} g$. Indeed, the
+sum in the expression for $T'_N(f)$ is taken over the empty set, which by
+convention is 0.  Since $T'_N(g) \ge 0$, we are done.
+\end{proof}
+
+\section{Proof of \cref{td_thm_scvoting_axioms}}
+
+\begin{proof}
+
+Here we give only the technical details for the argument showing \scvoting{}
+satisfies Symmetry, since the results for the other axioms were given in the
+main text.
+
+\paragraph{Symmetry.}
+Since \voting{} satisfies Symmetry, it is clear that $f_1 \fle_N^{T^{SCV}} f_2$
+iff $\pi(f_1) \fle_{\pi(N)}^{T^{SCV}} \pi(f_2)$ for any equivalent networks $N$
+and $\pi(N)$. We need to show that $s_1 \sle_N^{T^{SCV}} s_2$ iff $\pi(s_1)
+\sle_{\pi(N)}^{T^{SCV}} \pi(s_2)$.
+
+First we will show that $\scoh_N$ and $\scoh_{\pi(N)}$ have a similar symmetry
+property: $s_1 \scoh_N s_2$ iff $\pi(s_1) \scoh_{\pi(N)} \pi(s_2)$. Indeed,
+suppose $s_1 \scoh_N s_2$. Then there is a bijection $\phi: \facts_N(s_1) \to
+\facts_N(s_2)$ with $f \fle_N^{T^{SCV}} \phi(f)$, and there is some $\hat{f}$
+with $\hat{f} \flt_N^{T^{SCV}} \phi(\hat{f})$.
+
+It can be seen that $\pi$ restricted to $\facts_N(s_i)$ is a bijection into
+$\facts_{\pi(N)}(\pi(s_i))$. Let $\pi_1$ and $\pi_2$ denote these restrictions
+for $i=1, 2$ respectively. Set $\theta = \pi_2 \circ \phi \circ \pi_1^{-1}$, so
+that $\theta$ maps $\facts_{\pi(N)}(\pi(s_1))$ into
+$\facts_{\pi(N)}(\pi(s_2))$. As a composition of bijections, $\theta$ is itself
+bijective.
+
+Let $g \in \facts_{\pi(N)}(\pi(s_1))$. Write $f = \pi_1^{-1}(g) \in
+\facts_N(s_1)$. By the property of $\phi$, we have
+\[
+    f \fle_N^{T^{SCV}} \phi(f)
+\]
+By the symmetry property of the fact-ranking (which follows from symmetry of
+\voting{}), we can apply $\pi$ to the above to get
+\[
+    \pi(f) \fle_{\pi(N)}^{T^{SCV}} \pi(\phi(f))
+\]
+Since $f \in \facts_N(s_1)$ and $\phi(f) \in \facts_N(s_2)$, we have $\pi(f) =
+\pi_1(f)$ and $\pi(\phi(f)) = \pi_2(\phi(f))$. Using this fact in the above
+inequality and recalling $f = \pi^{-1}(g)$ we get
+\[
+    g = \pi_1(f) = \pi(f)
+    \fle_{\pi(N)}^{T^{SCV}}
+    \pi(\phi(f)) = \pi_2(\phi(f)) = \pi_2(\phi(\pi_1^{-1}(g))) = \theta(g)
+\]
+i.e. $g \fle_{\pi(N)}^{T^{SCV}} \theta(g)$. Applying the same argument with
+$\hat{g} = \pi_1^{-1}(\hat{f})$ we get $\hat{g} \flt_{\pi(N)}^{T^{SCV}}
+\theta(\hat{g})$.
+
+This shows that $\facts_{\pi(N)}(\pi(s_1))$ is less believable than
+$\facts_{\pi(N)}(\pi(s_2))$ with respect to \scvoting{} (whose fact-ranking
+coincides with \voting{}) in $\pi(N)$ under $\theta$. Hence $\pi(s_1)
+\scoh_{\pi(N)} \pi(s_2)$.
+
+We have shown $s_1 \scoh_N s_2 \implies \pi(s_1) \scoh_{\pi(N)} \pi(s_2)$. For
+the converse implication, apply the same argument starting from $\pi(s_1)
+\scoh_{\pi(N)} \pi(s_2)$ with the $\pi^{-1}$.
+
+Next, we note that for $i=1, 2$ and any $t \in \S$,
+\begin{align*}
+    t \in W_N(s_i)
+    & \iff t \scoh_N s_i \\
+    & \iff \pi(t) \scoh_{\pi(N)} \pi(s_i) \\
+    & \iff \pi(t) \in W_{\pi(N)}(\pi(s_i))
+\end{align*}
+Consequently $\pi$ restricted to $W_N(s_i)$ is a bijection into
+$W_{\pi(N)}(\pi(s_i))$, which means $|W_N(s_i)| = |W_{\pi(N)}(\pi(s_i))|$.
+Finally, this means
+\begin{align*}
+    s_1 \sle_N^{T^{SCV}} s_2
+    & \iff |W_N(s_1)| \le |W_N(s_2)| \\
+    & \iff |W_{\pi(N)}(\pi(s_1))| \le |W_{\pi(N)}(\pi(s_2))| \\
+    & \iff \pi(s_1) \sle_{\pi(N)}^{T^{SCV}} \pi(s_2)
+\end{align*}
+as required for Symmetry.
+\end{proof}
+
+\section{Proof of \cref{td_thm_usums_axioms}}
+
+\begin{proof}
+
+Here we show that \usums{} satisfies Symmetry, PCI, Unanimity and Groundedness,
+since the other axioms were dealt with in the main body of the paper.
+
+Throughout the proof, let $(T^n)_{n \in \Nat}$ denote \usums{}, $T^*$ denote
+the ordinal limit of \usums{}, and for a network $N$ let $J_N$ be as in
+\cref{td_thm_usums_ordinal_convergence}. Then the rankings in $N$ induced by $T^n$
+for $n \ge J_N$ are the same as $T^*$.
+
+\paragraph{Symmetry.} In the proof of \cref{td_thm_sums_axioms}, we saw
+that the update function $U^{\text{Sums}}$ preserves numerical Symmetry, in the
+sense that if $T$ satisfies numerical Symmetry then $U^{\text{Sums}}(T)$ does
+also. Since it is clear that the prior operator for \usums{} satisfies
+numerical Symmetry, $T^n$ satisfies numerical Symmetry and consequently
+Symmetry for all $n \in \Nat$.
+
+Now, let $N$ and $\pi(N)$ be equivalent networks. Let $J, J' \in \Nat$ be
+such that $T^*(N)$ and $T^*(\pi(N))$ are given by $T_N^J$ and
+$T_{\pi(N)}^{J'}$ respectively and take $n \ge \max\{J, J'\}$. For $s_1, s_2
+\in \S$ we have by Symmetry of $T^n$,
+\begin{align*}
+    s_1 \sle_N^{T^*} s_2
+    & \iff s_1 \sle_N^{T^n} s_2 \\
+    & \iff \pi(s_1) \sle_{\pi(N)}^{T^n} \pi(s_2) \\
+    & \iff \pi(s_1) \sle_{\pi(N)}^{T^*} \pi(s_2)
+\end{align*}
+as required for Symmetry. Using an identical argument, one can show that $f_1
+\fle_N^{T^*} f_2$ iff $\pi(f) \fle_{\pi(N)}^{T^*} \pi(f_2)$. Hence $T^*$
+satisfies Symmetry.
+
+\paragraph{PCI.}
+As with Symmetry, we will show that $T^n$ satisfies numerical
+PCI, and consequently PCI, for all $n \in \Nat$. Let $N_1,
+N_2$ be networks with a common connected component $G$. Let $s \in G \cap \S$
+and $f \in G \cap \F$. Note that $\facts_{N_1}(s) = \facts_{N_2}(s)$ and
+$\src_{N_1}(f) = \src_{N_2}(f)$ since by definition a source is connected to
+its facts and vice versa. For $n = 1$ we have
+\[
+    T_{N_1}^1(s) = 1 = T_{N_2}^1(s)
+\]
+\[
+    T_{N_1}^1(f) = |\src_{N_1}(f)| = |\src_{N_2}(f)| = T_{N_2}^1(f)
+\]
+so $T^1$ has numerical PCI. Supposing $T^n$ has numerical PCI for some $n \in
+\Nat$, we have
+\[
+    T_{N_1}^{n+1}(s)
+    = \sum_{g \in \facts_{N_1}(s)}{
+        \underbrace{T_{N_1}^n(g)}_{=T_{N_2}^n(g)}
+    }
+    = \sum_{g \in \facts_{N_2}(s)}{
+        T_{N_2}^n(g)
+    }
+    = T_{N_2}^{n+1}(s)
+\]
+and similarly
+\[
+    T_{N+1}^{n+1}(f) = T_{N_2}^{n+1}(f)
+\]
+Hence, by induction, $T^n$ has numerical PCI for all $n \in \Nat$, and we are
+done.
+
+\paragraph{Unanimity and Groundedness.}
+For Unanimity, suppose $\src_N(f) = \S$. For any $g \in \F$ and $n \in \Nat$ we
+have
+\begin{align*}
+    T_N^n(g)
+    &= \sum_{s \in \src_N(g)}{T_N^n(s)} \\
+    &\le \sum_{s \in \src_N(g)}{T_N^n(s)} + \sum_{s \in \S \setminus \src_N(g)}{T_N^n(s)} \\
+    &= \sum_{s \in \S}{T_N^n(s)} \\
+    &= \sum_{s \in \src_N(f)}{T_N^n(s)} \\
+    &= T_N^n(f)
+\end{align*}
+so $g \fle_N^{T^n} f$ for all $n \in \Nat$. Since the ranking of $T^*$
+corresponds to $T^n$ for large $n$, we have $g \fle_N^{T^*} f$ as
+required
+
+For Groundedness, suppose $\src_N(f) = \emptyset$. Then $T_N^n(f) = 0$ for all $n
+\in \Nat$. For any $g \in \F$, we have $T_N^n(g) \ge 0 = T_N^n(f)$.
+Consequently $f \fle_N^{T^n} g$ for all $n \in \Nat$. As above, this gives $f
+\fle_N^{T^*} g$ as required.
+\end{proof}
+
+\end{document}

@@ -5,11 +5,18 @@
 \usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage[backend=biber]{biblatex}
-\usepackage{cleveref}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage[capitalise]{cleveref}
+\usepackage{graphicx}
+
+% line spacing
+\OnehalfSpacing
 
 % numbering
 \setsecnumdepth{subsubsection}
-\settocdepth{subsubsection}
+\settocdepth{subsection}
 
 % styles
 \pagestyle{ruled}
@@ -24,11 +31,14 @@
 	linkcolor={blue!80!black}
 }
 
-% footnotes at the side
-\footnotesinmargin
+% graphics path
+\graphicspath{ {./chapters/truthdiscovery/images/} }
 
 % bibliography
 \addbibresource{references.bib}
+
+% global macros
+\input{macros.tex}
 
 % metadata
 \title{
@@ -37,8 +47,6 @@
 
 % for development only
 \usepackage{lipsum}
-
-\input{macros.tex}
 
 \begin{document}
 
@@ -84,9 +92,9 @@
 \input{publications.tex}
 
 \mainmatter
-
-\input{body}
-
+\input{body.tex}
 \printbibliography
+\appendix
+\input{appendix.tex}
 
 \end{document}
