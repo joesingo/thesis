@@ -50,3 +50,8 @@ From parsing compile logs:
 - Undefined references and citations
 - Other errors
 - Warnings
+
+# Open questions
+
+- Sums and Monotonicity in TD chapter
+- Operator with chain-min, dual and mon simultaneously in tournament chapter

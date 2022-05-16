@@ -579,13 +579,95 @@ maximum likelihood operator.
 
 \end{definition}
 
-Now, consider the tournament $K_\theta$ associated with each state $\theta =
-\tuple{\bm{x}, \bm{y}}$, given by $[K_\theta]_{ab} = 1$ if $x_a \ge y_b$ and
-$[K_\theta]_{ab} = 0$ otherwise. Note that $K_\theta$ is the unique tournament
-with non-zero probability when
-there are no false positive or false negatives. Expressed in terms of
-$K_\theta$, the MLEs take a particularly simple form if $\alpha_+ = \alpha_-$,
-i.e. if false positives and false negatives occur at the same rate.
+To help analyse MLE operators, we consider the tournament $K_\theta$ associated
+with each state $\theta = \tuple{\bm{x}, \bm{y}}$, given by $[K_\theta]_{ab} =
+1$ if $x_a \ge y_b$ and $[K_\theta]_{ab} = 0$ otherwise. Note that $K_\theta$
+is the unique tournament with non-zero probability when there are no false
+positive or false negatives. The following technical lemma obtains an
+expression for $P_{\bm{\alpha}}(K \mid \theta)$ in terms of $K_\theta$ and $K$.
+
+\begin{lemma}
+   \label{tourn_result_probexpression}
+
+   Let $K$ be an $m \times n$ tournament, $\bm{\alpha} \in [0,1]^2$ and
+   $\theta \in \Theta_{m,n}$. Then
+   \begin{equation*}
+      \begin{split}
+          P_{\bm{\alpha}}(K \mid \theta)
+          =
+          \prod_{a \in A}
+            &\alpha_+^{|K(a) \setminus K_\theta(a)|}
+            (1 - \alpha_-)^{|K(a) \cap K_\theta(a)|}
+            \\
+            &\quad (1 - \alpha_+)^{|B \setminus (K(a) \cup K_\theta(a))|}
+            \alpha_-^{|K_\theta(a) \setminus K(a)|}.
+      \end{split}
+   \end{equation*}
+\end{lemma}
+
+\begin{proof}
+    Write $p_{ab,K}$ for $P_{\bm{\alpha}}(X_{ab} = K_{ab} \mid \theta)$.
+    Expanding the product in \cref{tourn_def_probdist}, we have
+    \[
+       P_{\bm{\alpha}}(K \mid \theta)
+       = \prod_{a \in A}{\prod_{b \in B}{p_{ab,K}}}.
+    \]
+    Let $a \in A$. Note that $B$ can be written as the disjoint
+    union $B = B_1 \cup B_2 \cup B_3 \cup B_4$, where
+    \[
+       \begin{aligned}
+          B_1 &= K(a) \setminus K_\theta(a) \\
+          B_2 &= K(a) \cap K_\theta(a) \\
+          B_3 &= B \setminus (K(a) \cup K_\theta(a)) \\
+          B_4 &= K_\theta(a) \setminus K(a).
+       \end{aligned}
+    \]
+    Recall that $b \in K_\theta(a)$ iff $x_a \ge y_b$
+    (where $\theta = \tuple{\bm{x}, \bm{y}}$).  It follows that
+    \begin{itemize}
+        \item $b \in B_1$ iff $K_{ab} = 1$ and $x_a < y_b$
+        \item $b \in B_2$ iff $K_{ab} = 1$ and $x_a \ge y_b$
+        \item $b \in B_3$ iff $K_{ab} = 0$ and $x_a < y_b$
+        \item $b \in B_4$ iff $K_{ab} = 0$ and $x_a \ge y_b$
+    \end{itemize}
+    Note that this correspond exactly to the four cases in
+    \labelcref{tourn_eqn_probdist_random_var_one} and
+    \labelcref{tourn_eqn_probdist_random_var_zero} which define $p_{ab, K}$; we have
+    \[
+        p_{ab,K} = \begin{cases}
+            \alpha_+,& b \in B_1 \\
+            1 - \alpha_-,& b \in B_2 \\
+            1 - \alpha_+,& b \in B_3 \\
+            \alpha_-,& b \in B_4.
+        \end{cases}
+    \]
+    Consequently
+    \[
+       \begin{aligned}
+           \prod_{b \in B}{p_{ab,K}}
+           &=
+               \left(\prod_{b \in B_1}{\alpha_+}\right)
+               \left(\prod_{b \in B_2}{(1-\alpha_-)}\right)
+               \left(\prod_{b \in B_3}{(1-\alpha_+)}\right)
+               \left(\prod_{b \in B_4}{\alpha_-}\right)
+           \\
+           &= \alpha_+^{|B_1|} (1-\alpha_-)^{|B_2|} (1-\alpha_+)^{|B_3|}
+              \alpha_-^{|B_4|} \\
+           &= \alpha_+^{|K(a) \setminus K_\theta(a)|}
+              (1-\alpha_-)^{|K(a) \cap K_\theta(a)|}
+              \\
+           &\quad \quad (1-\alpha_+)^{|B \setminus (K(a) \cup K_\theta(a))|}
+              \alpha_-^{|K_\theta(a) \setminus K(a)|}.
+       \end{aligned}
+    \]
+    Taking the product over all $a \in A$ we reach the desired
+    expression for $P_{\bm{\alpha}}(K \mid \theta)$.
+\end{proof}
+
+
+Expressed in terms of $K_\theta$, the MLEs take a
+particularly simple form if $\alpha_+ = \alpha_-$, i.e. if false positives and
+false negatives occur at the same rate.
 
 \begin{lemma}
    \label{tourn_result_mle_hamming}
@@ -597,8 +679,8 @@ i.e. if false positives and false negatives occur at the same rate.
 
 \begin{proof}[Proof (sketch)]
 
-    Let $K$ be an $m \times n$ tournament. It can be shown (and we do so in the
-    appendix) that for any $\theta \in \Theta_{m,n}$
+    Let $K$ be an $m \times n$ tournament. By
+    \cref{tourn_result_probexpression},
     \begin{equation*}
        \begin{split}
            P_{\bm{\alpha}}(K \mid \theta)
@@ -610,7 +692,7 @@ i.e. if false positives and false negatives occur at the same rate.
              \\
              &\quad (1 - \alpha_+)^{|B \setminus (K(a) \cup K_\theta(a))|}
              \alpha_-^{|K_\theta(a) \setminus K(a)|}
-           \Big)
+           \Big).
        \end{split}
     \end{equation*}
     Plugging in $\alpha_+ = \alpha_- = \beta$ and simplifying, one can obtain
@@ -625,7 +707,7 @@ i.e. if false positives and false negatives occur at the same rate.
                   |K(a) \symdiff K_\theta(a)|
                 }
            }
-       \end{aligned}
+       \end{aligned},
     \]
     where $X \symdiff Y = (X \setminus Y) \cup (Y \setminus X)$ is the
     symmetric difference of two sets $X$ and $Y$, and $c = (1
@@ -653,7 +735,7 @@ i.e. if false positives and false negatives occur at the same rate.
               +
               \log{\left(\frac{\beta}{1 - \beta}\right)}
               d(K, K_\theta)
-       \end{aligned}
+       \end{aligned}.
     \]
     Since $\log{c}$ is constant and $\beta < 1/2$ implies
     $\log{\left(\frac{\beta}{1 - \beta}\right)} < 0$, it follows that
@@ -666,6 +748,34 @@ is the closest to $K$. As it turns out, the tournaments $K_\theta$ that arise
 in this way are exactly those with the chain property.
 
 \begin{lemma}
+   \label{tourn_result_ktheta_ordering}
+
+   Let $\theta = \tuple{\bm{x}, \bm{y}} \in \Theta_{m,n}$. Then for all
+   $a, a' \in A$ and $b, b' \in B$:
+
+   \begin{enumerate}
+       \item $K_\theta(a) \subseteq K_\theta(a')$ iff $x_a \le
+             x_{a'}$
+       \item $K_\theta^{-1}(b) \supseteq K_\theta^{-1}(b')$ iff $y_b
+             \le y_{b'}$.
+   \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+
+    We prove (1); (2) is shown similarly. Let $a, a' \in A$. First suppose $x_a
+    \le x_{a'}$. Let $b \in K_\theta(a)$. Then $y_b \le x_a \le x_{a'}$, so $b
+    \in K_\theta(a')$ also. This shows $K_\theta(a) \subseteq K_\theta(a')$.
+
+    Now suppose $K_\theta(a) \subseteq K_\theta(a')$. For the sake of
+    contradiction, suppose $x_a > x_{a'}$. By \labelcref{tourn_eqn_state_condition_a}
+    in the definition of a state (\cref{tourn_def_stateworld}), there is $b \in B$
+    such that $x_{a'} < y_b \le x_{a}$. But this means $b \in K_\theta(a)
+    \setminus K_\theta(a')$, which contradicts $K_\theta(a) \subseteq
+    K_\theta(a')$. Thus (1) is proved.
+\end{proof}
+
+\begin{lemma}
    \label{tourn_result_chain_iff_ktheta}
 
    An $m \times n$ tournament $K$ has the chain property if and only if $K =
@@ -673,11 +783,67 @@ in this way are exactly those with the chain property.
 
 \end{lemma}
 
-The proof of \Cref{tourn_result_chain_iff_ktheta} relies crucially on
-\labelcref{tourn_eqn_state_condition_a} and \labelcref{tourn_eqn_state_condition_b} in the
-definition of a state. Combining all the results so far we obtain our first
-main result: the maximum likelihood operators for $\bm{\alpha} =
-\tuple{\beta,\beta}$ are exactly the chain-minimal operators.
+\begin{proof}
+    The ``if'' direction follows from \cref{tourn_result_ktheta_ordering} part (1):
+    if $\theta = \tuple{\bm{x}, \bm{y}}$ and $a, a' \in A$ then
+    either $x_a \le x_{a'}$ -- in which case $K_\theta(a)
+    \subseteq K_\theta(a')$ -- or $x_{a'} < x_a$ -- in
+    which case $K_\theta(a') \subseteq K_\theta(a)$. Therefore $K_\theta$ has
+    the chain property.
+
+    For the ``only if'' direction, suppose $K$ has the chain property.
+    Define $\theta = \tuple{\bm{x}, \bm{y}}$ by
+
+    \[
+       \begin{aligned}
+           x_a &= |\{a' \in A \mid K(a') \subseteq K(a)\}| \\
+           y_b &= \begin{cases}
+              \min\{x_a \mid a \in K^{-1}(b)\}
+                  ,& K^{-1}(b) \ne \emptyset \\
+              1 + |A|,& K^{-1}(b) = \emptyset
+           \end{cases}
+       \end{aligned}
+    \]
+
+    It is easily that since the neighbourhood-subset relation ${\anle_K}$ is a
+    total preorder, we have $K(a) \subseteq K(a')$ if and only if $x_a \le
+    x_{a'}$.  First we show that $K_\theta = K$ by showing that $K_{ab} = 1$ if
+    and only if $[K_\theta]_{ab} = 1$. Suppose $K_{ab} = 1$. Then $a \in
+    K^{-1}(b)$, so $y_b = \min\{x_{a'} \mid a' \in K^{-1}(b)\} \le x_a$ and
+    consequently $[K_\theta]_{ab} = 1$.
+
+    Now suppose $[K_\theta]_{ab} = 1$. Then $x_a \ge y_b$.  We must have
+    $K^{-1}(b) \ne \emptyset$; otherwise $y_b = 1 + |A|
+    > |A| \ge x_a$. We can therefore take $\hat{a} \in \argmin_{a'
+    \in K^{-1}(b)}{x_{a'}}$. By definition of $y_b$, $x_{\hat{a}} = y_b \le
+    x_a$. But $x_{\hat{a}} \le x_a$ implies $K(\hat{a}) \subseteq K(a)$; since
+    $\hat{a} \in K^{-1}(b)$ this gives $b \in K(\hat{a})$ and $b \in K(a)$,
+    i.e. $K_{ab} = 1$. This completes the claim that $K = K_\theta$.
+
+    It only remains to show that $\theta$ satisfies conditions
+    \labelcref{tourn_eqn_state_condition_a} and \labelcref{tourn_eqn_state_condition_b} of
+    \cref{tourn_def_stateworld}. For \labelcref{tourn_eqn_state_condition_a}, suppose $x_a
+    < x_{a'}$. Then $K(a) \subset K(a')$, i.e there is $b \in K(a') \setminus
+    K(a) = K_\theta(a') \setminus K_\theta(a)$. But $b \in K_\theta(a')$ gives
+    $y_b \le x_{a'}$, and $b \not\in K_\theta(a)$ gives $x_a < y_b$; this shows
+    that \labelcref{tourn_eqn_state_condition_a} holds.
+
+    For \labelcref{tourn_eqn_state_condition_b}, suppose $y_b < y_{b'}$. Clearly
+    $K^{-1}(b) \ne \emptyset$ (otherwise $y_b = 1 + |A|$ is maximal). Thus
+    there is $a \in K^{-1}(b)$ such that $y_b = x_a$. This of course means $x_a
+    < y_{b'}$; in particular we have $y_b \le x_a < y_{b'}$ as required for
+    \labelcref{tourn_eqn_state_condition_b}.
+
+    We have shown that $K = K_\theta$ and that $\theta \in \Theta_{m,n}$, and the
+    proof is complete.
+\end{proof}
+
+Note that the proof of \Cref{tourn_result_ktheta_ordering} relies crucially on
+\labelcref{tourn_eqn_state_condition_a} and
+\labelcref{tourn_eqn_state_condition_b} in the definition of a state. Combining
+all the results so far we obtain our first main result: the maximum likelihood
+operators for $\bm{\alpha} = \tuple{\beta,\beta}$ are exactly the chain-minimal
+operators.
 
 \begin{theorem}
    \label{tourn_result_mle_iff_chainmin_operator}
@@ -686,27 +852,34 @@ main result: the maximum likelihood operators for $\bm{\alpha} =
    if and only if $\phi$ satisfies \axiomref{chain-min}.
 \end{theorem}
 
-\begin{proof}[Proof (sketch)]
+\begin{proof}
+    First we show that for any $m, n \in \N$ and any $m \times n$ tournament
+    $K$ it holds that $\theta$ is an MLE state for $K$ if and only if $K_\theta
+    \in \minch{K}$.
 
-    First note that by \Cref{tourn_result_mle_hamming}, a state $\theta$ is an MLE
-    for an $m \times n$ tournament $K$ iff $K_\theta$ is closest to $K$ amongst
-    all other tournaments $\{K_{\theta'} \mid \theta' \in \Theta_{m,n}\}$. But
-    by \Cref{tourn_result_chain_iff_ktheta}, this set is exactly the $m \times n$
-    tournaments with the chain property. It follows from the definition of
-    $\minch{K}$ that $\theta$ is an MLE if and only if $K_\theta \in
-    \minch{K}$. Consequently, $K' \in \minch{K}$ if and only if $K' = K_\theta$
-    for some MLE $\theta$ for $K$.
-    %
-    We see that \axiomref{chain-min} can be
-    equivalently stated as follows: for all $K$ there exists an MLE
-    $\theta$ such that $\phi(K) = ({\anle_{K_\theta}}, {\bnle_{K_\theta}})$.
-    Using properties \labelcref{tourn_eqn_state_condition_a} and
-    \labelcref{tourn_eqn_state_condition_b} in \Cref{tourn_def_stateworld} for $\theta$ it
-    is straightforward to show that $a \anle_{K_\theta} a'$ iff $x_a \le
-    x_{a'}$ and $b \bnle_{K_\theta} b'$ iff $y_b \le y_{b'}$ for all $a, a' \in
-    A$, $b, b' \in B$ (where $\theta = \tuple{\bm{x}, \bm{y}}$). This means
-    that the above reformulation of \axiomref{chain-min} coincides with the
-    definition of a maximum likelihood operator, and we are done.
+    Indeed, fix some $m, n$ and $K$. Write $\K_{\Theta_{m,n}} = \{K_\theta \mid
+    \theta \in \Theta_{m,n}\}$. By \cref{tourn_result_mle_hamming}, $\theta$ is an MLE
+    if and only if $d(K, K_\theta) \le d(K, K_{\theta'})$ for all $\theta' \in
+    \Theta_{m,n}$, i.e. $K_\theta \in \argmin_{K' \in \K_{\Theta_{m,n}}}{d(K,
+    K')}$. But by \cref{tourn_result_chain_iff_ktheta}, $\K_{\Theta_{m,n}}$ is just
+    $\ch_{m,n}$, the set of all $m \times n$ tournaments with the chain
+    property. We see that $\argmin_{K' \in \K_{\Theta_{m,n}}}{d(K, K')} =
+    \argmin_{K' \in \ch_{m,n}}{d(K, K')} = \minch{K}$ by definition of
+    $\minch{K}$. This shows that $\theta$ is an MLE iff $K_\theta \in
+    \minch{K}$.
+
+    Now, by definition, $\phi$ satisfies \axiomref{chain-min} iff for every
+    tournament $K$ there is $K' \in \minch{K}$ such that $\phi(K) =
+    ({\anle_{K'}}, {\bnle_{K'}})$. Using \cref{tourn_result_chain_iff_ktheta} and the
+    above result, $K' \in \minch{K}$ if and only if $K' = K_\theta$ for some
+    MLE $\theta$ for $K$. We see that \axiomref{chain-min} can be equivalently
+    stated as follows: for all tournament $K$ there exists an MLE $\theta$ such
+    that $\phi(K) = ({\anle_{K_\theta}}, {\bnle_{K_\theta}})$. But by
+    \cref{tourn_result_ktheta_ordering} we have $a \anle_{K_\theta} a'$ iff $x_a \le
+    x_{a'}$ and $b \bnle_{K_\theta} b'$ iff $y_b \le y_{b'}$ (where $\theta =
+    \tuple{\bm{x}, \bm{y}}$). The above reformulation of \axiomref{chain-min}
+    now coincides with the definition of a maximum likelihood operator, and we
+    are done.
 \end{proof}
 
 Similar results can be obtained for
@@ -896,12 +1069,129 @@ First, the negative results.
 
 \end{theorem}
 
-The counterexample for \axiomref{anon} is particularly simple: take $K =
-\left[\begin{smallmatrix} 1&0\\0&1 \end{smallmatrix}\right]$. Swapping the rows
-and columns brings us back to $K$, so \axiomref{anon} implies $1, 2 \in A$ rank
-equally. However, it is easily seen for every $K' \in \minch{K}$, either $K(1)
-\subset K(2)$ or $K(2) \subset K(1)$, i.e no chain-minimal operator can rank 1
-and 2 equally.
+\begin{proof}
+
+    We take each axiom in turn. Let $\phi$ be any operator satisfying
+    \axiomref{chain-min}.
+
+    \axiomref{anon:} Consider $K = \left[\begin{smallmatrix} 1&0\\0&1
+    \end{smallmatrix}\right]$, and define permutations $\sigma = \pi = (1\ 2)$,
+    i.e. the permutations which simply swap 1 and 2. It is easily seen that
+    $\pi(\sigma(K)) = K$. Supposing $\phi$ satisfied \axiomref{anon}, we would
+    get $1 \ale_K^\phi 2$ iff $\sigma(1) \ale_{\pi(\sigma(K))}^\phi \sigma(2)$
+    iff $2 \ale_K^\phi 1$, which implies $1 \aeq_K^\phi 2$.
+    %
+    On the other hand, we have
+    \[
+        \minch{K} = \left\{
+           \left[\begin{smallmatrix}
+               1 & \color{red}{1} \\
+               0 & 1
+           \end{smallmatrix}\right],
+           \left[\begin{smallmatrix}
+               1 & 0 \\
+               \color{red}{1} & 1
+           \end{smallmatrix}\right],
+           \left[\begin{smallmatrix}
+               1 & 0 \\
+               0 & \color{red}{0}
+           \end{smallmatrix}\right],
+           \left[\begin{smallmatrix}
+               \color{red}{0} & 0 \\
+               0 & 1
+           \end{smallmatrix}\right]
+        \right\}
+    \]
+    Since $\phi$ satisfies \axiomref{chain-min} and $1, 2 \in A$ rank equally
+    in ${\ale_K^\phi}$, there must be $K' \in \minch{K}$ such that 1 and 2 rank
+    equally in ${\anle_{K'}}$, i.e. $K'(1) = K'(2)$. But clearly there is no
+    such $K'$; all tournaments in $\minch{K}$ have distinct first and second
+    rows. Hence $\phi$ cannot satisfy \axiomref{anon}.
+
+    \axiomref{IIM:} Suppose $\phi$ satisfies \axiomref{chain-min} and
+    \axiomref{IIM}. Write
+    \[
+         K_1 = \left[\begin{smallmatrix}
+            1 & 0 & 0 \\
+            0 & 1 & 0 \\
+            0 & 1 & 1
+         \end{smallmatrix}\right]
+         , \quad
+         K_2 = \left[\begin{smallmatrix}
+            1 & 0 & 0 \\
+            0 & 1 & 0 \\
+            1 & 0 & 1
+         \end{smallmatrix}\right]
+    \]
+    Note that the first and second rows of $K_1$ and $K_2$ are identical, so by
+    \axiomref{IIM} we have $1 \ale_{K_1}^\phi 2$ iff $1 \ale_{K_2}^\phi 2$.
+    Both tournaments have a unique closest chain tournament requiring changes
+    to only a single entry:
+    \[
+        \minch{K_1} = \left\{
+            \left[\begin{smallmatrix}
+               \color{red}{0} & 0 & 0 \\
+               0 & 1 & 0 \\
+               0 & 1 & 1
+            \end{smallmatrix}\right]
+        \right\}
+        , \quad
+        \minch{K_2} = \left\{
+            \left[\begin{smallmatrix}
+               1 & 0 & 0 \\
+               0 & \color{red}{0} & 0 \\
+               1 & 0 & 1
+            \end{smallmatrix}\right]
+        \right\}
+    \]
+    Write ${K_1}'$ and ${K_2}'$ for these nearest chain tournaments
+    respectively. By \axiomref{chain-min}, we must have $\phi(K_i) =
+    ({\anle_{{K_i}'}}, {\bnle_{{K_i}'}})$. In particular, $1
+    \alt_{K_1}^\phi 2$ and $2 \alt_{K_2}^\phi 1$. But this contradicts
+    \axiomref{IIM}, and we are done.
+
+    \axiomref{pos-resp:} Suppose $\phi$ satisfies \axiomref{chain-min} and
+    \axiomref{pos-resp}, and consider
+    \[
+        K = \left[\begin{smallmatrix}
+            1 & 1 & 1 \\
+            1 & 1 & 0 \\
+            0 & 0 & 1 \\
+            0 & 0 & 1
+        \end{smallmatrix}\right]
+    \]
+    $K$ has a unique closest chain tournament $K'$:
+    \[
+        \minch{K} = \{K'\} = \left\{
+            \left[\begin{smallmatrix}
+            1 & 1 & 1 \\
+            1 & 1 & \color{red}{1} \\
+            0 & 0 & 1 \\
+            0 & 0 & 1
+        \end{smallmatrix}\right]
+        \right\}
+    \]
+    \axiomref{chain-min} therefore implies $\phi(K) = ({\anle_{K'}},
+    {\bnle_{K'}})$.  Note that $K'(1) = K'(2)$, so we have $1 \aeq_K^\phi 2$.
+    In particular, $1 \ale_K^\phi 2$. Since $K_{23} = 0$, we may apply
+    \axiomref{pos-resp} to get $1 \alt_{K + \bm{1}_{23}}^\phi 2$.  But $K +
+    \bm{1}_{23}$ is just $K'$. Since the chain property already holds for
+    $K'$, we have $\minch{K'} = \{K'\}$ and consequently
+    \[
+        \phi(K + \bm{1}_{23})
+        = \phi(K')
+        = ({\anle_{K'}}, {\bnle_{K'}})
+        = \phi(K)
+    \]
+    so in fact $1 \aeq_{K + \bm{1}_{23}}^\phi 2$, contradicting
+    \axiomref{pos-resp}.
+\end{proof}
+
+Note that the counterexample for \axiomref{anon} is particularly simple: we
+take $K = \left[\begin{smallmatrix} 1&0\\0&1 \end{smallmatrix}\right]$.
+Swapping the rows and columns brings us back to $K$, so \axiomref{anon} implies
+$1, 2 \in A$ rank equally. However, we saw that no chain tournament in
+$\minch{K}$ yields this ranking.
 
 The MLE results of \Cref{tourn_sec_mle} provides informal
 explanation for this result. For $K$ above to arise in the noise model of
@@ -928,14 +1218,549 @@ would satisfy \axiomref{anon}. The other axioms are compatible with
 \end{theorem}
 
 Despite the simplicity of \axiomref{mon},
-\Cref{tourn_result_chainmin_axiom_compatibilities} is deceptively difficult to prove.
-We describe operators satisfying \axiomref{chain-def} and \axiomref{dual} or \axiomref{mon}
+\Cref{tourn_result_chainmin_axiom_compatibilities} is deceptively difficult to
+prove, and we devote the rest of this section to its proof. We describe
+operators satisfying \axiomref{chain-def} and \axiomref{dual} or \axiomref{mon}
 non-constructively by first taking an \emph{arbitrary} chain-minimal operator
-$\phi$, and using properties of the set $\minch{K}$ to produce $\phi'$
-satisfying \axiomref{dual} or \axiomref{mon}. Note also that we have not yet
-constructed an operator satisfying \axiomref{dual}, \axiomref{mon} and
+$\phi$, and using properties of the set $\minch{K}$ to produce another operator
+$\phi'$ satisfying \axiomref{dual} or \axiomref{mon}. Note also that we have
+not yet constructed an operator satisfying \axiomref{dual}, \axiomref{mon} and
 \axiomref{chain-min} simultaneously, although we conjecture that such operators
 do exist.
+
+First we show compatibility of \axiomref{chain-min} and \axiomref{dual}. We
+need a preliminary result.
+
+\begin{lemma}
+    \label{tourn_result_chainmin_dual_lemma}
+    Let $K$ be a tournament. Then
+    \begin{enumerate}
+        \item ${\bnle_K} = {\anle_{\dual{K}}}$ \label{tourn_item_dual_lemma_nle}
+        \item $K' \in \minch{K}$ if and only if $\dual{K'} \in
+              \minch{\dual{K}}$
+              \label{tourn_item_dual_lemma_minch}
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    Fix an $m \times n$ tournament $K$.
+
+    \begin{itemize}
+    \item[\labelcref{tourn_item_dual_lemma_nle}.]
+    Note that for any $b \in B$, we have $K^{-1}(b) = A \setminus \dual{K}(b)$.
+    Indeed, for any $a \in A = A_K = B_{\dual{K}}$,
+    \begin{align*}
+        a \in K^{-1}(b)
+        &\iff K_{ab} = 1 \\
+        &\iff 1 - K_{ab} = 0 \\
+        &\iff \dual{K}_{ba} = 0 \\
+        &\iff a \notin \dual{K}(b)
+    \end{align*}
+    This means that for any $b, b' \in B$,
+    \begin{align*}
+        b \bnle_K b'
+        &\iff K^{-1}(b) \supseteq K^{-1}(b') \\
+        &\iff A \setminus \dual{K}(b) \supseteq A \setminus \dual{K}(b') \\
+        &\iff \dual{K}(b) \subseteq \dual{K}(b') \\
+        &\iff b \anle_{\dual{K}} b'
+    \end{align*}
+    so ${\bnle_K} = {\anle_{\dual{K}}}$.
+
+    \item[\labelcref{tourn_item_dual_lemma_minch}.]
+    %
+    `only if": Suppose $K' \in \minch{K}$. First we show that $\dual{K'}$ has
+    the chain property. It is sufficient to show that ${\bnle_{K'}}$ is a total
+    preorder,\footnotemark{} since part (\labelcref{tourn_item_dual_lemma_nle})
+    then implies ${\anle_{\dual{K'}}}$ is a total preorder and $\dual{K'}$ has
+    the chain property by definition.
+
+    \footnotetext{
+        Note that we claim this holds for any $K'$ with the chain property
+        in the body of the paper, but this has not yet been proven.
+    }
+
+    Since ${\bnle_{K'}}$ always has reflexivity and transitivity, we only need
+    to show the totality property. Let $b, b' \in B$ and suppose $b
+    \not\bnle_{K'} b'$. We must show $b' \bnle_{K'} b$, i.e. $(K')^{-1}(b')
+    \supseteq (K')^{-1}(b)$. To that end, let $a \in (K')^{-1}(b)$.
+
+    Since $(K')^{-1}(b) \not\supseteq (K')^{-1}(b')$, there is some $\hat{a}
+    \in (K')^{-1}(b')$ with $\hat{a} \notin (K')^{-1}(b)$. That is, $b' \in
+    K'(\hat{a})$ but $b \notin K'(\hat{a})$. Since $b \in K'(a)$, we have
+    $K'(a) \not\subseteq K'(\hat{a})$. By the chain property for $K'$, we get
+    $K'(\hat{a}) \subset K'(a)$. Finally, this means $b' \in K'(\hat{a})
+    \subseteq K'(a)$, i.e $a \in (K')^{-1}(b')$. This shows $b' \bnle_{K'} b$
+    as required.
+
+    It remains to show that $d(\dual{K}, \dual{K'})$ is minimal. Since every
+    tournament is the dual of its dual, any $n \times m$ chain tournament is of
+    the form $\dual{K''}$ for an $m \times n$ tournament $K''$. The above
+    argument shows that the chain property is preserved by taking the dual, so
+    that $K''$ has the chain property also. Since $K' \in \minch{K}$, we have
+    $d(K, K'') \ge d(K, K')$. It is easily verified that the Hamming distance
+    is also preserved under duals, so
+    \[
+        d(\dual{K}, \dual{K'})
+        = d(K, K')
+        \le d(K, K'')
+        = d(\dual{K}, \dual{K''})
+    \]
+    We have shown that $\dual{K'}$ is as close to $\dual{K}$ as any other $n
+    \times m$ tournament with the chain property, which shows $\dual{K'} \in
+    \minch{\dual{K}}$ as required.
+
+    `if": Suppose $\dual{K'} \in \minch{\dual{K}}$. By the `only if' statement
+    above, we have $\dual{\dual{K'}} \in \minch{\dual{\dual{K}}}$. But
+    $\dual{\dual{K}} = K$ and $\dual{\dual{K'}} = K'$, so $K' \in \minch{K}$ as
+    required.
+    \end{itemize}
+\end{proof}
+
+We can now find an operator with both \axiomref{chain-min} and \axiomref{dual}.
+
+\begin{proposition}
+    \label{tourn_result_chainmin_dual_compatibility}
+    There exists an operator $\phi$ satisfying \axiomref{chain-min} and
+    \axiomref{dual}.
+\end{proposition}
+
+\begin{proof}
+    %
+    Let $\phi$ be an arbitrary operator satisfying \axiomref{chain-min}. Then
+    there is a function $\alpha: \K \to \K$ such that $\phi(K) =
+    ({\anle_{\alpha(K)}}, {\bnle_{\alpha(K)}})$ and $\alpha(K) \in \minch{K}$
+    for all tournaments $K$. We will construct a new function $\alpha'$, based
+    on $\alpha$, such that $\alpha'(\dual{K}) = \dual{\alpha'(K)}$.
+
+    Let $\ll$ be a total order on the set of all tournaments
+    $\K$.\footnotemark{} Write
+    \[
+        T = \{K \in \K \mid K \ll \dual{K}\}
+    \]
+    Note that since $K \ne \dual{K}$ for all $K$, exactly one of $K$ and
+    $\dual{K}$ lies in $T$. Informally, we view the tournaments in $T$ as
+    somehow `canonical', and those in $\K \setminus T$ as the dual of a
+    canonical tournament. We use this notion to define $\alpha'$:
+    \[
+        \alpha'(K) = \begin{cases}
+            \alpha(K),& K \in T \\
+            \dual{\alpha(\dual{K})},& K \notin T
+        \end{cases}
+    \]
+    %
+    First we claim $\alpha'(K) \in \minch{K}$ for all $K$. Indeed, if $K \in T$
+    then $\alpha'(K) = \alpha(K) \in \minch{K}$ by the assumption on $\alpha$.
+    Otherwise, $\alpha(\dual{K}) \in \minch{\dual{K}}$, so
+    \Cref{tourn_result_chainmin_dual_lemma} part (\labelcref{tourn_item_dual_lemma_minch})
+    implies $\alpha'(K) = \dual{\alpha(\dual{K})} \in \minch{\dual{\dual{K}}} =
+    \minch{K}$.
+
+    Next we show $\dual{\alpha'(K)} = \alpha'(\dual{K})$. First suppose $K \in
+    T$. Then $\alpha'(K) = \alpha(K)$ and $\dual{K} \notin T$, so
+    $\alpha'(\dual{K}) = \dual{\alpha(\dual{\dual{K}})} = \dual{\alpha(K)} =
+    \dual{\alpha'(K)}$ as required. Similarly, if $K \notin T$ then $\dual{K}
+    \in T$, so $\alpha'(\dual{K}) = \alpha(\dual{K})$, and $\alpha'(K) =
+    \dual{\alpha(\dual{K})} = \dual{\alpha'(\dual{K})}$. Taking the dual of
+    both sides, we get $\dual{\alpha'(K)} = \alpha'(\dual{K})$.
+
+    Finally, define a new operator $\phi'$ by $\phi'(K) =
+    ({\anle_{\alpha'(K)}}, {\bnle_{\alpha'(K)}})$. Since $\alpha'(K) \in
+    \minch{K}$ for all $K$, $\phi'$ satisfies \axiomref{chain-min}. Moreover,
+    using \Cref{tourn_result_chainmin_dual_lemma} part
+    (\labelcref{tourn_item_dual_lemma_nle}) and the fact that $\dual{\alpha'(K)} =
+    \alpha'(\dual{K})$, for any tournament $K$ and $b, b' \in B$ we have
+    %
+    \begin{align*}
+        b \ble_K^{\phi'} b'
+        &\iff b \bnle_{\alpha'(K)} b' \\
+        &\iff b \anle_{\dual{\alpha'(K)}} b' \\
+        &\iff b \anle_{\alpha'(\dual{K})} b' \\
+        &\iff b \ble_{\dual{K}}^{\phi'} b'
+    \end{align*}
+    which shows $\phi'$ also satisfies \axiomref{dual}.
+    %
+    \footnotetext{
+        Note that $\K$ is countable, so such an order can be easily
+        constructed. Alternatively, one could use the axiom of choice and
+        appeal to the well-ordering theorem to obtain $\ll$.
+    }
+    %
+\end{proof}
+
+To find an operator satisfying \axiomref{chain-min} and \axiomref{mon}, we
+proceed in three stages. First, \Cref{tourn_result_chainmin_mon_swapping} shows
+that if $K(a_1) \subseteq K(a_2)$ and $K' \in \minch{K}$ is some closest chain
+tournament with the reverse inclusion $K'(a_2) \subseteq K'(a_1)$, then
+swapping $a_1$ and $a_2$ in $K'$ yields obtain another closest chain tournament
+$K'' \in \minch{K}$. Next, we show in
+\Cref{tourn_result_chainmin_mon_extend_strict_part} that by performing
+successive swaps in this way, we can find $K' \in \minch{K}$ such that $K'(a_1)
+\subseteq K'(a_2)$ whenever $K(a_1) \subset K(a_2)$ (note the strict
+inclusion). Finally, we modify this $K'$ in
+\Cref{tourn_result_chainmin_mon_extend_full} to additionally satisfy $K'(a_1) =
+K'(a_2)$ whenever $K(a_1) = K(a_2)$.  This shows that there always exist an
+element of $\minch{K}$ extending the neighbourhood-subset relation $\anle_K$,
+and consequently it is possible to satisfy \axiomref{chain-min} and
+\axiomref{mon} simultaneously.
+
+\begin{definition}
+    %
+    Let $K$ be a tournament and $a_1, a_2 \in A$. We denote by
+    $\swap{K}{a_1}{a_2}$ the tournament obtained by swapping the $a_1$ and
+    $a_2$-th rows of $K$, i.e.
+    \[
+        [\swap{K}{a_1}{a_2}]_{ab} = \begin{cases}
+            K_{a_1,b},& a = a_2 \\
+            K_{a_2,b},& a = a_1 \\
+            K_{a,b},& a \notin \{a_1,a_2\}
+        \end{cases}
+    \]
+    %
+\end{definition}
+
+\begin{lemma}
+    \label{tourn_result_chainmin_mon_swapping}
+    Suppose $K(a_1) \subseteq K(a_2)$ and $K' \in \minch{K}$ is such that
+    $K'(a_2) \subseteq K'(a_1)$. Then $\swap{K'}{a_1}{a_2} \in \minch{K}$.
+\end{lemma}
+
+% Macros for the sets of the Venn diagrams in the figures as part of the next
+% proof
+\def\xset{(-1, 0) circle (1cm)}
+\def\yset{(1, 0) circle (1cm)}
+\def\xprimeset{(0, 1) circle (1cm)}
+\def\yprimeset{(0, -1) circle (1cm)}
+% Macro to draw all the above sets and their labels
+\newcommand{\setboundaries}{
+    \draw \xset node {$X$};
+    \draw \yset node {$Y$};
+    \draw \xprimeset node {$X'$};
+    \draw \yprimeset node {$Y'$};
+}
+% Macro to draw a set difference. Idea gratefully taken from here:
+% https://texample.net/tikz/examples/venn-diagram/
+\newcommand{\thiswithoutthose}[2]{
+    \begin{scope}[even odd rule]
+        \clip #2 (-2, -2) rectangle (2, 2);
+        \fill[orange!60] #1;
+    \end{scope}
+}
+
+\begin{figure*}
+    \centering
+    %
+    \subfloat[$X \symdiff (X' \cup Y')$]{%
+            \begin{tikzpicture}
+                \thiswithoutthose{\xset}{\xprimeset \yprimeset}
+                \thiswithoutthose{\xprimeset}{\xset}
+                \thiswithoutthose{\yprimeset}{\xset}
+                \setboundaries
+            \end{tikzpicture}
+    }
+    \quad
+    \subfloat[$(X \cup Y) \symdiff X'$]{%
+            \begin{tikzpicture}
+                \thiswithoutthose{\xset}{\xprimeset}
+                \thiswithoutthose{\yset}{\xprimeset}
+                \thiswithoutthose{\xprimeset}{\xset \yset}
+                \setboundaries
+            \end{tikzpicture}
+    }
+    \quad
+    \subfloat[$X \symdiff X'$]{%
+            \begin{tikzpicture}
+                \thiswithoutthose{\xset}{\xprimeset}
+                \thiswithoutthose{\xprimeset}{\xset}
+                \setboundaries
+            \end{tikzpicture}
+    }
+    \quad
+    \subfloat[$(X \cup Y) \symdiff (X' \cup Y')$]{%
+            \begin{tikzpicture}
+                \thiswithoutthose{\xset}{\xprimeset \yprimeset}
+                \thiswithoutthose{\yset}{\xprimeset \yprimeset}
+                \thiswithoutthose{\xprimeset}{\xset \yset}
+                \thiswithoutthose{\yprimeset}{\xset \yset}
+                \setboundaries
+            \end{tikzpicture}
+    }
+    \caption{Depictions of the sets in \Cref{tourn_eqn_swap_lemma_symdiffs}}
+    \label{tourn_fig_swap_lemma_venns}
+
+\end{figure*}
+
+\begin{proof}
+    %
+    Write $K'' = \swap{K'}{a_1}{a_2}$. It is clear that $K''$ has the chain
+    property since $K'$ does. Since $K' \in \minch{K}$, we have $d(K, K'') \ge
+    d(K, K')$. We will show that $d(K, K'') \le d(K, K')$ also, which implies
+    $d(K, K'') = d(K, K') = \mindist{K}$ and thus $K'' \in \minch{K}$.
+
+    To that end, observe that for any tournament $\hat{K}$,
+    \[
+        d(K, \hat{K}) = \sum_{a \in A}{|K(a) \symdiff \hat{K}(a)|}
+    \]
+    Noting that $K'(a) = K''(a)$ for $a \notin \{a_1,a_2\}$ and $K''(a_1) =
+    K'(a_2)$, $K''(a_2) = K'(a_1)$, we have
+    \begin{align*}
+        d(K, K') - d(K, K'')
+        &= \sum_{i \in \{1,2\}}{\left(
+            |K(a_i) \symdiff K'(a_i)| - |K(a_i) \symdiff K''(a_i)|
+        \right)} \\
+        &= |K(a_1) \symdiff K'(a_1)| - |K(a_1) \symdiff K'(a_2)| \\
+        &\quad + |K(a_2) \symdiff K'(a_2)| - |K(a_2) \symdiff K'(a_1)|
+    \end{align*}
+
+    To simplify notation, write $X = K(a_1)$, $X' = K'(a_2)$, $Y = K(a_2)
+    \setminus K(a_1)$ and $Y' = K'(a_1) \setminus K'(a_2)$. Since $K(a_1)
+    \subseteq K(a_2)$ and $K'(a_2) \subseteq K'(a_1)$ by hypothesis, we have
+    \begin{align*}
+        K(a_1) = X;
+            &\quad\quad
+        K(a_2) = X \cup Y \\
+        K'(a_1) = X' \cup Y';
+            &\quad\quad
+        K'(a_2) = X'
+    \end{align*}
+    and $X \cap Y = X' \cap Y' = \emptyset$. Rewriting the above we have
+    \begin{align*}
+        d(K, K') - d(K, K'')
+        &= |K(a_1) \symdiff K'(a_1)|
+           + |K(a_2) \symdiff K'(a_2)|
+            \\
+        &  \quad
+           - |K(a_1) \symdiff K'(a_2)|
+           - |K(a_2) \symdiff K'(a_1)| \\
+        &= |X \symdiff (X' \cup Y')|
+           + |(X \cup Y) \symdiff X'| \\
+        &  \quad
+           -
+           |X \symdiff X'|
+           - |(X \cup Y) \symdiff (X' \cup Y')|
+           % Number the final equation in the align* environment
+           % Code courtesy of https://tex.stackexchange.com/a/42728
+           \addtocounter{equation}{1}\tag{\theequation}
+           \label{tourn_eqn_swap_lemma_symdiffs}
+    \end{align*}
+
+    Each of the symmetric differences in \cref{tourn_eqn_swap_lemma_symdiffs} are
+    depicted in \Cref{tourn_fig_swap_lemma_venns}. Note that each of these sets can
+    be expressed as a union of the 8 disjoint subsets of $X \cup Y \cup X' \cup
+    Y'$ shown in the figure. Expanding the symmetric differences in
+    \cref{tourn_eqn_swap_lemma_symdiffs} and consulting \Cref{tourn_fig_swap_lemma_venns},
+    it can be seen that most terms cancel out, and in fact we are left with
+    \[
+        d(K, K') - d(K, K'') = 2|Y \cap Y'|  \ge 0
+    \]
+    This shows that $d(K, K'') \le d(K, K')$, and the proof is complete.
+\end{proof}
+
+\begin{notation}
+    For a relation $R$ on a set $X$ and $x \in X$, write
+    \[ U(x, R) = \{y \in X \mid x \mathrel{R} y\} \]
+    \[ L(x, R) = \{y \in X \mid y \mathrel{R} x\} \]
+    for the upper- and lower-sets of $x$ respectively.
+\end{notation}
+
+\begin{lemma}
+    \label{tourn_result_chainmin_mon_extend_strict_part}
+    For any tournament $K$ there is $K' \in \minch{K}$ such that for all $a \in
+    A$:
+    \[
+        U(a, {\anlt_K}) \subseteq U(a, {\anle_{K'}})
+    \]
+    That is, $K(a) \subset K(a')$ implies $K'(a) \subseteq K'(a')$ for all $a,
+    a' \in A$.
+\end{lemma}
+
+\begin{proof}
+    %
+    Write $A = \{a_1,\ldots,a_m\}$, ordered such that $|L(a_1, {\anle_K})| \le
+    \cdots \le |L(a_m, {\anle_K})|$. We will show by induction that for each $0
+    \le i \le m$ there is $K_i \in \minch{K}$ such that:
+    \[
+        1 \le j \le i
+        \implies
+        U(a_j, {\anlt_K}) \subseteq U(a_j, {\anle_{K_i}})
+        \tag{$\ast$}
+        \label{tourn_eqn_mon_lemma_induction}
+    \]
+    The result follows by taking $K' = K_m$.
+
+    The case $i=0$ is vacuously true, and we may take $K_0$ to be an arbitrary
+    member of $\minch{K}$. For the inductive step, suppose
+    \labelcref{tourn_eqn_mon_lemma_induction} holds for some $0 \le i < m$. If
+    $U(a_{i+1}, {\anlt_K}) = \emptyset$ then we may set $K_{i+1} = K_i$, so
+    assume that $U(a_{i+1}, {\anlt_K})$ is non-empty. Take some $\hat{a} \in
+    \min(U(a_{i+1}, {\anlt_K}), {\anle_{K_i}})$. Then $\hat{a}$ has (one of)
+    the smallest neighbourhoods in $K_i$ amongst those in $A$ with a strictly
+    larger neighbourhood than $a_{i+1}$ in $K$.
+
+    If $K_i(a_{i+1}) \subseteq K_i(\hat{a})$ then we claim
+    \labelcref{tourn_eqn_mon_lemma_induction} holds with $K_{i+1} = K_i$. Indeed, for
+    $j < i + 1$ the inclusion in \labelcref{tourn_eqn_mon_lemma_induction} holds
+    since it does for $K_i$. For $j = i+1$, let $a \in U(a_{i+1}, {\anlt_K})$.
+    The definition of $\hat{a}$ implies $K_i(a) \not\subset K_i(\hat{a})$;
+    since $K_i$ has the chain property this means $K_i(\hat{a}) \subseteq
+    K_i(a)$. Consequently $K_i(a_{i+1}) \subseteq K_i(\hat{a}) \subseteq
+    K_i(a)$, i.e. $a \in U(a_{i+1}, {\anle_{K_i}}) = U(a_{i+1},
+    {\anle_{K_{i+1}}})$ as required.
+
+    For the remainder of the proof we therefore suppose $K_i(a_{i+1})
+    \not\subseteq K_i(\hat{a})$. The chain property for $K_i$ gives
+    $K_i(\hat{a}) \subset K_i(a_{i+1})$. Since $K_i \in \minch{K}$ and
+    $K(a_{i+1}) \subset K(\hat{a})$, we may apply
+    \Cref{tourn_result_chainmin_mon_swapping}. Set $K_{i+1} =
+    \swap{K_i}{a_{i+1}}{\hat{a}} \in \minch{K}$. The inclusion in
+    \labelcref{tourn_eqn_mon_lemma_induction} is easy to show for $j=i+1$: if $a \in
+    U(a_{i+1}, {\anlt_K})$ then either $a = \hat{a}$ -- in which case
+    $K_{i+1}(a_{i+1}) \subset K_{i+1}(a)$ by construction -- or $a \ne \hat{a}$
+    and $K_{i+1}(a_{i+1}) = K_i(\hat{a}) \subseteq K_i(a) = K_{i+1}(a)$. In
+    either case $a \in U(a_{i+1}, {\anle_{K_{i+1}}})$ as required.
+
+    Now suppose $1 \le j < i + 1$. First note that due to our assumption on the
+    ordering of $\{a_1,\ldots,a_m\}$, we have $a_j \ne \hat{a}$ (indeed, if
+    $a_j = \hat{a}$ then $K(a_{i+1}) \subset K(a_j)$ and $|L(a_j, {\anlt_K})| >
+    |L(a_{i+1}, {\anlt_K})|$). Since $a_j \ne a_{i+1}$ also, $a_j$ was not
+    involved in the swapping in the construction of $K_{i+1}$, and consequently
+    $K_{i+1}(a_j) = K_i(a_j)$. Let $a \in U(a_j, {\anlt_K})$. We must show that
+    $K_{i+1}(a_j) \subseteq K_{i+1}(a)$. We consider cases.
+
+    \textbf{Case 1:} $a = \hat{a}$. Using the fact that
+    \labelcref{tourn_eqn_mon_lemma_induction} holds for $K_i$ we have
+    \[
+        K_{i+1}(a_j)
+        = K_i(a_j)
+        \subseteq K_i(\hat{a})
+        \subset K_i(a_{i+1})
+        = K_{i+1}(\hat{a})
+    \]
+
+    \textbf{Case 2:} $a = a_{i+1}$. Here $K(a_j) \subset K(a_{i+1}) \subset
+    K(\hat{a})$, i.e. $\hat{a} \in U(a_j, {\anlt_K})$. Applying the inductive
+    hypothesis again we have
+    \[
+        K_{i+1}(a_j)
+        = K_i(a_j)
+        \subseteq K_i(\hat{a})
+        = K_{i+1}(a_{i+1})
+    \]
+
+    \textbf{Case 3:} $a \notin \{\hat{a}, a_{i+1}\}$. Here neither $a_j$ nor
+    $a$ were involved in the swap, so $K_{i+1}(a_j) = K_i(a_j) \subseteq K_i(a)
+    = K_{i+1}(a)$.
+
+    By induction, the proof is complete.
+    %
+\end{proof}
+
+\begin{lemma}
+    \label{tourn_result_chainmin_mon_extend_full}
+    Let $K$ be a tournament and suppose $K' \in \minch{K}$ is such that $U(a,
+    {\anlt_K}) \subseteq U(a, {\anle_{K'}})$ for all $a \in A$. Then there is
+    $K'' \in \minch{K}$ such that ${\anle_K} \subseteq {\anle_{K''}}$.
+
+    % $U(a, {\anle_K}) \subseteq U(a,
+    % {\anle_{K''}})$.
+
+\end{lemma}
+
+\begin{proof}
+    %
+    Let $A_1, \ldots, A_t \subseteq A$ be the equivalence classes of
+    ${\aneq_K}$, the symmetric part of ${\anle_K}$. Note that $a \aneq_K a'$
+    iff $K(a) = K(a')$, so we can associate each $A_i$ with a neighbourhood
+    $B_i \subseteq B$ such that $K(a) = B_i$ whenever $a \in A_i$.
+
+    Our aim is to select a single element from each equivalence class $A_i$,
+    which we denote by $f(A_i)$, and modify $K'$ to set the neighbourhood of
+    each $a \in A_i$ to $K'(f(A_i))$. To that end, construct a function $f:
+    \{A_1,\ldots,A_t\} \to A$ such that
+    \[
+        f(A_i) \in \argmin_{a \in A_i}{|B_i \symdiff K'(a)|} \in A_i
+    \]
+    Define $K''$ by $K''_{ab} = K'_{f([a]), b}$, where $[a]$ denotes the
+    equivalence class of $a$. Then $K''(a) = K'(f([a]))$ for all $a$.
+
+    Next we show that $K'' \in \minch{K}$. Note that $K''$ has the chain
+    property, since $a_1 \anle_{K''} a_2$ iff $f([a_1]) \anle_{K'} f([a_2])$,
+    and $f([a_1]), f([a_2])$ are guaranteed to be comparable with respect to
+    ${\anle_{K'}}$ since $K'$ has the chain property. To show $d(K, K'')$ is
+    minimal, observe that
+    \begin{align*}
+        d(K, K'')
+        &= \sum_{a \in A}{|K(a) \symdiff K''(a)|} \\
+        &= \sum_{i=1}^{t}{
+            \sum_{a \in A_i}{
+                |B_i \symdiff K'(f(A_i))|
+            }
+        }
+    \end{align*}
+    By definition of $f$, we have $|B_i \symdiff K'(f(A_i))| \le |B_i \symdiff
+    K'(a)|$ for all $a \in A_i$. Consequently
+    \begin{align*}
+        d(K, K'')
+        &\le \sum_{i=1}^{t}{
+            \sum_{a \in A_i}{
+                |B_i \symdiff K'(a)|
+            }
+        } \\
+        &= d(K, K') \\
+        &= \mindist{K}
+    \end{align*}
+    which implies $K'' \in \minch{K}$.
+
+    We are now ready to prove the result. Suppose $a \anle_K a'$ i.e. $K(a)
+    \subseteq K(a')$. If $K(a) = K(a')$ then $[a] = [a']$, so
+    \[
+        K''(a) = K'(f([a])) = K'(f([a'])) = K''(a')
+    \]
+    and in particular $K''(a) \subseteq K''(a')$. If instead $K(a) \subset
+    K(a')$, then $K(f([a])) = K(a) \subset K(a') = K(f([a']))$, i.e.  $f([a])
+    \anlt_K f([a'])$. By the assumption on $K'$ in the statement of the lemma,
+    this means $f([a]) \anle_{K'} f([a'])$, and so
+    \[
+        K''(a) = K'(f([a])) \subseteq K'(f([a'])) = K''(a')
+    \]
+    In either case $K''(a) \subseteq K''(a')$, i.e. $a \anle_{K''} a'$. Since
+    $a, a'$ were arbitrary, this shows that ${\anle_K} \subseteq {\anle_{K''}}$
+    as required.
+    %
+\end{proof}
+
+The pieces are now in place to prove the following.
+
+\begin{proposition}
+    \label{tourn_result_chainmin_mon_compatibility}
+    There exists an operator $\phi$ satisfying \axiomref{chain-min} and
+    \axiomref{mon}.
+\end{proposition}
+
+\begin{proof}
+    %
+    For any tournament $K$, write
+    \[
+        \minchmon{K} = \{
+            K' \in \minch{K} \mid {\anle_K} \subseteq {\anle_{K'}}
+        \}
+    \]
+    By \Cref{tourn_result_chainmin_mon_extend_strict_part} and
+    \Cref{tourn_result_chainmin_mon_extend_full}, $\minchmon{K}$ is non-empty. Let
+    $\ll$ be any total order on the set $\K$ of all tournaments.
+    Define a function $\alpha: \K \to \K$ by
+    \[
+        \alpha(K) = \min(\minchmon{K}, {\ll}) \in \minchmon{K}
+    \]
+    Note that the minimum is unique since ${\ll}$ is a total order. Defining an
+    operator $\phi$ by $\phi(K) = ({\anle_{\alpha(K)}}, {\bnle_{\alpha(K)}})$,
+    we see that $\phi$ satisfies \axiomref{chain-min} and \axiomref{mon}, as
+    required.
+    %
+\end{proof}
+
+\Cref{tourn_result_chainmin_axiom_compatibilities} now follows from
+\Cref{tourn_result_chainmin_dual_compatibility} and
+\Cref{tourn_result_chainmin_mon_compatibility}.
 
 \section{Match-preference operators}
 \label{tourn_sec_match_preference_operators}
@@ -1201,7 +2026,7 @@ they are selected in this way; the earlier the better.
     s(b')$.
 
     \footnotetext{
-        We show in the appendix that the recursive procedure eventually
+        We show in \cref{chapter_tourn_proofs} that the recursive procedure eventually
         terminates with $A_i$ and $B_i$ becoming empty (and remaining so) after
         finitely many iterations, so $r$ and $s$ are well-defined.
     }
