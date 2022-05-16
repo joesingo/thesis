@@ -107,8 +107,6 @@ concrete scheme for producing chain-editing-based rankings.
 \Cref{tourn_sec_relaxing_chain_min} introduces new ranking methods by relaxing the
 chain editing requirement. Related work is discussed in
 \Cref{tourn_sec_related_work}, and we conclude in \Cref{tourn_sec_conclusion}.
-Note that some proofs are omitted and can be found
-in \cref{chapter_tourn_proofs}.
 
 \section{Preliminaries}
 \label{tourn_sec_preliminaries}
@@ -1887,7 +1885,53 @@ To conclude the discussion of match-preference operators, we note that one can
 compute $\alpha_{\trianglelefteq}(K)$ as the unique closest chain tournament to
 $K$ w.r.t a \emph{weighted} Hamming distance, and thereby avoid the need to
 enumerate $\minch{K}$ in full as per
-\cref{tourn_eqn_match_preference_alpha_definition}.
+\cref{tourn_eqn_match_preference_alpha_definition}. First, a technical result
+is required.
+
+\begin{lemma}
+   \label{tourn_result_powertwo}
+
+   Let $k$ and $l$ be integers with $1 \le k \le l$. Then
+   \[ \sum_{i=k}^{l}{2^{-i}} < 2^{-(k - 1)}. \]
+
+\end{lemma}
+
+\begin{proof}
+
+    This follows from the formula for the sum of a finite geometric
+    series:
+    %\footnote{\url{https://en.wikipedia.org/wiki/Geometric\_series\#Formula}}
+    \[
+        \sum_{i=0}^{n-1}{r^i} = \frac{1-r^n}{1-r}
+    \]
+    which holds for all $r \ne 1$. In this case we have
+    \begin{align*}
+        \sum_{i=k}^{l}{2^{-i}}
+        &= \sum_{i=0}^{l}{2^{-i}} - \sum_{i=0}^{k-1}{2^{-i}} \\
+        &= \sum_{i=0}^{l}{\left(\frac{1}{2}\right)^i}
+           -
+           \sum_{i=0}^{k - 1}{\left(\frac{1}{2}\right)^i} \\
+        &= \frac{
+               1 - \left(\frac{1}{2}\right)^{l+1}
+           }{
+               1 - \left(\frac{1}{2}\right)
+           }
+           -
+           \frac{
+               1 - \left(\frac{1}{2}\right)^k
+           }{
+               1 - \left(\frac{1}{2}\right)
+           } \\
+        &= 2 \left(
+           2^{-k} - 2^{-(l+1)}
+        \right) \\
+        &= 2^{-(k-1)} - \underbrace{2^{-l}}_{> 0} \\
+        &< 2^{-(k-1)}
+    \end{align*}
+    as required.
+\end{proof}
+
+The characterisation in terms of weighted Hamming distances is as follows
 
 \begin{theorem}
    \label{tourn_prop_matchpref_weightings}
@@ -1904,11 +1948,110 @@ enumerate $\minch{K}$ in full as per
 
 \end{theorem}
 
-% We omit the proof, but note that the weights of $w$ depend only on the size of
-% $K$, and are given by $w(a, b) = 1 + 2^{-p(a,b)}$, where $p(a, b)$ is the
-% position of the pair $(a,b)$ in ${\trianglelefteq} \rs (A \times B)$. For
-% $\trianglelefteq$ from \Cref{tourn_ex_match_preference_example} and $m = 2$, $n = 3$,
-% the weight function (represented as a matrix) is
+\begin{proof}
+
+    Let $\trianglelefteq$ be a total order on $\N \times \N$ and let $m, n \in
+    \N$. For $a \in [m]$ and $b \in [n]$, write
+    \[
+        p(a,b)
+        =
+        1 + |\{(a',b') \in [m] \times [n] : (a',b') \vartriangleleft (a,b)\}|
+    \]
+    for the `position' of $(a,b)$ in ${\trianglelefteq} \rs ([m] \times [n])$
+    (where 1 corresponds to the minimal pair). Define $w$ by
+    \[
+        w(a,b) = 1 + 2^{-p(a,b)}
+    \]
+    If we abuse notation slightly and view $w$ as an $m \times n$ matrix, we
+    have, by construction, $\vect_{\trianglelefteq}(w) = (1 +
+    2^{-1},\ldots,1 + 2^{-mn})$. Noting that $|K_{ab} - K'_{ab}| = [K \oplus
+    K']_{ab}$ for any tournaments $K, K'$, and letting $\dotprod$ denote the
+    dot product, it is easy to see that
+    \begin{align*}
+        d_w(K, K')
+        &= \vect_{\trianglelefteq}(w)
+            \dotprod \vect_{\trianglelefteq}(K \oplus K') \\
+        &= (1 + 2^{-1},\ldots,1 + 2^{-mn})
+           \dotprod
+           \vect_{\trianglelefteq}(K \oplus K') \\
+        &= d(K, K') + \bm{x} \dotprod \vect_{\trianglelefteq}(K \oplus K')
+    \end{align*}
+    where $\bm{x} = (2^{-1},\ldots,2^{-mn})$ and $d(K, K')$ is the
+    unweighted Hamming distance. In particular, since $\bm{x}$ and
+    $\vect_{\trianglelefteq}(K \oplus K')$ are non-negative, we have $d_w(K, K')
+    \ge d(K, K')$.
+
+    Now, we will show that for any $m \times n$ tournament $K$ and $K' \in
+    \ch_{m,n}$ with $K' \ne \alpha_{\trianglelefteq}(K)$ we have $d_w(K,
+    \alpha_{\trianglelefteq}(K)) < d_w(K, K')$. Since
+    $\alpha_{\trianglelefteq}(K) \in \minch{K} \subseteq \ch_{m,n}$ by
+    definition, this will show that $\alpha_{\trianglelefteq}(K)$ is the
+    unique minimum in \Cref{tourn_eqn_matchpref_argmin}, as required.
+
+    So, let $K$ be an $m \times n$ tournament and $K' \in \ch_{m,n}$. To ease
+    notation, write $v = \vect_{\trianglelefteq}(K \oplus
+    \alpha_{\trianglelefteq}(K))$ and $v' = \vect_{\trianglelefteq}(K \oplus K')$.
+    There are two cases.
+
+    \textbf{Case 1:} $K' \not\in \minch{K}$. In this case we have $d(K, K')
+    \ge \mindist{K} + 1$, and
+    \begin{align*}
+       d_w(K, \alpha_{\trianglelefteq}(K))
+       &=
+           \underbrace{d(K, \alpha_{\trianglelefteq}(K))}_{= \mindist{K}}
+           +
+           \bm{x} \dotprod v \\
+       &= \mindist{K} + \sum_{i=1}^{mn}{2^{-i} \cdot \underbrace{v_i}_{\le 1}}
+       \\
+       &\le \mindist{K} + \underbrace{\sum_{i=1}^{mn}{2^{-i}}}_{< 2^{-0} = 1}
+       \\
+       &< \mindist{K} + 1 \\
+       &\le d(K, K') \\
+       &\le d_w(K, K')
+    \end{align*}
+    where \Cref{tourn_result_powertwo} was applied in the 4th step. This shows $d_w(K,
+    \alpha_{\trianglelefteq}(K)) < d_w(K, K')$, as required.
+
+    \textbf{Case 2:} $K \in \minch{K}$. In this case we have
+    \begin{align*}
+       d(K, \alpha_{\trianglelefteq}(K)) - d(K, K')
+       &= (\mindist{K} + \bm{x} \dotprod v)
+          -
+          (\mindist{K} + \bm{x} \dotprod v') \\
+       &= \bm{x} \dotprod (v - v')
+    \end{align*}
+
+    Now, since $K' \in \minch{K}$, $v'$ appears as one of the vectors over
+    which the $\argmin$ is taken in
+    \Cref{tourn_eqn_match_preference_alpha_definition}. By definition of
+    $\alpha_{\trianglelefteq}$ we therefore know that $v$ strictly precedes
+    $v'$ with respect to the lexicographic order on $\{0,1\}^{mn}$.
+    Consequently there is $j \ge 1$ such that $v_i = v'_i$ for $i < j$ and $v_j
+    < v'_j$. That is, $v_j = 0$ and $v'_j = 1$. This means
+    %
+    \begin{align*}
+       d(K, \alpha_{\trianglelefteq}(K)) - d(K, K')
+       &= \bm{x} \dotprod (v - v') \\
+       &= \sum_{i=1}^{mn}{2^{-i}(v_i - v'_i)} \\
+       &= \sum_{i=1}^{j-1}{2^{-i}\underbrace{(v_i - v'_i)}_{=0}}
+          +
+          \sum_{i=j}^{mn}{2^{-i}(v_i - v'_i)} \\
+       &= 2^{-j}\underbrace{(v_j - v'_j)}_{=-1}
+          + \sum_{i=j + 1}^{mn}{
+               2^{-i}
+               \underbrace{(v_i - v'_i)}_{\le 1}
+            } \\
+       &\le -2^{-j}
+            + \sum_{i=j+1}^{mn}{
+                  2^{-i}
+              } \\
+       &< -2^{-j} + 2^{-j} \\
+       &= 0
+    \end{align*}
+    where \Cref{tourn_result_powertwo} was applied in the second to last step.
+    Again, this shows $d_w(K, \alpha_{\trianglelefteq}(K)) < d_w(K, K')$, and
+    the proof is complete.
+\end{proof}
 
 For example, the weights corresponding to $\trianglelefteq$ from
 \Cref{tourn_ex_match_preference_example} and $m = 2$, $n = 3$ are
@@ -1966,6 +2109,157 @@ its symmetric part.
     - \ranks{\ble_K^\phi}| \le 1$ for every tournament $K$.
 \end{theorem}
 
+\begin{proof}
+
+    First we set up some notation. For a total preorder $\preceq$ on a set $Z$
+    and $z \in Z$, write $[z]_{\preceq}$ for the rank of ${\preceq}$ containing
+    $z$, i.e. the equivalence class of $z$ in the symmetric closure of
+    ${\preceq}$:
+    \[
+        [z]_{\preceq}
+        = \{z' \in Z \mid z \preceq z' \text{ and } z' \preceq z\}.
+    \]
+    Also note that $\preceq$ can be extended to a total order on the ranks by
+    setting $[z]_{\preceq} \le [z']_{\preceq}$ iff $z \preceq z'$.
+
+    We start with the `only if' statement of the theorem. Suppose
+    $\phi$ satisfies \axiomref{chain-def}, and let $K$ be a tournament. We need
+    to show that $|\ranks{\ale_K^\phi} - \ranks{\ble_K^\phi}| \le 1$.
+
+    By chain-definability, there is $K'$ with the chain property such that $a
+    \ale_K^\phi a'$ iff $K'(a) \subseteq K'(a')$ and $b \ble_K^\phi b'$ iff
+    $(K')^{-1}(b) \supseteq (K')^{-1}(b')$. Write
+    \[ \mathcal{X} = \{ [a]_{\ale_K^\phi} \mid a \in A, K'(a) \ne \emptyset \} \]
+    \[ \mathcal{Y} = \{ [b]_{\ble_K^\phi} \mid b \in B, (K')^{-1}(b) \ne \emptyset \} \]
+    for the set of ranks in each of the two orders, excluding those who have
+    empty neighbourhoods in $K'$. Note that $[a]_{\ale_K^\phi} =
+    [a']_{\ale_K^\phi}$ if and only if $K'(a) = K'(a')$ (and similar for $B$).
+
+    We will show that $|\mathcal{X}| = |\mathcal{Y}|$. Enumerate $\mathcal{X} =
+    \{X_1,\ldots,X_s\}$ and $\mathcal{Y} = \{Y_1,\ldots,Y_t\}$, ordered such
+    that $X_1 < \cdots < X_s$ and $Y_1 < \cdots < Y_t$. First we show
+    $|\mathcal{X}| \le |\mathcal{Y}|$.
+
+    For each $1 \le i \le s$, the $a_i$ be an arbitrary element of $X_i$. Then
+    $a_1 \alt_K^\phi \cdots \alt_K^\phi a_s$, so $\emptyset \subset K'(a_1)
+    \subset \cdots \subset K'(a_s)$. Since these inclusions are strict, we can
+    choose $b_1,\ldots,b_s \in B$ such that $b_1 \in K'(a_1)$ and $b_{i+1} \in
+    K'(a_{i+1}) \setminus K'(a_i)$ for $1 \le i < s$.
+
+    It follows that $a_i \in (K')^{-1}(b_i) \setminus (K')^{-1}(b_{i+1})$, and
+    thus $(K')^{-1}(b_i) \not\subseteq (K')^{-1}(b_{i+1})$. Since $K'$ has
+    the chain property, this means $(K')^{-1}(b_{i+1}) \subset
+    (K')^{-1}(b_i)$, i.e. $b_i \blt_K^\phi b_{i+1}$.
+
+    We now have $b_1 \blt_K^\phi \cdots \blt_K^\phi b_s$; a chain of $s$ strict
+    inequalities in $\ble_K^\phi$. The corresponding ranks $[b_1], \ldots,
+    [b_s]$ are all distinct and lie inside $\mathcal{Y}$. But now we have found
+    $s = |\mathcal{X}|$ distinct elements of $\mathcal{Y}$, so $|\mathcal{X}|
+    \le |\mathcal{Y}|$ as promised.
+
+    Repeating this argument with the roles of $\mathcal{X}$ and $\mathcal{Y}$
+    interchanged, we find that $|\mathcal{Y}| \le |\mathcal{X}|$ also, and
+    therefore $|\mathcal{X}| = |\mathcal{Y}|$.
+
+    To conclude, note that $\ranks{\ale_K^\phi} \in \{|\mathcal{X}|,
+    |\mathcal{X}| + 1\}$, since there can exist at most one rank which was
+    excluded from $\mathcal{X}$ (namely, those $a \in A$ with $K'(a) =
+    \emptyset$). For identical reasons, $\ranks{\ble_K^\phi} \in
+    \{|\mathcal{Y}|, |\mathcal{Y}| + 1\}$. Since $|\mathcal{X}| =
+    |\mathcal{Y}|$, it is clear that $\ranks{\ale_K^\phi}$ and
+    $\ranks{\ble_K^\phi}$ can differ by at most one, as required.
+
+    Now we prove the `if' statement. Let $K$ be a tournament. We have
+    $|\ranks{\ale_K^\phi} - \ranks{\ble_K^\phi}| \le 1$, and must show there is
+    tournament $K'$ with the chain property such that $\phi(K) = ({\anle_{K'}},
+    {\bnle_{K'}})$.
+
+    Let $X_1 < \cdots < X_s$ and $Y_1 < \cdots < Y_t$ be the ranks of
+    $\ale_K^\phi$ and $\ble_K^\phi$ respectively. By hypothesis $|s - t| \le
+    1$. Define $g: \{1,\ldots,s\} \to \{0,\ldots,t\}$ by
+    \[
+        g(i) = \begin{cases}
+            i,& s \in \{t-1, t\} \\
+            i - 1,& s = t + 1.
+        \end{cases}
+    \]
+    Not that the two cases above cover all possibilities, since $|s - t| \le
+    1$. For $i \in [s]$, write
+    \[
+        N_i = \bigcup_{0 \le j \le g(i)}{Y_j},
+    \]
+    where $Y_0 := \emptyset$. Note that $g(i+1) = g(i) + 1$, and consequently
+    \[
+        N_{i+1}
+        = \bigcup_{j \le g(i) + 1}{Y_j}
+        = N_i \cup Y_{g(i) + 1}
+        = N_i \cup Y_{g(i + 1)}.
+    \]
+    Since $g(i+1) > 0$ we have $Y_{g(i+1)} \ne \emptyset$, and thus $N_{i+1}
+    \supset N_i$ for all $i < s$.
+
+    Now, for any $a \in A$, let $p(a) \in [s]$ be the unique integer such that
+    $a \in X_{p(a)}$; such $p(a)$ always exists since $\{X_1,\ldots,X_s\}$ is a
+    partition of $A$. Note that due to the assumption on the ordering of the
+    $X_i$, we have $a \ale_K^\phi a'$ if and only if $p(a) \le p(a')$.
+
+    Let $K'$ be the unique tournament such that $K'(a) = N_{p(a)}$ for each $a
+    \in A$. Since $N_1 \subset \cdots \subset N_p$, we have
+    \begin{equation}
+        \label{tourn_eqn_ale_k_phi_iff_anle_kprime}
+        \begin{aligned}
+            a \ale_K^\phi a'
+            &\iff p(a) \le p(a') \\
+            &\iff N_{p(a)} \subseteq N_{p(a')} \\
+            &\iff K'(a) \subseteq K'(a') \\
+            &\iff a \anle_{K'} a',
+        \end{aligned}
+    \end{equation}
+    i.e. ${\ale_K^\phi} = {\anle_{K'}}$. Since ${\ale_K^\phi}$ is a total
+    preorder, this shows that $K'$ has the chain property.
+
+    It only remains to show that ${\ble_K^\phi} = {\bnle_{K'}}$. First note
+    that if $a \in X_i$ and $b \in Y_j$, the fact that $\{Y_1,\ldots,Y_t\}$ are
+    disjoint implies
+    \begin{align*}
+        a \in (K')^{-1}(b)
+        &\iff b \in K'(a) = N_i = \bigcup_{0 \le k \le g(i)}{Y_k} \\
+        &\iff j \le g(i).
+    \end{align*}
+    Hence $(K')^{-1}(b)$ only depends on $j$: every $b \in Y_j$ shares the same
+    neighbourhood $M_j$, given by
+    \[
+        M_j = \bigcup_{i \in [s] :\ g(i) \ge j}{X_i}.
+    \]
+    Note that if $1 \le j < t$,
+    \begin{align*}
+        M_j
+        &= \bigcup_{i \in [s] :\ g(i) \ge j}{X_i} \\
+        &= \left(\bigcup_{i \in [s] :\ g(i) \ge j + 1}{X_i}\right)
+            \cup
+            \left(\bigcup_{i \in g^{-1}(j)}{X_i}\right) \\
+        &= M_{j+1} \cup \bigcup_{i \in g^{-1}(j)}{X_i}.
+    \end{align*}
+    Since $1 \le j < t$ we have
+    \[
+        g^{-1}(j) = \begin{cases}
+            \{j\},& s \in \{t-1,t\} \\
+            \{j+1\},& s = t + 1.
+        \end{cases}
+    \]
+    In particular $g^{-1}(j) \ne \emptyset$, which means $\bigcup_{i \in
+    g^{-1}(j)}{X_i} \ne \emptyset$ and thus $M_j \supset M_{j+1}$
+    for all $1 \le j < t$.
+
+    Finally, since $(K')^{-1}(b) = M_j$ for $b \in Y_j$ and $M_1 \supset \cdots
+    \supset M_t$, an argument almost identical to
+    \labelcref{tourn_eqn_ale_k_phi_iff_anle_kprime} shows that ${\ble_K^\phi} =
+    {\bnle_{K'}}$.
+
+    We have shown that $\phi(K) = ({\anle_{K'}}, {\bnle_{K'}})$ and that $K'$
+    has the chain property, and the proof is therefore complete.
+\end{proof}
+
 \subsection{Interleaving Operators}
 \label{tourn_sec_interleaving}
 
@@ -1988,21 +2282,21 @@ the next top ranks given a tournament $K$ and subsets $A' \subseteq A$, $B'
      An $\asymb$-\emph{selection function} is a mapping $f: \K \times 2^\N \times
      2^\N \to 2^\N$ such that for any tournament $K$, $A' \subseteq A$ and $B'
      \subseteq B$:
-    \begin{inlinelist}
+    \begin{enumerate}
         \item \label{tourn_item_f_sel_1} $f(K, A', B') \subseteq A'$;
         \item \label{tourn_item_f_sel_2} If $A' \ne \emptyset$ then $f(K, A', B') \ne
               \emptyset$;
         \item \label{tourn_item_f_sel_3} $f(K, A', \emptyset) = A'$
-    \end{inlinelist}.
+    \end{enumerate}
 
     Similarly, a $\bsymb$-\emph{selection function} is a mapping $g: \K \times 2^\N
     \times 2^\N \to 2^\N$ such that
-    \begin{inlinelist}
+    \begin{enumerate}
         \item \label{tourn_item_g_sel_1} $g(K, A', B') \subseteq B'$;
         \item \label{tourn_item_g_sel_2} If $B' \ne \emptyset$ then $g(K, A', B') \ne
               \emptyset$;
         \item \label{tourn_item_g_sel_3} $g(K, \emptyset, B') = B'$
-    \end{inlinelist}.
+    \end{enumerate}
 
 \end{definition}
 
@@ -2020,23 +2314,54 @@ they are selected in this way; the earlier the better.
         B_{i+1} = B_i \setminus g(K, A_i, B_i)
     \]
     For $a \in A$ and $b \in B$, write $r(a) = \max{\{ i \mid a \in A_i \}}$
-    and $s(b) = \max{\{ i \mid b \in B_i \}}$.\footnotemark{} We define the
+    and $s(b) = \max{\{ i \mid b \in B_i \}}$. We define the
     corresponding \emph{interleaving operator} $\phi = \intop{f,g}$ by $a
     \ale_K^\phi a'$ iff $r(a) \ge r(a')$ and $b \ble_K^\phi b'$ iff $s(b) \ge
     s(b')$.
 
-    \footnotetext{
-        We show in \cref{chapter_tourn_proofs} that the recursive procedure eventually
-        terminates with $A_i$ and $B_i$ becoming empty (and remaining so) after
-        finitely many iterations, so $r$ and $s$ are well-defined.
-    }
-
 \end{definition}
 
 Note that $A_i$ and $B_i$ are the players left remaining after $i$ applications
-of $f$ and $g$, i.e. after removing the top $i$ ranks from both sides. Before
-giving a concrete example, we note that interleaving is not just \emph{one} way
-to satisfying \axiomref{chain-def}, it is the \emph{only} way.
+of $f$ and $g$, i.e. after removing the top $i$ ranks from both sides. Taking
+the maximum index in the definition of $r$ and $s$ is justified by the
+following result, which shows the interleaving process eventually terminates
+with $A_i = B_i = \emptyset$. Since $A_{i + 1} \subseteq A_i$ and $B_{i + 1}
+\subseteq B_i$, this shows $r$ and $s$ are well-defined.
+
+\begin{proposition}
+    \label{tourn_prop_interleaving_terminates}
+
+    Let $(f,g)$ be selection functions. Fix a tournament $K$ and let $A_i,
+    B_i$ ($i \ge 0$) be as in \Cref{tourn_def_interleaving}. Then there are $j, j'
+    \ge 1$ such that $A_j = \emptyset$ and $B_{j'} = \emptyset$. Moreover,
+    there is $t \ge 1$ such that both $A_t = B_t = \emptyset$.
+
+\end{proposition}
+
+\begin{proof}
+
+    Suppose $i \ge 0$ and $A_i \ne \emptyset$. Then properties
+    \labelcref{tourn_item_f_sel_1} and \labelcref{tourn_item_f_sel_2} for $f$ in
+    \Cref{tourn_def_selectionfunction} imply that $\emptyset \subset f(K, A_i, B_i)
+    \subseteq A_i$, and consequently $A_{i+1} = A_i \setminus f(K, A_i, B_i)
+    \subset A_i$.
+
+    Supposing that $A_j \ne \emptyset$ for all $j \ge 0$, we would have $A_0
+    \supset A_1 \supset A_2 \supset \cdots$ which clearly cannot be the case
+    since each $A_j$ lies inside $A$ which is a finite set. Hence there is $j
+    \ge 1$ such that $A_j = \emptyset$. Moreover, since $A_j \supseteq A_{j+1}
+    \supseteq A_{j+2} \supseteq \cdots$, we have $A_k = \emptyset$ for all $k
+    \ge j$.
+
+    An identical argument with $g$ shows that there is $j' \ge 1$ such that
+    $B_{j'} = \emptyset$ and $B_k = \emptyset$ for all $k \ge j'$.
+
+    Taking $t = \max\{j, j'\}$, we have $A_t = B_t = \emptyset$ as required.
+\end{proof}
+
+Before giving a concrete example of an interleaving operator, we note that
+interleaving is not just \emph{one} way to satisfying \axiomref{chain-def}, it
+is the \emph{only} way.
 
 \begin{theorem}
    \label{tourn_result_chaindef_iff_interleaving}
@@ -2048,7 +2373,189 @@ to satisfying \axiomref{chain-def}, it is the \emph{only} way.
 
 \Cref{tourn_result_chaindef_iff_interleaving} justifies our study of interleaving
 operators, and provides a different perspective on chain-definability via the
-selection functions $f$ and $g$. We come to an important example.
+selection functions $f$ and $g$.
+
+\begin{proof}
+
+    Throughout the proof we will refer to a pair of total preorders
+    $({\ale}, {\ble})$ as `chain-definable' if there is a chain tournament $K$
+    such that ${\ale} = {\anle_K}$ and ${\ble} = {\bnle_K}$.
+
+    First we prove the `if' direction. Let $\phi = \intop{f,g}$ be an
+    interleaving operator with selection functions $(f, g)$, and fix a
+    tournament $K$. We will show that $\phi(K)$ is chain-definable.
+
+    As per \Cref{tourn_prop_interleaving_terminates}, let $j, j' \ge 1$ be the
+    minimal integers such that $A_j = \emptyset$ and $B_{j'} = \emptyset$. Then
+    we have $A_0 \supset \cdots \supset A_{j-1} \supset A_j = \emptyset$ and
+    $B_0 \supset \cdots \supset B_{j'-1} \supset B_{j'} = \emptyset$.
+
+    Recall that, for $a \in A$, we have by definition $r(a) = \max\{i \mid a
+    \in A_i\}$, which is the unique integer such that $a \in A_{r(a)} \setminus
+    A_{{r(a)}+1}$. Since $a \ale_K^\phi a'$ iff $r(a) \ge r(a')$, it follows
+    that the non-empty sets $A_0 \setminus A_1, \ldots, A_{j-1} \setminus A_j$
+    form the ranks of the total preorder ${\ale_K^\phi}$ (that is, the
+    equivalence classes of the symmetric closure ${\aeq_K^\phi}$). Thus,
+    ${\ale_K^\phi}$ has $j$ ranks. An identical argument shows that
+    ${\ble_K^\phi}$ has $j'$ ranks.
+
+    It follows from \Cref{tourn_result_chain_def_ranks_characterisation} that $\phi(K)$
+    is chain-definable if and only if $|j - j'| \le 1$.  If $j = j'$ this is
+    clear. Suppose $j < j'$.  Then $A_j = \emptyset$ and $B_j \ne \emptyset$.
+    By property \labelcref{tourn_item_g_sel_3} for $g$ in
+    \Cref{tourn_def_selectionfunction}, we have $g(K, A_j, B_j) = g(K, \emptyset,
+    B_j) = B_j$. But this means $B_{j+1} = B_j \setminus g(K, A_j, B_j) = B_j
+    \setminus B_j = \emptyset$.  Consequently $j' = j+1$, and $|j - j'| = |-1|
+    = 1$
+
+    If instead $j > j'$, then a similar argument using property
+    \labelcref{tourn_item_f_sel_3} for $f$ in \Cref{tourn_def_selectionfunction} shows
+    that $j = j' + 1$, and we have $|j - j'| = |1| = 1$.
+
+    Hence $|j - j'| \le 1$ in all cases, and $\phi(K)$ is chain-definable as
+    required.
+
+    Now for the `only if' direction. Suppose $\phi$ satisfies
+    \axiomref{chain-def}. We will define $f, g$ such that $\phi = \intop{f,g}$.
+    The idea behind the construction is straightforward: since $f$ and $g$ pick
+    off the next-top-ranked $A$s and $B$s at each iteration, simply define
+    $f(K, A_i, B_i)$ as the maximal elements of $A_i$ with respect to the
+    existing ordering ${\ale_K^\phi}$ ($g$ will be defined similarly). The
+    interleaving algorithm will then select the ranks of ${\ale_K^\phi}$ and
+    ${\ble_K^\phi}$ one-by-one; the fact that $\phi(K)$ is chain-definable
+    ensures that we select \emph{all} the ranks before the iterative procedure
+    ends. The formal details follow.
+
+    Fix a tournament $K$. By \Cref{tourn_result_chain_def_ranks_characterisation},
+    $|\ranks{{\ale_K^\phi}} - \ranks{{\ble_K^\phi}}| \le 1$. Taking $t =
+    \max\{\ranks{{\ale_K^\phi}}, \ranks{{\ble_K^\phi}}\}$, we can write $X_1,
+    \ldots, X_t \subseteq A$ and $Y_1, \ldots, Y_t \subseteq B$ for the ranks
+    of ${\ale_K^\phi}$ and ${\ble_K^\phi}$ respectively, possibly with $X_1 =
+    \emptyset$ if $\ranks{{\ble_K^\phi}} = 1 + \ranks{{\ale_K^\phi}}$ or $Y_1 =
+    \emptyset$ if $\ranks{{\ale_K^\phi}} = 1 + \ranks{{\ble_K^\phi}}$. Note
+    that $X_i, Y_i \ne \emptyset$ for $i > 1$. Assume these sets are ordered
+    such that $a \ale_K^\phi a'$ iff $i \le j$ whenever $a \in X_i$ and $a' \in
+    X_j$ (and similar for the $Y_i$). Also note that the $X_i \cap X_j =
+    \emptyset$ for $i \ne j$ (and similar for the $Y_i$).
+
+    Now set \footnotemark{}
+    \[
+        f(K, A', B') = \begin{cases}
+           \max(A', {\ale_K^\phi}),& B' \ne \emptyset \\
+           A',& B' = \emptyset
+        \end{cases}
+    \]
+    \[
+        g(K, A', B') = \begin{cases}
+            \max(B', {\ble_K^\phi}),& A' \ne \emptyset \\
+            B',& A' = \emptyset
+        \end{cases}
+    \]
+
+    \footnotetext{
+        Here $\max(Z, {\preceq}) = \{z \in Z \mid \not\exists z' \in Z : z
+        \prec z'\}$, for any set $Z$ and a total preorder ${\preceq}$ on $Z$
+        (with strict part ${\prec}$).
+    }
+
+    It is not difficult to see that $f$ and $g$ satisfy the conditions of
+    \Cref{tourn_def_selectionfunction} for selection functions. We claim that for
+    with $A_i, B_i$ denoting the interleaving sets for $K$ and $(f, g)$, for
+    all $0 \le i \le t$ we have
+    \begin{equation}
+        \label{tourn_eqn_ai_bi_unions}
+        A_i = \bigcup_{j=1}^{t - i}{X_j},
+        \quad
+        B_i = \bigcup_{j=1}^{t - i}{Y_j}
+        \quad
+        \quad
+    \end{equation}
+    For $i = 0$ this is clear: since $X_1,\ldots,X_t$ contains all ranks of
+    ${\ale_K^\phi}$ we have $\bigcup_{j=1}^{t-0} = X_1 \cup \cdots \cup X_t = A
+    = A_0$ (and similar for $B$).
+
+    Now suppose \labelcref{tourn_eqn_ai_bi_unions} holds for some $0 \le i < t$. We
+    will show that $f(K, A_i, B_i) = X_{t-i}$ by considering three possible
+    cases, at least one of which must hold.
+
+    \textbf{Case 1:} ($A_i \ne \emptyset$, $B_i \ne \emptyset$). Here we have
+    \begin{align*}
+        f(K, A_i, B_i)
+        &= \max(A_i, {\ale_K^\phi}) \\
+        &= \max(X_1 \cup \cdots \cup X_{t-i}, {\ale_K^\phi}) \\
+        &= X_{t-i}
+    \end{align*}
+    since the $X_j$ form (disjoint) ranks of ${\ale_K^\phi}$ with $X_{j} \alt
+    X_{k}$ for $j < k$.
+
+    \textbf{Case 2:} ($B_i = \emptyset$). Here we have
+    $\bigcup_{j=1}^{t-i}{Y_j} = \emptyset$. Since $t - i \ge 1$ and $Y_j \ne
+    \emptyset$ for $j > 1$, it must be the case that $t - i = 1$ and $B_i = Y_1
+    = \emptyset$. Consequently by the induction hypothesis we have $A_i =
+    \bigcup_{j=1}^{1}{X_j} = X_1$, and thus
+    \begin{align*}
+        f(K, A_i, B_i)
+        &= f(K, A_i, \emptyset) \\
+        &= A_i \\
+        &= X_1 \\
+        &= X_{t-i}
+    \end{align*}
+
+    \textbf{Case 3:} ($A_i = \emptyset$). By a similar argument as in case 2,
+    we must have $t - i = 1$ and $A_i = X_1 = \emptyset$. Using the fact that
+    $f(K, A_i, B_i) \subseteq A_i$ we get
+    \begin{align*}
+        f(K, A_i, B_i)
+        &= \underbrace{f(K, \emptyset, B_i)}_{\subseteq \emptyset} \\
+        &= \emptyset \\
+        &= X_1 \\
+        &= X_{t-i}
+    \end{align*}
+    We have now covered all cases, and have shown that $f(K, A_i, B_i) =
+    X_{t-i}$ must hold. Consequently, using again the fact that the $X_j$ are
+    disjoint,
+    \begin{align*}
+        A_{i+1}
+        &= A_i \setminus f(K, A_i, B_i) \\
+        &= \left(\bigcup_{j=1}^{t-i}{X_j}\right) \setminus X_{t-i} \\
+        &= \bigcup_{j=1}^{t-(i+1)}{X_j}
+    \end{align*}
+    as required. By almost identical arguments we can show that $g(K, A_i, B_i)
+    = Y_{t-i}$, and thus $B_{i+1} = \bigcup_{j=1}^{t-(i+1)}{Y_j}$ also. By
+    induction, \labelcref{tourn_eqn_ai_bi_unions} holds for all $0 \le i \le t$.
+
+    It remains to show that $a \ale_K^\phi a'$ iff $a \ale_K^{\intop{f,g}} a'$
+    and that $b \ble_K^\phi b'$ iff $b \ble_K^{\intop{f,g}} b'$.
+
+    For $a \in A$, let $p(a)$ be the unique integer such that $a \in X_{p(a)}$,
+    i.e. $p(a)$ is the index of the rank of $a$ in the ordering
+    ${\ale_K^\phi}$. Note that we have
+    \[
+        a \in A_i = X_1 \cup \cdots \cup X_{t-i}
+        \iff
+        t - i \ge p(a)
+    \]
+    and therefore
+    \[
+        r(a)
+        = \max\{i \mid a \in A_i\}
+        = \max\{i \mid t - i \ge p(a)\}
+        = t - p(a)
+    \]
+    Using the fact that $X_i \alt X_j$ for $i < j$, we get
+    \begin{align*}
+        a \ale_K^{\intop{f,g}} a'
+        &\iff r(a) \ge r(a') \\
+        &\iff t - p(a) \ge t - p(a') \\
+        &\iff p(a) \le p(a') \\
+        &\iff a \ale_K^\phi a'
+    \end{align*}
+    A similar argument shows that $b \ble_K^\phi b'$ iff $b
+    \ble_K^{\intop{f,g}} b'$ for any $b, b' \in B$. Since $K$ was arbitrary, we
+    have shown that $\phi = \intop{f,g}$ as required.
+\end{proof}
+
+We now come to an important example.
 
 \begin{example}
     \label{tourn_ex_cardint}
@@ -2084,6 +2591,7 @@ selection functions $f$ and $g$. We come to an important example.
 \end{example}
 
 \begin{table}
+    \centering
 	\caption{Iteration of the interleaving algorithm for $\phicardint$}
     \label{tourn_tab_cardint_example}
     \footnotesize
@@ -2210,6 +2718,38 @@ compatible with all our axioms.
 
 \end{theorem}
 
+\begin{proof}
+
+    Since \axiomref{chain-min} implies \axiomref{chain-def},
+    \Cref{tourn_result_chainmin_axiom_compatibilities} implies the existence of an
+    operator with \axiomref{chain-def} and \axiomref{dual}, and an operator
+    with \axiomref{chain-def} and \axiomref{mon}.  Moreover, the trivial
+    operator which ranks all $A$s and $B$s equally satisfies
+    \axiomref{chain-def}, \axiomref{anon}
+    and \axiomref{IIM}. It only remains to show that there is an operator
+    satisfying both \axiomref{chain-def} and \axiomref{pos-resp}.
+
+    To that end, for any tournament $K$, define $K'$ by
+    \[
+        K'_{ab} = \begin{cases}
+            1 ,& b \le |K(a)| \\
+            0 ,& b > |K(a)|
+        \end{cases}
+    \]
+    Note that $K'(a) = \{1,\ldots,|K(a)|\}$ for $|K(a)| > 0$. Consequently
+    $K'(a) \subseteq K'(a')$ iff $|K(a)| \le |K(a)|$. We see that $K'$ has the
+    chain property, and the operator $\phi$ defined by $\phi(K) =
+    ({\anle_{K'}}, {\bnle_{K'}})$ satisfies \axiomref{chain-def}. In
+    particular, $a \ale_K^\phi a'$ iff $|K(a)| \le |K(a')|$.
+
+    To show \axiomref{pos-resp}, suppose $a \ale_K^\phi a'$ and $K_{a',b} = 0$
+    for some $a, a' \in A$ and $b \in B$. Write $\hat{K} = K + \bm{1}_{a',b}$.
+
+    Since $a \ale_K^\phi a'$ implies $|K(a)| \le |K(a')|$, we have
+    $|\hat{K}(a')| = 1 + |K(a')| > |K(a)| = |\hat{K}(a)|$, and therefore $a
+    \alt_{\hat{K}}^\phi a'$ as required for \axiomref{pos-resp}.
+\end{proof}
+
 Unfortunately, these cannot all hold at the same time. Indeed, taking
 $
     K = \left[\begin{smallmatrix}
@@ -2232,7 +2772,184 @@ impossibility result.
 
 \end{theorem}
 
-For the specific operator $\phicardint$ we have the following.
+\begin{proof}
+
+    For contradiction, suppose there is an operator $\phi$ satisfying the
+    stated axioms. Consider
+    \[
+        K = \left[\begin{smallmatrix}
+            0 & 0 \\
+            0 & 1 \\
+            1 & 0 \\
+            1 & 1
+        \end{smallmatrix}\right]
+    \]
+    and two tournaments obtained by removing a single 1 entry:
+    \[
+        K_1 = \left[\begin{smallmatrix}
+            0 & 0 \\
+            0 & \bm{{\color{red}0}} \\
+            1 & 0 \\
+            1 & 1
+        \end{smallmatrix}\right],
+        \quad
+        K_2 = \left[\begin{smallmatrix}
+            0 & 0 \\
+            0 & 1 \\
+            1 & 0 \\
+            1 & \bm{{\color{red}0}}
+        \end{smallmatrix}\right].
+    \]
+    Now, \axiomref{anon} in $K_1$ gives $1 \aeq_{K_1}^\phi 2$ (e.g. take
+    $\sigma = (1\ 2)$, $\pi = \text{id}_B$). In particular, $1 \ale_{K_1}^\phi
+    2$, so \axiomref{pos-resp} implies $1 \alt_K^\phi 2$. A similar argument
+    with $K_2$ shows that $3 \aeq_{K_2}^\phi 4$ and $3 \alt_K^\phi 4$.
+
+    On the other hand, applying \axiomref{anon} to $K$ directly with $\sigma =
+    (2\ 3)$ and $\pi = (1\ 2)$, we see that $2 \aeq_K^\phi 3$. The ranking of
+    $A$ is thus fully determined as $1 \alt 2 \aeq 3 \alt 4$. In particular,
+    $\ranks{\ale_K^\phi} = 3$.
+
+    But now considering the dual tournament $\dual{K} =
+    \left[\begin{smallmatrix} 1&1&0&0 \\ 1&0&1&0 \end{smallmatrix}\right]$ and
+    applying permutations $\sigma = (1\ 2)$ and $\pi = (2\ 3)$, we obtain $1
+    \aeq_{\dual{K}}^\phi 2$ by \axiomref{anon}, i.e. the $A$ ranking in
+    $\dual{K}$ is flat. By \axiomref{dual} this implies the $B$ ranking in $K$
+    is flat, i.e. $\ranks{\ble_K^\phi} = 1$. We see that $\ranks{\ale_K^\phi}$
+    and $\ranks{\ble_K^\phi}$ differ by 2, contradicting \axiomref{chain-def}
+    according to \Cref{tourn_result_chain_def_ranks_characterisation}.
+\end{proof}
+
+For interleaving operators, we have the following sufficient conditions for
+$\intop{f, g}$ to satisfy various axioms.
+
+\begin{lemma}
+   \label{tourn_result_interleaving_suffconditions}
+
+   Let $\phi = \phi_{f,g}^{\text{int}}$ be an interleaving operator.
+
+   \begin{enumerate}
+       \item \label{tourn_item_int_lemma_anon}
+
+        If for any tournament $K$, $A' \subseteq A$, $B' \subseteq B$ and for
+        any pair of permutations $\sigma: A \to A$ and $\pi: B \to B$ we have
+        \begin{align*}
+            f(\pi(\sigma(K)), \sigma(A'), \pi(B')) &= \sigma(f(K, A', B')) \\
+            g(\pi(\sigma(K)), \sigma(A'), \pi(B')) &= \pi(g(K, A', B'))
+        \end{align*}
+        then $\phi$ satisfies \axiomref{anon}.
+
+   \item \label{tourn_item_int_lemma_dual}
+
+        If for any tournament $K$ and $A' \subseteq A$, $B \subseteq B$ we have
+        \[ g(K, A', B') = f(\dual{K}, B', A') \] then $\phi$ satisfies
+        \axiomref{dual}.
+
+   \item \label{tourn_item_int_lemma_mon}
+
+        If for any tournament $K$, $A' \subseteq A$, $B' \subseteq B$ and $a,
+        a' \in A'$ we have
+        \[
+            K(a) \subseteq K(a')
+            \implies
+            a \not\in f(K, A', B') \text{ or } a' \in f(K, A', B')
+        \]
+        then $\phi$ satisfies \axiomref{mon}.
+
+    \end{enumerate}
+
+\end{lemma}
+
+\begin{proof}
+
+    We take each statement in turn.
+
+    \begin{enumerate}
+
+    \item
+    Let $K$ be a tournament. For brevity, write $K' = \pi(\sigma(K))$.  Let us
+    write $A_i, B_i$ and $A_i', B_i'$ $(i \ge 0)$ for the sets defined in
+    \Cref{tourn_def_interleaving} for $K$ and $K'$ respectively.  We claim that for
+    all $i \ge 0$:
+    \begin{equation}
+        \label{tourn_eqn_interleaving_lemma_anon}
+        A_i' = \sigma(A_i),
+        \quad
+        B_i' = \pi(B_i)
+    \end{equation}
+    For $i = 0$ this is trivial since $A_0' = A = \sigma(A) = \sigma(A_0)$
+    since $\sigma$ is a bijection. The fact that $B_0' = \pi(B_0)$ is shown
+    similarly.
+
+    Suppose that \labelcref{tourn_eqn_interleaving_lemma_anon} holds for some $i \ge
+    0$. Then applying our assumption on $f$:
+    \begin{align*}
+        A_{i+1}'
+        &= A_i' \setminus f(K', A_i', B_i') \\
+        &= \sigma(A_i) \setminus f(K', \sigma(A_i), \pi(B_i)) \\
+        &= \sigma(A_i) \setminus \sigma(f(K, A_i, B_i)) \\
+        &= \sigma(A_i \setminus f(K, A_i, B_i)) \\
+        &= \sigma(A_{i+1})
+    \end{align*}
+    (note that $\sigma(X) \setminus \sigma(Y) = \sigma(X \setminus Y)$ holds
+    for any sets $X, Y$ due to injectivity of $\sigma$). Using the assumption
+    on $g$ we can show that $B_{i+1}' = \pi(B_{i+1})$ in a similar manner.
+    Therefore, by induction, \labelcref{tourn_eqn_interleaving_lemma_anon} holds for
+    all $i \ge 0$. This means that for any $a \in A$ we have
+    \[
+        \sigma(a) \in A_i'
+        \iff
+        \sigma(a) \in \sigma(A_i)
+        \iff
+        a \in A_i
+    \]
+    and therefore, with $r_K$ and $r_{K'}$ denoting the functions $A \to \N_0$
+    defined in \Cref{tourn_def_interleaving} for $K$ and $K'$ respectively,
+    \begin{align*}
+        r_{K'}(\sigma(a))
+        &= \max\{i \mid \sigma(a) \in A_i'\} \\
+        &= \max\{i \mid a \in A_i\} \\
+        &= r_K(a)
+    \end{align*}
+
+    From this it easily follows that $a \ale_K^\phi a'$ iff $\sigma(a)
+    \ale_{K'}^\phi \sigma(a')$, i.e.  $\phi$ satisfies \axiomref{anon}.
+
+    \item
+    Once again, fix a tournament $K$ and let $A_i, B_i$ and $A_i', B_i'$ denote
+    the sets from \Cref{tourn_def_interleaving} for $K$ and $\dual{K}$ respectively.
+    It is easy to show by induction that the assumption on $f$ and $g$ implies
+    $A'_i = B_i$ and $B_i' = A_i$ for all $i \ge 0$ . This means that for any
+    $b \in B_K$:
+    \begin{align*}
+        s_K(b)
+        &= \max\{i \mid b \in B_i\} \\
+        &= \max\{i \mid b \in A_i'\} \\
+        &= r_{\dual{K}}(b)
+    \end{align*}
+    which implies $b \ble_K^\phi b'$ iff $b \ale_{\dual{K}}^\phi b'$, as
+    required for \axiomref{dual}.
+
+    \item
+    Let $K$ be a tournament and $a, a' \in A$ such that $K(a) \subseteq K(a')$.
+    We must show that $a \ale_K^\phi a'$.
+
+    Suppose otherwise, i.e. $a' \alt_K^\phi a$. Then $r(a') > r(a)$. Note that
+    by definition of $r$, we have $a \in A_{r(a)} \setminus A_{r(a) + 1} = f(K,
+    A_{r(a)}, B_{r(a)})$. Since $r(a') \ge r(a) + 1$ and $A_{r(a)} \supseteq
+    A_{r(a) + 1} \supseteq A_{r(a) + 2} \supseteq \cdots$, we get $a' \in
+    A_{r(a) + 1} \subseteq A_{r(a)}$. In particular, $a' \notin f(K, A_{r(a)},
+    B_{r(a)})$.
+
+    Piecing this all together, we have $a, a' \in A_{r(a)}$, $K(a) \subseteq
+    K(a')$, $a \in f(K, A_{r(a)}, B_{r(a)})$ and $a' \not\in f(K, A_{r(a)},
+    B_{r(a)})$. But this directly contradicts our assumption on $f$, so we are
+    done.
+    \end{enumerate}
+\end{proof}
+
+For the specific operator $\phicardint$,
+\Cref{tourn_result_interleaving_suffconditions} yields the following.
 
 \begin{theorem}
     \label{tourn_result_phicardint_axioms}
@@ -2243,10 +2960,109 @@ For the specific operator $\phicardint$ we have the following.
 
 \end{theorem}
 
+\begin{proof}
+
+    We take each axiom in turn. Let $f$ and $g$ be the selection functions
+    corresponding to $\phicardint$ from \Cref{tourn_ex_cardint}.
+
+    \axiomref{chain-def.} Since $\phicardint$ is an interleaving operator,
+    \axiomref{chain-def} follows from \Cref{tourn_result_chaindef_iff_interleaving}.
+
+    \axiomref{anon.} Let $K$ be a tournament and let $\sigma: A \to A$ and $\pi:
+    B \to B$ be bijective mappings. Write $K' = \pi(\sigma(K))$. We will show
+    that the conditions on $f$ and $g$ in
+    \Cref{tourn_result_interleaving_suffconditions} part
+    (\labelcref{tourn_item_int_lemma_anon}) are satisfied.
+
+    Let $A' \subseteq A$ and $B' \subseteq B$. We have
+    \begin{align*}
+        f(K', \sigma(A'), \pi(B'))
+        &= \argmax_{\hat{a} \in \sigma(A')}{|K'(\hat{a}) \cap \pi(B')|} \\
+        &= \sigma(\argmax_{a \in A'}{|K'(\sigma(a)) \cap \pi(B')|})
+    \end{align*}
+    where we make the `substitution' $a = \sigma^{-1}(\hat{a})$. Using the
+    defintion of $K' = \pi(\sigma(K))$ it is easily seen that $K'(\sigma(a)) =
+    \pi(K(a))$. Also, since $\pi$ is a bijection we have $\pi(X) \cap \pi(Y) =
+    \pi(X \cap Y)$ for any sets $X$ and $Y$, and $|\pi(X)| = |X|$. Thus
+    \begin{align*}
+        f(K', \sigma(A'), \pi(B'))
+        &= \sigma(\argmax_{a \in A'}{|K'(\sigma(a)) \cap \pi(B')|}) \\
+        &= \sigma(\argmax_{a \in A'}{|\pi(K(a)) \cap \pi(B')|}) \\
+        &= \sigma(\argmax_{a \in A'}{|\pi(K(a) \cap B')|}) \\
+        &= \sigma(\argmax_{a \in A'}{|K(a) \cap B'|}) \\
+        &= \sigma(f(K, A', B'))
+    \end{align*}
+    as required. The result for $g$ follows by a near-identical argument. Thus
+    $\phicardint$ satisfies \axiomref{anon} by
+    \Cref{tourn_result_interleaving_suffconditions} part
+    (\labelcref{tourn_item_int_lemma_anon}).
+
+    \axiomref{dual.} Fix a tournament $K$ and let $A' \subseteq A$, $B'
+    \subseteq B$. Note that for $b \in B'$ we have
+    \begin{align*}
+        |K^{-1}(b) \cap A'|
+        &= |(A \setminus \dual{K}(b)) \cap A'| \\
+        &= |A' \setminus \dual{K}(b)| \\
+        &= |A'| - |\dual{K}(b) \cap A'|
+    \end{align*}
+    Consequently
+    \begin{align*}
+        g(K, A', B')
+        &= \argmin_{b \in B'}{|K^{-1}(b) \cap A'|} \\
+        &= \argmin_{b \in B'}{\left(|A'| - |\dual{K}(b) \cap A'|\right)} \\
+        &= \argmax_{b \in B'}{|\dual{K}(b) \cap A'|} \\
+        &= f(\dual{K}, B', A')
+    \end{align*}
+    and, by \Cref{tourn_result_interleaving_suffconditions} part
+    (\labelcref{tourn_item_int_lemma_dual}), $\phicardint$ satisfies \axiomref{dual}.
+
+    \axiomref{mon.} Once again, we use
+    \Cref{tourn_result_interleaving_suffconditions}.  Let $K$ be a tournament and $A'
+    \subseteq A$, $B' \subseteq B$. Suppose $a, a' \in A'$ with $K(a) \subseteq
+    K(a')$. We need to show that either $a \not\in f(K, A', B')$ or $a' \in
+    f(K, A', B')$
+
+    Suppose $a \in f(K, A', B')$. Then $a \in \argmax_{\hat{a} \in
+    A'}{|K(\hat{a}) \cap B'|}$, so $|K(a) \cap B'| \ge |K(a') \cap B'|$. On the
+    other hand $K(a) \cap B' \subseteq K(a') \cap B'$, so $|K(a) \cap B'| \le
+    |K(a') \cap B'|$.  Consequently $|K(a) \cap B'| = |K(a') \cap B'|$, and so
+    $a' \in f(K, A', B')$. This shows the property required by
+    \Cref{tourn_result_interleaving_suffconditions} part
+    (\labelcref{tourn_item_int_lemma_mon}) is satisfied, and thus $\phicardint$
+    satisfies \axiomref{mon}.
+
+    \axiomref{pos-resp.} We have show that $\phicardint$ satisfies
+    \axiomref{chain-def}, \axiomref{anon} and \axiomref{dual}; due to
+    impossibility result of \Cref{tourn_result_chaindef_impossibility}, $\phicardint$
+    cannot satisfy \axiomref{pos-resp}.
+
+    \axiomref{IIM.} Write
+    \[
+        K_1 = \begin{bmatrix}
+            1 & 0 & 0 \\
+            0 & 1 & 0 \\
+            0 & 1 & 1
+        \end{bmatrix}
+        , \quad
+        K_2 = \begin{bmatrix}
+            1 & 0 & 0 \\
+            0 & 1 & 0 \\
+            1 & 0 & 1
+        \end{bmatrix}
+    \]
+    Note that the first and second rows of each tournament are identical, so
+    \axiomref{IIM} would imply $1 \ale_{K_1}^\phicardint 2$ iff $1
+    \ale_{K_2}^\phicardint 2$.  However, it is easily verified that $1
+    \alt_{K_1}^\phicardint 2$ whereas $2 \alt_{K_2}^\phicardint 1$. Therefore
+    $\phicardint$ does not satisfy \axiomref{IIM}.
+\end{proof}
 Note that \axiomref{anon} \emph{is} satisfied. This makes $\phicardint$ an
 important example of a well-motivated, tractable, chain-definable
 and anonymous operator, meeting the criteria outlined at the start of
 this section.
+
+\todo{In the online notes we have a characterisation of $\phicardint$ using new
+notions of sub-matrix-independence and rank-removal. Is this worth including?}
 
 \section{Related Work}
 \label{tourn_sec_related_work}
