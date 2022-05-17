@@ -1446,45 +1446,48 @@ and consequently it is possible to satisfy \axiomref{chain-min} and
 
 \begin{figure*}
     \centering
-    %
-    \subfloat[$X \symdiff (X' \cup Y')$]{%
-            \begin{tikzpicture}
-                \thiswithoutthose{\xset}{\xprimeset \yprimeset}
-                \thiswithoutthose{\xprimeset}{\xset}
-                \thiswithoutthose{\yprimeset}{\xset}
-                \setboundaries
-            \end{tikzpicture}
-    }
-    \quad
-    \subfloat[$(X \cup Y) \symdiff X'$]{%
-            \begin{tikzpicture}
-                \thiswithoutthose{\xset}{\xprimeset}
-                \thiswithoutthose{\yset}{\xprimeset}
-                \thiswithoutthose{\xprimeset}{\xset \yset}
-                \setboundaries
-            \end{tikzpicture}
-    }
-    \quad
-    \subfloat[$X \symdiff X'$]{%
-            \begin{tikzpicture}
-                \thiswithoutthose{\xset}{\xprimeset}
-                \thiswithoutthose{\xprimeset}{\xset}
-                \setboundaries
-            \end{tikzpicture}
-    }
-    \quad
-    \subfloat[$(X \cup Y) \symdiff (X' \cup Y')$]{%
-            \begin{tikzpicture}
-                \thiswithoutthose{\xset}{\xprimeset \yprimeset}
-                \thiswithoutthose{\yset}{\xprimeset \yprimeset}
-                \thiswithoutthose{\xprimeset}{\xset \yset}
-                \thiswithoutthose{\yprimeset}{\xset \yset}
-                \setboundaries
-            \end{tikzpicture}
-    }
+    \begin{subfigure}{.4\textwidth}
+        \centering
+        \begin{tikzpicture}
+            \thiswithoutthose{\xset}{\xprimeset \yprimeset}
+            \thiswithoutthose{\xprimeset}{\xset}
+            \thiswithoutthose{\yprimeset}{\xset}
+            \setboundaries
+        \end{tikzpicture}
+        \caption{$X \symdiff (X' \cup Y')$}
+    \end{subfigure}
+    \begin{subfigure}{.4\textwidth}
+        \centering
+        \begin{tikzpicture}
+            \thiswithoutthose{\xset}{\xprimeset}
+            \thiswithoutthose{\yset}{\xprimeset}
+            \thiswithoutthose{\xprimeset}{\xset \yset}
+            \setboundaries
+        \end{tikzpicture}
+        \caption{$(X \cup Y) \symdiff X'$}
+    \end{subfigure}
+    \begin{subfigure}{.4\textwidth}
+        \centering
+        \begin{tikzpicture}
+            \thiswithoutthose{\xset}{\xprimeset}
+            \thiswithoutthose{\xprimeset}{\xset}
+            \setboundaries
+        \end{tikzpicture}
+        \caption{$X \symdiff X'$}
+    \end{subfigure}
+    \begin{subfigure}{.4\textwidth}
+        \centering
+        \begin{tikzpicture}
+            \thiswithoutthose{\xset}{\xprimeset \yprimeset}
+            \thiswithoutthose{\yset}{\xprimeset \yprimeset}
+            \thiswithoutthose{\xprimeset}{\xset \yset}
+            \thiswithoutthose{\yprimeset}{\xset \yset}
+            \setboundaries
+        \end{tikzpicture}
+        \caption{$(X \cup Y) \symdiff (X' \cup Y')$}
+    \end{subfigure}
     \caption{Depictions of the sets in \Cref{tourn_eqn_swap_lemma_symdiffs}}
     \label{tourn_fig_swap_lemma_venns}
-
 \end{figure*}
 
 \begin{proof}
