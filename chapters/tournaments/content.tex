@@ -95,7 +95,8 @@ maximum likelihood estimation. To our knowledge this is the first in-depth
 study of chain editing as a ranking mechanism. Secondly, we introduce a new
 class of `chain-definable' mechanisms by relaxing the minimisation constraint
 of chain editing in order to obtain tractable algorithms and to resolve the
-failure of an important anonymity axiom.
+failure of an important anonymity axiom. We present a concrete example of such
+an algorithm, and characterise it axiomatically.
 
 \paragraph{Paper outline.} In \Cref{tourn_sec_preliminaries} we define the
 framework for bipartite tournaments and introduce chain graphs.
@@ -2075,8 +2076,9 @@ section we obtain both anonymity and tractability by relaxing the
 \axiomref{chain-min} requirement to a property we call
 \emph{chain-definability}. We go on to characterise the class of operators with
 this weaker property via a greedy approximation algorithm, single out a
-particularly intuitive instance, and revisit the axioms of
-\Cref{tourn_sec_axiomatic_analysis}.
+particularly intuitive instance, revisit the axioms of
+\Cref{tourn_sec_axiomatic_analysis}, and present new axioms which characterise
+this intuitive instance.
 
 \subsection{Chain-definability}
 
@@ -2334,7 +2336,7 @@ with $A_i = B_i = \emptyset$. Since $A_{i + 1} \subseteq A_i$ and $B_{i + 1}
 \begin{proposition}
     \label{tourn_prop_interleaving_terminates}
 
-    Let $(f,g)$ be selection functions. Fix a tournament $K$ and let $A_i,
+    Let $f$ and $g$ be selection functions. Fix a tournament $K$ and let $A_i,
     B_i$ ($i \ge 0$) be as in \Cref{tourn_def_interleaving}. Then there are $j, j'
     \ge 1$ such that $A_j = \emptyset$ and $B_{j'} = \emptyset$. Moreover,
     there is $t \ge 1$ such that both $A_t = B_t = \emptyset$.
@@ -2370,7 +2372,7 @@ is the \emph{only} way.
    \label{tourn_result_chaindef_iff_interleaving}
 
     An operator $\phi$ satisfies \axiomref{chain-def} if and only if $\phi =
-    \intop{f,g}$ for some selection functions $(f, g)$.
+    \intop{f,g}$ for some selection functions $f, g$.
 
 \end{theorem}
 
@@ -2385,7 +2387,7 @@ selection functions $f$ and $g$.
     such that ${\ale} = {\anle_K}$ and ${\ble} = {\bnle_K}$.
 
     First we prove the `if' direction. Let $\phi = \intop{f,g}$ be an
-    interleaving operator with selection functions $(f, g)$, and fix a
+    interleaving operator with selection functions $f, g$, and fix a
     tournament $K$. We will show that $\phi(K)$ is chain-definable.
 
     As per \Cref{tourn_prop_interleaving_terminates}, let $j, j' \ge 1$ be the
@@ -2441,7 +2443,7 @@ selection functions $f$ and $g$.
     X_j$ (and similar for the $Y_i$). Also note that the $X_i \cap X_j =
     \emptyset$ for $i \ne j$ (and similar for the $Y_i$).
 
-    Now set \footnotemark{}
+    Now set\footnotemark{}
     \[
         f(K, A', B') = \begin{cases}
            \max(A', {\ale_K^\phi}),& B' \ne \emptyset \\
@@ -2463,7 +2465,7 @@ selection functions $f$ and $g$.
 
     It is not difficult to see that $f$ and $g$ satisfy the conditions of
     \Cref{tourn_def_selectionfunction} for selection functions. We claim that for
-    with $A_i, B_i$ denoting the interleaving sets for $K$ and $(f, g)$, for
+    with $A_i, B_i$ denoting the interleaving sets for $K$ and $f, g$, for
     all $0 \le i \le t$ we have
     \begin{equation}
         \label{tourn_eqn_ai_bi_unions}
@@ -3064,8 +3066,402 @@ important example of a well-motivated, tractable, chain-definable
 and anonymous operator, meeting the criteria outlined at the start of
 this section.
 
-\todo{In the online notes we have a characterisation of $\phicardint$ using new
-notions of sub-matrix-independence and rank-removal. Is this worth including?}
+\subsection{Axiomatic Characterisation of $\phicardint$}
+
+In \Cref{tourn_result_phicardint_axioms} we saw which of the axioms from
+\cref{tourn_sec_axiomatic_analysis} hold for $\phicardint$. We now characterise
+$\phicardint$ axiomatically by introducing two new axioms. The first, which we
+call \axiomref{rank-removal}, is a technical axiom obtained via a related
+property specific to interleaving operators. The second, called
+\axiomref{argmax}, says that the maximum rank in $\ale_K^\phi$ should coincide
+with that of $\ale_K^{\phicardint}$. Together with \axiomref{dual} and
+\axiomref{chain-def}, these will characterise $\phicardint$.
+
+Unlike the axioms introduced so far, which were straightforward, general
+properties for ranking methods, the new axioms are geared specifically towards
+characterising $\phicardint$. Thus, this section takes a \emph{descriptive}
+perspective as opposed to the \emph{normative} perspective of
+\cref{tourn_sec_axiomatic_analysis}.
+
+Towards the characterisation result, we first note that $\phicardint$ satisfies
+a kind of independence property for interleaving operators: $f(K, A', B')$ and
+$g(K, A', B')$ only depends on the sub-matrix of $K$ with rows and columns
+corresponding to $A'$ and $B'$. In graphical terms, the greyed out rows and
+columns in \Cref{tourn_tab_cardint_example} do not affect the output of $f$ and
+$g$. In general this does not hold for interleaving operators. We express this
+formally as an axiom for interleaving operators $\intop{f, g}$, called
+\emph{sub-matrix independence}.
+
+\begin{axiom}[SMI]
+    Let $K$ be a tournament and $A_i$, $B_i$ a pair of non-empty sets arising
+    in the interleaving algorithm for $f$, $g$ and $K$ in
+    \cref{tourn_def_interleaving}. Write $A_i = \{a_1, \ldots, a_{m'}\}$ and
+    $B_i = \{b_1, \ldots, b_{n'}\}$, ordered such that $a_p < a_{p+1}$ and $b_q
+    < b_{q+1}$. Let $K^-$ be the corresponding $m' \times n'$ sub-matrix of
+    $K$, where $K^-_{pq} = K_{a_p,b_q}$. Then for all $a_p \in A_i$ and $b_q
+    \in B_i$,
+    \begin{align*}
+        a_p \in f(K, A_i, B_i) &\iff p \in f(K^-, [m'], [n']), \\
+        b_q \in g(K, A_i, B_i) &\iff q \in g(K^-, [m'], [n']).
+    \end{align*}
+\end{axiom}
+
+Note that \axiomref{SMI} is a property of the selection functions $f$ and $g$.
+In principle, it is possible that an interleaving operator $\phi$ admits two
+pairs of selection functions $(f, g)$ and $(f', g')$ such that \axiomref{SMI}
+holds for one pair but not the other. However, it will follow from later
+results (\Cref{tourn_result_rank_removal_smi}) that this is not possible:
+\axiomref{SMI} either holds for $\phi$ or does not, independently of the choice
+of selection functions $f$ and $g$. Nevertheless, to avoid circularity we will
+say $\phi$ satisfies \axiomref{SMI} if \emph{there exist} $f, g$ with the
+\axiomref{SMI} property such that $\phi = \intop{f, g}$.
+
+First, $\phicardint$ does indeed satisfy \axiomref{SMI}.
+
+\begin{proposition}
+    \label{tourn_result_phicardint_smi}
+    $\phicardint$ satisfies \axiomref{SMI}.
+\end{proposition}
+
+\begin{proof}
+    Let $f$ and $g$ denote the selection functions for $\phicardint$. Let $A_i,
+    B_i$ and $K^-$ be as in the statement of \axiomref{SMI}. Note that for any
+    $a_p \in A_i$,
+    \begin{align*}
+        K(a_p) \cap B_i
+        &= \{b \in B_i \mid K_{a_p,b} = 1\} \\
+        &= \{b_q \mid q \in [n'], K_{a_p, b_q} = 1\} \\
+        &= \{b_q \mid q \in K^-(p)\},
+    \end{align*}
+    so $|K(a_p) \cap B_i| = |K^-(p)| = |K^-(p) \cap [n']|$. Consequently,
+    \begin{align*}
+        a_p \in f(K, A_i, B_i)
+        &\iff a_p \in \argmax_{a \in A_i}{|K(a) \cap B_i|} \\
+        &\iff p \in \argmax_{p' \in [m']}{|K(a_{p'}) \cap B_i|} \\
+        &\iff p \in \argmax_{p' \in [m']}{|K^-(p)|} \\
+        &\iff p \in f(K^-, [m'], [n'])
+    \end{align*}
+    as required. An identical argument shows the desired property for $g$.
+    Hence $\phicardint$ satisfies \axiomref{SMI}.
+\end{proof}
+
+Note that in the statement of \axiomref{SMI}, $[m'] = A_{K^-}$ and $[n'] =
+B_{K^-}$. Consequently, \axiomref{SMI} implies that the ranks of $A$ and $B$
+are fully determined by the \emph{maximal} ranks of successively smaller
+sub-tournaments. This is expressed in the following result, which shows that
+two \axiomref{SMI} operators agreeing on maximal ranks for all $K$ must in fact
+be equal.
+
+\begin{proposition}
+    \label{tourn_result_smi_maximal_ranks_equal}
+    Let $\phi$ and $\phi'$ be interleaving operators satisfying \axiomref{SMI}.
+    Suppose that for all tournaments $K$,
+    \begin{align*}
+        \max(A, {\ale_K^\phi}) &= \max(A, \ale_K^{\phi'}) \\
+        \max(B, {\ble_K^\phi}) &= \max(B, \ble_K^{\phi'}).
+    \end{align*}
+    Then $\phi = \phi'$.
+\end{proposition}
+
+\begin{proof}
+    Let $f, g$ and $f', g'$ be selection functions corresponding to $\phi$
+    and $\phi'$ respectively. Take a tournament $K$. To show $\phi(K) =
+    \phi(K')$ it is sufficient to show $A_i = A'_i$ and $B_i = B'_i$ for all $i
+    \ge 0$, where $A_i, B_i$ and $A'_i, B'_i$ are the interleaving sets from
+    \cref{tourn_def_interleaving} for $\phi$ and $\phi'$ respectively.
+
+    We proceed by induction on $i$. For $i = 0$ this is clear, since $A_0 =
+    A'_0 = A$ and $B_0 = B'_0 = B$ by definition. Suppose $A_i = A'_i$ and $B_i
+    = B'_i$. If $A_i = A'_i = \emptyset$ then $A_{i+1} = A'_{i+1} = \emptyset$
+    (since $A_{i+1} \subseteq A_i$), and similarly $B_i = B'_i = \emptyset$
+    implies $B_{i+1} = B'_{i+1} = \emptyset$. Hence we may assume without loss
+    of generality that $A_i, B_i \ne \emptyset$.
+
+    Write $A_i = A'_i = \{a_1, \ldots, a_{m'}\}$ and $B_i = B'_i =
+    \{b_1, \ldots, b_{n'}\}$, with $a_p < a_{p+1}$ and $b_q < b_{q+1}$. Let
+    $K^-$ be the associated sub-matrix, as in the statement of \axiomref{SMI}.
+    From property \labelcref{tourn_item_f_sel_1} from
+    \Cref{tourn_def_selectionfunction} for $f$ and \axiomref{SMI}, we have
+    \begin{align}
+        \label{tourn_eqn_smi_maximal_ranks_equal_f}
+        \begin{split}
+            f(K, A_i, B_i) &= \{a_p \mid p \in f(K^-, [m'], [n'])\} \\
+            f'(K, A'_i, B'_i) &= \{a_p \mid p \in f'(K^-, [m'], [n'])\}.
+        \end{split}
+    \end{align}
+    But $[m']$ and $[n']$ are the full set of players in $K^-$, so
+    \begin{align*}
+        f(K^-, [m'], [n'])
+        &= \max(A_{K^-}, {\ale_{K^-}^\phi}) \\
+        &= \max(A_{K^-}, {\ale_{K^-}^{\phi'}}) \\
+        &= f'(K^-, [m'], [n']),
+    \end{align*}
+    where our assumption on the maximal ranks for $\phi$ and $\phi'$ is
+    employed in the second step. Consulting
+    \labelcref{tourn_eqn_smi_maximal_ranks_equal_f} we see $f(K, A_i, B_i) =
+    f'(K, A'_i, B'_i)$. An identical argument shows $g(K, A_i, B_i) = g'(K,
+    A'_i, B'_i)$. Together with the induction hypothesis, we get
+    \[
+        A_{i + 1}
+        = A_i \setminus f(K, A_i, B_i)
+        = A'_i \setminus f'(K, A'_i, B'_i)
+        = A'_{i + 1}
+    \]
+    and similarly, $B_{i + 1} = B'_{i + 1}$. By induction, $A_i = A'_i$ and
+    $B_i = B'_i$ for all $i \ge 0$, and we are done.
+\end{proof}
+
+This result simplifies the task of characterising $\phicardint$ among the
+interleaving operators with \axiomref{SMI}, since we only need to consider the
+maximal ranks of $A$ and $B$. In fact, given that $\phicardint$ satisfies
+\axiomref{dual} we only need to consider the $A$ ranking. The following axiom
+says that maximally-ranked players in $A$ are exactly those for whom $|K(a)|$
+is maximal; this will clearly capture the maximal ranks of $\phicardint$
+together with \axiomref{dual}.
+
+\begin{axiom}[argmax]
+    $\max(A, {\ale_K^\phi}) = \argmax_{a \in A}{|K(a)|}$.
+\end{axiom}
+
+Note that \axiomref{argmax} does \emph{not} require $\ale_K^\phi$ to reduce to
+$\phicount$, since we only consider $a$ such that $|K(a)|$ is \emph{maximal}.
+
+Now, since \axiomref{chain-def} characterises interleaving operators, to obtain
+a characterisation of $\phicardint$ among \emph{all} operators it suffices to
+find an alternative version of \axiomref{SMI} which can be applied to any
+operator. This is the role of the following axiom, which says that removing the
+maximally ranked players from each side preserves the ordering among the rest
+of $A$ and $B$.
+
+\begin{axiom}[rank-removal]
+    Suppose $\max(A, {\ale_K^\phi}) \ne A$ and $\max(B, {\ble_K^\phi}) \ne B$.
+    Write $A \setminus \max(A, {\ale_K^\phi}) = \{a_1, \ldots, a_{m'}\}$ and $B
+    \setminus \max(B, {\ble_K^\phi}) = \{b_1, \ldots, b_{m'}\}$, ordered such
+    that $a_p < a_{p+1}$ and $b_q < b_{q+1}$. Let $K^-$ be the corresponding
+    $m' \times n'$ sub-matrix of $K$. Then for all $p, p'$ and $q, q'$,
+    \begin{align*}
+        a_p \ale_K^\phi a_{p'} &\iff p \ale_{K^-}^\phi p' \\
+        b_q \ble_K^\phi b_{q'} &\iff q \ble_{K^-}^\phi q'.
+    \end{align*}
+\end{axiom}
+
+In what sense does \axiomref{rank-removal} capture \axiomref{SMI}? In the
+following we show it is \emph{equivalent} to \axiomref{SMI}, when taken with
+\axiomref{chain-def}. We need a preliminary lemma.
+
+\begin{lemma}
+    \label{tourn_result_selectionfunction_lemma}
+    Let $f, g$ be selection functions, $K$ a tournament, and $A_i, B_i$ sets
+    arising in the interleaving algorithm for $f, g$ and $K$. Suppose $A_i \ne
+    \emptyset$ and $B_i \ne \emptyset$. Then
+    \begin{align*}
+        f(K, A_i, B_i) &= \max(A_i, {\ale_K^{\intop{f, g}}}) \\
+        g(K, A_i, B_i) &= \max(B_i, {\ble_K^{\intop{f, g}}}).
+    \end{align*}
+\end{lemma}
+
+\begin{proof}
+    We show the first statement; the second follows by an identical argument.
+    For brevity, write $\phi$ for $\intop{f, g}$.
+    For the left-to-right inclusion, suppose $a \in f(K, A_i, B_i)$. Then $a
+    \in A_i$. Take any $a' \in A_i$. We need to show $a' \ale_K^\phi a$.
+    Indeed, we have $a \in A_i \cap f(K, A_i, B_i)$, so $a \notin A_{i + 1}$.
+    Consequently $r(a) = \max\{j \mid a \in A_j\} = i$. Since $a' \in A_i$,
+    $r(a') \ge i = r(a)$. Hence $a' \ale_K^\phi a$.
+
+    For the right-to-left we show the contrapositive. Suppose $a \notin  f(K,
+    A_i, B_i)$. If $a \notin A_i$ then clearly $a \notin \max(A_i,
+    {\ale_K^\phi}$). So suppose $a \in A_i$. Then $a \in A_i \setminus f(K,
+    A_i, B_i) = A_{i + 1}$. Hence $r(a) \ge i + 1 > i$. On the other hand,
+    since $A_i \ne \emptyset$ we have by properties of the selection function
+    $f$ that $f(K, A_i, B_i) \ne \emptyset$. Thus there is some $a' \in A_i
+    \cap f(K, A_i, B_i)$. We see that $r(a') = i < r(a)$, so $a \alt_K^\phi
+    a'$.  Hence $a \notin \max(A_i, {\ale_K^\phi})$, as required.
+\end{proof}
+
+\begin{proposition}
+    \label{tourn_result_rank_removal_smi}
+    $\phi$ satisfies \axiomref{chain-def} and \axiomref{rank-removal} if and
+    only if $\phi$ is an interleaving operator satisfying \axiomref{SMI}.
+\end{proposition}
+
+\begin{proof}
+    For the `if" direction, suppose $\phi = \intop{f, g}$ is an interleaving
+    operator satisfying \axiomref{SMI}. Then $\phi$ satisfies
+    \axiomref{chain-def} by \Cref{tourn_result_chaindef_iff_interleaving}. We
+    show \axiomref{rank-removal}. Let $\{a_1, \ldots, a_{m'}\}$, $\{b_1,
+    \ldots, b_{n'}\}$ and $K^-$ be as in the statement of
+    \axiomref{rank-removal}.
+
+    Let $A_i, B_i$ denote the interleaving sets for $\phi$ applied to $K$, and
+    $A^-_i, B^-_i$ those for $\phi$ applied to $K^-$. First we claim that for
+    all $p \in [m']$, $q \in [n']$ and $i \ge 0$,
+    \begin{equation}
+        \label{tourn_eqn_smi_rr_induction}
+        \begin{split}
+            p \in A^-_i \iff a_p \in A_{i + 1}, \\
+            q \in B^-_i \iff b_q \in B_{i + 1}.
+        \end{split}
+    \end{equation}
+    We prove \labelcref{tourn_eqn_smi_rr_induction} by induction on $i$. Take
+    $i = 0$. By definition, $A^-_0 = A_{K^-} = [m']$, so $p \in A^-_0$ always
+    holds. Recall that $\{a_1, \ldots, a_{m'}\} = A \setminus \max(A,
+    {\ale_K^\phi})$. It is easily seen that $\max(A, {\ale_K^\phi}) = f(K, A_0,
+    B_0)$, so in fact $\{a_1, \ldots, a_{m'}\} = A_1$. Hence $a_p \in A_1$
+    always holds. The argument for the $B$s is identical. This proves
+    \labelcref{tourn_eqn_smi_rr_induction} for $i = 0$.
+
+    For the inductive step, suppose \labelcref{tourn_eqn_smi_rr_induction}
+    holds for some $i \ge 0$. We consider cases. First, suppose $A^-_i =
+    \emptyset$. Then $A^-_{i + 1} \subseteq A^-_i$ means $A^-_{i + 1} =
+    \emptyset$. On the other hand the inductive hypothesis gives $A_{i + 1} =
+    \emptyset$, so we get $A_{i + 2} = \emptyset$. In particular, the first
+    part of \labelcref{tourn_eqn_smi_rr_induction} holds for $i + 1$. For the
+    second part, using property \labelcref{tourn_item_g_sel_3} from
+    \cref{tourn_def_selectionfunction} for the selection function $g$ we find
+    \[
+        B^-_{i + 1}
+        = B^-_i \setminus g(K^-, \emptyset, B^-_i)
+        = B^-_i \setminus B^-_i
+        = \emptyset.
+    \]
+    By the inductive hypothesis again we have $A_{i + 1} = \emptyset$, so the
+    same line of reasoning gives $B_{i + 1} = \emptyset$. Thus
+    \labelcref{tourn_eqn_smi_rr_induction} holds. The case $B^-_i = \emptyset$
+    is identical, using properties of $f$ instead of $g$.
+
+    Now suppose both $A^-_i$ and $B^-_i$ are non-empty. Recall $A^-_i \subseteq
+    A^-_0 = [m']$ and $B^-_i \subseteq B^-_0 = [n']$. Write $A^-_i = \{p_1,
+    \ldots, p_{m''}\}$ and $B^-_i = \{q_1, \ldots, q_{n''}\}$ in increasing
+    order. Let $K^{--}$ be the $m'' \times n''$ sub-matrix of $K^-$ formed by
+    $A^-_i$ and $B^-_i$, i.e. $K^{--}_{st} = K^-_{p_s, q_t}$. Since $\phi =
+    \intop{f, g}$ satisfies \axiomref{SMI}, we get that for all $s \in [m'']$
+    and $t \in [n'']$,
+    \[
+        p_s \in f(K^-, A^-i, B^-_i) \iff s \in f(K^{--}, [m''], [n'']).
+    \]
+    Now, recall that $K^-_{pq} = K_{a_p, b_q}$. Hence
+    \[
+        K^{--}_{st} = K^-_{p_s, q_t} = K_{a_{p_s}, b_{q_t}}.
+    \]
+    By the inductive hypothesis,
+    \begin{align*}
+        A_{i + 1} &= \{a_p \mid p \in A^-_i\} = \{a_{p_s} \mid s \in [m'']\}, \\
+        B_{i + 1} &= \{b_q \mid q \in B^-_i\} = \{b_{q_t} \mid t \in [n'']\}.
+    \end{align*}
+    We see that $K^{--}$ can also be viewed as the $m'' \times n''$ sub-matrix
+    of $K$ formed by $A_{i + 1}$ and $B_{i + 1}$. Applying \axiomref{SMI} in
+    this instance, we find
+    \[
+        a_{p_s} \in f(K, A_{i + 1}, B_{i + 1})
+            \iff s \in f(K^{--}, [m''], [n'']).
+    \]
+    Putting things together,
+    \[
+        a_{p_s} \in f(K, A_{i + 1}, B_{i + 1})
+            \iff p_s \in f(K^-, A^-_i, B^-_i).
+    \]
+    Consequently, for any $p \in [m']$ we get
+    \begin{align*}
+        p \in A^-_{i + 1}
+        &\iff p \in A^-_i \text{ and } p \notin f(K^-, A^-_i, B^-_i) \\
+        &\iff \exists s \in [m'']:\ p = p_s \text{ and } p_s \notin f(K^-, A^-_i, B^-_i) \\
+        &\iff \exists s \in [m'']:\ p = p_s \text{ and } a_{p_s} \notin f(K, A_{i + 1}, B_{i + 1}) \\
+        &\iff a_p \in A_{i + 1} \text{ and } a_p \notin f(K, A_{i + 1}, B_{i + 1}) \\
+        &\iff a_p \in A_{i + 2}.
+    \end{align*}
+    An identical argument shows $q \in B^-{i + 1} \iff b_q \in B_{i + 2}$. By
+    induction, this
+    completes the proof of \labelcref{tourn_eqn_smi_rr_induction}.
+
+    Finally, for any $p \in [m']$ we get
+    \begin{align*}
+        r_{K^-}(p)
+        &= \max\{i \mid p \in A^-_i\} \\
+        &= \max\{i \mid a_p \in A_{i + 1}\} \\
+        &= \max\{i - 1\mid a_p \in A_i\} \\
+        &= -1 + r_K(a_p),
+    \end{align*}
+    where we use \labelcref{tourn_eqn_smi_rr_induction} and the fact that $a_p
+    \in A_1$. Since the additive constant of $-1$ does not affect the ranking,
+    we see that the ranking of $[m']$ in $\ale_{K^-}^\phi$ corresponds exactly
+    to that of $\{a_1, \ldots, a_{m'}\}$ in $\ale_K^\phi$, as required for
+    \axiomref{rank-removal}. The case for the $B$ ranking is identical, and we
+    are done.
+
+    Now for the `only if" direction, suppose $\phi$ satisfies
+    \axiomref{chain-def} and \axiomref{rank-removal}. By
+    \Cref{tourn_result_chaindef_iff_interleaving} there are selection functions
+    $f$ and $g$ such that $\phi = \intop{f, g}$. We need to show that
+    \axiomref{SMI} holds. Let $K$, $A_i = \{a_1, \ldots, a_{m'}\}, B_i = \{b_1,
+    \ldots, b_{n'}\}$ and $K^-$ be as in the statement of \axiomref{SMI}.
+    Without loss of generality, $i > 0 $. A simple induction shows that
+    \[
+        A_j = A \setminus \bigcup_{k < j}{f(K, A_k, B_k)}
+    \]
+    for all $j \ge 0$. From \Cref{tourn_result_selectionfunction_lemma} we see
+    that $A_i$ is the result of removing the top $i - 1$ ranks of players in
+    $A$, according to the ranking $\ale_K^\phi$. Applying
+    \axiomref{rank-removal} $i - 1$ times, we get
+    \[
+        a_p \ale_K^\phi a_{p'}
+        \iff p \ale_{K^-}^\phi p'
+    \]
+    for all $p, p' \in [m']$. Consequently, using
+    \Cref{tourn_result_selectionfunction_lemma} again,
+    \begin{align*}
+        a_p \in f(K, A_i, B_i)
+        &\iff a_p \in \max(A_i, {\ale_K^\phi}) \\
+        &\iff \forall p' \in [m']:\ a_{p'} \ale_K^\phi a_p \\
+        &\iff \forall p' \in [m']:\ p' \ale_{K^-}^\phi p \\
+        &\iff p \in \max([m'], {\ale_{K^-}^\phi}) \\
+        &\iff p \in f(K^-, [m'], [n'])
+    \end{align*}
+    as required for \axiomref{SMI}. One can show $b_q \in g(K, A_i, B_i) \iff q
+    \in g(K^-, [m'], [n'])$ by an identical argument.
+\end{proof}
+
+Finally, we can state the axiomatic characterisation of $\phicardint$.
+
+\begin{theorem}
+    $\phicardint$ is the unique operator satisfying \axiomref{dual},
+    \axiomref{chain-def}, \axiomref{rank-removal} and \axiomref{argmax}.
+\end{theorem}
+
+\begin{proof}
+    We have already seen in \Cref{tourn_result_phicardint_axioms} that
+    $\phicardint$ satisfies \axiomref{dual} and \axiomref{chain-def}. For
+    \axiomref{argmax}, note that for any tournament $K$,
+    \begin{align*}
+        \max(A, {\ale_K^{\phicardint}})
+        &= f(K, A, B) \\
+        &= \argmax_{a \in A}{|K(a) \cap B|} \\
+        &= \argmax_{a \in A}{|K(a)|}
+    \end{align*}
+    directly from the definition of the selection function $f$ for
+    $\phicardint$. Finally, \axiomref{rank-removal} follows from
+    \Cref{tourn_result_rank_removal_smi} since $\phicardint$ is an interleaving
+    operator with \axiomref{SMI} (by \Cref{tourn_result_phicardint_smi}).
+
+    For uniqueness, suppose some operator $\phi$ also satisfies the stated
+    axioms. By \Cref{tourn_result_rank_removal_smi}, $\phi$ is an interleaving
+    operator satisfying \axiomref{SMI}. To show $\phi = \phicardint$ it is
+    sufficient by \Cref{tourn_result_smi_maximal_ranks_equal} to show that
+    $\phi$ and $\phicardint$ agree on maximal ranks for all tournaments $K$.
+    Clearly this is the case for the ranking of $A$, since \axiomref{argmax}
+    completely prescribes $\max(A, {\ale_K^\phi})$ solely in terms of $K$.
+    Moreover, by \axiomref{dual} we have ${\ble_K^\phi} =
+    {\ale_{\dual{K}}^\phi}$, so
+    \begin{align*}
+        \max(B_K, {\ble_K^\phi})
+        &= \max(A_{\dual{K}}, {\ale_{\dual{K}}^\phi}) \\
+        &= \argmax_{b \in A_{\dual{K}}}|\dual{K}(b)| \\
+        &= \max(A_{\dual{K}}, {\ale_{\dual{K}}^{\phicardint}}) \\
+        &= \max(B, {\ble_K^{\phicardint}})
+    \end{align*}
+    where we apply \axiomref{argmax} for $\phi$ and $\phicardint$ to the dual
+    tournament $\dual{K}$. This completes the proof.
+\end{proof}
 
 \section{Related Work}
 \label{tourn_sec_related_work}
@@ -3170,7 +3566,8 @@ MLE characterisation, and in axiomatic terms. To resolve both the failure of an
 important anonymity axiom and \complexityclass{NP}-hardness, we weakened the
 chain editing requirement to one of \emph{chain definability}, and
 characterised the resulting class of operators by the intuitive interleaving
-algorithm.
+algorithm. Moreover, we characterised the particular interleaving instance
+$\phicardint$ by way of new axioms.
 
 \paragraph{Limitations and future work.}
 %

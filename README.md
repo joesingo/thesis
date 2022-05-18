@@ -24,6 +24,8 @@
 
 - Punctuation at the end of display math
 
+- Back references in bibliography
+
 ## TD
 
 - Tikz-ify the figures
