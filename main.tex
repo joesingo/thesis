@@ -3,9 +3,9 @@
 % packages
 \usepackage{newpxtext} % palatino font
 % \usepackage[T1]{fontenc}
-\usepackage{hyperref}
 \usepackage{xcolor}
-\usepackage[backend=biber]{biblatex}
+\usepackage[backend=biber,backref=true]{biblatex}
+\usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
@@ -45,6 +45,10 @@
 
 % bibliography
 \addbibresource{references.bib}
+\DefineBibliographyStrings{english}{
+    backrefpage = {cited on page},
+    backrefpages = {cited on pages},
+}
 
 % global macros
 \input{macros.tex}
