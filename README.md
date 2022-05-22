@@ -24,6 +24,15 @@
 
 - Punctuation at the end of display math
 
+- Standardise "conclusion", "summary" section names
+
+- Standardise table formatting
+
+- Standardise \paragraph vs \subsection etc divisions across chapters
+
+- References to `\item`s: I think we have a mix of `\labelcref`, `\cref` and
+  custom macros
+
 ## TD
 
 - Tikz-ify the figures

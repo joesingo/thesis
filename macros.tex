@@ -16,6 +16,11 @@
 \theoremstyle{plain}\newtheorem{corollary}{Corollary}
 \theoremstyle{plain}\newtheorem{axiom}{Axiom}
 
+% cleveref cannot deduce the plural form for the "claim" environment, so give
+% it explicity
+\crefname{claim}{Claim}{Claims}
+\Crefname{claim}{Claim}{Claims}
+
 % inline list
 \newlist{inlinelist}{enumerate*}{1}
 \setlist[inlinelist]{label=(\roman*)}

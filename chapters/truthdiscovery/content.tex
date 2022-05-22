@@ -1989,7 +1989,7 @@ for all $n \in \Nat$, so $f \feq_{N'}^{T^*} g$. This is a contradiction, so
 neither POI nor Strong Independence are satisfied.
 \end{proof}
 
-To summarise this section, \cref{tab:axioms} shows which axioms are
+To summarise this section, \cref{td_table_axioms} shows which axioms are
 satisfied by each of the operators.
 
 \begin{table}
@@ -1999,10 +1999,10 @@ satisfied by each of the operators.
 \centering
     \caption{Satisfaction of the axioms for the various operators. Recall that
     POI and Strong Independence are undesirable properties.}
-    \begin{tabular}{| c | c | c | c | c |}
-        \hline
+    \begin{tabular}{c c c c c}
+        \toprule
                          & Voting & SC-Voting  & Sums & U-Sums   \\
-        \hline
+        \midrule
         Source-Coherence & \no    & \yes       & \yes & \yes     \\
         Fact-Coherence   & \yes   & \no        & \yes & \yes     \\
         Symmetry         & \yes   & \yes       & \yes & \yes     \\
@@ -2014,9 +2014,9 @@ satisfied by each of the operators.
         \hline
         POI              & \yes   & \yes       & \no  & \no      \\
         Str. Indep.      & \yes   & \yes       & \no  & \no      \\
-        \hline
+        \bottomrule
     \end{tabular}
-\label{tab:axioms}
+\label{td_table_axioms}
 \end{table}
 
 \section{Variable domain truth discovery}
