@@ -64,3 +64,5 @@ From parsing compile logs:
 
 - Sums and Monotonicity in TD chapter
 - Operator with chain-min, dual and mon simultaneously in tournament chapter
+- For expertise models: can closure under arbitrary unions be captured at the
+  level of frames?
