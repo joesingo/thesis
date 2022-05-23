@@ -1,2 +1,1781 @@
 \chapter{Belief Change with Non-Expert Sources}
-    \section{Summary}
+
+\section{Introduction}
+
+Consider the following belief change scenario in a hospital. We observe the
+results of a blood test of patient 1, confirming condition X. Assuming the test
+is reliable, the AGM paradigm~\cite{alchourron1985logic} tells us how to revise
+our beliefs in light of the new information. Dr.\ A then claims that patient 2
+suffers from the same condition, but Dr.\ B disagrees. Given that doctors
+specialise in different areas and may make mistakes, who should we trust?
+%
+Since the \postulatename{Success} postulate ($\alpha \in K \ast \alpha$)
+assumes information is reliable, we are outside the realm of AGM revision, and
+must instead apply some form of \emph{non-prioritised}
+revision~\cite{hansson1999survey}.
+
+Suppose it now emerges that Dr.\ A had earlier claimed patient 1 did \emph{not}
+suffer from condition X, contrary to the test results. We now have reason to
+suspect Dr.\ A may \emph{lack expertise} on diagnosing X, and may subsequently
+revise beliefs about Dr.\ A's domain of expertise and the status of patient
+2 (e.g. by opting to trust Dr.\ B instead).
+
+While simple, this example illustrates the key features of the belief change
+problem we study: we consider multiple sources, whose expertise is \emph{a
+priori} unknown, providing reports on various instances of a problem domain. On
+the basis of these reports we form beliefs both about the expertise of the
+sources and the state of the world in each instance.
+
+By including a distinguished \emph{completely reliable} source (the test
+results in the example) we extend AGM revision. In some respects we also extend
+approaches to non-prioritised revision (e.g. selective
+revision~\cite{ferme1999selective}, credibility-limited
+revision~\cite{hansson_2001}, and trust-based
+revision~\cite{booth_trust_2018}), which assume information about the
+reliability of sources is known up front. The problem is also related to
+\emph{belief merging}~\cite{konieczny2002merging} which deals
+with combining belief bases from multiple sources; a detailed comparison will
+be given in \cref{sec:relatedwork}.
+
+Our work is also connected to trust and belief revision, if one interprets
+trust as \emph{belief in expertise}. As \textcite{yasser_21} note in recent work,
+trust and belief are inexorably linked: we should accept reports from sources
+we believe are trustworthy, and we should trust sources whose reports turn out
+to be reliable. Trust and belief should also be revised in tandem, so that we
+may increase or decrease trust in a source as more reports are received,
+and revoke or reinstate previous reports from a source as its perceived
+trustworthiness changes.\footnotemark{}
+
+\footnotetext{
+    This mutual dependence between trust and belief is also the core
+    idea in \emph{truth discovery}~\cite{li_survey_2016}.
+}
+
+To unify the trust and belief aspects, we enrich a propositional language with
+\emph{expertise statements} $E_i(\phi)$, read as ``source $i$ has expertise on
+$\phi$". The output of our belief change problem is then a collection of belief
+and knowledge sets in the extended language, describing what we \emph{know} and
+\emph{believe} about the expertise of the sources and the state of the world in
+each instance. For example, we should \emph{know} reports from the reliable
+source are true, whereas reports from ordinary sources may only be believed.
+
+Following recent work on logical approaches to
+expertise~\cite{singleton2021logic,booth_trust_2018}, we formally model
+expertise using a partition of propositional valuations for each source.
+Equivalently, each source has an \emph{indistinguishibility equivalence
+relation} over valuations. A source is an expert on a proposition $\phi$
+exactly when they can distinguish every $\phi$ valuation from every
+$\neg\phi$ valuation.\footnotemark{} As in \textcite{singleton2021logic}, we also
+use \emph{soundness formulas} $S_i(\phi)$, which intuitively say that $\phi$ is
+true \emph{up the expertise of} $i$. For example, if $i$ has expertise on $p$
+but not $q$, then the conjunction $p \land q$ is sound for $i$ whenever $p$
+holds, since we can effectively ignore $q$. Formally,
+$\phi$ is sound for $i$ if the ``actual" state of the world is
+indistinguishable from a $\phi$ valuation. Note that expertise does not depend
+on the ``actual" state, whereas soundness does. This provides a crucial link
+between expertise and truthfulness of information.
+
+We then make the assumption that \emph{sources only report sound propositions}.
+That is, reports are only false due to sources overstepping the bounds of their
+expertise. In particular, we assume sources are honest in their reports,
+and that experts are always right.
+
+\footnotetext{
+    The relationship between this notion of expertise and \emph{S5 epistemic
+    logic} is explored in a modal logic setting in \textcite{singleton2021logic},
+    and we revisit this connection in \cref{sec:relatedwork}.
+}
+
+Note that in our introductory example, the fact that we had a report from Dr.\ A
+on patient 1 (together with reliable information on patient 1) was essential
+for determining the expertise of Dr.\ A, and subsequently the status of patient
+2. While the patients are independent, reports on one can cause beliefs about
+the other to change, as we update our beliefs about the expertise of the
+sources.
+
+In general we consider an arbitrary number of \emph{cases}, which are
+seen as labels for instances of the domain. For example, a crowdsourcing worker
+may label multiple images, or a weather forecaster may give predictions for
+different locations. Each report in the input to the
+problem then refers to a specific case. Via these cases and the presence of the
+completely reliable source, we are able to model scenarios where some ``ground
+truth" is available, listing how often sources have been correct/incorrect on a
+proposition (e.g. the \emph{report histories} of
+\textcite{hunter_building_21}). We can also generalise this scenario, e.g. by
+having only partial information about ``previous" cases.
+
+Throughout the paper we make the assumption that \emph{expertise is fixed
+across cases}: the expertise of a source does not depend on the particular
+instance of the domain we look at. For instance, the expertise of Dr.\ A is the
+same for patient 1 as for patient 2. This is a simplifying assumption, and may
+rule out certain interpretations of the cases (e.g. if cases represent
+different points in time, it would be natural to let expertise evolve over
+time).
+
+%Consider an agent receiving information from multiple sources. In the case of
+%completely reliable sources, the literature on belief
+%revision~\cite{peppas_2008} address
+%how beliefs should be formed (and revised) on the basis of these reports.
+%\emph{Non-prioritised} belief revision/merging~\cite{hansson1999survey} allows
+%one to model unreliable sources by dropping the \postulatename{Success}
+%postulate ($\alpha \in K \ast \alpha$) of the AGM
+%framework~\cite{alchourron1985logic}, so that not all reports must be believed.
+%Such approaches may be guided by additional structure providing a
+%representation of the reliability of sources; for example in selective
+%revision~\cite{ferme1999selective}, credibility-limited
+%revision~\cite{hansson_2001}, and trust-based
+%revision~\cite{booth_trust_2018,hunter_building_21}.
+
+%In this paper we suppose that no such additional structure is available: the
+%reliability of the sources is unknown \emph{a priori}. Thus, the agent must
+%determine its beliefs both about the credibility of the sources
+%(or, its \emph{trust} in the sources) and about the state of the world.
+%%
+%As \textcite{yasser_21} note in recent work, these two are inexorably linked: we
+%should believe reports from sources we believe are trustworthy, and we should
+%trust sources whose reports are reliable. Trust and belief should also be
+%revised in tandem, so that the agent may increase or decrease trust in a source
+%as more reports are received, and revoke or reinstate previous reports from a
+%source as its perceived trustworthiness changes.\footnote{This kind of mutual
+%dependence between trust and belief is also the core idea in the crowdsourcing
+%problem of \emph{truth discovery}~\cite{li_survey_2016}.}
+
+%Towards formalising the problem, we set out the precise notion of reliability
+%we are interested in. In general, a source may be considered unreliable for a
+%number of reasons: e.g. lack of expertise, dishonesty, or noise in the
+%communication channel. Since unreliable information arises in \emph{different
+%ways} in each situation, desirable properties of belief change operators for
+%one type of unreliability may not be desirable in others. In this paper we
+%restrict attention to \emph{unreliability as lack of expertise}. That is, we
+%assume false reports only arise due to sources overstepping the bounds of their
+%expertise.\footnote{Here we implicitly assume sources do not have introspection
+%over their own knowledge.} In particular, we assume sources are honest and
+%their reports are received without noise.
+
+%Following recent work on logical approaches to
+%expertise~\cite{singleton2021logic,booth_trust_2018}, we formally model
+%expertise using a partition of the state space for each source. Equivalently,
+%each source has an \emph{indistinguishibility equivalence relation} over
+%possible states of the world. A source is an expert on a proposition $\phi$
+%exactly when there is no $\phi$ state which is indistinguishable from a
+%$\neg\phi$ state.\footnotemark{} Expertise is thus ``topic dependent", in that
+%a source may be an expert in some areas but not others.
+
+%\footnotetext{
+%    The relationship between this notion of expertise and \emph{S5 epistemic
+%    logic} is explored in a modal logic setting in \cite{singleton2021logic}.
+%}
+
+%This notion of expertise can be represented syntactically by enriching a
+%propositional language with \emph{expertise formulas} $E_i(\phi)$, for each
+%source $i$. As in \cite{singleton2021logic}, we also use \emph{soundness
+%formulas} $S_i(\phi)$, which intuitively say that $\phi$ is true \emph{up the
+%expertise of} $i$. For example, if $i$ has expertise on $p$ but not $q$, then
+%the conjunction $p \land q$ is sound for $i$ whenever $p$ holds, since we can
+%ignore $q$ (on which $i$ has no expertise).
+%%
+%Assuming that the state of the world is described by the same underlying
+%propositional language, this syntactic representation allows the trust and
+%belief aspects of our problem to be unified: the agent simply maintains a
+%belief set of formulas in the extended language.
+
+%Finally, note that in order to gain a full picture of the partition associated
+%with a source, the agent needs to receive reports at \emph{multiple} states of
+%the world.\footnote{If we instead assumed all reports refer to the world in a
+%single state $v$, we can only hope to find out about the partition of each
+%source around $v$.} To model this we consider multiple \emph{cases}, thought of
+%as independent instantiations of the same domain of interest. For example, a
+%weather forecaster make predictions for different locations, a doctor may
+%diagnose multiple patients, and a crowdsourcing worker may label multiple
+%images. Under the assumption that expertise remains constant across cases,
+%reports in one case may influence beliefs about the world in other cases, even
+%when assuming independence between cases. For example, if a doctor $D$
+%diagnoses patients $A$ and $B$ with condition $C$ and it is later revealed that
+%$A$ does \emph{not} suffer from $C$, an agent may retract the belief that $B$
+%suffers from $C$, even though no new information about $B$ was received.
+
+\paragraph{Contribution.} Our contributions are threefold. First, we develop a
+logical framework for reasoning about the expertise of multiple sources and the
+state of the world in multiple cases. Second, we formulate a belief change
+problem within this framework, which allows us to explore how trust and belief
+should interact and evolve as reports are received from the various sources.
+Finally, we put forward several postulates and two concrete classes of
+operators -- with a representation result for one class -- and analyse these
+operators with respect to the postulates.
+
+\paragraph{Paper Outline.} In \cref{sec:framework} we develop the formal
+framework. \Cref{sec:the_problem} introduces the problem and lists some core
+postulates. We give two constructions and specific example operators in
+\cref{sec:constructions}. \Cref{sec:one_step_postulates} introduces some
+further postulates concerning belief change on the basis of one new report. An
+analogue of selective revision~\cite{ferme1999selective} is presented
+\cref{sec:selective_change}. \Cref{sec:relatedwork} discusses related work, and
+we conclude in \cref{sec:conclusion}.
+\ifdefined\thisistheprerint
+    Note that some proofs are omitted in the body of the paper and can be found
+    in the appendix.
+\else
+    Proofs are given in the appendix of the full version of the
+    paper~\cite{singleton_booth_22_preprint}.
+\fi
+\todo{fix appendix references; mention expertise and selectivity?}
+
+\section{The Framework}
+\label{sec:framework}
+
+Let $\S$ be a finite set of information sources. For convenience, we assume
+there is a \emph{completely reliable} source in $\S$, which we denote by
+$\ast$.  For example, we can treat our first-hand observations as if they are
+reported by $\ast$. Other sources besides $\ast$ will be termed \emph{ordinary
+sources}.  Let $\C$ be a finite set of \emph{cases}, which we interpret as
+labels for different instances of the problem domain.
+
+\paragraph{Syntax.}
+
+There are two levels to our formal language. To describe properties of the
+world in each case $c \in \C$, we assume a fixed finite set $\propvars$ of propositional
+variables, and let $\lprop$ denote the set of propositional formulas generated
+from $\propvars$ using the usual propositional connectives. We use lower case
+Greek letters ($\phi$, $\psi$ etc) for formulas in $\lprop$. The
+classical logical consequence operator will be denoted by $\cnprop$, and
+$\equiv$ denotes equivalence of propositional formulas.
+
+The extended \emph{language of expertise} $\lext$ additionally describes the
+expertise of the sources, and is defined by the following grammar:
+\[
+    \Phi ::= \phi \mid
+             \Phi \land \Phi \mid
+             \neg \Phi \mid
+             E_i(\phi) \mid
+             S_i(\phi)
+             \\
+\]
+where $i\in \S$ and $\phi \in \lprop$. We introduce Boolean connectives
+$\lor$, $\rightarrow$, $\leftrightarrow$ and $\falsum$ as
+abbreviations. We use upper case Greek letters ($\Phi$, $\Psi$ etc)
+for formulas in $\lext$.
+%
+For $\Gamma \subseteq \lext$, we write $\proppart{\Gamma} = \Gamma \cap
+\lprop$ for the propositional formulas in $\Gamma$.
+
+The intuitive reading of $E_i(\phi)$ is {\em source $i$ has expertise on
+$\phi$}, i.e., $i$ is able to correctly identify the truth value of $\phi$ in
+any possible state. The intuitive reading of $S_i(\phi)$ is that $\phi$
+\emph{sound} for $i$ to report: that $\phi$ is true up to the
+expertise of $i$. That is, the parts of $\phi$ on which $i$ has expertise are
+true. Note that both operators are restricted to propositional
+formulas, so we will not consider iterated formulas such as $E_i(S_j(\phi))$.
+
+\paragraph{Semantics.}
+
+Let $\vals$ denote the set of propositional valuations over $\propvars$. For
+each $\phi \in \lprop$, the set of valuations making $\phi$ true is denoted by
+$\propmods(\phi)$. A \emph{world} $W = \tuple{\{v_c\}_{c \in \C}, \{\Pi_i\}_{i
+\in \S}}$ is a possible complete specification of the environment we find
+ourselves in:
+\begin{itemize}
+    \item $v_c \in \vals$ is the ``true" valuation at case $c \in \C$;
+    \item $\Pi_i$ is a partition of $\vals$ for each $i \in \S$, representing
+          the ``true" expertise of source $i$; and
+    \item $\Pi_\ast$ is the unit partition $\{\{v\} \mid v \in \vals\}$.
+\end{itemize}
+Let $\W$ denote the set of all worlds.  Note that the partition corresponding
+to the distinguished source $\ast$ is fixed in all worlds as the finest
+possible partition, reflecting the fact that $\ast$ is completely reliable.
+
+For any partition $\Pi$ and valuation $v$, write $\Pi[v]$ for the unique cell
+in $\Pi$ containing $v$. For a set of valuations $U$, write $\Pi[U] =
+\bigcup_{v \in U}{\Pi[v]}$. For brevity, we write $\Pi[\phi]$ for
+$\Pi[\propmods(\phi)]$. Then $\Pi[\phi]$ is the set of valuations
+indistinguishable from a $\phi$ valuation.
+
+For our belief change problem we will be interested in maintaining a
+collection of several belief sets, describing beliefs about each case $c \in
+\C$. Towards determining when a world $W$ models such a collection, we define
+semantics for $\lext$ formulas with respect to a world and a case:
+\[
+    \begin{array}{lll}
+        &W, c \models \phi &\iff v_c \in \propmods(\phi) \\
+        &W, c \models E_i(\phi) &\iff \Pi_i[\phi] = \propmods(\phi) \\
+        &W, c \models S_i(\phi) &\iff v_c \in \Pi_i[\phi]
+    \end{array}
+\]
+where $i \in \S$, $\phi \in \lprop$, and the clauses for conjunction and
+negation are the expected ones. Since $\propmods(\phi) \subseteq \Pi_i[\phi]$
+always holds, we have that $E_i(\phi)$ holds iff there is no
+$\neg\phi$ valuation which is indistinguishable from a $\phi$ valuation (c.f.
+\textcite{booth_trust_2018}). Note
+that since each source $i$ has only a single partition $\Pi_i$ used to
+interpret the expertise formulas, the truth value of $E_i(\phi)$ does not
+depend on the case $c$. On the other hand, $S_i(\phi)$ holds in case $c$ iff
+the $c$-valuation of $W$ is indistinguishable from some model of $\phi$. That
+is, it is consistent with $i$'s expertise that $\phi$ is true.
+
+Note that the mapping $2^\vals \rightarrow 2^\vals$ given by $U \mapsto \Pi[U]$
+satisfies the \emph{Kuratowski closure axioms},\footnotemark{} so can be
+considered a closure operator of the set of propositional valuations. Then $W,
+c \models E_i(\phi)$ iff $\propmods(\phi)$ is closed in $V$, and $W, c \models
+S_i(\phi)$ iff $v_c$ lies in the closure of $\propmods(\phi)$, i.e. $\phi$ is
+true after closing $\propmods(\phi)$ along the lines of the expertise of source
+$i$. Also note that $\Pi[U] = U$ iff $U$ can be expressed as a union of the
+partition cells in $\Pi$, so that $W, c \models E_i(\phi)$ can alternatively be
+interpreted as saying $\phi$ is a disjunction of stronger formulas on which $i$
+also has expertise.
+%
+\footnotetext{ That is, \begin{inlinelist}
+        \item $\Pi[\emptyset] = \emptyset$,
+        \item $U \subseteq \Pi[U]$,
+        \item $\Pi[\Pi[U]] = \Pi[U]$, and
+        \item $\Pi[U_1 \cup U_2] = \Pi[U_1] \cup \Pi[U_2]$ \end{inlinelist}.  }
+
+Also note that if $\phi$ is a propositional tautology, $E_i(\phi)$ holds for
+every source $i$. Thus, all sources are experts on \emph{something}, even if
+just the tautologies.
+
+\begin{example}
+    \label{ex:hospital_world}
+    Let us extend the hospital example from the introduction. Let $\S = \{\ast,
+    a, b\}$ denote the reliable source, Dr.\ A and Dr.\ B, and let $\C = \{c_1,
+    c_2\}$ denote patients 1 and 2. Consider propositional variables
+    $\propvars = \{x, y\}$, standing
+    for condition X and Y respectively. Suppose that Dr.\ A has expertise on
+    diagnosing condition Y only, whereas Dr.\ B only has expertise on X. For the
+    sake of the example, suppose that patient 1 suffers from both conditions,
+    and patient 2 suffers only from condition Y. This situation is modelled by
+    the following world $W = \tuple{\{v_c\}_{c \in \{c_1, c_2\}}, \{\Pi_i\}_{i
+    \in \{\ast, a, b\}}}$:
+    \[
+        \begin{array}{cc}
+            v_{c_1} = xy;
+            &
+            v_{c_2} = \bar{x}y;
+            \\
+            \Pi_a = xy, \bar{x}y \mid x\bar{y}, \bar{x}\bar{y};
+            &
+            \Pi_b = xy, x\bar{y} \mid \bar{x}y, \bar{x}\bar{y}.
+        \end{array}
+    \]
+    % (where $\Pi_\ast$ is the unit partition)
+    We have $W, c \models E_a(y)
+    \land E_b(x)$ for each $c \in \{c_1, c_2\}$. Also note that $W, c_1 \models
+    x$ (patient 1 suffers from X), $W, c_1 \models S_a(\neg x)$ (it is sound
+    for Dr.\ A to report otherwise; this holds since $\Pi_a[\neg x] = \{xy,
+    \bar{x}y\} \cup \{x\bar{y}, \bar{x}\bar{y}\} \ni xy = v_{c_1}$), but $W,
+    c_1 \models \neg S_b(\neg x)$ (the same formula is \emph{not} sound for
+    Dr.\
+    B; we have $\Pi_b[\neg x] = \{\bar{x}y, \bar{x}\bar{y}\} = \propmods(\neg
+    x) \not\ni xy = v_{c_1}$).
+\end{example}
+
+Say $\Phi$ is \emph{valid} if $W, c \models \Phi$ for all $W \in \W$ and $c \in \C$.
+For future reference we collect a list of validities.
+
+\begin{proposition}
+\label{prop:validities}
+For any $i \in \S$, $c \in \C$ and $\phi, \psi \in \lprop$, the following
+formulas are valid
+\begin{enumerate}
+    \item \label{item:replacement_equivalents_e_s}
+          $S_i(\phi) \leftrightarrow S_i(\psi)$ and $E_i(\phi) \leftrightarrow
+          E_i(\psi)$, whenever $\phi \equiv \psi$
+    \item \label{item:e_symmetric}
+          $E_i(\phi) \leftrightarrow E_i(\neg \phi)$ and $E_i(\phi) \land
+          E_i(\psi) \rightarrow E_i(\phi \land \psi)$
+    \item \label{item:exp_on_all_variables} $E_i(p_1) \land \cdots \land
+          E_i(p_k) \rightarrow E_i(\phi)$, where $p_1, \ldots, p_k$ are the
+          propositional variables appearing in $\phi$
+    \item \label{item:e_and_s_implies_phi}
+          $E_i(\phi) \land S_i(\phi) \rightarrow \phi$, and
+          $S_i(\phi) \land \neg \phi \rightarrow \neg E_i(\phi)$
+    \item \label{item:sound_neg_pair}
+          $S_i(\phi) \land S_i(\neg \phi) \rightarrow \neg E_i(\phi)$
+    \item \label{item:star_exp}
+          $S_\ast(\phi) \leftrightarrow \phi$ and $E_\ast(\phi)$
+    % \item \label{item:soundness_weakening}
+    %       $S_i(\phi) \rightarrow S_i(\psi)$ whenever $\phi \rightarrow \psi$ is
+    %       a propositional tautology
+\end{enumerate}
+\end{proposition}
+
+(\labelcref{item:replacement_equivalents_e_s}) states
+syntax-irrelevance properties.
+%
+(\labelcref{item:e_symmetric}) says that expertise is symmetric with respect to
+negation, and closed under conjunctions. Intuitively, symmetry means that $i$
+is an expert on $\phi$ if they know \emph{whether or not} $\phi$ holds.
+%
+(\labelcref{item:exp_on_all_variables}) says that expertise on each
+propositional variable in $\phi$ is sufficient for expertise on
+$\phi$ itself.
+%
+(\labelcref{item:e_and_s_implies_phi}) says that, in the presence of expertise,
+soundness of $\phi$ is sufficient for $\phi$ to in fact be true.
+%
+(\labelcref{item:sound_neg_pair})
+says that if both $\phi$ and
+$\neg\phi$ are true up to the expertise of $i$, then $i$ cannot have expertise
+on $\phi$.
+%
+Finally, (\labelcref{item:star_exp}) says that the reliable source $\ast$ has expertise
+on \emph{all} formulas, and thus $\phi$ is sound for $\ast$ iff it is true.
+
+% \todo{One absent property is $E_i(\phi)$ and $\psi \in \cn_0(\phi)$ then
+% $E_i(\psi)$. This does not hold. Think of a reasonable \emph{intuitive} example
+% where this is the case.}
+
+\paragraph{Case-Indexed Collections.}
+
+In the remainder of the paper we will be interested in forming beliefs about
+each case $c \in \C$. To do so we use collections of belief
+sets $G = \{\Gamma_c\}_{c \in \C}$, with $\Gamma_c \subseteq \lext$, indexed by
+cases.
+%
+Say a world $W$ is a \emph{model} of $G$ iff
+\[
+    W, c \models \Phi \text{ for all } c \in \C \text{ and } \Phi \in \Gamma_c,
+\]
+i.e. iff $W$ satisfies all formulas in $G$ in the relevant case. Let
+$\mods(G)$ denote the models of $G$, and say that $G$ is
+\emph{consistent} if $\mods(G) \ne \emptyset$. For $c \in \C$, define the
+\emph{$c$-consequences}
+\[
+    \cn_c(G) = \{\Phi \in \lext \mid \forall W \in \mods(G), W, c \models \Phi\}.
+\]
+We write $\cn(G)$
+for the collection $\{\cn_c(G)\}_{c \in \C}$.
+
+\begin{example}
+    Suppose $\C = \{c_1, c_2, c_3\}$, and define $G$ by $\Gamma_{c_1} = \{S_i(p
+    \land q)\}$, $\Gamma_{c_2} = \{E_i(p)\}$ and $\Gamma_{c_3} = \{E_i(q)\}$.
+    Then, since expertise holds independently of case, any model $W$ of $G$ has
+    $W, c_1 \models E_i(p) \land E_i(q)$. By \cref{prop:validities} part
+    (\labelcref{item:exp_on_all_variables}), $W, c_1 \models E_i(p \land q)$.
+    Since $W$ satisfies $\Gamma_{c_1}$ in case $c_1$, \cref{prop:validities}
+    part (\labelcref{item:e_and_s_implies_phi}) gives $W, c_1 \models p \land
+    q$. Since $W$ was an arbitrary model of $G$, we have $p \land q \in
+    \cn_{c_1}(G)$, i.e. $p \land q$ is a $c_1$-consequence of $G$.
+    %
+    This illustrates how information about distinct cases can be brought
+    together to have consequences for other cases.
+
+\end{example}
+
+For two collections $G = \{\Gamma_c\}_{c \in \C}$, $D = \{\Delta_c\}_{c \in
+\C}$, write $G \sqsubseteq D$ iff $\Gamma_c \subseteq \Delta_c$ for all $c$,
+and let $G \sqcup D$ denote the collection $\{\Gamma_c \cup \Delta_c\}_{c \in
+\C}$. With this notation, the case-indexed consequence operator satisfies
+analogues of the Tarskian consequence properties.\footnotemark{}
+%
+\footnotetext{
+    That is, \begin{inlinelist}
+        \item $G \sqsubseteq \cn(G)$,
+        \item $G \sqsubseteq D$ implies $\cn(G) \sqsubseteq \cn(D)$, and
+        \item $\cn(\cn(G)) = \cn(G)$.
+    \end{inlinelist}
+}
+
+Say a collection $G$ is \emph{closed} if $\cn(G) = G$. Closed collections
+provide an idealised representation of beliefs, which will become useful later
+on. For instance, when $G$ is closed we have
+$
+    E_i(\phi) \in \Gamma_c \text{ iff } E_i(\phi) \in \Gamma_d
+$
+for all $c, d \in \C$; i.e. expertise statements are either present for all
+cases or for none. We also have
+$
+    \cnprop\proppart{\Gamma_c} = \proppart{\Gamma_c},
+$
+i.e. the propositional parts of $G$ are (classically) closed.
+
+In propositional logic, $\propmods$ is a 1-to-1 correspondence between closed
+sets of formulas and sets of valuations. This is not so in our setting, since
+some subsets of $\W$ do not arise as the models of any collection. Instead, we
+have a 1-to-1 correspondence into a restricted collection of sets of worlds.
+%
+Borrowing the terminology of
+\textcite{delgrande2018general}, say a set of worlds $S \subseteq \W$ is
+\emph{elementary} if ${S = \mod(G)}$ for some collection $G =
+\{\Gamma_c\}_{c \in \C}$.\footnotemark{}
+
+\footnotetext{
+    Non-elementary sets can also exist for weaker logics
+    (such as Horn logic~\cite{delgrande2018general}) which lack the syntactic
+    expressivity to identify all sets of models. In our framework, $\C$-indexed
+    collections are not expressive enough to specify \emph{combinations of
+    valuations}, since each $\Gamma_c$ only says something about the valuation
+    for $c$.
+}
+
+Elementariness is characterised by a certain closure condition. Say that two
+worlds $W, W'$ are \emph{partition-equivalent} if $\Pi^W_i = \Pi^{W'}_i$ for
+all sources $i$, and say $W$ is a \emph{valuation combination} from a set $S
+\subseteq \W$ if for all cases $c$ there is $W_c \in S$ such that $v^W_c =
+v^{W_c}_c$.  Then a set is elementary iff it is closed under valuation
+combinations of partition-equivalent worlds.
+
+\begin{proposition}
+\label{prop:elementary_characterisation}
+    $S \subseteq \W$ is elementary if and only if the following condition
+    holds: for all $W \in \W$ and $W_1, W_2 \in S$, if $W$ is
+    partition-equivalent to both $W_1, W_2$ and $W$ is a valuation combination
+    from $\{W_1, W_2\}$, then $W \in S$.
+\end{proposition}
+
+\section{The Problem}
+\label{sec:the_problem}
+
+With the framework set out, we can formally define the problem. We
+seek an operator with the following behaviour:
+
+\begin{itemize}
+
+\item \textbf{Input:} A sequence of reports $\sigma$, where each report is a
+      triple $\tuple{i, c, \phi} \in \S \times \C \times \lprop$ and $\phi
+      \not\equiv \falsum$. Such a report represents that {\em source $i$
+      reports $\phi$ to hold in case $c$}. Note that we only allow sources to
+      make \emph{propositional} reports.
+
+\item \textbf{Output:} A pair $\tuple{B^\sigma, K^\sigma}$, where $B^\sigma =
+      \{B^\sigma_c\}_{c \in \C}$ is a collection of \emph{belief sets}
+      $B^\sigma_c \subseteq \lext$ and $K^\sigma = \{K^\sigma_c\}_{c \in \C}$
+      is a collection of \emph{knowledge sets} $K^\sigma_c \subseteq \lext$.
+
+\end{itemize}
+
+%\begin{example}
+%    \label{ex:most_basic_example}
+
+%    \todo{Make sure this example links back to the informal one in the
+%    introduction, and discuss knowledge before belief}
+%    %
+%    Consider ordinary sources $i$, $j$ and the sequence
+%    $
+%        \sigma = (\tuple{i, c, p}, \tuple{j, c, \neg p})
+%    $.
+%    Here $\sigma$ exhibits total symmetry between $i$, $j$ and $p$, $\neg p$,
+%    so intuitively any operator should be uncertain about $p$ (i.e. $p \notin
+%    B^\sigma_c$ and $\neg p \notin B^\sigma_c$) and uncertain about $i$ and $j$
+%    (i.e.  $E_i(p) \notin B^\sigma_c$ and $E_j(p) \notin B^\sigma_c$).
+%    %
+%    An ``optimistic'' operator might have $E_i(p) \lor E_j(p) \in B^\sigma_c$
+%    (i.e. we believe \emph{at least one} of the sources has expertise on $p$).
+%    %
+%    We would not want to commit this to the knowledge set
+%    $K^\sigma_c$, though, since it is \emph{possible} that neither $i$ nor $j$ have
+%    expertise on $p$. Under the assumption that sources are honest, we do
+%    however know that both cannot be experts: $\neg(E_i(p) \land E_j(p)) \in
+%    K^\sigma_c$.\footnote{This will in fact follow from the \closure{} and
+%    \soundness{} postulates we introduce in \cref{sec:basic_postulates}.}
+
+%\end{example}
+
+%\begin{example}
+%    \label{ex:most_basic_example_extended}
+%    Consider an extension of \cref{ex:most_basic_example}: set
+%    $
+%        \sigma = (
+%            \tuple{i, c, p}, \tuple{j, c, \neg p}, \tuple{i, d, p},
+%            \tuple{\ast, d, \neg p}
+%        )
+%    $ (also c.f. the introductory example).
+%    Here the symmetry is broken by source $i$ reporting $p$ in another case
+%    $d$, where we know $\neg p$ due to the completely reliable source $\ast$.
+%    From this we should have $\neg E_i(p) \in K^\sigma_c$, which could be
+%    enough to tip the scales in favour of source $j$ in case $c$, so that
+%    $E_j(p) \land \neg p \in B^\sigma_c$.\footnote{Indeed, this is the case for
+%    the example operators we define later.}
+%    %
+%    While simple, this important
+%    example shows how trust affects belief (we disbelieve $p$ since we do not
+%    trust $i$ on $p$) and how reports in one case can affect beliefs in
+%    another.
+%\end{example}
+
+\subsection{Basic Postulates}
+\label{sec:basic_postulates}
+
+We immediately narrow the scope of operators under consideration by introducing
+some basic postulates which are expected to hold. In what follows, say a
+sequence $\sigma$ is \emph{$\ast$-consistent} if for each $c \in \C$ the set
+$\{\phi \mid \tuple{\ast, c, \phi} \in \sigma\} \subseteq \lprop$ is
+classically consistent. Write $G^\sigma_\snd$ for the collection with
+$(G^\sigma_\snd)_c = \{S_i(\phi) \mid \tuple{i, c, \phi} \in \sigma\}$, i.e.
+the collection of soundness statements corresponding to the reports in
+$\sigma$.
+
+\begin{postulate}[\closure{}]
+    $B^\sigma = \cn(B^\sigma)$ and  $K^\sigma = \cn(K^\sigma)$
+\end{postulate}
+\begin{postulate}[\containment{}]
+    $K^\sigma \sqsubseteq B^\sigma$
+\end{postulate}
+\begin{postulate}[\consistency{}]
+    If $\sigma$ is $\ast$-consistent, $B^\sigma$ and $K^\sigma$ are
+    consistent
+\end{postulate}
+\begin{postulate}[\soundness{}]
+    If $\tuple{i, c, \phi} \in \sigma$, then $S_i(\phi) \in K^\sigma_c$
+\end{postulate}
+\begin{postulate}[\kbound{}]
+    $K^\sigma \sqsubseteq \cn(G^\sigma_\snd \sqcup K^\emptyset)$
+\end{postulate}
+\begin{postulate}[\priorext{}]
+    $K^\emptyset \sqsubseteq K^\sigma$
+\end{postulate}
+\begin{postulate}[\rearr{}]
+    If $\sigma$ is a permutation of $\rho$, then $B^\sigma = B^\rho$ and
+    $K^\sigma = K^\rho$
+\end{postulate}
+\begin{postulate}[\equivpost{}]
+    If $\phi \equiv \psi$ then $B^{\sigma \concat \tuple{i, c, \phi}} = B^{\sigma
+    \concat \tuple{i, c, \psi}}$ and $K^{\sigma \concat \tuple{i, c, \phi}} =
+    K^{\sigma \concat \tuple{i, c, \psi}}$
+\end{postulate}
+
+\closure{} says that the belief and knowledge collections are closed under
+logical consequence. In light of earlier remarks,
+this implies that the propositional belief sets $\proppart{B^\sigma_c}$ are
+closed under (propositional) consequence, and that $E_i(\phi) \in B^\sigma_c$
+iff $E_i(\phi) \in B^\sigma_d$.
+%
+\containment{} says that everything which is known is also believed.
+%
+\consistency{} ensures the output is always consistent, provided
+we are not in the degenerate case where $\ast$ gives inconsistent reports.
+%
+\soundness{} says we \emph{know} that all reports are sound in their respective
+cases. This formalises our assumption that sources are \emph{honest}, i.e. that
+false reports only arise due to lack of expertise. By \cref{prop:validities}
+part (\labelcref{item:e_and_s_implies_phi}) it also implies \emph{experts are
+always right}: if a source has expertise on their report then it must be true.
+%
+While \soundness{} places a lower bound on knowledge, \kbound{} places an upper
+bound: knowledge cannot go beyond the soundness statements corresponding to the
+reports in $\sigma$ together with the prior knowledge $K^\emptyset$. That is,
+from the point view of knowledge, a new report of $\tuple{i, c, \phi}$ only
+allows us to learn $S_i(\phi)$ in case $c$ (and to combine this with other
+reports and prior knowledge). Note that the analogous property for belief is
+\emph{not} desirable: we want to be more liberal when it comes to beliefs, and
+allow for \emph{defeasible inferences} going beyond the mere fact that reports
+are sound.
+%
+\priorext{} says that knowledge after a sequence $\sigma$ extends the prior
+knowledge on the empty sequence $\emptyset$.
+%
+\rearr{} says that the order in which reports are received is irrelevant. This
+can be justified on the basis that we are reasoning about \emph{static worlds}
+for each case $c$, so that there is no reason
+to see more ``recent'' reports as any more or less important or truthful than
+earlier ones.\footnote{This argument is from \cite{delgrande2006iterated}.}
+Consequently, we can essentially view the input as a \emph{multi-set} of belief
+sets -- one for each source -- bringing us close to the setting of belief
+merging. This postulate also appears as the commutativity postulate
+\textbf{(Com)} in the work of \textcite{schwind2020}.
+%
+Finally, \equivpost{} says that the syntactic form of reports is irrelevant.
+
+Taking all the basic postulates together, the knowledge component $K^\sigma$ is
+fully determined once $K^\emptyset$ is chosen.
+
+\begin{proposition}
+    \label{prop:prior_knowledge}
+    Suppose an operator satisfies the basic postulates. Then
+    \begin{enumerate}
+        \item $K^\sigma = \cn(G^\sigma_\snd \sqcup K^\emptyset)$
+        \item $K^\emptyset = \cn(\emptyset)$ iff $K^\sigma =
+              \cn(G^\sigma_\snd)$ for all $\sigma$.
+    \end{enumerate}
+\end{proposition}
+
+The choice of $K^\emptyset$ depends on the scenario one wishes to model.
+While $\cn(\emptyset)$ is a sensible choice if the sequence $\sigma$ is all we
+have to go on, we allow $K^\emptyset \ne \cn(\emptyset)$ in case \emph{prior
+knowledge} is available (for example, the expertise of particular sources may
+be known ahead of time).
+
+Another important property of knowledge, which follows from the basic
+postulates, says that \emph{knowledge is monotonic}: knowledge after receiving
+$\sigma$ and $\rho$ together is just the case-wise union of $K^\sigma$ and
+$K^\rho$.
+
+\begin{postulate}[\kconj{}]
+    $K^{\sigma \concat \rho} = \cn(K^\sigma \sqcup K^\rho)$
+\end{postulate}
+
+\kconj{} reflects the idea that one should be cautious when it comes to
+knowledge: a formula should only be accepted as known if it won't be given up
+in light of new information.
+
+\begin{proposition}
+    \label{prop:kconj}
+    Any operator satisfying the basic postulates satisfies \kconj{}.
+\end{proposition}
+
+The postulates also imply some useful properties linking \emph{trust} (seen as
+belief in expertise) and \emph{belief/knowledge}.
+
+\begin{proposition}
+    \label{prop:basic_postulates_consequences}
+    Suppose an operator satisfies the basic postulates. Then
+    \begin{enumerate}
+        \item \label{item:knowledge_trust_link} If $\phi \in K^\sigma_c$ and
+              $\neg\psi \in \cnprop(\phi)$ then $\neg E_i(\psi) \in K^{\sigma
+              \concat \tuple{i, c, \psi}}_c$.
+        \item \label{item:trust_belief_link} If $\tuple{i, c, \phi} \in
+              \sigma$ and $E_i(\phi) \in B^\sigma_c$ then $\phi \in
+              B^\sigma_c$.
+    \end{enumerate}
+\end{proposition}
+
+(\labelcref{item:knowledge_trust_link}) expresses how knowledge can negatively
+affect trust: we should distrust sources who make reports we know to be false.
+(\labelcref{item:trust_belief_link}) expresses how trust affects belief: we
+should believe reports from trusted sources.
+It can also be seen as a form of \emph{success} for ordinary sources, and
+implies AGM success when $i = \ast$ (by \cref{prop:validities} part
+(\labelcref{item:star_exp}) and \closure{}). We illustrate the basic postulates
+by formalising the introductory hospital example.
+
+\begin{example}
+    \label{ex:hospital_ex_formalised}
+    Set $\S, \C$ and $\propvars$ as in \cref{ex:hospital_world}, and consider
+    the sequence
+    \[
+        \sigma
+        = (
+            \tuple{\ast, c_1, x},
+            \tuple{a, c_2, x},
+            \tuple{b, c_2, \neg x},
+            \tuple{a, c_1, \neg x}
+        ).
+    \]
+    What do we know on the basis of this sequence, assuming the basic
+    postulates? First note that by \soundness{}, \cref{prop:validities}
+    part (\labelcref{item:star_exp}) and \closure{}, the report from $\ast$ gives $x
+    \in K^\sigma_{c_1}$, i.e. reliable reports are known. \soundness{} also
+    gives $S_a(x) \land S_b(\neg x) \in K^\sigma_{c_2}$. Combined with
+    \cref{prop:validities} parts (\labelcref{item:e_symmetric}),
+    (\labelcref{item:e_and_s_implies_phi}) and \closure{}, this yields
+    $\neg(E_a(x) \land E_b(x)) \in K^\sigma_c$ for all $c$, formalising the
+    intuitive idea that Drs.\ A and B cannot both be experts on X, since they
+    give conflicting reports.
+    %
+    Considering the final report from $a$, we get $x \land S_a(\neg
+    x) \in K^\sigma_{c_1}$, and thus $\neg E_a(x) \in K^\sigma_c$ by
+    \closure{}. So in fact Dr.\ A is known to be a non-expert on X.
+
+    What about beliefs? The basic postulates do not require beliefs to go
+    beyond knowledge, so we cannot say much in general. An ``optimistic"
+    operator, however, may opt to believe that sources are experts unless we
+    know otherwise, and thus maximise the information that can be (defeasibly)
+    inferred from the sequence (in the next section we will introduce
+    concrete operators obeying this principle). In this case we may believe
+    that at least one source has expertise on $x$ (i.e. $E_a(x) \lor E_b(x) \in
+    B^\sigma_c$).  Combined with $\neg E_a(x) \in K^\sigma_c$, \closure{} and
+    \containment{}, we get $E_b(x) \in B^\sigma_{c_2}$. Symmetry of expertise
+    together with \cref{prop:basic_postulates_consequences} part
+    (\labelcref{item:trust_belief_link}) then gives $\neg x \in
+    B^\sigma_{c_2}$, i.e. we trust Dr.\ B in the example and believe patient 2
+    does not suffer from condition X.
+
+\end{example}
+
+\subsection{Model-Based Operators}
+
+While an operator is a purely syntactic object, it will be convenient to
+specify $K^\sigma$ and $B^\sigma$ in semantic terms by selecting a set of
+\emph{possible} and \emph{most plausible} worlds for each sequence $\sigma$.
+We call such operators \emph{model-based}.
+
+\begin{definition}
+\label{def:model_based}
+An operator is \emph{model-based} if for every $\sigma$ there
+are sets $\X_\sigma, \Y_\sigma \subseteq \W$ such that
+\begin{inlinelist}
+    \item $\X_\sigma \supseteq \Y_\sigma$;
+    \item $\Phi \in K^\sigma_c$ iff $W, c \models \Phi$ for all $W \in
+          \X_\sigma$; and
+    \item $\Phi \in B^\sigma_c$ iff $W, c \models \Phi$ for all $W \in
+          \Y_\sigma$.
+\end{inlinelist}
+\end{definition}
+
+In other words, $K^\sigma_c$ (resp., $B^\sigma_c$) contains the formulas which
+hold at case $c$ in \emph{all worlds} in $\X_\sigma$ (resp., $\Y_\sigma)$. It
+follows from the relevant definitions that $\X_\sigma \subseteq
+\mods(K^\sigma)$, and equality holds if and only if $\X_\sigma$ is elementary
+(similarly for $\Y^\sigma$ and $B^\sigma$).
+%
+Model-based operators are characterised by our first two basic postulates.
+
+\begin{theorem}
+\label{thm:model_based_characterisation}
+An operator satisfies \closure{} and \containment{} if and only if it
+is model-based.
+\end{theorem}
+
+Since we take \closure{} and \containment{} to be fundamental properties, all
+operators we consider from now on will be model-based.
+%
+We introduce our first concrete operator.
+
+\begin{definition}
+    \label{def:weakop}
+    Define the model-based operator \weakop{} by
+    \[
+        \X_\sigma = \Y_\sigma = \{
+            W \mid W, c \models S_i(\phi) \text{ for all } \tuple{i, c, \phi}
+            \in \sigma
+        \}.
+    \]
+\end{definition}
+
+That is, the possible worlds $\X_\sigma$ are
+exactly those satisfying the soundness constraint for each report in
+$\sigma$, i.e. false reports are only due to lack of expertise of the
+corresponding source.
+%
+Syntactically, $K^\sigma = B^\sigma = \cn(G^\sigma_\snd)$.
+
+Clearly \weakop{} satisfies \soundness{}, and one
+can show that it satisfies all of the basic postulates of
+\cref{sec:basic_postulates}.\footnotemark In fact, it is the \emph{weakest}
+operator satisfying \closure{}, \containment{} and \soundness{}, in that
+for any other operator $\sigma \mapsto \tuple{\hat{B}^\sigma,
+\hat{K}^\sigma}$ with these properties we have $B^\sigma \sqsubseteq
+\hat{B}^\sigma$ and $K^\sigma \sqsubseteq \hat{K}^\sigma$ for any $\sigma$.
+\footnotetext{
+    For \consistency{}, note that for any $\ast$-consistent sequence
+    $\sigma$ one can form a world $W$ such that $v_c$ is a model of all
+    reports from $\ast$ at case $c$, and $\Pi_i = \{\vals\}$ for all $i \ne
+    \ast$. This satisfies all the soundness constraints, so $W \in
+    \X_\sigma = \Y_\sigma$.
+}
+
+\begin{example}
+\label{ex:model_based}
+    Consider \weakop{} applied to the sequence
+    $
+        \sigma
+        = (\tuple{\ast, c, p}, \tuple{i, c, \neg p \land q})
+    $.
+    By \soundness{}, \closure{} and the validities from \cref{prop:validities},
+    we have $p \in K^\sigma_c$ and $\neg E_i(p) \in K^\sigma_c$. In fact, by
+    \closure{}, we
+    have $\neg E_i(p) \in K^\sigma_d$ for all cases $d$.
+    %
+    However, we cannot say much about $q$: neither $q$, $\neg q$, $E_i(q)$ nor
+    $\neg E_i(q)$ are in $B^\sigma_c = K^\sigma_c$.
+
+\end{example}
+
+\section{Constructions}
+\label{sec:constructions}
+
+For model-based operators in \Cref{def:model_based}, the sets $\X_\sigma$ and
+$\Y_\sigma$ -- which determine knowledge and belief -- can
+depend on $\sigma$ in a completely arbitrary manner. This lack of structure
+leads to very wide class of operators, and one cannot say much about them in
+general beyond the satisfaction of \closure{} and \containment{}. In this
+section we specialise model-based operators by providing two constructions.
+
+\subsection{Conditioning Operators}
+\label{sec:conditioning_operators}
+
+Intuitively, $\Y_\sigma$ is supposed to represent the \emph{most
+plausible} worlds among the possible worlds in $\X_\sigma$. This suggests the
+presence of a \emph{plausibility ordering} on $\X_\sigma$, which is used to
+select $\Y_\sigma$.
+%
+For our first construction we take this approach: we condition a fixed
+plausibility total preorder\footnotemark{} on the knowledge $\X_\sigma$, and
+obtain $\Y_\sigma$ by selecting the minimal (i.e. most plausible) worlds.
+\footnotetext{
+    A total preorder is a reflexive, transitive and total relation.
+}
+
+\begin{definition}
+\label{def:conditioning_operator}
+An operator is a \emph{conditioning operator} if there is a total
+preorder $\le$ on $\W$ and a mapping $\sigma \mapsto \tuple{\X_\sigma,
+\Y_\sigma}$ as in \cref{def:model_based} such that
+$
+    \Y_\sigma = \min_{\le}{\X_\sigma}
+$
+for all $\sigma$.
+\end{definition}
+
+Note that $\le$ is independent of $\sigma$: it is fixed before receiving any
+reports. All conditioning operators are model-based by definition. Clearly
+$\Y_\sigma$ is determined by $\X_\sigma$ and the plausibility order, so that to
+define a conditioning operator it is enough to specify $\le$ and the mapping
+$\sigma \mapsto \X_\sigma$.
+%
+Write $W \simeq W'$ iff both $W \le W'$ and $W' \le W$.
+%
+We now present examples of how such an ordering can be defined.
+
+\begin{definition}
+    \label{def:varbasedcond}
+    Define the conditioning operator \varbasedcond{} by setting
+    $\X_\sigma$ in the same way as \weakop{} in \cref{def:weakop}, and $W \le
+    W'$ iff $r(W) \le r(W')$, where
+    \[
+        r(W) = - \sum_{i \in \S}\left|\left\{
+            p \in \propvars
+            \mid
+            \Pi^W_i[p] = \propmods(p)
+        \right\}\right|.
+    \]
+\end{definition}
+
+\varbasedcond{} aims to trust each source on \emph{as many propositional
+variables} as possible. One can check that \varbasedcond{} satisfies the
+basic postulates.
+
+\begin{example}
+    \label{ex:conditioning_operator}
+    Revisiting the sequence
+    $
+        \sigma
+        = (\tuple{\ast, c, p}, \tuple{i, c, \neg p \land q})
+    $
+    from \cref{ex:model_based} with \varbasedcond{}, the knowledge set
+    $K^\sigma_c$ is the same as before, but we now have $q \land E_i(q) \in
+    B^\sigma_c$. This reflects the ``credulous'' behaviour of the ranking
+    $\le$: while it is not possible to believe $i$ is an expert on $p$, we
+    should believe they \emph{are} an expert on $q$ so long as this does not
+    conflict with soundness. For the propositional beliefs generally, we have
+    $\proppart{B^\sigma_c} = \cnprop(p \land q)$. That is, \varbasedcond{} takes
+    the $q$ part of the report from $i$ (on which $i$ is credulously trusted)
+    while ignoring the $\neg p$ part (which is false due to report from
+    $\ast$).
+
+\end{example}
+
+\begin{definition}
+    Define a conditioning operator \partbasedcond{} with $\X_\sigma$ as
+    for \varbasedcond{}, and $\le$ defined by the ranking function
+    \[
+        r(W) = -\sum_{i \in \S}{|\Pi^W_i|}.
+    \]
+\end{definition}
+
+\partbasedcond{} aims to maximise the \emph{number of cells} in the sources'
+partitions, and thereby maximise the number of propositions on which they have
+expertise. Unlike \varbasedcond{}, the propositional variables play no special
+role. As expected, \partbasedcond{} satisfies the basic postulates.
+
+\begin{example}
+    Applying \partbasedcond{} to $\sigma$ from
+    \cref{ex:model_based,ex:conditioning_operator}, we no longer extract $q$
+    from the report of $i$: $q \notin B^\sigma_c$ and $E_i(q) \notin
+    B^\sigma_c$. Instead, we have $\proppart{B^\sigma_c} = \cnprop(p)$, and
+    $E_i(p \lor q) \in B^\sigma_c$.
+\end{example}
+
+Note that both \varbasedcond{} and \partbasedcond{} are based on the general
+principle of maximising the expertise of sources, subject to the constraint
+that all reports are sound. This intuition is formalised by the following
+postulate for conditioning operators. In what follows, write $W \preceq W'$ iff
+$\Pi^W_i$ refines $\Pi^{W'}_i$ for all $i \in \S$, i.e. if all sources have
+broadly more expertise in $W$ than in $W'$.\footnotemark{}
+
+\footnotetext{
+    $\Pi$ refines $\Pi'$ if $\forall A \in \Pi$, $\exists B \in \Pi'$ such that
+    $A \subseteq B$.
+}
+
+\begin{postulate}[\refinement{}]
+    If $W \preceq W'$ then $W \le W'$
+\end{postulate}
+
+Since $\preceq$ is only a partial order on $\W$ there are many possible total
+extensions; \varbasedcond{} and \partbasedcond{} provide two specific examples.
+
+We now turn to an axiomatic characterisation of conditioning operators.
+Taken with the basic postulates from \cref{sec:basic_postulates},
+conditioning operators can be characterised using an approach similar to that of
+\textcite{delgrande2018general} in their account of \emph{generalised AGM belief
+revision}.\footnotemark{} This involves a technical property
+\citeauthor{delgrande2018general}
+call \postulatename{Acyc}, which finds its roots in the \emph{Loop}
+property of \textcite{kraus1990nonmonotonic}.
+%
+\footnotetext{ Note that while the result is similar, our framework is not an
+instance of theirs.  }
+
+\begin{postulate}[\duprem{}]
+    If $\rho_1 = \sigma \concat \tuple{i, c, \phi}$ and $\rho_2 = \rho_1
+    \concat \tuple{i, c, \phi}$ then $B^{\rho_1} = B^{\rho_2}$ and
+    $K^{\rho_1} = K^{\rho_2}$
+\end{postulate}
+\begin{postulate}[\condcons{}]
+    If $K^\sigma$ is consistent then so is $B^\sigma$
+\end{postulate}
+\begin{postulate}[\incvac{}]
+    $B^{\sigma \concat \rho} \sqsubseteq \cn(B^\sigma \sqcup K^\rho)$, with
+    equality if $B^\sigma \sqcup K^\rho$ is consistent
+\end{postulate}
+\begin{postulate}[\acyc{}]
+    If $\sigma_0, \ldots, \sigma_n$ are such that $K^{\sigma_j} \sqcup
+    B^{\sigma_{j+1}}$ is consistent for all $0 \le j < n$ and $K^{\sigma_n}
+    \sqcup B^{\sigma_0}$ is consistent, then $K^{\sigma_0} \sqcup B^{\sigma_n}$
+    is consistent
+\end{postulate}
+
+\incvac{} is so-named since it is analogous to the combination of
+\emph{Inclusion} and \emph{Vacuity} from AGM revision, if one informally views
+$B^{\sigma \concat \rho}$ as the revision of $B^\sigma$ by $K^\rho$.
+%
+\condcons{} is another consistency postulate, which follows from
+\consistency{},  \closure{} and \soundness{}.
+%
+\acyc{} is the analogue of the postulate of \citeauthor{delgrande2018general},
+which rules out cycles in the plausibility order
+constructed in the representation result.
+
+As with the result of \citeauthor{delgrande2018general}, a technical condition beyond
+\cref{def:conditioning_operator} is required to obtain the characterisation:
+say that a conditioning operator is \emph{elementary} if for each $\sigma$ the
+sets of worlds $\X_\sigma$ and $\Y_\sigma = \min_{\le}\X_\sigma$ are
+elementary.\footnotemark{}
+%
+\footnotetext{
+    Equivalently, there is a total preorder $\le$ such that $\mods(B^\sigma) =
+    \min_{\le}\mods(K^\sigma)$ for all $\sigma$.
+}
+
+\begin{theorem}
+    \label{thm:conditioning_characterisation}
+    Suppose an operator satisfies the basic postulates of
+    \cref{sec:basic_postulates}.\footnotemark{} Then it is an elementary
+    conditioning operator if and only if it satisfies \duprem{},
+    \condcons{}, \incvac{} and \acyc{}.
+
+    \footnotetext{
+        Strictly speaking, we only need \closure{}, \containment{},
+        \kconj{}, \equivpost{} and \rearr{}.
+    }
+\end{theorem}
+
+The proof roughly follows the lines of Theorem 4.9 in
+\cite{delgrande2018general}, although some
+differences arise due to the form of our input as finite sequences of reports.
+%
+We note that while the requirement that $\X_{\sigma}$ and $\Y_{\sigma}$ are elementary is
+a technical condition,\footnotemark{} the characterisation in
+\cref{prop:elementary_characterisation} implies a simple sufficient condition
+for elementariness.
+%
+\footnotetext{
+    \incvac{} may fail for non-elementary conditioning.
+}
+
+\begin{proposition}
+    \label{prop:partition_equiv_tpo_implies_elementariness}
+    Suppose $\le$ is such that $W \simeq W'$ whenever $W$ and $W'$ are
+    partition-equivalent. Then $\min_{\le}{S}$ is elementary for any
+    elementary set $S \subseteq \W$.
+\end{proposition}
+
+\Cref{prop:partition_equiv_tpo_implies_elementariness} implies that
+\varbasedcond{} and \partbasedcond{} are elementary. Indeed, for both operators
+$\X_\sigma = \mods(G^\sigma_\snd)$ so is elementary by definition. Since the
+ranking $\le$ for each operator only depends on the partitions of worlds,
+$\Y_\sigma =
+\min_{\le}{\X_\sigma}$ is elementary also.
+
+\subsection{Score-Based Operators}
+\label{sec:score_based}
+
+The fact that the plausibility order $\le$ of a conditioning operator is fixed
+may be too limiting. For example, consider
+\[
+    \sigma
+    =
+    (\tuple{i, c, p},
+    \tuple{j, c, \neg p},
+    \tuple{i, d, p}).
+\]
+%
+If one sets $\X_\sigma$ to satisfy the soundness constraints (i.e. as in
+\weakop{}), there is a possible
+world $W_1 \in \X_\sigma$ with $W_1, d \models \neg E_i(p) \land E_j(p) \land
+\neg p$ (i.e. $W_1$ sides with source $j$ and $p$ is false at $d$) and another
+world $W_2 \in \X_\sigma$ with $W_2, d \models E_i(p) \land \neg E_j(p) \land
+p$ (i.e. $W_2$ sides with source $i$). Appealing to symmetry, one may argue
+that neither world is \emph{a priori} more plausible than the other, so any
+fixed plausibility order should have $W_1 \simeq W_2$. If these worlds
+are maximally plausible (e.g. if taking the ``optimistic" view outlined in
+\cref{ex:hospital_ex_formalised}), conditioning gives $p \notin B^\sigma_d$ and
+$\neg p \notin B^\sigma_d$.
+%
+However, there is an argument that $W_2$ should be considered more plausible
+than $W_1$ \emph{given the sequence $\sigma$}, since $W_2$ validates the final
+report $\tuple{i, d, p}$ whereas $W_1$ does not. Consequently, there is an
+argument that we should in fact have $p \in B^\sigma_d$.\footnote{At the very
+least, the case $p \in B^\sigma_d$ should not be \emph{excluded}.} This shows
+that we need the plausibility order to be responsive to the input sequence for
+adequate belief change.\footnotemark{}
+
+\footnotetext{
+    In \cref{sec:one_step_postulates} we make this argument more precise
+    by providing an impossibility result which shows conditioning operators
+    with some basic properties cannot accept $p$ in sequences such as this.
+}
+
+As a result of this discussion, we look for operators whose plausibility
+ordering can depend on $\sigma$. One approach to achieve this in a controlled
+way is to have a ranking for each
+\emph{report} $\tuple{i, c, \phi}$, and combine these to construct a ranking
+for each sequence $\sigma$. We represent these rankings by \emph{scoring
+functions}, and call the resulting operators \emph{score-based}.
+
+\begin{definition}
+\label{def:score_based}
+    An operator is \emph{score-based} if there is a mapping $\sigma \mapsto
+    \tuple{\X_\sigma, \Y_\sigma}$ as in \cref{def:model_based} and functions
+    $r_0: \W \to \Ninf$, $d: \W \times (\S \times \C \times \lprop) \to \Ninf$
+    such that $\X_\sigma = \{W \mid r_\sigma(W) < \infty\}$ and $\Y_\sigma =
+    \argmin_{W \in \X_\sigma}{r_\sigma(W)}$, where
+    \[
+        r_\sigma(W) = r_0(W) + \sum\nolimits_{\tuple{i, c, \phi} \in \sigma}{
+            d(W, \tuple{i, c, \phi})
+        }.
+    \]
+
+\end{definition}
+
+Here $r_0(W)$ is the \emph{prior implausibility score} of $W$, and $d(W,
+\tuple{i, c, \phi})$ is the \emph{disagreement score} for world $W$ and $\tuple{i,
+c, \phi}$. The set of most plausible worlds $\Y_\sigma$ consists of those $W$
+which minimise the sum of the prior implausibility and the total
+disagreement with $\sigma$. Note that by summing the scores
+of each report $\tuple{i, c, \phi}$ with equal weight, we treat each report independently.
+%
+Score-based operators generalise elementary conditioning operators with \kconj{}.
+
+\begin{proposition}
+\label{prop:kconj_conditioning_implies_score_based}
+    Any elementary conditioning operator satisfying \kconj{} is score-based.
+\end{proposition}
+
+\begin{proof}
+    Take any elementary conditioning operator corresponding to some mapping
+    $\sigma \mapsto \tuple{\X_\sigma, \Y_\sigma}$ and total preorder $\le$, and
+    suppose \kconj{} holds. Write
+    \[
+        k(W) = |\{W' \in \W \mid W' \le W\}|
+    \]
+    Then we have $W \le W'$ iff $k(W) \le k(W')$. Set
+    \[
+        r_0(W) = \begin{cases}
+            \infty,& W \notin \X_\emptyset \\
+            k(W),& W \in \X_\emptyset
+        \end{cases},
+    \]
+    \[
+        d(W, \tuple{i, c, \phi}) = \begin{cases}
+            \infty,& W \notin \X_{\tuple{i, c, \phi}} \\
+            0,& W \in \X_{\tuple{i, c, \phi}} \\
+        \end{cases}.
+    \]
+    For any sequence $\sigma$, repeated applications of \kconj{} (and the fact
+    that $\X_\sigma$ is elementary) give $r_\sigma(W) < \infty$ iff $W \in
+    \X_\sigma$. Similarly, the choice of $r_0$ gives $\argmin_{W \in
+    \X_\sigma}{r_\sigma(W)} = \min_{\le}{\X_\sigma} = \Y_\sigma$. Hence the
+    operator is score-based.
+
+\end{proof}
+
+We now give a concrete example.
+
+\begin{definition}
+    \label{def:scorebasedop}
+    Define a score-based operator \scorebasedop{} by setting
+    $r_0(W) = 0$ and
+    \[
+        d(W, \tuple{i, c, \phi}) = \begin{cases}
+            |\Pi^W_i[\phi] \setminus \propmods(\phi)|,& W, c \models S_i(\phi) \\
+            \infty,& \text{ otherwise. }
+        \end{cases}
+    \]
+\end{definition}
+
+The set of possible worlds $\X_\sigma$ is the same as for the earlier
+operators.
+All worlds are \emph{a priori} equiplausible according to
+$r_0$. The disagreement score $d$ is defined as the number of propositional
+valuations in the ``excess" of $\Pi^W_i[\phi]$ which are not models of
+$\phi$, i.e. the number of $\neg\phi$ valuations which are indistinguishable
+from some $\phi$ valuation.
+%
+% The worlds which minimise $d(W, \tuple{i, c, \phi})$ are therefore those in
+% which there are only a small number of $\neg \phi$ valuations which $i$
+% cannot distinguish from some $\phi$ valuation.
+The intuition here is that \emph{sources tend to only report formulas on which
+they have expertise}. The minimum score 0 is attained exactly when $i$ has
+expertise on $\phi$; other worlds are ordered by how much they deviate from
+this ideal.
+
+One can verify that \scorebasedop{} satisfies the basic postulates of
+\cref{sec:basic_postulates}. It can also be seen that $\X_\sigma$ and
+$\Y_\sigma$ are elementary, and \scorebasedop{} fails \duprem{} and \incvac{}.
+It follows from
+\cref{thm:conditioning_characterisation} that \scorebasedop{} is \emph{not} a
+conditioning operator.\footnotemark{}
+
+\footnotetext{
+    We will later give an alternative proof of this fact, via an impossibility
+    result for conditioning operators
+    (\cref{prop:strongcondsucc_conditioning_impossibilitity}).
+}
+
+\begin{example}
+\label{ex:score_based}
+     To illustrate the differences between \scorebasedop{} and conditioning,
+     consider a more elaborate version of the
+     example given at the start of this \lcnamecref{sec:score_based}:
+     \[
+        \sigma = (
+            \tuple{i, c, p \rightarrow q},
+            \tuple{j, c, p \rightarrow \neg q},
+            \tuple{\ast, c, p},
+            \tuple{i, d, p},
+            \tuple{i, d, q}
+        ).
+     \]
+     Here the reports of $i$ and $j$ in case $c$ are consistent,
+     but inconsistent when taken with
+     the reliable information $p$ from $\ast$. Should we believe $q$ or $\neg
+     q$? Both our conditioning operators \varbasedcond{} and \partbasedcond{}
+     decline to decide, and have $\proppart{B^\sigma_c} = \cnprop(p)$. However,
+     since \scorebasedop{} takes into account each report in the
+     sequence, the fact that $i$ reports both $p$ and $q$ in case $d$ leads to
+     $E_i(p) \land E_i(q) \in B^\sigma_c$. This gives $E_i(p \rightarrow q)
+     \in B^\sigma_c$ by \cref{prop:validities} part
+     (\labelcref{item:exp_on_all_variables}), so we can make use of the report
+     from $i$ in case $c$: we have $\proppart{B^\sigma_c} = \cnprop(p \land
+     q)$.
+     %
+     This example shows that score-based operators can be \emph{more credulous}
+     than conditioning operators (e.g. we can believe $E_i(p)$ when
+     $i$ reports $p$), and can consequently hold stronger propositional
+     beliefs.
+
+\end{example}
+
+\section{One-Step Revision}
+\label{sec:one_step_postulates}
+
+The postulates of \cref{sec:basic_postulates} only set out very basic
+requirements for an operator. In this section we introduce some more demanding
+postulates which address how beliefs should change when a sequence $\sigma$ is
+extended by a new report $\tuple{i, c, \phi}$.  In view of \rearr{}, we do not
+view this process as \emph{revision} of $B^\sigma$ by $\tuple{i, c, \phi}$, but
+rather as \emph{reinterpretation} of $\sigma$ in light of a new report
+$\tuple{i, c, \phi}$. The postulates we introduce can therefore be seen as
+\emph{coherency} requirements, which place some constraints on this
+reinterpretation.
+
+First, we address how propositional beliefs should be affected by reliable
+information.
+
+\begin{postulate}[\agm{}]
+    For any $\sigma$ and $c \in \C$ there is an AGM operator $\star$
+    for $\proppart{B^\sigma_c}$ such that $\proppart{B^{\sigma \concat
+    \tuple{\ast, c, \phi}}_c} = \proppart{B^\sigma_c} \star \phi$ whenever
+    $\neg\phi \notin K^\sigma_c$
+\end{postulate}
+
+\agm{} says that receiving information from the reliable source $\ast$ acts in
+accordance with the well-known AGM postulates~\cite{alchourron1985logic} for propositional belief
+revision (provided we are not in the degenerate case where the new report
+$\phi$ was already \emph{known} to be false). Since AGM revision operators are
+characterised by total preorders over valuations
+\cite{grove1988two,katsuno_1991}, it is no surprise that our order-based
+constructions are consistent with \agm{}.
+
+\begin{proposition}
+    \label{prop:examples_satisfy_agm}
+    \varbasedcond{}, \partbasedcond{} and \scorebasedop{}
+    satisfy \agm{}.
+\end{proposition}
+
+Thus, we do indeed extend AGM revision in the case of reliable information.
+What about non-reliable information? First note that the analogue of \agm{} for
+ordinary sources $i \ne \ast$ is \emph{not} desirable. In particular, we
+should not have the \postulatename{Success} postulate:
+\[
+    \phi \in B^{\sigma \concat \tuple{i, c, \phi}}_c.
+\]
+Indeed, the sequence in \cref{ex:model_based} with $\phi = \neg p
+\land q$ already shows that \postulatename{Success} would conflict with the
+basic postulates.
+%
+However, there are weaker modifications of \postulatename{Success} which may be
+more appropriate. We consider two such postulates.
+
+\begin{postulate}[\condsucc{}]
+    If $E_i(\phi) \in B^\sigma_c$ and $\neg\phi \notin B^\sigma_c$, then $\phi
+    \in B^{\sigma \concat \tuple{i, c, \phi}}_c$
+\end{postulate}
+
+\begin{postulate}[\strongcondsucc{}]
+    If $\neg(E_i(\phi) \land \phi) \notin B^\sigma_c$, then $\phi \in B^{\sigma
+    \concat \tuple{i, c, \phi}}_c$
+\end{postulate}
+
+\condsucc{} says that if $i$ is deemed an expert on $\phi$, which is consistent
+with current beliefs, then $\phi$ is accepted after $i$ reports it. That is,
+the acceptance of $\phi$ is \emph{conditional} on prior beliefs about the expertise of
+$i$ (on $\phi$). \strongcondsucc{} weakens the antecedent by only requiring
+that $E_i(\phi)$ and $\phi$ are jointly consistent with current beliefs (i.e.
+$i$ need not be considered an expert on $\phi$). In other words, we should
+believe reports if there is no reason not to. It is easily shown that
+\closure{} and \strongcondsucc{} implies \condsucc{}.
+%
+We once again revisit our examples.
+
+\begin{proposition}
+    \label{prop:examples_satisfy_condsucc}
+    \varbasedcond{}, \partbasedcond{} and \scorebasedop{}
+    satisfy \condsucc{}, and \scorebasedop{} additionally
+    satisfies \strongcondsucc{}.
+\end{proposition}
+
+By omission, the reader may suppose that the conditioning operators fail
+\strongcondsucc{}. This is correct, and we can in fact say even more: \emph{no}
+conditioning operator with a few basic properties -- all of which are satisfied
+by \varbasedcond{} and \partbasedcond{} -- can satisfy \strongcondsucc{}.
+%
+In what follows, for a permutation $\pi: \S \to \S$ with $\pi(\ast) = \ast$,
+write $\pi(W)$ for the world with $v^{\pi(W)}_c = v^W_c$ and $\Pi^{\pi(W)}_i =
+\Pi^W_{\pi(i)}$. We have an impossibility result.
+
+\begin{proposition}
+    \label{prop:strongcondsucc_conditioning_impossibilitity}
+    No elementary conditioning operator satisfying the basic postulates can
+    simultaneously satisfy the following properties:
+    \begin{enumerate}
+        \item \label{item:conditioning_impossibility_first}
+              $K^\emptyset = \cn(\emptyset)$
+
+        \item \label{item:anonymity}
+              If $\pi$ is a permutation of $\S$ with $\pi(\ast) = \ast$, $W
+              \simeq \pi(W)$
+
+        \item \refinement{}
+
+        \item \label{item:conditioning_impossibility_last} \strongcondsucc{}
+    \end{enumerate}
+    However, any proper subset of
+    (\labelcref{item:conditioning_impossibility_first}) -
+    (\labelcref{item:conditioning_impossibility_last}) is satisfiable.
+\end{proposition}
+
+(\labelcref{item:conditioning_impossibility_first}) says that before any
+reports are received, we only know tautologies. As remarked earlier, this is
+not an \emph{essential} property, but is reasonable when no prior knowledge is
+available. (\labelcref{item:anonymity}) is an anonymity postulate: it says that
+permuting the ``names" of sources does not affect the plausibility of a world,
+and is a desirable property in light of
+(\labelcref{item:conditioning_impossibility_first}). \refinement{}, introduced
+in \cref{sec:conditioning_operators}, says that worlds in which all sources
+have more expertise are preferred.
+
+\Cref{prop:strongcondsucc_conditioning_impossibilitity} highlights an important
+difference between conditioning and score-based operators, and hints that
+a fixed plausibility order may be too restrictive: we
+need to allow the order to be responsive to new reports in order to satisfy
+properties such as \strongcondsucc{}.
+
+\section{Selective Change}
+\label{sec:selective_change}
+
+In the previous section we saw how a single formula $\phi$ may be accepted when
+it is received as an additional report. But what can we say about propositional
+beliefs when taking into account the \emph{whole sequence} $\sigma$? To
+investigate this we introduce an analogue of \emph{selective revision}
+\cite{ferme1999selective}, in which propositional beliefs are
+formed by ``selecting" part of each input report (intuitively, some part
+consistent with the source's expertise). In what follows, write $\sigma \rs c =
+\{\tuple{i, \phi} \mid \tuple{i, c, \phi} \in \sigma\}$ for the $c$-reports in
+$\sigma$.
+
+\begin{definition}
+    \label{def:selectivity}
+    A \emph{selection scheme} is a mapping $f$ assigning to each
+    $\ast$-consistent sequence $\sigma$ a function $f_\sigma: \S \times \C
+    \times \lprop \to \lprop$ such that $f_\sigma(i, c, \phi) \in
+    \cnprop(\phi)$.
+    %
+    An operator is \emph{selective} if there is a selection scheme $f$ such
+    that for all $\ast$-consistent $\sigma$ and $c \in \C$,
+    \[
+        \proppart{B^\sigma_c} = \cnprop(\{f_\sigma(i, c, \phi) \mid \tuple{i,
+        \phi} \in \sigma \rs c\}).
+    \]
+\end{definition}
+
+Thus, an operator is selective if its propositional beliefs in case $c$ are
+formed by weakening each $c$-report and taking their consequences. Note that for
+$\sigma = \emptyset$ we get $\proppart{B^\sigma_c} = \cnprop(\emptyset)$, so
+selectivity already rules out non-tautological prior propositional beliefs.
+Also note that in the presence of \closure{}, \containment{} and \soundness{},
+selectivity implies that $\proppart{B^\sigma_c} = \proppart{B^\rho_c}$, where
+$\rho$ is obtained by replacing each report $\tuple{i, c, \phi}$ with
+$\tuple{\ast, c, f_\sigma(i, c, \phi)}$.
+
+Selectivity can be characterised by a natural postulate placing an upper bound
+on the propositional part of $B^\sigma_c$. In what follows, let
+$\Gamma^\sigma_c = \{\phi \in \lprop \mid \exists i \in \S: \tuple{i, \phi}
+\in \sigma \rs c\}$.
+
+\begin{postulate}[\boundedness{}]
+    If $\sigma$ is $\ast$-consistent, $\proppart{B^\sigma_c}
+    \subseteq \cnprop(\Gamma^\sigma_c)$
+\end{postulate}
+
+\boundedness{} says that the propositional beliefs in case $c$ should not go
+beyond the consequences of the formulas reported in case $c$. In some sense
+this can be seen as an iterated version of \postulatename{Inclusion} from AGM
+revision, in the case where $\proppart{B^\sigma_c} = \cnprop(\emptyset)$. We
+have the following characterisation.
+
+\begin{theorem}
+    \label{thm:selectivity_characterisation}
+    A model-based operator is selective if and only if it satisfies
+    \boundedness{}.
+\end{theorem}
+
+\todo{fix}
+This result allows us to easily analyse when conditioning and score-based
+operators are selective; we show in the
+\ifdefined\thisistheprerint
+    appendix
+\else
+    full paper~\cite{singleton_booth_22_preprint}
+\fi
+that \varbasedcond{}, \partbasedcond{} and \scorebasedop{} are all selective.
+
+\subsection{Case Independence}
+
+In the definition of a selection scheme, we allow $f_\sigma(i, c, \phi)$ to
+depend on the case $c$. If one views $f_\sigma(i, c, \phi)$ as a weakening of
+$\phi$ which accounts for the lack of expertise of $i$, this is somewhat at
+odds with other aspects of the framework, where expertise is independent of
+case. For this reason it is natural to consider \emph{case independent}
+selective schemes.
+
+\begin{definition}
+    \label{def:case_independent_selectivity}
+    A selection scheme $f$ is \emph{case independent} if $f_\sigma(i, c, \phi)
+    \equiv f_\sigma(i, d, \phi)$ for all $\ast$-consistent $\sigma$ and $i \in
+    \S$, $c, d \in \C$ and $\phi \in \lprop$.
+\end{definition}
+
+Say an operator is \emph{case-independent-selective} if it is selective
+according to some case independent scheme. This stronger notion of selectivity
+can again be characterised by a postulate which bounds propositional beliefs.
+For any set of cases $H \subseteq \C$, sequence $\sigma$ and $c \in \C$, write
+\begin{align*}
+    \Gamma^{\sigma,H}_c
+    = \{
+        \phi \in \lprop
+        \mid
+        \exists i \in \S:
+            &\tuple{i, \phi} \in \sigma \rs c \\
+            &\text{ and }
+            \forall d \in H : \tuple{i, \phi} \notin \sigma \rs d
+    \}.
+\end{align*}
+
+\begin{postulate}[\hboundedness{}]
+    For any $\ast$-consistent $\sigma$, $H \subseteq \C$ and $c \in \C$,
+    \[
+        \proppart{B^\sigma_c}
+            \subseteq
+            \cnprop\left(
+                \Gamma^{\sigma,H}_c
+                \cup
+                \bigcup_{d \in H}{
+                    \proppart{B^\sigma_d}
+                }
+            \right)
+    \]
+\end{postulate}
+
+Note that \boundedness{} is obtained as the special case where $H =
+\emptyset$. We illustrate with an example.
+
+\begin{example}
+    \label{ex:hprop}
+    Consider case $c$ in the following sequence:
+    \[
+        \sigma
+        = (
+            \tuple{i, c, p},
+            \tuple{j, c, q},
+            \tuple{j, d, q},
+            \tuple{k, d, r}
+        )
+    \]
+    \boundedness{} requires that $\proppart{B^\sigma_c} \subseteq \cnprop(\{p,
+    q\})$. However, the instance of \hboundedness{} with $H = \{d\}$ makes use
+    of the fact that $j$ reports $q$ in both cases $c$ and $d$, and requires
+    $\proppart{B^\sigma_c} \subseteq \cnprop(\{p\} \cup
+    \proppart{B^\sigma_d})$.
+    %
+    This also has an interesting implication for case $d$: if $\phi \in
+    \proppart{B^\sigma_c}$, then $p \rightarrow \phi \in
+    \proppart{B^\sigma_d}$. This follows since $\beta \in \cnprop(\{\alpha\}
+    \cup \Gamma)$ iff $\alpha \rightarrow \beta \in \cnprop(\Gamma)$ for
+    $\alpha, \beta \in \lprop$.
+    Intuitively, this says that if $p$ (from $i$) and $q$
+    (from $j$) is enough to accept $\phi$ in case $c$, then $\phi$ is
+    accepted in case $d$ \emph{if $p$ is}, given that the report of $q$ from
+    $j$ is repeated for $d$.
+
+\end{example}
+
+The characterisation is as follows.
+
+\begin{theorem}
+    \label{thm:case_independent_selectivity_characterisation}
+    A model-based operator is case-independent-selective if and only if it
+    satisfies \hboundedness{}.
+\end{theorem}
+
+The question of whether our concrete operators satisfy \hboundedness{}
+(equivalently, whether they are case-independent-selective) is still open.
+
+\subsection{Expertise and Selectivity}
+
+In the existing literature on selective belief change (e.g.
+\cite{ferme1999selective,booth_trust_2018}), the selection function typically
+acts as a means to separate out the part of new information on which the
+reporting sources is \emph{credible}, or \emph{trusted}. In our framework, this
+property of the selection scheme $f$ can be captured as follows.
+
+\begin{definition}
+    \label{def:ec_scheme}
+    A selection scheme $f$ is \emph{expertise-compatible} (EC) with an operator
+    $\sigma \mapsto \tuple{B^\sigma, K^\sigma}$ if for all $\ast$-consistent
+    $\sigma$ and $\tuple{i, c, \phi} \in \sigma$,
+    \[
+        E_i(f_\sigma(i, c, \phi)) \in B^\sigma_c
+    \]
+\end{definition}
+
+Say an operator is \emph{EC-selective} if it is selective according to some
+expertise-compatible scheme. While EC-selectivity may appear natural on first
+glance, we argue that it can be overly restrictive when expertise is derived
+from the input sequence itself. For example, consider the sequence
+\[
+    \sigma = (
+        \tuple{i, c, p},
+        \tuple{j, c, p},
+        \tuple{i, d, p},
+        \tuple{i, d, \neg p}
+    )
+\]
+By \soundness{} and \closure{}, we cannot have both $E_i(p)$ and $E_j(p)$ in
+$B^\sigma_c$. Ideas of symmetry (\todo{check for typos: there is no symmetry in
+the sequence as written}) suggest that neither can we pick one of $i$ or
+$j$ over the other, so that in fact it is reasonable to have neither $E_i(p)$
+nor $E_j(p)$ in $B^\sigma_c$. Consequently -- assuming $p$ is the only
+propositional variable -- the only formulas weaker than $p$ on which $i$ and
+$j$ are believed to have expertise are tautologies. Any EC scheme $f$ must
+therefore have $f_\sigma(i, c, p) \equiv f_\sigma(j, c, p) \equiv \top$.
+Consequently, EC-selectivity would imply $\proppart{B^\sigma_c} =
+\cnprop(\top)$. This is a very conservative stance: while there is total
+consensus for $p$ in case $c$, $p$ cannot be believed due to disagreement
+elsewhere. This also conflicts with the ``optimistic" attitude described in
+\cref{ex:hospital_ex_formalised}. According to that view we should have $E_i(p)
+\lor E_j(p) \in B^\sigma_c$, but this implies $p \in B^\sigma_c$ by
+\soundness{}, \containment{} and \closure{}.
+
+The core issue here is that for $E_i(\phi)$ to be believed, $i$ needs to be
+trusted on $\phi$ in \emph{every} maximally plausible world. If these worlds
+look very different -- e.g. $W_1$ trusts $i$ but not $j$, and vice versa in
+$W_2$ --  then EC-selectivity requires reports to be significantly weakened
+before expertise is believed in all worlds.
+
+This discussion also hints that propositional beliefs for EC-selective
+operators are fully determined by the expertise part of $B^\sigma$, together
+with the reports in $\sigma$. If the knowledge $K^\sigma$ is formed according
+to the soundness constraints of $\sigma$ (as in our examples so far), we in
+fact have a characterisation result to this effect. The following
+\lcnamecref{lemma:ec_selective_propmodels}, which may also be of independent
+interest, is required. For a set of worlds $S \subseteq \W$, write $\Pi^S_i =
+\bigjoin_{W \in S}{\Pi^W_i}$ for the join of the $i$-partitions of worlds in
+$S$.
+
+\begin{lemma}
+    \label{lemma:ec_selective_propmodels}
+    If a model-based operator is EC-selective and satisfies \soundness{}, then
+    \[
+        \propmods\proppart{B^\sigma_c}
+        =
+        \bigcap_{\tuple{i, \phi} \in \sigma \rs c}{
+            \Pi^{\Y_\sigma}_i[\phi]
+        }
+    \]
+    for all $\ast$-consistent $\sigma$ and $c \in \C$.
+\end{lemma}
+
+Now write $G^\snd_\sigma$ for the collection with $(G^\snd_\sigma)_c =
+\{S_i(\phi) \mid \tuple{i, \phi} \in \sigma \rs c\}$. For any collection $G$,
+write $\exppart{G}$ for the sub-collection of formulas of the form $E_i(\phi)$.
+
+\begin{theorem}
+    \label{thm:ec_selectivity_characterisation}
+    Suppose a model-based operator satisfies \consistency{} and $K^\sigma =
+    \cn(G^\snd_\sigma)$ for all $\sigma$. Then it is EC-selective if and only
+    if
+    \[
+        \proppart{B^\sigma_c}
+        =
+        \proppart{\cn_c(K^\sigma \sqcup \exppart{B^\sigma})}
+    \]
+    for all $\ast$-consistent $\sigma$ and $c \in \C$.
+\end{theorem}
+
+Finally, note that \cref{lemma:ec_selective_propmodels} immediately implies
+selectivity with respect to any scheme $f$ such that $\propmods(f_\sigma(i, c,
+\phi)) = \Pi^{\Y_\sigma}_i[\phi]$. Since the right-hand side does not depend on
+the case $c$, we get the following corollary.
+
+\begin{corollary}
+    \label{cor:ec_selective_ci}
+    If a model-based operator is EC-selective and satisfies \soundness{}, then
+    it is case-independent-selective.
+\end{corollary}
+
+\section{Related Work}
+\label{sec:relatedwork}
+
+In this section we discuss related work.
+
+\paragraph{Belief Merging.}
+
+In the framework of \textcite{konieczny2002merging}, a merging operator $\Delta$
+maps a multiset of propositional formulas $\Phi = \{\phi_1,\ldots,\phi_n\}$ and
+an integrity constraint $\mu$ to a formula $\Delta_\mu(\Phi)$. Here $\phi_i$
+represents the input from source $i$, and $\Delta_\mu(\Phi)$ represents the
+merged result. Various operators and postulates have been proposed in the
+literature; see \cite{Konieczny_2011} for a review.
+
+This can be seen as the special case of our framework with a single case $c$:
+for $\Phi$, $\mu$ we consider the sequence $\sigma_{\Phi, \mu}$ where $\ast$
+reports $\mu$ and each source $i$ reports $\phi_i$. Any operator then gives
+rise to a merging operator $\Delta_\mu(\Phi) =
+\bigwedge\proppart{B^{\sigma_{\Phi,\mu}}_c}$. Note that our basic postulates
+imply $\Delta_\mu(\Phi) \vdash \mu$ -- the \postulatename{IC0} postulate of
+\textcite{konieczny2002merging}. We leave it to future work to determine which
+other merging postulates hold.
+
+We go beyond this setting by considering multiple cases and explicitly
+modelling expertise (and trust, via beliefs about expertise). While it may be
+possible to model expertise \emph{implicitly} in belief merging (for example,
+say $i$ is not trusted on $\psi$ if $\Delta_\mu(\Phi) \not\vdash \psi$ when
+$\phi_i \vdash \psi$), bringing expertise to the object level allows us to
+express more complex beliefs about expertise, such as $E_a(x) \lor E_b(x)$ in
+\cref{ex:hospital_ex_formalised}. It also facilitates postulates which refer
+directly to expertise, such as the weakenings of \postulatename{Success} in
+\cref{sec:one_step_postulates}.
+
+However, our problem is more specialised than merging, since we focus
+specifically on conflicting information due to lack of expertise. Belief
+merging may be applied more broadly to other types of \emph{information
+fusion}, e.g. subjective beliefs or goals~\cite{gregoire_fusion_2006},
+where notions of objective expertise do not apply. While our framework
+\emph{could} be applied in these settings, our postulates may no longer be
+desirable.
+
+\paragraph{Epistemic Logic.}
+
+Our notions of expertise and soundness are related to \emph{S5
+knowledge} from epistemic logic~\cite{handbook_epistemic}. In such
+logics, an agent \emph{knows} $\phi$ at a state $x$ if $\phi$ holds at all
+states $y$ ``accessible" from $x$. Knowledge is thus determined by an
+\emph{epistemic accessibility relation}, which describes the distinctions
+between states the agent can make. The logic of S5 arises when this relation is an
+equivalence relation (or equivalently, a partition).
+
+Our previous work~\cite{singleton2021logic} -- in which expertise and soundness
+were introduced in a modal logic framework -- showed that ``expertise
+models" are in 1-to-1 correspondence with S5 models, such that $E(\phi)$
+holds iff $A(\phi \rightarrow K\phi)$ holds in the S5 model, where $A$ is the
+universal modality. By symmetry of expertise, we can also replace $\phi$ with
+its negation. Thus, expertise has a precise epistemic interpretation: it is the
+ability to \emph{know whether} $\phi$ holds in \emph{any possible state}.
+Similarly, $S(\phi)$ translates to $\neg K \neg \phi$. That is, $\phi$ is sound
+exactly when the source does not \emph{know} $\phi$ is false.
+
+In the present framework, if we set
+%
+$W, c \models K_i(\phi)$ iff $\Pi_i[v_c] \subseteq \propmods(\phi)$ and
+%
+$W, c \models A\Phi$ iff $\forall v:\ W_{c=v}, c \models \Phi$,
+%
+where $W_{c=v}$ is the world obtained from $W$ by setting $v'_c = v$, then we
+have $E_i(\phi) \equiv A(\phi \rightarrow K_i(\phi))$ and $S_i(\phi) \equiv
+\neg K_i(\neg \phi)$. While $K_i$ is not quite an S5 modality (the \textbf{5}
+axiom requires iterating $K_i$, which is not possible in our framework), this
+shows the fundamental link between expertise, soundness and knowledge.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+\paragraph{Summary.} In this paper we studied a belief change problem --
+extending the classical AGM framework -- in which
+beliefs about the state of the world in multiple cases, as well as expertise of
+multiple sources, must be inferred from a sequence of reports. This allowed us
+to take a fresh look at the
+interaction between trust (seen as \emph{belief in expertise}) and belief.
+By inferring the expertise of the sources from the reports,
+we have generalised some earlier approaches to non-prioritised
+revision which assume expertise (or reliability, credibility, priority
+etc) is known up-front (e.g.
+\cite{ferme1999selective,hansson_2001,booth_trust_2018,delgrande2006iterated}).
+We went on to propose some concrete belief change operators, and explored their
+properties through examples and postulates.
+
+We saw that conditioning operators satisfy some desirable
+properties, and our concrete instances make useful inferences that go
+beyond \weakop{}. However, we have examples in which intuitively plausible
+inferences are blocked, and conditioning is largely incompatible with
+\strongcondsucc{}. Score-based operators, and in particular \scorebasedop{},
+offer a way around these limitations, but may
+come at the expense of some other seemingly reasonable postulates, such as
+\duprem{}.
+
+\paragraph{Future Work.} There are many possibilities for future work.
+%
+Firstly, we have a representation result only for conditioning operators. A
+characterisation of score-based operators -- either the class in general or the
+specific operator \scorebasedop{} -- remains to be found. This would help to
+further clarify the differences between conditioning and score-based operators.
+%
+We have also not considered any computational issues. Determining the
+complexity of calculating the results of our example operators, and the
+complexity for conditioning and score-based operators more broadly, is left to
+future work.
+%
+Secondly, there is scope for deeper postulate-based analysis. For example,
+there should be postulates governing how beliefs change in case $c$ in response
+to reports in case $d$. We could also consider more postulates relating trust
+and belief, and compare these postulates with those of \textcite{yasser_21}.
+Moreover, there are many weaker version of \postulatename{Success} which have
+been considered in the literature (e.g. in
+\cite{ferme1999selective,hansson_2001,booth_trust_2018}); we should compare
+these against our \condsucc{} and \strongcondsucc{} in future work.
+
+Finally, our framework only deals with three levels of trust on a proposition:
+we can believe $E_i(\phi)$, believe $\neg E_i(\phi)$, or neither.
+Future work could investigate how to extend our semantics to talk about \emph{graded
+expertise}, and thereby permit more fine-grained \emph{degrees of trust}
+\cite{hunter_building_21,yasser_21,delgrande2006iterated}.

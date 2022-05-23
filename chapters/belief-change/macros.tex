@@ -1,0 +1,71 @@
+% Environment for postulate definition
+% See https://tex.stackexchange.com/a/417959 or `texdoc amsthm` for arguments
+\newtheoremstyle{postulatestyle}{}{}{\slshape}{}{\bfseries}{}{ }{\thmnote{ #3 }}
+\theoremstyle{postulatestyle} \newtheorem*{postulate}{}
+
+% symbols
+\let\sectionsymbol\S
+\renewcommand{\S}{\mathcal{S}}
+\renewcommand{\C}{\mathcal{C}}
+\newcommand{\W}{\mathcal{W}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\propvars}{\mathcal{P}}
+\newcommand{\lang}{\mathcal{L}}
+\newcommand{\lprop}{\lang{}_0}
+\newcommand{\lext}{\lang{}}
+\newcommand{\vals}{\mathcal{V}}
+\newcommand{\true}{\top}
+\newcommand{\falsum}{\bot}
+\newcommand{\Ninf}{\mathbb{N} \cup \{\infty\}}
+\renewcommand{\phi}{\varphi}
+\newcommand{\rs}{\upharpoonright}
+\newcommand{\snd}{\mathsf{snd}}
+
+% operators
+\newcommand{\cn}{\operatorname{Cn}}
+\newcommand{\mods}{\operatorname{mod}}
+\renewcommand{\mod}{\mods}
+\newcommand{\cnprop}{\cn_0}
+\newcommand{\propmods}{\mods_0}
+\newcommand{\concat}{\cdot}
+\newcommand{\argmin}{\operatorname{argmin}}
+\newcommand{\proppart}[1]{\left[{#1}\right]}
+\newcommand{\exppart}[1]{E\left({#1}\right)}
+\newcommand{\bigjoin}{\bigvee}
+
+% postulates
+% \newcommand{\postulatename}[1]{\textbf\emph{#1}}
+\newcommand{\postulatename}[1]{\emph{#1}}
+% \newcommand{\postulatename}[1]{{\sc{#1}}}
+\newcommand{\closure}{\postulatename{Closure}}
+\newcommand{\containment}{\postulatename{Containment}}
+\newcommand{\consistency}{\postulatename{Consistency}}
+\newcommand{\soundness}{\postulatename{Soundness}}
+\newcommand{\kbound}{\postulatename{K-bound}}
+\newcommand{\priorext}{\postulatename{Prior-Extension}}
+\newcommand{\kconj}{\postulatename{K-conjunction}}
+\newcommand{\rearr}{\postulatename{Rearrangement}}
+\newcommand{\equivpost}{\postulatename{Equivalence}}
+% \newcommand{\ssym}{\postulatename{Source-symmetry}}
+% \newcommand{\csym}{\postulatename{Case-symmetry}}
+\newcommand{\duprem}{\postulatename{Duplicate-removal}}
+\newcommand{\condcons}{\postulatename{Conditional-consistency}}
+\newcommand{\incvac}{\postulatename{Inclusion-vacuity}}
+\newcommand{\acyc}{\postulatename{Acyc}}
+\newcommand{\agm}{\postulatename{AGM-$\ast$}}
+\newcommand{\condsucc}{\postulatename{Cond-success}}
+\newcommand{\strongcondsucc}{\postulatename{Strong-cond-success}}
+\newcommand{\boundedness}{\postulatename{Boundedness}}
+\newcommand{\hboundedness}{\postulatename{H-Boundedness}}
+\newcommand{\refinement}{\postulatename{Refinement}}
+
+% concrete operators
+\newcommand{\concopname}[1]{$\mathsf{#1}$}
+\newcommand{\weakop}{\concopname{weak\text{-}mb}}
+\newcommand{\varbasedcond}{\concopname{var\text{-}based\text{-}cond}}
+\newcommand{\partbasedcond}{\concopname{part\text{-}based\text{-}cond}}
+\newcommand{\scorebasedop}{\concopname{excess\text{-}min}}
+
+% markup
+\newcommand{\tuple}[1]{\langle {#1} \rangle}

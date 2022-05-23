@@ -35,6 +35,10 @@
 - References to `\item`s: I think we have a mix of `\labelcref`, `\cref` and
   custom macros
 
+- Check if `\textcite` is really what I want
+
+- Duplicate references in bibliography
+
 ## TD
 
 - Tikz-ify the figures
@@ -55,7 +59,13 @@ From parsing compile logs:
 - Other errors
 - Warnings
 
-# Open questions
+# New content
+
+## Extensions and elaborations
+
+- KR paper: more detailed analysis of merging, and compare postulates
+
+## Open questions
 
 - Sums and Monotonicity in TD chapter
 - Operator with chain-min, dual and mon simultaneously in tournament chapter
