@@ -24,6 +24,8 @@
 
 - Punctuation at the end of display math
 
+- Standardise chapter outlines
+
 - Standardise "conclusion", "summary" section names
 
 - Standardise table formatting
@@ -46,13 +48,6 @@
   clashes with the logic part
 
 ## Tests
-
-Things to catch from the TeX source:
-
-- Blank line before `\end{proof}`
-- Space between punctuation and footnote
-- `\begin{proof}[label]` where `label` does not start with "Proof "
-- Appearance of the word "paper" (too extreme?)
 
 From parsing compile logs:
 
