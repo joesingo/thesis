@@ -397,31 +397,116 @@ formulas are valid
 \end{enumerate}
 \end{proposition}
 
-(\labelcref{item:replacement_equivalents_e_s}) states
-syntax-irrelevance properties.
+We comment on each property before giving the proof.
+(\labelcref{item:replacement_equivalents_e_s}) states syntax-irrelevance
+properties.
 %
 (\labelcref{item:e_symmetric}) says that expertise is symmetric with respect to
 negation, and closed under conjunctions. Intuitively, symmetry means that $i$
 is an expert on $\phi$ if they know \emph{whether or not} $\phi$ holds.
 %
 (\labelcref{item:exp_on_all_variables}) says that expertise on each
-propositional variable in $\phi$ is sufficient for expertise on
-$\phi$ itself.
+propositional variable in $\phi$ is sufficient for expertise on $\phi$ itself.
 %
 (\labelcref{item:e_and_s_implies_phi}) says that, in the presence of expertise,
 soundness of $\phi$ is sufficient for $\phi$ to in fact be true.
 %
-(\labelcref{item:sound_neg_pair})
-says that if both $\phi$ and
-$\neg\phi$ are true up to the expertise of $i$, then $i$ cannot have expertise
-on $\phi$.
+(\labelcref{item:sound_neg_pair}) says that if both $\phi$ and $\neg\phi$ are
+true up to the expertise of $i$, then $i$ cannot have expertise on $\phi$.
 %
-Finally, (\labelcref{item:star_exp}) says that the reliable source $\ast$ has expertise
-on \emph{all} formulas, and thus $\phi$ is sound for $\ast$ iff it is true.
+Finally, (\labelcref{item:star_exp}) says that the reliable source $\ast$ has
+expertise on \emph{all} formulas, and thus $\phi$ is sound for $\ast$ iff it is
+true.
 
-% \todo{One absent property is $E_i(\phi)$ and $\psi \in \cn_0(\phi)$ then
-% $E_i(\psi)$. This does not hold. Think of a reasonable \emph{intuitive} example
-% where this is the case.}
+\begin{proof}\leavevmode
+\begin{itemize}
+    \item[\labelcref{item:replacement_equivalents_e_s}.]
+        If $\phi \equiv \psi$ then $\propmods(\phi) = \propmods(\psi)$; since
+        the semantics for $\S_i(\phi)$ and $E_i(\phi)$ only refer to
+        $\propmods(\phi)$ (and likewise for $\psi$), we have that $S_i(\phi)
+        \leftrightarrow S_i(\psi)$ and $E_i(\phi) \leftrightarrow E_i(\psi)$
+        are valid.
+
+    \item[\labelcref{item:e_symmetric}.]
+        For the first validity, suppose $W, c \models E_i(\phi)$. Then
+        $\propmods(\phi) = \Pi_i[\phi]$. We show $W, c \models E_i(\neg\phi)$.
+        Indeed, take $v \in \Pi_i[\neg\phi]$. Then there is $v' \in
+        \propmods(\neg\phi)$ such that $v \in \Pi_i[v']$. Thus $v' \in
+        \Pi_i[v]$ also. Supposing for contradiction that $v \in
+        \propmods(\phi)$, we get
+        \[
+            v' \in \Pi_i[v] \subseteq \Pi_i[\phi] = \propmods(\phi).
+        \]
+        But then $v' \in \propmods(\neg\phi) \cap \propmods(\phi) = \emptyset$;
+        contradiction. Hence $v \notin \propmods(\phi)$, i.e. $v \in
+        \propmods(\neg\phi)$. This shows that $\Pi_i[\neg\phi] \subseteq
+        \propmods(\neg\phi)$, so $W, c \models E_i(\neg\phi)$.
+
+        We have shown that $E_i(\phi) \rightarrow E_i(\neg\phi)$ is valid. For
+        the converse note that, by symmetry, $E_i(\neg\phi) \rightarrow
+        E_i(\neg\neg\phi)$ is valid; since $E_i(\neg\neg\phi)$ is equivalent to
+        $E_i(\phi)$ by (\labelcref{item:replacement_equivalents_e_s}) we get
+        $E_i(\phi) \leftrightarrow E_i(\neg\phi)$.
+
+        For the second validity, suppose $W, c \models E_i(\phi) \land
+        E_i(\psi)$. Note that
+        \[
+            \Pi_i[\phi \land \psi]
+            \subseteq \Pi_i[\phi]
+            = \propmods(\phi)
+        \]
+        and, similarly, $\Pi_i[\phi \land \psi] \subseteq \propmods(\psi)$.
+        Hence
+        \[
+            \Pi_i[\phi \land \psi]
+            \subseteq \propmods(\phi) \cap \propmods(\psi)
+            = \propmods(\phi \land \psi),
+        \]
+        which shows $W, c \models E_i(\phi \land \psi)$.
+
+    \item[\labelcref{item:exp_on_all_variables}.]
+        %
+        Let $\phi$ be a propositional formula, and let $p_1, \ldots, p_k$ be
+        the variables appearing in $\phi$. Let $\widehat{\lprop} \subseteq
+        \lprop$ be the propositional formulas over $p_1, \ldots p_k$ generated
+        only using conjunction and negation. Then there is some $\psi \in
+        \widehat{\lprop}$ with $\phi \equiv \psi$.
+
+        Suppose $W, c \models E_i(p_1) \land \cdots \land E_i(p_k)$. By this
+        assumption and the properties in (\labelcref{item:e_symmetric}),
+        one can show by induction that $W, c \models E_i(\theta)$ for all
+        $\theta \in \widehat{\lprop}$. In particular, $W, c \models E_i(\psi)$.
+        Since $\phi \equiv \psi$, we get $W, c \models E_i(\phi)$.
+
+    \item[\labelcref{item:e_and_s_implies_phi}.]
+        %
+        Suppose $W, c \models E_i(\phi) \land S_i(\phi)$. Then $v_c \in
+        \Pi_i[\phi] = \propmods(\phi)$, so $W, c \models \phi$. Hence
+        $E_i(\phi) \land S_i(\phi) \rightarrow \phi$ is valid. Similarly,
+        $S_i(\phi) \land \neg\phi \rightarrow \neg E_i(\phi)$ is valid.
+
+    \item[\labelcref{item:sound_neg_pair}.]
+        %
+        Suppose $W, c \models S_i(\phi) \land S_i(\neg\phi)$, and, for
+        contradiction, $W, c \models E_i(\phi)$. On the one hand we have $W, c
+        \models E_i(\phi) \land S_i(\phi)$, so
+        (\labelcref{item:e_and_s_implies_phi}) gives $W, c \models \phi$. On
+        the other hand, $W, c \models E_i(\phi)$ gives $W, c \models
+        E_i(\neg\phi)$ by (\labelcref{item:e_symmetric}), so $W, c \models
+        E_i(\neg\phi) \land S_i(\neg\phi)$; by
+        (\labelcref{item:e_and_s_implies_phi}) again we have $W, c \models
+        \neg\phi$. But then $W, c \models \phi \land \neg\phi$ --
+        contradiction.
+
+    \item[\labelcref{item:star_exp}.]
+        %
+        Since the distinguished source $\ast$ has the unit partition $\Pi_\ast$
+        in any world $W$, we have $\Pi_\ast[\phi] = \propmods(\phi)$, so $W, c
+        \models E_\ast(\phi)$. Similarly, $W, c \models S_i(\phi)$ iff $v_c \in
+        \Pi_\ast[\phi] = \propmods(\phi)$ iff $W, c \models \phi$.
+
+\end{itemize}
+\end{proof}
 
 \paragraph{Case-Indexed Collections.}
 
@@ -520,6 +605,65 @@ combinations of partition-equivalent worlds.
     partition-equivalent to both $W_1, W_2$ and $W$ is a valuation combination
     from $\{W_1, W_2\}$, then $W \in S$.
 \end{proposition}
+
+\begin{proof}
+    ``if": Suppose the stated condition holds for $S \subseteq \W$. Form a
+    collection $G = \{\Gamma_c\}_{c \in \C}$ by setting $\Gamma_c = \{\Phi \in
+    \lext \mid S \subseteq \mod_c(\Phi)\}$. Clearly $S \subseteq \mod(G)$. For the
+    reverse inclusion, suppose $W \in \mod(G)$. For any set of valuations $U
+    \subseteq \vals$, let $\phi_U$ be any propositional sentence with
+    $\propmods(\phi_U) = U$. For each $c \in \C$, consider the sentence
+    \[
+        \Phi_c = \bigvee_{W' \in S}\left(
+            \phi_{\{v^{W'}_c\}}
+            \land
+            \bigwedge_{i \in \S}
+                \bigwedge_{U \subseteq \vals}
+                    R_{W', i, U}
+        \right)
+    \]
+    where
+    \[
+        R_{W', i, U} = \begin{cases}
+            E_i(\phi_U),& W', c_0 \models E_i(\phi_U) \\
+            \neg E_i(\phi_U),& \text{ otherwise }
+        \end{cases}
+    \]
+    for some fixed case $c_0 \in \C$. It is straightforward to see that each
+    $W' \in S$ satisfies its corresponding disjunct at case $c$, so $\Phi_c \in
+    \Gamma_c$. Hence $W \in \mod(G)$ implies $W, c \models \Phi_c$ for each $c$.
+    Consequently, for each $c$ there is some $W_c \in S$ such that
+    \begin{inlinelist}
+        \item \label{item:vals_equal} $v^W_c = v^{W_c}_c$; and
+        \item \label{item:partition_equiv} for each $i \in \S$ and $U \subseteq
+              V$, $W, c \models E_i(\phi_U)$ iff $W_c, c \models E_i(\phi_U)$.
+    \end{inlinelist}
+    From \ref{item:vals_equal}, $W$ is a valuation combination from $\{W_c\}_{c
+    \in \C}$. From \ref{item:partition_equiv} it can be shown that in fact
+    $\Pi^W_i = \Pi^{W_c}_i$ for each $c$ and $i$; that is, $W$ is
+    partition-equivalent to each $W_c$. In particular, all the $W_c$ are
+    partition-equivalent to each other.
+    % Self-reminder if reading this in the future: E_i(\phi_U) holds at W, c iff U
+    % is a union of partition cells in Π^W_i. The equivalence above means that
+    % the set of all unions formed from Π^W_i is the same as for Π^{W_c}_i.
+    % This implies the partitions themselves are equal; see Proposition 1 in
+    % online notes: /trust-contraction.html#trust-sets-and-partitions
+    Repeatedly applying the closure condition assumed to hold for $S$, we see
+    that $W \in S$ as required.
+
+    ``only if": Suppose $S$ is elementary, i.e. $S = \mod(G)$ for some
+    collection $G = \{\Gamma_c\}_{c \in \C}$, and let $W, W_1, W_2$ be as in
+    the statement of the \lcnamecref{prop:elementary_characterisation}. Take $c
+    \in \C$ and $\Phi \in \Gamma_c$. We will show $W, c \models \Phi$. By assumption,
+    there is $n \in \{1, 2\}$ such that $v^W_c = v^{W_n}_c$. It can be shown by
+    induction on $\lext$ formulas that, since $W$ and $W_n$ are
+    partition-equivalent and have the same $c$ valuation, $W, c \models \Phi$ iff
+    $W_n, c \models \Phi$. But $W_n \in S = \mod(G)$ implies $W_n, c \models
+    \Phi$,
+    so $W, c \models \Phi$ too.  Since $\Phi \in \Gamma_c$ was arbitrary, we have $W
+    \in \mod(G) = S$ as required.
+
+\end{proof}
 
 \section{The Problem}
 \label{sec:the_problem}
@@ -687,6 +831,45 @@ fully determined once $K^\emptyset$ is chosen.
     \end{enumerate}
 \end{proposition}
 
+\begin{proof}
+    \leavevmode
+    \begin{enumerate}
+        \item The ``$\sqsubseteq$" inclusion is just \kbound{}.
+              For the ``$\sqsupseteq$" inclusion, note that $G^\sigma_\snd
+              \sqsubseteq K^\sigma$ by \soundness{}, and $K^\emptyset
+              \sqsubseteq K^\sigma$ by \priorext{}. Hence
+              \[
+                  G^\sigma_\snd \sqcup K^\emptyset
+                  \sqsubseteq
+                  K^\sigma.
+              \]
+              By monotonicity of $\cn$,
+              \[
+                  \cn(G^\sigma_\snd \sqcup K^\emptyset)
+                  \sqsubseteq
+                  \cn(K^\sigma)
+                  = K^\sigma
+              \]
+              where we use \closure{} in the final step.
+
+          \item ``if": Suppose $K^\sigma = \cn(G^\sigma_\snd)$ for all
+                $\sigma$. Taking $\sigma = \emptyset$ we obtain
+                \[
+                    K^\sigma = \cn(G^\emptyset_\snd) = \cn(\emptyset).
+                \]
+                ``only if": Suppose $K^\emptyset = \cn(\emptyset)$. Take any
+                sequence $\sigma$. By \kbound{},
+                \[
+                    K^\sigma
+                    \sqsubseteq \cn(G^\sigma_\snd \sqcup \cn(\emptyset))
+                    = \cn(G^\sigma_\snd)
+                \]
+                On the other hand, \soundness{} and \closure{} give
+                $\cn(G^\sigma_\snd) \sqsubseteq K^\sigma$. Hence $K^\sigma =
+                \cn(G^\sigma_\snd)$.
+    \end{enumerate}
+\end{proof}
+
 The choice of $K^\emptyset$ depends on the scenario one wishes to model.
 While $\cn(\emptyset)$ is a sensible choice if the sequence $\sigma$ is all we
 have to go on, we allow $K^\emptyset \ne \cn(\emptyset)$ in case \emph{prior
@@ -711,6 +894,36 @@ in light of new information.
     Any operator satisfying the basic postulates satisfies \kconj{}.
 \end{proposition}
 
+\begin{proof}
+    Suppose an operator satisfies the basic postulates, and take sequences
+    $\sigma$ and $\rho$. By \cref{prop:prior_knowledge},
+    \[
+        K^{\sigma \concat \rho}
+        =
+        \cn(G^{\sigma \concat \rho}_\snd \sqcup K^\emptyset)
+    \]
+    Note that $G^{\sigma \concat \rho}_\snd = G^\sigma_\snd \sqcup
+    G^\rho_\snd$. Hence we may write
+    \begin{align*}
+        K^{\sigma \concat \rho}
+        &= \cn(G^\sigma_\snd \sqcup G^\rho_\snd \sqcup K^\emptyset) \\
+        &= \cn((G^\sigma_\snd \sqcup K^\emptyset) \sqcup (G^\rho_\snd \sqcup K^\emptyset))
+    \end{align*}
+    By \cref{prop:prior_knowledge} again, we have $K^\sigma = \cn(G^\sigma_\snd
+    \sqcup K^\emptyset)$ and $K^\rho = \cn(G^\rho_\snd \sqcup K^\emptyset)$. It
+    is easily verified that for any collections $G, D$, we have
+    \[
+        \cn(G \sqcup D) = \cn(\cn(G) \sqcup \cn(D)).
+    \]
+    Consequently,
+    \begin{align*}
+        K^{\sigma \concat \rho}
+        &= \cn(\cn(G^\sigma_\snd \sqcup K^\emptyset) \sqcup \cn(G^\rho_\snd \sqcup K^\emptyset)) \\
+        &= \cn(K^\sigma \sqcup K^\rho)
+    \end{align*}
+    as required for \kconj{}.
+\end{proof}
+
 The postulates also imply some useful properties linking \emph{trust} (seen as
 belief in expertise) and \emph{belief/knowledge}.
 
@@ -726,6 +939,31 @@ belief in expertise) and \emph{belief/knowledge}.
               B^\sigma_c$.
     \end{enumerate}
 \end{proposition}
+
+\begin{proof}\leavevmode
+    \begin{enumerate}
+
+        \item Suppose $\phi \in K^\sigma_c$ and $\neg\psi \in \cnprop(\phi)$.
+              Write $\rho = \sigma \concat \tuple{i, c, \psi}$. By
+              \soundness{}, $S_i(\psi) \in K^\rho_c$. By \kconj{}, $\phi \in
+              K^\sigma_c \subseteq (K^\sigma \sqcup K^{\tuple{i, c, \psi}})_c
+              \subseteq \cn_c(K^\sigma \sqcup K^{\tuple{i, c, \psi}}) =
+              K^\rho_c$. Since $\neg\psi \in \cnprop(\phi)$ and $\phi \in
+              K^\rho_c$, \closure{} gives $\neg\psi \in K^\rho_c$. Recalling
+              from \cref{prop:validities} part
+              (\labelcref{item:e_and_s_implies_phi}) that $S_i\psi \land \neg
+              \psi \rightarrow \neg E_i(\psi)$, \closure{} gives $\neg
+              E_i(\psi) \in K^\rho_c$, as desired.
+
+          \item Suppose $\tuple{i, c, \phi} \in \sigma$ and $E_i(\phi) \in
+                B^\sigma_c$. By \soundness{} and \containment{}, $S_i(\phi) \in
+                B^\sigma_c$. From \cref{prop:validities} part
+                (\labelcref{item:e_and_s_implies_phi}) again we have $E_i(\phi)
+                \land S_i(\phi) \rightarrow \phi$. By \closure{}, $\phi \in
+                B^\sigma_c$.
+
+    \end{enumerate}
+\end{proof}
 
 (\labelcref{item:knowledge_trust_link}) expresses how knowledge can negatively
 affect trust: we should distrust sources who make reports we know to be false.
@@ -813,6 +1051,43 @@ Model-based operators are characterised by our first two basic postulates.
 An operator satisfies \closure{} and \containment{} if and only if it
 is model-based.
 \end{theorem}
+
+\begin{proof}
+    For ease of notation in what follows, write $\mods_c(\Phi) = \{W \in \W
+    \mid W, c \models \Phi\}$.
+
+``if": Suppose an operator $\sigma \mapsto \tuple{B^\sigma, K^\sigma}$ is
+model-based. For \closure{}, we need to show that $B^\sigma_c \supseteq
+\cn_c(B^\sigma)$ and $K^\sigma_c \supseteq \cn_c(K^\sigma)$, for each $c$. Take
+any $\Phi \in \cn_c(B^\sigma)$. Then $\mods(B^\sigma) \subseteq \mods_c(\Phi)$.
+From the relevant definitions, one can easily check that $\Y_\sigma \subseteq
+\mods(B^\sigma)$, so we have $\Y_\sigma \subseteq \mods_c(\Phi)$. That is, $W,
+c \models \Phi$ for all $W \in \Y_\sigma$. By definition of model-based
+operators, $\Phi \in B^\sigma_c$. The fact that $K^\sigma_c \supseteq
+\cn_c(K^\sigma)$ follows by an identical argument upon noticing that $\X_\sigma
+\subseteq \mods(K^\sigma)$.
+
+\containment{} follows from $\X_\sigma \supseteq \Y_\sigma$: if $\Phi \in
+K^\sigma_c$ then $W, c \models \Phi$ for all $W \in \X_\sigma$, and in
+particular this holds for all $W \in \Y_\sigma$. Hence $\Phi \in B^\sigma_c$,
+so $K^\sigma \sqsubseteq B^\sigma$.
+
+``only if": Suppose an operator satisfies \closure{} and
+\containment{}. For any $\sigma$, set
+\[
+    \X_\sigma = \mods(K^\sigma)
+\]
+\[
+    \Y_\sigma = \mods(B^\sigma)
+\]
+We show the three properties required in \cref{def:model_based}.  $\X_\sigma
+\supseteq \Y_\sigma$ follows from \containment{} and the definition of a
+model of a collection. For the second property, note that $\Phi \in K^\sigma_c$
+iff $\Phi \in \cn_c(K^\sigma)$ by \closure{}, i.e. iff $\mods(K^\sigma)
+\subseteq \mods_c(\Phi)$.  By choice of $\X_\sigma$, this holds exactly when
+$W, c \models \Phi$ for all $W \in \X_\sigma$, as required. The third property
+is proved using an identical argument.
+\end{proof}
 
 Since we take \closure{} and \containment{} to be fundamental properties, all
 operators we consider from now on will be model-based.
@@ -1059,12 +1334,446 @@ elementary.\footnotemark{}
     }
 \end{theorem}
 
-The proof roughly follows the lines of Theorem 4.9 in
+The proof is roughly follows the lines of Theorem 4.9 in
 \cite{delgrande2018general}, although some
 differences arise due to the form of our input as finite sequences of reports.
+First, we need a preliminary result.
+
+\begin{lemma}
+\label{lemma:model_based_elementary}
+    For any model-based operator and sequence $\sigma$, $\X_\sigma =
+    \mod(K^\sigma)$ iff $\X_\sigma$ is elementary, and $\Y_\sigma =
+    \mod(B^\sigma)$ iff $\Y_\sigma$ is elementary.
+\end{lemma}
+
+\begin{proof}
+We prove the result for $\X_\sigma$ and $K^\sigma$ only. The ``only if"
+direction is clear from the definition of an elementary set. For the ``if"
+direction, suppose $\X_\sigma$ is elementary, i.e. $\X_\sigma = \mod(G)$ for
+some collection $G$. Since $\Phi \in K^\sigma_c$ iff $\X_\sigma \subseteq
+\mod_c(\Phi)$, we have $K^\sigma_c = \cn_c(G)$, i.e. $K^\sigma = \cn(G)$.
+Consequently $\mod(K^\sigma) = \mod(\cn(G)) = \mod(G) = \X_\sigma$.
+\end{proof}
+
+We will prove the following result -- slightly more general than
+\cref{thm:conditioning_characterisation} -- from which
+\cref{thm:conditioning_characterisation} immediately follows.
+
+\begin{proposition}
+    \label{prop:conditioning_pre_characterisation}
+    Suppose an operator satisfies \closure{}, \containment{},
+    \kconj{} and \equivpost{}. Then it is an elementary
+    conditioning operator if and only if it satisfies \rearr{},
+    \duprem{}, \condcons{},
+    \incvac{} and \acyc{}.
+\end{proposition}
+
+\begin{proof}
+
+Take some operator $\sigma \mapsto \tuple{B^\sigma, K^\sigma}$ satisfying
+\closure{}, \containment{}, \kconj{} and
+\equivpost{}.
+
+``if": Suppose the operator in question additionally satisfies
+\rearr{}, \duprem{}, \condcons{},
+\incvac{} and \acyc{}. For any $\sigma$, set
 %
-We note that while the requirement that $\X_{\sigma}$ and $\Y_{\sigma}$ are elementary is
-a technical condition,\footnotemark{} the characterisation in
+\[ \X_\sigma = \mods(K^\sigma) \] \[ \Y_\sigma = \mods(B^\sigma) \]
+%
+Then -- by \closure{} and \containment{} as shown in the proof of
+\cref{thm:model_based_characterisation} -- our operator is model based
+corresponding to this choice of $\X_\sigma$ and $\Y_\sigma$. Clearly both are
+elementary. We will construct a total preorder $\le$ over $\W$ such that
+$\Y_\sigma = \min_{\le}{\X_\sigma}$; this will show the operator is an
+elementary conditioning operator.
+
+First, fix a function $c: \lprop / {\equiv} \to \lprop$ which chooses a fixed
+representative of each equivalence class of logically equivalent propositional
+formulas, i.e. any mapping such that $c([\phi]_{\equiv}) \equiv \phi$. To
+simplify notation, write $\widehat{\phi}$ for $c([\phi]_{\equiv})$. Then $\phi
+\equiv \widehat{\phi}$. Write $\widehat{\lprop} = \{\widehat{\phi} \mid \phi
+\in \lprop\}$.  Note that $\widehat{\lprop}$ is finite (since we work with only
+finitely many propositional variables) and every formula in $\lprop$ is
+equivalent to exactly one formula in $\widehat{\lprop}$. For a sequence
+$\sigma$, let $\widehat{\sigma}$ be the result of replacing each report
+$\tuple{i, c, \phi}$ with $\tuple{i, c, \widehat{\phi}}$. Note that by
+\rearr{} and \equivpost{}, $\X_{\widehat{\sigma}} =
+\X_\sigma$ and $\Y_{\widehat{\sigma}} = \Y_\sigma$.
+
+Now, for any world $W$, set
+\newcommand{\reports}{\mathcal{R}}
+\[
+    \reports(W)
+    = \{
+        \tuple{i, c, \phi}
+        \in \S \times \C \times \widehat{\lprop}
+        \mid
+        W \in \X_{\tuple{i, c, \phi}}
+    \}
+\]
+Note that $\reports(W)$ is finite. For any pair of worlds $W_1$, $W_2$, let
+$\rho(W_1, W_2)$ be some enumeration of $\reports(W_1) \cap \reports(W_2)$. We
+establish some useful properties of $\rho(W_1, W_2)$.
+
+    \begin{claim}
+        \label{claim:w_j_in_rho}
+        If $\rho(W_1, W_2) \ne \emptyset$, $W_1, W_2 \in \X_{\rho(W_1, W_2)}$.
+    \end{claim}
+    \begin{proof}
+        By \kconj{}, for any sequences $\sigma$, $\rho$ we have
+        $K^{\sigma \concat \rho} = \cn(K^\sigma \sqcup K^\rho)$.  Taking the
+        models of both sides, we have $\X_{\sigma \concat \rho} = \X_\sigma
+        \cap \X_\rho$. It follows that for $\rho(W_1, W_2) \ne \emptyset$,
+        \[
+            \X_{\rho(W_1, W_2)}
+            = \bigcap_{\tuple{i, c, \phi} \in \rho(W_1, W_2)}{\X_{\tuple{i, c,
+            \phi}}}
+        \]
+        If $\tuple{i, c, \phi} \in \rho(W_1, W_2)$ then $W_1, W_2 \in
+        \X_{\tuple{i, c, \phi}}$ by definition. Hence $W_1, W_2 \in
+        \X_{\rho(W_1, W_2)}$.
+    \end{proof}
+
+    \begin{claim}
+        \label{claim:exists_delta}
+        If a sequence $\sigma$ contains no equivalent reports (i.e. no distinct
+        tuples $\tuple{i, c, \phi}$, $\tuple{i, c, \psi}$ with $\phi \equiv
+        \psi$) and $W_1, W_2 \in \X_\sigma$, there is a sequence $\delta$ such
+        that $W_1, W_2 \in \X_\delta$ and $\rho(W_1, W_2)$ is a permutation of
+        $\widehat{\sigma} \concat \delta$.
+    \end{claim}
+    \begin{proof}
+        If $\sigma = \emptyset$ then we can simply take $\delta = \rho(W_1,
+        W_2)$. So suppose $\sigma \ne \emptyset$. By the same argument as in
+        the proof of \cref{claim:w_j_in_rho}, we have
+        \[
+            \X_\sigma = \bigcap_{\tuple{i, c, \phi} \in \sigma}{\X_{\tuple{i, c,
+            \phi}}}
+        \]
+        Take any $\tuple{i, c, \phi} \in \widehat{\sigma}$. Then $\phi \in
+        \widehat{\lprop}$, and there is $\psi \equiv \phi$ such that $\tuple{i,
+        c, \psi} \in \sigma$. By \equivpost{}, we have
+        \[
+            W_1, W_2
+            \in \X_\sigma
+            \subseteq \X_{\tuple{i, c, \psi}}
+            = \X_{\tuple{i, c, \phi}}
+        \]
+        i.e. $\tuple{i, c, \phi} \in \reports(W_1) \cap \reports(W_2)$. Hence
+        $\tuple{i, c, \phi}$ appears in $\rho(W_1, W_2)$. By the assumption
+        that $\sigma$ contains no equivalent reports, $\widehat{\sigma}$
+        contains no duplicates. It follows that $\rho(W_1, W_2)$ can be
+        permuted so that $\widehat{\sigma}$ appears as a prefix. Taking
+        $\delta$ to be the sequence that remains after $\widehat{\sigma}$ in
+        this permutation, we clearly have that $\rho(W_1, W_2)$ is a
+        permutation of $\widehat{\sigma} \concat \delta$. Since $\sigma \ne
+        \emptyset$ implies $\widehat{\sigma} \ne \emptyset$ and thus $\rho(W_1,
+        W_2) \ne \emptyset$, by \rearr{}, \kconj{} and
+        \cref{claim:w_j_in_rho} we get
+        \[
+            W_1, W_2 \in \X_{\rho(W_1, W_2)}
+            = \X_{\widehat{\sigma} \concat \delta}
+            = \X_{\widehat{\sigma}} \cap \X_\delta
+            \subseteq \X_\delta
+        \]
+        and we are done.
+    \end{proof}
+
+Now define a relation $R$ on $\W$ by
+\[
+    W R W' \iff W = W' \text{ or } W \in \Y_{\rho(W, W')}
+\]
+We have that any world in $\Y_\sigma$ $R$-precedes all worlds $\X_\sigma$.
+
+    \begin{claim}
+        \label{claim:y_subset_minimal}
+        If $W \in \Y_\sigma$, then for all $W' \in \X_\sigma$ we have $W R W'$
+    \end{claim}
+    \begin{proof}
+        By \rearr{}, \equivpost{} and
+        \duprem{}, we may assume without loss of generality that
+        $\sigma$ contains no distinct equivalent reports.
+
+        Let $W \in \Y_\sigma$ and $W' \in \X_\sigma$. Then $W \in \X_\sigma$
+        too. By \cref{claim:exists_delta} and \rearr{}, there is
+        some sequence $\delta$ such that $\Y_{\rho(W, W')} =
+        \Y_{\widehat{\sigma} \concat \delta}$ and $W, W' \in \X_\delta$.
+        Consequently $W \in \Y_\sigma \cap \X_\delta = \Y_{\widehat{\sigma}}
+        \cap \X_\delta$. Thus $B^{\widehat{\sigma}} \sqcup K^\delta$ is
+        consistent. From \incvac{} we get
+        \[
+            \Y_{\widehat{\sigma} \concat \delta} = \Y_{\widehat{\sigma}} \cap
+            \X_\delta
+        \]
+        Thus
+        \[
+            W \in
+            \Y_{\widehat{\sigma}} \cap \X_\delta
+            = \Y_{\widehat{\sigma} \concat \delta}
+            = \Y_{\rho(W, W')}
+        \]
+        so $W R W'$ as required.
+    \end{proof}
+
+Now let $\le_0$ be the transitive closure of $R$. Then $\le_0$ is a (partial)
+preorder. By \cref{claim:y_subset_minimal}, every world in $\Y_\sigma$ is
+$\le_0$-minimal in $\X_\sigma$. In fact, the converse is also true.
+
+    \begin{claim}
+        \label{claim:minimal_subset_y}
+        If $W \in \X_\sigma$ and there is no $W' \in \X_\sigma$ with $W' <_0
+        W$, then $W \in \Y_\sigma$.
+    \end{claim}
+    \begin{proof}
+        As before, assume without loss of generality that
+        $\sigma$ contains no distinct equivalent reports.
+
+        Take $W$ as in the statement of the claim. Then $\X_\sigma \ne
+        \emptyset$, so $\Y_\sigma \ne \emptyset$ by
+        \condcons{}. Let $W' \in \Y_\sigma$.  By
+        \cref{claim:y_subset_minimal}, $W' R W$ and thus $W' \le_0 W$. But by
+        assumption, $W' \not<_0 W$. So we must have $W \le_0 W'$. By definition
+        of $\le_0$ as the transitive closure of $R$, there are $W_0, \ldots
+        W_n$ such that $W_0 = W$, $W_n = W'$ and
+        \[
+            W_j R W_{j+1} \qquad (0 \le j < n)
+        \]
+        Without loss of generality, $n > 0$ and each of the $W_j$ are distinct.
+        From the definition of $R$, we therefore have that
+        \[
+            W_j \in \rho(W_j, W_{j+1}) \qquad (0 \le j < n)
+        \]
+        Now set
+        \begin{align*}
+            \rho_j &= \rho(W_j, W_{j+1}) \qquad (0 \le j < n) \\
+            \rho_n &= \rho(W_0, W_n)
+        \end{align*}
+        Since $W' R W$, i.e. $W_n R W_0$, we in fact have $W_j \in \Y_{\rho_j}$
+        for all $j$ (including $j = n$). For $j < n$, we also have $W_{j+1} \in
+        \X_{\rho_j}$.\footnotemark{}
+        %
+        \footnotetext{
+            If $\rho_j \ne \emptyset$ this follows from
+            \cref{claim:w_j_in_rho}. Otherwise, $W_{j+1} \in \Y_{\rho_{j+1}}
+            \subseteq \X_{\rho_{j+1}} = \X_{\rho_{j+1} \concat \emptyset} =
+            \X_{\rho_{j+1}} \cap \X_\emptyset \subseteq \X_\emptyset =
+            \X_{\rho_j}$ by \kconj{}.
+        }
+        %
+        Consequently, for $j < n$ we have
+        \[
+            W_{j+1} \in \X_{\rho_j} \cap \Y_{\rho_{j+1}}
+        \]
+        i.e. $K^{\rho_j} \sqcup B^{\rho_{j+1}}$ is consistent. Moreover, $W_0
+        \in \X_{\rho_n} \cap \Y_{\rho_0}$, so $K^{\rho_n} \sqcup B^{\rho_0}$ is
+        consistent. We can now apply \acyc{}: we get that $K^{\rho_0}
+        \sqcup B^{\rho_n}$ is also consistent. On the one hand,
+        \incvac{} and consistency of $K^{\rho_n} \sqcup
+        B^{\rho_0}$ gives
+        \[
+            B^{\rho_0 \concat \rho_n}
+            = \cn(B^{\rho_0} \sqcup K^{\rho_n})
+        \]
+        On the other, consistency of $B^{\rho_n} \sqcup K^{\rho_0}$ and
+        \rearr{} gives
+        \[
+            B^{\rho_0 \concat \rho_n}
+            = B^{\rho_n \concat \rho_0}
+            = \cn(B^{\rho_n} \sqcup K^{\rho_0})
+        \]
+        Combining these and taking models, we find
+        \[
+            \Y_{\rho_0} \cap \X_{\rho_n}
+            =
+            \Y_{\rho_n} \cap \X_{\rho_0}
+        \]
+        In particular, since $W_0$ lies in the set on the left-hand side, we
+        have $W_0 \in \Y_{\rho_n}$.
+
+        Now, since $W_0, W_n \in \X_\sigma$ and $\rho_n = \rho(W_0, W_n)$,
+        \cref{claim:exists_delta} gives that there is $\delta$ with $W_0, W_n
+        \in \X_{\delta}$ such that $\rho_n$ is a permutation of
+        $\widehat{\sigma} \concat \delta$. Recalling that $W_n = W' \in
+        \Y_\sigma = \Y_{\widehat{\sigma}}$ by assumption, we have $W_n \in
+        \Y_{\widehat{\sigma}} \cap \X_\delta$, i.e. $B^{\widehat{\sigma}}
+        \sqcup K^\delta$ is consistent. Applying \incvac{} once
+        more, we get
+        \[
+            B^{\rho_n}
+            = B^{\widehat{\sigma} \concat \delta}
+            = \cn(B^{\widehat{\sigma}} \sqcup K^\delta)
+            = \cn(B^{\sigma} \sqcup K^\delta)
+        \]
+        Taking models of both sides,
+        \[
+            \Y_{\rho_n} = \Y_{\sigma} \cap \X_\delta \subseteq \Y_\sigma
+        \]
+        But we already saw that $W_0 \in \Y_{\rho_n}$. Hence $W_0 \in
+        \Y_\sigma$. Since $W_0 = W$, we are done.
+    \end{proof}
+
+To complete the proof we extend $\le_0$ to a \emph{total} preorder and show
+that this does not affect the minimal elements of each $\X_\sigma$. Indeed, let
+$\le$ be any total preorder extending $\le_0$ and preserving strict
+inequalities, i.e. $\le$ such that
+\begin{inlinelist}
+    \item $W \le_0 W'$ implies $W \le W'$; and
+    \item\label{item:strict_ineq_preserved} $W <_0 W'$ implies $W < W'$.
+\end{inlinelist}\footnote{
+    Such $\le$ always exists. Indeed, note that $\le_0$ induces a partial order
+    on the equivalence classes of $\W$ with respect to the symmetric part of
+    $\le_0$ given by $W \simeq_0 W'$ iff $W \le_0 W'$ and $W' \le_0 W$. This
+    partial order can be extended to a linear order $\le^*$ on the equivalence
+    classes. Taking $W \le W'$ iff $[W]  \le^* [W']$, we obtain a total
+    preorder on $\W$ with the desired properties.
+}
+
+    \begin{claim}
+        For any sequence $\sigma$, $\Y_\sigma = \min_{\le}{\X_\sigma}$
+    \end{claim}
+    \begin{proof}
+        Take any $\sigma$. For the left-to-right inclusion, take $W \in
+        \Y_\sigma$. Then $W \in \X_\sigma$. Let $W' \in \X_\sigma$. By
+        \cref{claim:y_subset_minimal}, $W R W'$, so $W \le_0 W'$ and $W \le
+        W'$. Hence $W$ is $\le$-minimal in $\X_\sigma$.
+
+        For the right-to-left inclusion, take $W \in \min_{\le}{\X_\sigma}$.
+        Then for any $W' \in \X_\sigma$ we have $W \le W'$. In particular, $W'
+        \not< W$. By property \labelcref{item:strict_ineq_preserved} of $\le$,
+        we have $W' \not<_0 W$. Since $W'$ was an arbitrary member of
+        $\X_\sigma$ and $W \in \X_\sigma$, the conditions of
+        \cref{claim:minimal_subset_y} are satisfied, and we get $W \in
+        \Y_\sigma$.
+    \end{proof}
+
+This shows that our operator is an elementary conditioning operator as
+required.
+
+``only if": Now  suppose the operator is an elementary conditioning operator.
+i.e. there is a total preorder $\le$ on $\W$ and a mapping $\sigma \mapsto
+\tuple{\X_\sigma, \Y_\sigma}$ such that for each $\sigma$, $\Y_\sigma =
+\min_{\le}{X_\sigma}$, $\X_\sigma$ and $\Y_\sigma$ are elementary, and
+$K^\sigma$, $B^\sigma$ are determined by $\X_\sigma$, $\Y_\sigma$ respectively
+according to \cref{def:model_based}. By elementariness and
+\cref{lemma:model_based_elementary}, $\X_\sigma = \mod(K^\sigma)$ and $\Y_\sigma
+= \mod(B^\sigma)$.
+
+The following claim will be useful at various points.
+
+    \begin{claim}
+        \label{claim:x_equal_implies_output_equal}
+        Suppose $\sigma$ and $\rho$ are such that $\X_\sigma = \X_\rho$. Then
+        $K^\sigma = K^\rho$ and $B^\sigma = B^\rho$.
+    \end{claim}
+    \begin{proof}
+        Since the total preorder $\le$ is fixed, we have
+        \[
+            Y_\sigma
+            = \min\nolimits_{\le}{\X_\sigma}
+            = \min\nolimits_{\le}{\X_\rho}
+            = \Y_\rho
+        \]
+        Now, $\X_\sigma = \X_\rho$ means $\mod(K^\sigma) = \mod(K^\rho)$, so
+        $\cn(K^\sigma) = \cn(K^\rho)$. By \closure{}, $K^\sigma = K^\rho$.
+        Similarly, $\Y_\sigma = \Y_\rho$ gives $B^\sigma = B^\rho$.
+    \end{proof}
+
+We take the postulates to be shown in turn.
+
+\begin{itemize}
+    \item \rearr{}: Suppose $\sigma$ is a permutation of $\rho$.
+          Without loss of generality, $\sigma, \rho \ne \emptyset$. Repeated
+          application of \kconj{} gives
+          \[
+            \X_{\sigma} = \bigcap_{\tuple{i, c, \phi} \in \sigma}{\X_{\tuple{i,
+            c, \phi}}}
+          \]
+          Since $\sigma$ and $\rho$ contain exactly the same reports -- just in
+          a different order -- commutativity and associativity of intersection
+          of sets gives $\X_\sigma = \X_\rho$. \rearr{} follows
+          from \cref{claim:x_equal_implies_output_equal}.
+
+    \item \duprem{}: Let $\sigma$, $\rho_1$ and $\rho_2$ be as
+          in the statement of \duprem{}. Then by
+          \kconj{},
+          \begin{align*}
+            \X_{\rho_2}
+            &= \X_{\rho_1 \concat \tuple{i, c, \phi}} \\
+            &= \X_{\rho_1} \cap \X_{\tuple{i, c, \phi}} \\
+            &= \X_{\sigma \concat \tuple{i, c, \phi}} \cap \X_{\tuple{i, c,
+            \phi}} \\
+            &= \X_{\sigma} \cap \X_{\tuple{i, c, \phi}} \cap \X_{\tuple{i, c,
+            \phi}} \\
+            &= \X_{\sigma} \cap \X_{\tuple{i, c, \phi}} \\
+            &= \X_{\rho_1}
+          \end{align*}
+          and we may conclude by \cref{claim:x_equal_implies_output_equal}.
+    \item \condcons{}: Suppose $K^\sigma$ is consistent,
+          i.e. $\X_\sigma \ne \emptyset$. Since $\W$ is finite, $\X_\sigma$ is
+          finite and thus some $\le$-minimal world must exist in $\X_\sigma$.
+          Hence $\Y_\sigma \ne \emptyset$, so $B^\sigma$ is consistent.
+    \item \incvac{}: Take any sequences $\sigma$, $\rho$. First
+          we show $B^{\sigma \concat \rho} \sqsubseteq \cn(B^\sigma \sqcup
+          K^\rho)$, or equivalently, $\Y_{\sigma \concat \rho} \supseteq
+          \Y_\sigma \cap \X_\rho$. Suppose $W \in \Y_\sigma \cap \X_\rho$.
+          Since $\Y_\sigma \subseteq \X_\sigma$, we have $W \in \X_\sigma \cap
+          \X_\rho = \X_{\sigma \concat \rho}$ by \kconj{}. We need
+          to show $W$ is minimal. Take any $W' \in \X_{\sigma \concat \rho}$.
+          Then $W' \in \X_{\sigma}$, so $W \in \Y_\sigma =
+          \min_{\le}{\X_\sigma}$ gives $W \le W'$. Hence $W \in
+          \min_{\le}{X_{\sigma \concat \rho}} = \Y_{\sigma \concat \rho}$.
+
+          Now suppose $B^\sigma \sqcup K^\rho$ is consistent, i.e. $\Y_\sigma
+          \cap \X_\rho \ne \emptyset$. Take some $\widehat{W} \in \Y_\sigma
+          \cap \X_\rho$. We need to show $B^{\sigma \concat \rho} \sqsupseteq
+          \cn(B^\sigma \sqcup K^\rho)$, i.e. $\Y_{\sigma \concat \rho}
+          \subseteq \Y_\sigma \cap \X_\rho$. To that end, let $W \in \Y_{\sigma
+          \concat \rho}$. Then $W \in \X_{\sigma \concat \rho} = \X_\sigma \cap
+          \X_\rho \subseteq \X_\rho$, so we only need to show $W \in
+          \Y_\sigma$. Take any $W' \in \X_\sigma$. Then $\widehat{W} \in
+          \Y_\sigma$ gives $\widehat{W} \le W'$. But $\widehat{W} \in \X_\sigma
+          \cap \X_\rho = \X_{\sigma \concat \rho}$ and $W \in \Y_{\sigma
+          \concat \rho}$ gives $W \le \widehat{W}$. By transitivity of $\le$,
+          we have $W \le W'$.  Hence $W \in \min_{\le}{\X_\sigma} = \Y_\sigma$.
+
+    \item \acyc{}: Let $\sigma_0, \ldots, \sigma_n$ be as in the statement
+          of \acyc{}. Without loss of generality, $n > 0$. Then there are
+          $W_0, \ldots, W_n$ such that
+          \begin{align*}
+            W_j &\in \X_{\sigma_j} \cap \Y_{\sigma_{j+1}} \qquad (0 \le j < n) \\
+            W_n &\in \X_{\sigma_n} \cap \Y_{\sigma_0}
+          \end{align*}
+          Note that $W_j \in \X_{\sigma_j}$ for all $j$. For $j < n$, we also
+          have $W_j \in \Y_{\sigma_{j+1}} = \min_{\le}{X_{\sigma_{j+1}}}$. It
+          follows that $W_j \le W_{j+1}$ for such $j$, so
+          \[
+            W_0 \le \cdots \le W_n
+          \]
+          But we also have $W_n \in \Y_{\sigma_0} = \min_{\le}{\X_{\sigma_0}}$
+          and $W_0 \in \X_{\sigma_0}$, so $W_n \le W_0$. By transitivity of
+          $\le$, the chain flattens: we have
+          \[
+            W_0 \simeq \cdots \simeq W_n
+          \]
+          Now note that since $W_{n-1} \in \Y_{\sigma_n}$, $W_{n - 1}$ is
+          minimal in $\X_{\sigma_n}$. But $W_n \in \X_{\sigma_n}$ and $W_{n -
+          1} \simeq W_n$ by the above, so in fact $W_n \in \Y_{\sigma_n}$ too.
+          Hence
+          \begin{align*}
+            W_n
+            &\in \Y_{\sigma_0} \cap \Y_{\sigma_n} \\
+            &\subseteq \X_{\sigma_0} \cap \Y_{\sigma_n} \\
+            &= \mod(K^{\sigma_0} \sqcup B^{\sigma_n})
+          \end{align*}
+          i.e. $K^{\sigma_0} \sqcup B^{\sigma_n}$ is consistent, as required
+          for \acyc{}.
+\end{itemize}
+
+\end{proof}
+
+Note that while the requirement in \cref{thm:conditioning_characterisation}
+that $\X_{\sigma}$ and $\Y_{\sigma}$ are elementary is a technical
+condition,\footnotemark{} the characterisation in
 \cref{prop:elementary_characterisation} implies a simple sufficient condition
 for elementariness.
 %
@@ -1078,6 +1787,19 @@ for elementariness.
     partition-equivalent. Then $\min_{\le}{S}$ is elementary for any
     elementary set $S \subseteq \W$.
 \end{proposition}
+
+\begin{proof}
+    We use the characterisation of elementary sets from
+    \cref{prop:elementary_characterisation}. Take $S \subseteq \W$ elementary.
+    Suppose $W \in \W$, $W_1, W_2 \in \min_{\le}{S}$ are such that $W$ is
+    partition-equivalent to both $W_1, W_2$ and $W$ is a valuation combination
+    from $\{W_1, W_2\}$. By hypothesis we have $W \simeq W_1 \simeq W_2$.
+
+    Now since $\min_{\le}{S} \subseteq S$, we have $W_1, W_2 \in S$. Since $S$
+    is elementary, $W \in S$. But now $W \simeq W_1$ and $W_1 \in
+    \min_{\le}{S}$ gives $W \in \min_{\le}{S}$. This shows the required closure
+    property for $\min_{\le}{S}$, and we are done.
+\end{proof}
 
 \Cref{prop:partition_equiv_tpo_implies_elementariness} implies that
 \varbasedcond{} and \partbasedcond{} are elementary. Indeed, for both operators
@@ -1297,11 +2019,269 @@ characterised by total preorders over valuations
 \cite{grove1988two,katsuno_1991}, it is no surprise that our order-based
 constructions are consistent with \agm{}.
 
+\todo{flow in what follows.}
+
 \begin{proposition}
     \label{prop:examples_satisfy_agm}
     \varbasedcond{}, \partbasedcond{} and \scorebasedop{}
     satisfy \agm{}.
 \end{proposition}
+
+We require some preliminary results. For a case $c \in \C$ and valuation $v \in
+\vals$, write $\W_{c\ :\ v} = \{W \in \W \mid v^W_c = v\}$ for the set of
+worlds whose $c$ valuation is $v$.
+
+\begin{lemma}
+    \label{lemma:model_based_models_of_proppart}
+    For any model-based operator, sequence $\sigma$, case $c$, and valuation
+    $v\ in \vals$,
+    \[
+        v \in \propmods\proppart{B^\sigma_c}
+        \iff
+        \Y_\sigma \cap \W_{c\ :\  v} \ne \emptyset
+    \]
+\end{lemma}
+
+\begin{proof}
+    ``$\implies$": We show the contrapositive. Suppose $\Y_\sigma \cap \W_{c\
+    :\ v} = \emptyset$. Let $\psi$ be any propositional formula such that
+    $\propmods(\psi) = \vals \setminus \{v\}$. Now for any $W \in \Y_\sigma$,
+    we have $W \notin \W_{c\ :\  v}$, i.e. $v^W_c \ne v$. Hence $v^W_c \in
+    \propmods(\psi)$, so $W, c \models \psi$. By definition of the belief set
+    of a model-based operator, we have $\psi \in B^\sigma_c$. But $\psi$ is a
+    propositional formula, so $\psi \in \proppart{B^\sigma_c}$. Since $v \notin
+    \propmods(\psi)$, we have $v \notin \propmods\proppart{B^\sigma_c}$.
+
+    ``$\impliedby$": Suppose there is some $W \in \Y_\sigma \cap \W_{c\ :\
+    v}$. Let $\phi \in \proppart{B^\sigma_c}$. Then, in particular, $\phi \in
+    B^\sigma_c$, so $W, c \models \phi$ by $W \in \Y_\sigma$ and the definition
+    of the model-based belief set. That is, $v = v^W_c \in \propmods(\phi)$.
+    Since $\phi \in \proppart{B^\sigma_c}$ was arbitrary, we have $v \in
+    \propmods\proppart{B^\sigma_c}$.
+
+\end{proof}
+
+We have a sufficient condition for \agm{} for score-based operators.
+
+\begin{lemma}
+    \label{lemma:score_based_agm_sufficient_conditions}
+    Suppose a score-based operator is such that for each $c \in \C$ and $\phi
+    \in \lprop$ there is a constant $M \in \mathbb{N}$ with
+    \[
+        d(W, \tuple{\ast, c,  \phi})
+        = \begin{cases}
+            M,& W, c \models \phi  \\
+            \infty,& W, c \models \neg \phi
+        \end{cases}
+    \]
+    for all $W$. Then \agm{} holds.
+\end{lemma}
+
+\begin{proof}
+    Take a score-based operator with the stated property. Let $\sigma$ be a
+    sequence and take $c \in \C$. Without loss of generality, there is some
+    $\phi \in \lprop$ such that $\neg\phi \notin K^\sigma_c$ (otherwise \agm{}
+    trivially holds). Since any score-based operator is model-based and
+    therefore satisfies \closure{}, we have that $K^\sigma$ is inconsistent iff
+    $K^\sigma_c = \lext$. But since $K^\sigma_c$ does not contain $\neg\phi$,
+    it must be the case that $K^\sigma$ is consistent.
+
+    Now, set
+    \[
+        k(v)
+        = \min\{
+            r_\sigma(W)
+            \mid
+            W \in \X_\sigma \cap \W_{c\ :\ v}
+        \}
+    \]
+    where $\min\emptyset =  \infty$. Note that $k(v) = \infty$ if and only if
+    $\X_\sigma \cap \W_{c\ :\  v} = \emptyset$. Then $k$ defines a total
+    preorder $\preceq$ on valuations, where $v \preceq v'$ iff $k(v) \le
+    k(v')$. Define a propositional revision operator $\star$ for
+    $\proppart{B^\sigma_c}$ by
+    \[
+        \proppart{B^\sigma_c} \star \phi = \{
+            \psi \in \lprop
+            \mid
+            \min\nolimits_{\preceq}{\propmods(\phi)} \subseteq \propmods(\psi)
+        \}
+    \]
+    To show that $\star$ satisfies the AGM postulates (for
+    $\proppart{B^\sigma_c}$) it is sufficient to show that the models of
+    $\proppart{B^\sigma_c}$ are exactly the $\preceq$-minimal valuations.
+
+        \begin{claim}
+            $\propmods\proppart{B^\sigma_c} = \min_{\preceq}{\vals}$.
+        \end{claim}
+        \begin{proof}
+
+            ``$\subseteq$": let $v \in \propmods\proppart{B^\sigma_c}$. By
+            \cref{lemma:model_based_models_of_proppart}, there is some $W \in
+            \Y_\sigma \cap \W_{c\ :\  v}$. Since $W \in \X_\sigma$ too, by
+            definition of $k$ we have $k(v) \le r_\sigma(W) < \infty$. Now let
+            $v' \in \vals$. Without loss of generality assume $k(v') < \infty$.
+            Then there is some $W' \in \X_\sigma \cap \W_{c\ :\  v'}$ such that
+            $k(v') = r_\sigma(W')$. But $W' \in \X_\sigma$ and $W \in
+            \Y_\sigma$ gives $r_\sigma(W) \le r_\sigma(W')$, so
+            \[
+                k(v) \le r_\sigma(W) \le r_\sigma(W') = k(v')
+            \]
+            i.e. $v \preceq v'$. Hence $v$ is $\preceq$-minimal.
+
+            ``$\supseteq$": let $v \in \min_{\preceq}\vals$. Since $K^\sigma$
+            is consistent, there is some $\hat{W} \in \X_\sigma$.  Writing
+            $\hat{v} = v^{\hat{W}}_c$, we have $\hat{W} \in \X_\sigma \cap
+            \W_{c\ :\ \hat{v}}$, so $v \preceq \hat{v}$ implies
+            \[
+                k(v)
+                \le k(\hat{v})
+                \le r_\sigma(\hat{W})
+                < \infty
+            \]
+            Hence there must be some $W \in \X_\sigma \cap \W_{c\ :\ v}$ such
+            that $k(v) = r_\sigma(W)$. We claim that, in fact, $W \in
+            \Y_\sigma$. Indeed, for any $W' \in \X_\sigma$ we have $v \preceq
+            v^{W'}_c$, so
+            \[
+                r_\sigma(W)
+                = k(v)
+                \le k(v^{W'}_c)
+                \le r_\sigma(W')
+            \]
+            That is, $W \in \Y_\sigma \cap \W_{c\ :\  v}$. By
+            \cref{lemma:model_based_models_of_proppart}, $v \in
+            \propmods\proppart{B^\sigma_c}$.
+
+        \end{proof}
+
+    So, $\star$ is indeed an AGM operator for $\proppart{B^\sigma_c}$. Now take
+    $\phi \in \lprop$ such that $\neg\phi \notin K^\sigma_c$. Write $\rho =
+    \sigma \concat \tuple{\ast, c, \phi}$. We claim the following.
+
+        \begin{claim}
+            \label{claim:propmods_rho_min_models_of_phi}
+            $\propmods\proppart{B^\rho_c} =
+            \min\nolimits_{\preceq}{\propmods(\phi)}$.
+        \end{claim}
+        \begin{proof}
+            ``$\subseteq$": let $v \in \propmods\proppart{B^\rho_c}$.  By
+            \cref{lemma:model_based_models_of_proppart} again, there is some $W
+            \in \Y_\rho \cap \W_{c\ :\  v}$. Since $\tuple{\ast, c, \phi} \in
+            \rho$ and $d(W, \tuple{\ast, c, \phi}) \le r_\rho(W) < \infty$, we
+            must have $W, c \models \phi$ by the assumed property of the score
+            function $d$. Hence $v = v^W_c \in \propmods(\phi)$.
+
+            Now since $\Y_\rho \subseteq \X_\rho$, we have $W \in \Y_\rho
+            \subseteq \X_\rho \subseteq \X_\sigma$, so $W \in \X_\sigma \cap
+            \W_{c\ :\  v}$. By definition of $k$, we have $k(v) \le
+            r_\sigma(W)$. Take any $v' \in \propmods(\phi)$. Without loss of
+            generality, assume $k(v') < \infty$, so that there is some $W' \in
+            \X_\sigma \cap \W_{c\ :\  v'}$ with $k(v') = r_\sigma(W')$. Since
+            $v^{W'}_c = v' \in \propmods(\phi)$, we have $W', c \models \phi$.
+            Consequently, by the property of $d$ again, $d(W', \tuple{\ast, c,
+            \phi}) = M$. Since $W' \in \X_\sigma$ gives $r_\sigma(W') <
+            \infty$, it follows that
+            \[
+                r_\rho(W') = r_\sigma(W') + M < \infty
+            \]
+            so $W' \in \X_\rho$.
+
+            Recall that $W, c \models \phi$ too, so $d(W, \tuple{\ast, c,
+            \phi}) = M$ also. From $W \in \Y_\rho$ and $W' \in \X_\rho$ we get
+            \begin{align*}
+                r_\sigma(W)
+                &= r_\rho(W) - M \\
+                &\le r_\rho(W') - M \\
+                &= r_\rho(W') - d(W', \tuple{\ast, c, \phi}) \\
+                &= r_\sigma(W')
+            \end{align*}
+            This yields
+            \[
+                k(v) \le r_\sigma(W) \le r_\sigma(W') = k(v')
+            \]
+            and $v \preceq v'$ as required.
+
+
+            ``$\supseteq$": let $v \in \min_{\preceq}{\propmods(\phi)}$. Since
+            $\neg\phi \notin K^\sigma_c$, there is some $\hat{W} \in \X_\sigma$
+            such that $\hat{W}, c \models \phi$. Writing $\hat{v} =
+            v^{\hat{W}}_c$, we have $\hat{v} \in \propmods(\phi)$. Hence $v
+            \preceq \hat{v}$. This implies
+            \[
+                k(v) \le k(\hat{v}) \le r_\sigma(\hat{W}) < \infty
+            \]
+            so there must be some $W \in \X_\sigma \cap \W_{c\ :\  v}$ with
+            $k(v) = r_\sigma(W)$. Since $v^W_c = v \in \propmods(\phi)$, we
+            have $W, c \models \phi$. By the assumed property of $d$, we get
+            $d(W, \tuple{\ast, c, \phi}) = M$. Hence
+            \[
+                r_\rho(W)
+                = r_\sigma(W) + d(W, \tuple{\ast, c, \phi})
+                = r_\sigma(W) + M
+                < \infty
+            \]
+            so $W \in \X_\rho$ too. We will show that $W \in \Y_\rho$. Let $W'
+            \in \X_\rho$. Then we must have $d(W', \tuple{\ast, c, \phi}) = M$
+            and $W', c \models \phi$. That is, $v^{W'}_c \in \propmods(\phi)$.
+            By minimality of $v$, we have $v \preceq v^{W'}_c$. Noting that $W'
+            \in \X_\rho \subseteq \X_\sigma$, we get
+            \[
+                r_\sigma(W)
+                = k(v)
+                \le k(v^{W'}_c)
+                \le r_\sigma(W')
+            \]
+            Consequently,
+            \[
+                r_\rho(W)
+                = r_\sigma(W) + M
+                \le r_\sigma(W') + M
+                = r_\rho(W')
+            \]
+            This shows $W \in \Y_\rho$, i.e. $\Y_\rho \cap \W_{c\ :\  v} \ne
+            \emptyset$. By \cref{lemma:model_based_models_of_proppart}, we are
+            done.
+
+        \end{proof}
+
+    Noting that $\propmods\proppart{B^\sigma_c} \star \phi =
+    \min_{\preceq}{\propmods(\phi)}$, it follows from
+    \cref{claim:propmods_rho_min_models_of_phi} that
+    $\cnprop(\proppart{B^\rho_c}) = \cnprop(\proppart{B^\sigma_c} \star \phi)$.
+    But $\proppart{B^\rho_c}$ is deductively closed by \closure{}, and
+    $\proppart{B^\sigma_c}
+    \star \phi$ is deductively closed by construction. Hence
+    $\proppart{B^\rho_c} = \proppart{B^\sigma_c} \star \phi$, as required for
+    \agm{}.
+
+\end{proof}
+
+As a consequence of \cref{prop:kconj_conditioning_implies_score_based} (and the
+construction of $d$ in its proof), one can apply
+\cref{lemma:score_based_agm_sufficient_conditions} with $M = 0$ for
+conditioning operators with \kconj{} and a certain natural property.
+
+\begin{corollary}
+    \label{cor:conditioning_agm}
+    Suppose an elementary conditioning operator satisfying \kconj{} has the
+    property that
+    \[
+        W \in \X_{\tuple{\ast, c, \phi}} \iff W, c \models \phi
+    \]
+    Then \agm{} holds.
+\end{corollary}
+
+We can now prove \cref{prop:examples_satisfy_agm}.
+
+\begin{proof}[Proof of \cref{prop:examples_satisfy_agm}]
+    For the conditioning operators \varbasedcond{} and \partbasedcond{}, it is
+    easily verified that the condition in \cref{cor:conditioning_agm} holds,
+    and thus \agm{} does also.
+
+    For the score-based operator \scorebasedop{}, we may use
+    \cref{lemma:score_based_agm_sufficient_conditions} with $M = 0 $.
+\end{proof}
 
 Thus, we do indeed extend AGM revision in the case of reliable information.
 What about non-reliable information? First note that the analogue of \agm{} for
@@ -1336,7 +2316,7 @@ $i$ need not be considered an expert on $\phi$). In other words, we should
 believe reports if there is no reason not to. It is easily shown that
 \closure{} and \strongcondsucc{} implies \condsucc{}.
 %
-We once again revisit our examples.
+We once again revisit our examples. \todo{flow, again.}
 
 \begin{proposition}
     \label{prop:examples_satisfy_condsucc}
@@ -1344,6 +2324,113 @@ We once again revisit our examples.
     satisfy \condsucc{}, and \scorebasedop{} additionally
     satisfies \strongcondsucc{}.
 \end{proposition}
+
+As a first step in the proof, we present sufficient conditions for conditioning
+operators to satisfy \condsucc{}. In fact, we do not need to impose any
+condition on the total preorder $\le$: a natural constraint on the mapping
+$\sigma \mapsto \X_\sigma$ (together with some basic postulates) is enough.
+
+\begin{lemma}
+    \label{lemma:conditioning_condsucc_sufficient_condition}
+    Suppose an elementary conditioning operator satisfies \kconj{},
+    \soundness{} and
+    \[
+        W, c \models \phi \implies W \in \X_{\tuple{i, c, \phi}}
+    \]
+    Then \condsucc{} holds.
+\end{lemma}
+
+\begin{proof}
+    Suppose an elementary conditioning operator corresponding to the mapping
+    $\sigma \mapsto \tuple{\X_\sigma, \Y_\sigma}$ and total preorder $\le$
+    satisfies \kconj{}, \soundness{} and has the stated property.
+
+    Let $\sigma$ be a sequence and $c \in \C$. Suppose $E_i(\phi) \in
+    B^\sigma_c$ and $\neg\phi \notin B^\sigma_c$. Write $\rho = \sigma \concat
+    \tuple{i, c, \phi}$. We need to show $\phi \in B^\rho_c$.
+
+    By $\neg\phi \notin B^\sigma_c$, there is some $W \in \Y_\sigma$ such that
+    $W, c \models \phi$. Hence $W \in \X_{\tuple{i, c, \phi}}$. By
+    elementariness and \kconj{}, we have $\X_\rho = \X_\sigma \cap
+    \X_{\tuple{i, c, \phi}}$. Since $W \in \Y_\sigma \subseteq \X_\sigma$, we
+    get $W \in \X_\rho$.
+
+    Now take any $W' \in \Y_\rho$. Then $W'$ is $\le$-minimal in $\X_\rho$, so
+    $W' \le W$. But $W$ is $\le$-minimal in $\X_\sigma$, so $W' \in \Y_\rho
+    \subseteq \X_\rho \subseteq \X_\sigma$ gives $W' \in \Y_\sigma$ also.
+    Consequently, $E_i(\phi) \in B^\sigma_c$ means $W', c \models E_i(\phi)$.
+    On the other hand, \soundness{} together with $\tuple{i, c, \phi} \in \rho$
+    and $W' \in \X_\rho$ means $W', c \models S_i(\phi)$. Hence $W', c \models
+    E_i(\phi) \land S_i(\phi)$. From \cref{prop:validities}
+    part (\labelcref{item:e_and_s_implies_phi}), we get $W', c \models \phi$.
+
+    We have shown that $\phi$ holds in case $c$ at an arbitrary world in
+    $\Y_\rho$. Hence $\phi \in B^\rho_c$, as required.
+
+\end{proof}
+
+Similarly, we have sufficient conditioning for score-based operators to satisfy
+\strongcondsucc{}: the postulate follows if worlds in which $i$ makes a expert,
+truthful report are strictly more plausible than worlds in which $i$ makes a
+false report.
+
+\begin{lemma}
+    \label{lemma:score_based_strongcondsucc_sufficient_conditions}
+    Suppose a score-based operator is such that for any $i \in \S$, $c \in \C$,
+    $\phi \in \lprop$ and $W, W' \in \W$,
+    \begin{align*}
+        W, c &\models E_i(\phi) \land \phi
+        \text{ and }
+        W', c \models \neg\phi \\
+        &\implies
+        d(W, \tuple{i, c, \phi}) < d(W', \tuple{i, c, \phi})
+    \end{align*}
+    Then \strongcondsucc{} holds.
+\end{lemma}
+
+\begin{proof}
+    Suppose a score-based operator has the stated property. Take $\sigma$ such
+    that $\neg(E_i(\phi) \land \phi) \notin B^\sigma_c$. Write $\rho = \sigma
+    \concat \tuple{i, c, \phi}$. We need to show that $\phi \in B^\rho_c$.
+
+    First note that by $\neg(E_i(\phi) \land \phi) \notin B^\sigma_c$ and the
+    definition of $B^\sigma$ for score-based operators, there is $W \in
+    \Y_\sigma$ such that $W, c \models E_i(\phi) \land \phi$.
+
+    Take any $W' \in \Y_\rho$. Suppose, for the sake of contradiction, that
+    $W', c \not\models \phi$. Then by the hypothesised property of the score
+    function $d$, we have
+    \[
+        d(W, \tuple{i, c, \phi}) < d(W', \tuple{i, c, \phi})
+    \]
+    Now, $W \in \Y_\sigma$ and $W' \in \Y_\rho \subseteq \X_\rho \subseteq
+    \X_\sigma$ gives $r_\sigma(W) \le r_\sigma(W')$. Thus
+    \begin{align*}
+        r_\rho(W)
+        &= r_\sigma(W) + d(W, \tuple{i, c, \phi}) \\
+        &\le r_\sigma(W') + d(W, \tuple{i, c, \phi}) \\
+        &< r_\sigma(W') + d(W', \tuple{i, c, \phi}) \\
+        &= r_\rho(W') < \infty
+    \end{align*}
+    i.e. $r_\rho(W) < r_\rho(W') < \infty$. But this means $W \in \X_\rho$ and
+    $W'$ is not minimal in $\X_\rho$ under $r_\rho$, contradicting $W' \in
+    \Y_\rho$. Hence $W', c \models \phi$.
+
+    Since $W'$ was an arbitrary member of $\Y_\rho$, we have shown $\phi \in
+    B^\rho_c$, and thus \strongcondsucc{} is shown.
+\end{proof}
+
+The main result now follows.
+
+\begin{proof}[Proof of \cref{prop:examples_satisfy_condsucc}]
+    For the conditioning operators \varbasedcond{} and \partbasedcond{},
+    \condsucc{} follows from
+    \cref{lemma:conditioning_condsucc_sufficient_condition} since $W, c \models
+    \phi$ implies $W, c \models S_i(\phi)$. For the score-based operator
+    \scorebasedop{}, one can easily check that the condition in
+    \cref{lemma:score_based_strongcondsucc_sufficient_conditions} holds, and
+    thus \strongcondsucc{} and \condsucc{} follow.
+\end{proof}
 
 By omission, the reader may suppose that the conditioning operators fail
 \strongcondsucc{}. This is correct, and we can in fact say even more: \emph{no}
@@ -1384,6 +2471,129 @@ and is a desirable property in light of
 (\labelcref{item:conditioning_impossibility_first}). \refinement{}, introduced
 in \cref{sec:conditioning_operators}, says that worlds in which all sources
 have more expertise are preferred.
+
+\begin{proof}
+    Take distinct sources $i_1, i_2 \in \S \setminus \{\ast\}$, distinct cases
+    $c, d \in \C$, and distinct valuations $v_1, v_2 \in \vals$. Let $\phi_1,
+    \phi_2 \in \lprop$ be propositional formulas with $\propmods(\phi_k) = v_k$
+    ($k \in \{1, 2\}$). Suppose for contradiction that some elementary
+    conditioning operator -- satisfying the basic postulates -- has the stated
+    properties.
+
+    Define a sequence
+    \[
+        \sigma
+        = (
+            \tuple{\ast, c, \phi_1 \lor \phi_2},
+            \tuple{i_1, c, \phi_1},
+            \tuple{i_2, c, \phi_2}
+        ).
+    \]
+    Let $\Pi_\bot$ denote the unit partition $\{\{u\} \mid u \in \vals\}$, and
+    let $\widehat{\Pi}$ denote the partition
+    \[
+         \{\{v_1, v_2\}\}
+         \cup
+         \{\{u\} \mid u \in \vals \setminus \{v_1, v_2\}\},
+    \]
+    i.e. the partition obtained from $\Pi_\bot$ by merging the cells of $v_1$
+    and $v_2$.
+
+    Consider worlds $W_1$, $W_2$ given by
+    \begin{align*}
+         v^{W_k}_{c'} &= v_k \qquad (c' \in \C) \\
+         \Pi^{W_k}_i &= \begin{cases}
+            \widehat{\Pi},&
+                (k = 1 \text{ and } i = i_2)
+                \text { or }
+                (k = 2 \text{ and } i = i_1) \\
+            \Pi_\bot,& \text{ otherwise }
+         \end{cases}
+    \end{align*}
+    That is, $W_1$ has $v_1$ as its valuation for all cases, $i_2$ has
+    partition $\widehat{\Pi}$, and all other sources have the finest partition
+    $\Pi_\bot$; similarly $W_2$ has $v_2$ for its valuations and all sources
+    except $i_1$ have $\Pi_\bot$.
+
+    Let $\le$ denote the total preorder associated with the conditioning
+    operator.
+
+        \begin{claim}
+            \label{claim:w1_simeq_w2}
+            $W_1 \simeq W_2$.
+        \end{claim}
+        \begin{proof}
+            Let $\pi$ be the permutation of $\S$ which swaps $i_1$ and $i_2$.
+            It is easily observed that $\pi(W_1)$ is partition-equivalent to
+            $W_2$. By reflexivity of partition refinement, $\pi(W_1) \preceq
+            W_2$ and $W_2 \preceq \pi(W_1)$. By \refinement{}, we get $\pi(W_1)
+            \simeq W_2$. By property (\labelcref{item:anonymity}), $W_1 \simeq
+            \pi(W_1)$. By transitivity of ${\simeq}$ we get $W_1 \simeq W_2$ as
+            desired.
+        \end{proof}
+
+    Now, from the basic postulates, property
+    (\labelcref{item:conditioning_impossibility_first}) and
+    \cref{prop:prior_knowledge} we have $K^\sigma = \cn(G^\sigma_\snd)$. By
+    elementariness and \cref{lemma:model_based_elementary}, we get
+    $\X_\sigma = \mods(K^\sigma) = \mods(G^\sigma_\snd)$. It is easily checked
+    that both $W_1$ and $W_2$ satisfy the soundness statements corresponding to
+    $\sigma$, and thus $W_1, W_2 \in \mods(G^\sigma_\snd) = \X_\sigma$.
+
+        \begin{claim}
+            \label{claim:w1_w2_in_ysigm}
+            $W_1, W_2 \in \Y_\sigma$.
+        \end{claim}
+        \begin{proof}
+            We show $W_1$ and $W_2$ are $\le$-minimal in $\X_\sigma$. Take any
+            $W \in \X_\sigma$. Then $W \in \mods(G^\sigma_\snd)$, so $W, c
+            \models S_\ast(\phi_1 \lor \phi_2)$, i.e. $V^W_c \in \{v_1, v_2\}$.
+            We consider two cases.
+            \begin{itemize}
+                \item \textbf{Case 1} ($v^W_c = v_1$). By $W \in
+                    \mods(G^\sigma_\snd)$ again we have $W, c \models
+                    S_{i_2}(\phi_2)$, i.e
+                    \[
+                        v_1
+                        = v^W_c
+                        \in \Pi^W_{i_2}[\phi_2]
+                        = \Pi^W_{i_2}[v_2].
+                    \]
+                    It follows that $\{v_1, v_2\} \subseteq \Pi^W_{i_2}[v_2]$,
+                    and that $\widehat{\Pi}$ refines $\Pi^W_{i_2}$. Since
+                    $\widehat{\Pi}$ is the partition of $i_2$ in $W_1$, and all
+                    other sources have the finest partition $\Pi_\bot$, we get
+                    $W_1 \preceq W$. By \refinement{}, $W_1 \le W$. Since $W_1
+                    \simeq W_2$ we have $W_2 \le W$ also.
+
+                \item \textbf{Case 2} ($v^W_c = v_2$). Applying a near-identical
+                      argument to that used in case 1 with soundness of the
+                      report $\tuple{i_1, c, \phi_1}$, we get $W_1, W_2 \le W$.
+            \end{itemize}
+            In either case, both $W_1 \le W$ and $W_2 \le W$, so $W_1, W_2 \in
+            \Y_\sigma$.
+        \end{proof}
+
+    Now we consider case $d$. Since
+    \[
+        W_1, d \models E_{i_1}(\phi_1) \land \phi_1
+    \]
+    and $W_1 \in \Y_\sigma$, $\neg(E_{i_1}(\phi_1) \land \phi_1) \notin
+    B^\sigma_d$. Writing $\rho = \sigma \concat \tuple{i_1, d, \phi_1}$, we get
+    from \strongcondsucc{} that $\phi_1 \in B^\rho_d$.
+
+    Note that $W_2, d \models S_{i_1}(\phi_1)$, so $W_2 \in \mods(G^\rho_\snd)
+    = \mods(K^\rho) = \X_\rho$. Since $W_2$ is $\le$-minimal in $\X_\sigma$ and
+    \[
+        X_\rho = \mods(G^\rho_\snd) \subseteq \mods(G^\sigma_\snd) = \X_\sigma,
+    \]
+    $W_2$ is also $\le$-minimal in $\X_\rho$, i.e. $W_2 \in \Y_\rho$. Now
+    $\phi_1 \in B^\rho_d$ gives $W_2, d \models \phi_1$. Since $v^{W_2}_d =
+    v_2$ and $\propmods(\phi_1) = \{v_1\}$, this means $v_1 = v_2$. But $v_1$
+    and $v_2$ were assumed to be distinct: contradiction.
+
+    \todo{Show that any strict subset is satisfiable}
+\end{proof}
 
 \Cref{prop:strongcondsucc_conditioning_impossibilitity} highlights an important
 difference between conditioning and score-based operators, and hints that
@@ -1450,15 +2660,263 @@ have the following characterisation.
     \boundedness{}.
 \end{theorem}
 
-\todo{fix}
-This result allows us to easily analyse when conditioning and score-based
-operators are selective; we show in the
-\ifdefined\thisistheprerint
-    appendix
-\else
-    full paper~\cite{singleton_booth_22_preprint}
-\fi
-that \varbasedcond{}, \partbasedcond{} and \scorebasedop{} are all selective.
+\begin{proof}
+    ``if": Suppose a model-based operator satisfies \boundedness{}. Take any
+    $\ast$-consistent $\sigma$. For $c \in \C$, set
+    \[
+        M_c = \propmods\proppart{B^\sigma_c}.
+    \]
+    By \boundedness{}, we have $M_c \supseteq \propmods(\Gamma^\sigma_c)$. Now
+    set
+    \[
+        F_\sigma(i, c, \phi) = \propmods(\phi) \cup M_c.
+    \]
+    Define a selection function $f_\sigma$ by letting $f_\sigma(i, c, \phi)$ be
+    any formula with $\propmods(f_\sigma(i,c, \phi)) = F_\sigma(i, c, \phi)$.
+    Since $F_\sigma(i, c, \phi)$ contains the models of $\phi$, clearly
+    $f_\sigma(i, c, \phi) \in \cnprop(\phi)$. Therefore $f$ is indeed a
+    selection function.
+
+    We claim that, for any $c \in \C$,
+    \[
+        M_c
+        = \bigcap_{\tuple{i, \phi} \in \sigma \rs c}{
+            F_\sigma(i, c, \phi)
+        }.
+    \]
+    The ``$\subseteq$" inclusion is clear since, by definition, $F_\sigma(i, c,
+    \phi) \supseteq M_c$. For the ``$\supseteq$" inclusion, suppose for
+    contradiction that there is some $v \in \bigcap_{\tuple{i, \phi} \in \sigma
+    \rs c}{F_\sigma(i, c, \phi)}$ with $v \notin M_c$.
+
+    Take any $\phi \in \Gamma^\sigma_c$. Then there is $i \in \S$ such that
+    $\tuple{i, \phi} \in \sigma \rs c$, and hence $v \in F_\sigma(i, c, \phi)$.
+    But $v \notin M_c$ by assumption, so $v \in \propmods(\phi)$. This shows $v
+    \in \propmods(\Gamma^\sigma_c)$. But $\propmods(\Gamma^\sigma_c) \subseteq
+    M_c$ by \boundedness{}, so $v \in M_c$; contradiction.
+
+    From this we get
+    \begin{align*}
+        \propmods\proppart{B^\sigma_c}
+        &= M_c \\
+        &= \bigcap_{\tuple{i, \phi} \in \sigma \rs c}{F_\sigma(i, c, \phi)} \\
+        &= \bigcap_{\tuple{i, \phi} \in \sigma \rs c}{
+            \propmods(f_\sigma(i, c, \phi))
+        } \\
+        &= \propmods\left(\{
+            f_\sigma(i, c, \phi) \mid \tuple{i, \phi} \in \sigma \rs c
+        \}\right)
+    \end{align*}
+    Since $\proppart{B^\sigma_c}$ is deductively closed (by \closure{}, which
+    holds for all model-based operators), we get
+    \[
+        \proppart{B^\sigma_c}
+        =
+        \cnprop\left(\{
+            f_\sigma(i, c, \phi) \mid \tuple{i, \phi} \in \sigma \rs c
+        \}\right)
+    \]
+    as required for selectivity.
+
+    ``only if": Suppose a model-based operator is selective according to some
+    selection scheme $f$. Take any $\ast$-consistent $\sigma$ and $c \in \C$.
+    Write
+    \[
+        \Delta = \{
+            f_\sigma(i, c, \phi)
+            \mid
+            \tuple{i, \phi} \in \sigma \rs c
+        \}.
+    \]
+    so that $\proppart{B^\sigma_c} = \cnprop(\Delta)$. For $\tuple{i, \phi} \in
+    \sigma \rs c$ we have $f_\sigma(i, c, \phi) \in \cnprop(\phi) \subseteq
+    \cnprop(\Gamma^\sigma_c)$ from the definition of a selection scheme and the
+    fact that $\phi \in \Gamma^\sigma_c$. Hence $\Delta \subseteq
+    \cnprop(\Gamma^\sigma_c)$, so
+    \[
+        \proppart{B^\sigma_c}
+        = \cnprop(\Delta)
+        \subseteq \cnprop(\cnprop(\Gamma^\sigma_c))
+        = \cnprop(\Gamma^\sigma_c)
+    \]
+    as required for \boundedness{}.
+\end{proof}
+
+\todo{flow.}
+
+This characterisation in \cref{thm:selectivity_characterisation} allows us to
+easily analyse when conditioning and score-based operators are selective. In
+the case of conditioning operators with $K^\emptyset = \cn(\emptyset)$, we in
+fact have a precise characterisation. First, some terminology: say that a world
+$W$ \emph{refines $W'$ at $c$} if for all $i \in \S$ we have $\Pi^W_i[v^W_c]
+\subseteq \Pi^{W'}_i[v^{W'}_c]$. Intuitively, this means each source is more
+knowledgable in case $c$ in world $W$ than they are in $W'$. Write $\W_{c\ :\
+v} = \{W \in \W \mid v^W_c = v\}$ for the set of worlds whose $c$ valuation is
+$v$. We have the following.
+
+\begin{proposition}
+    \label{prop:conditioning_selectivity_characterisation}
+    Suppose an elementary conditioning operator satisfies the basic postulates
+    and has $K^\emptyset = \cn(\emptyset)$. Then it is selective if and only if
+    for all $W$, $c$, $v$ there is $W' \in \W_{c\ :\ v}$ such that $W' \le W$
+    and $W$ refines $W'$ at all cases $d \ne c$.
+\end{proposition}
+
+While the condition on $\le$ in
+\cref{prop:conditioning_selectivity_characterisation} is somewhat technical, it
+is implied by the very natural \emph{partition-equivalence} property from
+\cref{sec:framework}. Consequently, \varbasedcond{} and \partbasedcond{} are
+selective. For the score-based operator \scorebasedop{}, one can show
+\boundedness{} holds directly using a property of the disagreement scoring
+function $d$ similar to the property of $\le$ above. Consequently,
+\scorebasedop{} is also selective.
+
+We first state some preliminary results.
+
+\begin{lemma}
+    \label{lemma:local_refinement}
+    Suppose $W$ refines $W'$ at $c$. Then for any $i \in \S$ and $\phi \in
+    \lprop$,
+    \[
+        W, c \models S_i(\phi)
+        \implies
+        W', c \models S_i(\phi)
+    \]
+\end{lemma}
+
+\begin{proof}
+    Suppose $W, c \models S_i(\phi)$. Then $v^W_c \in \Pi^W_i[\phi]$, i.e.
+    $\propmods(\phi) \cap \Pi^W_i[v^W_c] \ne \emptyset$. By refinement,
+    $\Pi^W_i[v^W_c] \subseteq \Pi^{W'}_i[v^{W'}_c]$. Hence $\propmods(\phi)
+    \cap \Pi^{W'}_i[v^{W'}_c] \ne \emptyset$, so $v^{W'}_c \in
+    \Pi^{W'}_i[\phi]$. That is, $W', c \models S_i(\phi)$.
+\end{proof}
+
+\begin{lemma}
+    \label{lemma:local_refinement_sequence}
+    For any $W \in \W$ and $c \in \C$, there is a $\ast$-consistent sequence
+    $\sigma$ -- containing only reports for case $c$ -- such that for all $W'
+    \in \W$,
+    \[
+        W' \in \mods(G^\sigma_\snd)
+        \iff
+        W \text{ refines } W' \text{ at } c.
+    \]
+\end{lemma}
+
+\begin{proof}
+
+    For a valuation $v \in \vals$, let $\phi(v)$ be a propositional formula
+    such that $\propmods(\phi(v)) = \{v\}$. Take $\sigma$ to be any enumeration
+    of reports of the form
+    \[
+        \tuple{i, c, \phi(v)}
+    \]
+    where $i \in \S$ and $v \in \Pi^W_i[v^W_c]$. Note that such a sequence
+    exists since there are only finitely many sources and valuations. Clearly
+    $\sigma$ contains only $c$-reports. Since $\Pi^W_\ast$ is the unit
+    partition, the only report from $\ast$ is $\tuple{\ast, c, \phi(v^W_c)}$.
+    Hence $\sigma$ is $\ast$-consistent. We show the desired equivalence.
+
+    $\implies$: Suppose $W' \in \mods(G^\sigma_\snd)$. Take any $i \in \S$. We
+    need to show $\Pi^W_i[v^W_c] \subseteq \Pi^{W'}_i[v^{W'}_c]$. Take $v \in
+    \Pi^W_i[v^W_c]$. By construction of $\sigma$, $\tuple{i, c, \phi(v)} \in
+    \sigma$. Hence $W', c \models S_i(\phi(v))$, i.e. $v^{W'}_c \in
+    \Pi^{W'}_i[\phi(v)] = \Pi^{W'}_i[v]$. This shows $v \in
+    \Pi^{W'}_i[v^{W'}_c]$ as required.
+
+    $\impliedby$: Suppose $W$ refines $W'$ at $c$. Take any $\tuple{i, c,
+    \phi(v)} \in \sigma$. Then $v \in \Pi^W_i[v^W_c]$, so $v^W_c \in \Pi^W_i[v]
+    = \Pi^W_i[\phi(v)]$. This shows $W, c \models S_i(\phi(v))$, and
+    \cref{lemma:local_refinement} gives $W', c \models S_i(\phi(v))$. Hence $W'
+    \in \mods(G^\sigma_\snd)$.
+
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:conditioning_selectivity_characterisation}]
+    Take an elementary conditioning operator with the basic postulates
+    and $K^\emptyset = \cn(\emptyset)$.
+
+    ``if":  Suppose the stated property holds. Since all conditioning operators
+    are model-based, by \cref{thm:selectivity_characterisation} it suffices to
+    show \boundedness{}. To that end, let $\sigma$ be $\ast$-consistent and
+    take $c \in \C$. We need $\proppart{B^\sigma_c} \subseteq
+    \cnprop(\Gamma^\sigma_c)$; or equivalently, by \closure{},
+    $\propmods\proppart{B^\sigma_c} \supseteq \propmods(\Gamma^\sigma_c)$.
+
+    Take any $v \in \propmods(\Gamma^\sigma_c)$. Since $\sigma$ is
+    $\ast$-consistent, $B^\sigma$ is consistent by \consistency{}. Hence
+    $\Y_\sigma \ne \emptyset$. Take any $W \in \Y_\sigma$. By the property in
+    the statement of the result, there is $W' \in \W_{c\ :\ v}$ such that $W'
+    \le W$ and $W$ refines $W'$ at all cases $d \ne c$.
+
+    We claim $W' \in \X_\sigma$. By \cref{prop:prior_knowledge}, elementariness
+    and \cref{lemma:model_based_elementary}, we have $\X_\sigma =
+    \mods(K^\sigma) = \mods(G^\sigma_\snd)$. Take any $\tuple{i, d, \phi} \in
+    \sigma$. We consider cases.
+    \begin{itemize}
+        \item \textbf{Case 1} ($d = c$). Here $\tuple{i, \phi} \in \sigma \rs
+            c$, so $\phi \in \Gamma^\sigma_c$. Hence $v \in
+            \propmods(\Gamma^\sigma_c) \subseteq \propmods(\phi)$. Since $W'
+            \in \W_{c\ :\ v}$, $v$ is the $c$-valuation of $W'$. Hence $W', c
+            \models \phi$, and $W', c \models S_i(\phi)$ follows.
+
+        \item \textbf{Case 2} ($d \ne c$). By assumption, $W$ refines $W'$ at
+              $d$. Since $W \in \Y_\sigma \subseteq \X_\sigma$, we have $W, d
+              \models S_i(\phi)$. By \cref{lemma:local_refinement}, $W', d
+              \models S_i(\phi)$ also.
+    \end{itemize}
+    We have shown $W' \in \mods(G^\sigma_\snd) = \X_\sigma$. Now recall that $W
+    \in \Y_\sigma$ -- so $W$ is $\le$-minimal in $\X_\sigma$ -- and $W' \le W$.
+    Thus $W'$ is also $\le$-minimal in $\X_\sigma$, i.e. $W' \in \Y_\sigma$.
+    Since $W' \in \W_{c\ :\ v}$ also, we have by
+    \cref{lemma:model_based_models_of_proppart} that $v \in
+    \propmods\proppart{B^\sigma_c}$, as required.
+
+    ``only if": Suppose our operator is selective, i.e. satisfies
+    \boundedness{}. To show the desired property holds, take any $W$, $c$ and
+    $v$. Enumerate $\C \setminus \{c\}$ as $\{d_1, \ldots, d_N\}$. By
+    \cref{lemma:local_refinement_sequence}, for each $1 \le n \le N$ there is a
+    $\ast$-consistent sequence $\sigma_n$ such that
+    \[
+        \mods(G^{\sigma_n}_\snd)
+        =
+        \{W' \in \W \mid W \text{ refines } W' \text{ at } d_n\}.
+    \]
+    Now, let $\phi$ and $\psi$ be formulas with $\propmods(\phi) = \{v\}$ and
+    $\propmods(\psi) = \{v^W_c\}$. Let $\rho$ be the concatenation
+    \[
+        \rho
+        =
+        \sigma_1 \cdots \sigma_n \concat
+        \tuple{\ast, c, \phi \lor \psi}.
+    \]
+    Note that $\rho$ is $\ast$-consistent, since each $\sigma_n$ is (and only
+    refers to case $d_n$). We may therefore apply \boundedness{} for case $c$.
+    Taking models of both sides yields
+    \[
+        \propmods\proppart{B^\rho_c}
+        \supseteq \propmods(\Gamma^\rho_c)
+        = \propmods(\phi \lor \psi)
+        = \{v, v^W_c\}.
+    \]
+    In particular, $v \in \propmods\proppart{B^\rho_c}$. By
+    \cref{lemma:model_based_models_of_proppart}, there is some $W' \in \Y_\rho
+    \cap \W_{c\ :\ v}$.
+
+    We show $W'$ has the required properties. First note that since $W$ refines
+    itself at each $d_n$, we have $W \in \mods(G^{\sigma_n}_\snd)$. Clearly $W,
+    c \models \psi$, so $W, c \models S_\ast(\phi \lor \psi)$ too. Thus $W \in
+    \mods(G^\rho_\snd) = \X_\rho$ (using $K^\emptyset = \cn(\emptyset)$). Since
+    $W' \in \Y_\rho = \min_{\le}{\X_\rho}$, we get $W' \le W$ as required.
+
+    Next, take any case $d \ne c$. Then there is some $n$ such that $d = d_n$.
+    Since $W' \in \Y_\rho \subseteq \X_\rho = \mods(G^\rho_\snd) \subseteq
+    \mods(G^{\sigma_n}_\snd)$, we get that $W$ refines $W'$ at $d$. This
+    completes the proof.
+
+\end{proof}
+
 
 \subsection{Case Independence}
 
@@ -1547,6 +3005,94 @@ The characterisation is as follows.
     A model-based operator is case-independent-selective if and only if it
     satisfies \hboundedness{}.
 \end{theorem}
+
+\begin{proof}
+
+    ``only if": Suppose a model-based operator is selective
+    according to some case-independent scheme $f$. Take any $\ast$-consistent
+    $\sigma$, $H \subseteq \C$ and $c \in \C$. For any case $d$, write $M_d =
+    \propmods\proppart{B^\sigma_d}$. Note that with $c_0$ an
+    arbitrary fixed case, and writing $F_\sigma(i, \phi) =
+    \propmods(f_\sigma(i, c_0, \phi))$, we have by case-independent-selectivity
+    that
+    \[
+        M_d = \bigcap_{\tuple{i, \phi} \in \sigma \rs d}{
+            F_\sigma(i, \phi)
+        }.
+    \]
+    By closure, it is sufficient for \hboundedness{} to show that
+    \begin{equation}
+        \label{eqn:hbnd_inclusion}
+        M_c
+        \supseteq
+        \propmods(\Gamma^{\sigma, H}_c) \cap \bigcap_{d \in H}{M_d}.
+    \end{equation}
+    Take any $v$ in the set on the right-hand side. To show $v \in M_c$, take
+    any $\tuple{i, \phi} \in \sigma \rs c$. If $\phi \in \Gamma^{\sigma, H}_c$,
+    then clearly
+    \begin{align*}
+        v
+        &\in \propmods(\Gamma^{\sigma, H}_c) \\
+        &\subseteq \propmods(\phi) \\
+        &\subseteq \propmods(f_\sigma(i, c, \phi)) \\
+        &= F_\sigma(i, \phi)
+    \end{align*}
+    (where we use $f_\sigma(i, c, \phi) \in \cnprop(\phi)$). Otherwise, $\phi
+    \notin \Gamma^{\sigma, H}_c$. Since $\tuple{i, \phi} \in \sigma \rs c$,
+    this means there is $d \in H$ such that $\tuple{i, \phi} \in \sigma \rs d$.
+    Hence $v \in M_d$ gives $v \in F_\sigma(i, \phi)$. This shows the inclusion
+    in \labelcref{eqn:hbnd_inclusion}, and we are done.
+
+    ``if": Suppose a model-based operator satisfies \hboundedness{}. Let
+    $\sigma$ be a $\ast$-consistent sequence. As before, write $M_c$ for
+    $\propmods\proppart{B^\sigma_c}$. For $i \in \S$ and $c \in \C$,
+    write
+    \[
+        \C(i, \phi) = \{c \in \C \mid \tuple{i, \phi} \in \sigma \rs c\},
+    \]
+    and set
+    \[
+        F_\sigma(i, \phi)
+        = \propmods(\phi) \cup \bigcup_{c \in \C(i, \phi)}{M_c}.
+    \]
+    Define $f$ by letting $f_\sigma(i, c, \phi)$ be any propositional formula
+    with $\propmods(f_\sigma(i, c, \phi)) = F_\sigma(i, \phi)$. Then $f$ is a
+    case-independent selection scheme. We show our operator is selective
+    according to $f$; by closure of $\proppart{B^\sigma_c}$ for each $c$, it
+    suffices to show
+    \[
+        M_c = \bigcap_{\tuple{i, \phi} \in \sigma \rs c}{F_\sigma(i, \phi)}.
+    \]
+    Fix $c$. For the left-to-right inclusion, suppose $v \in M_c$. Take any
+    $\tuple{i, \phi} \in \sigma \rs c$. Then $c \in \C(i, \phi)$, so
+    $F_\sigma(i, \phi) \supseteq M_c$ and thus $v \in F_\sigma(i, \phi)$ as
+    required.
+
+    For the right-to-left inclusion, suppose $v$ lies in the intersection. Set
+    \[
+        H = \{d \in \C \mid v \in M_d\}.
+    \]
+    Apply \hboundedness{} and taking the models of both sides, we obtain
+    \begin{equation}
+        \label{eqn:hbnd_application}
+        M_c
+        \supseteq
+        \propmods(\Gamma^{\sigma, H}_c) \cap \bigcap_{d \in H}{M_d}.
+    \end{equation}
+    Clearly $v \in \bigcap_{d \in H}{M_d}$ by definition of $H$. Let $\phi \in
+    \Gamma^{\sigma, H}_c$. Then there is $i \in \S$ such that
+    $\tuple{i, \phi} \in \sigma \rs c$, and consequently $v \in F_\sigma(i,
+    \phi)$. We claim $v \in \propmods(\phi)$. If not, by definition of
+    $F_\sigma(i, \phi)$ we must have $v \in \bigcup_{d \in \C(i, \phi)}{M_d}$,
+    i.e. there is $d \in \C$ such that $\tuple{i, \phi} \in \sigma \rs d$ and
+    $v \in M_d$. On the one hand, $\phi \in \Gamma^{\sigma, H}_c$ implies $d
+    \notin H$. On the other, $v \in M_d$ gives $d \in H$ directly by the
+    definition of $H$: contradiction. This shows $v \in \propmods(\phi)$. Since
+    $\phi$ was arbitrary, we have $v \in \propmods(\Gamma^{\sigma, H}_c)$. By
+    \labelcref{eqn:hbnd_application} we get $v \in M_c$, and the proof is
+    complete.
+
+\end{proof}
 
 The question of whether our concrete operators satisfy \hboundedness{}
 (equivalently, whether they are case-independent-selective) is still open.
@@ -1642,6 +3188,8 @@ write $\exppart{G}$ for the sub-collection of formulas of the form $E_i(\phi)$.
     \]
     for all $\ast$-consistent $\sigma$ and $c \in \C$.
 \end{theorem}
+
+\todo{Write up from online notes.}
 
 Finally, note that \cref{lemma:ec_selective_propmodels} immediately implies
 selectivity with respect to any scheme $f$ such that $\propmods(f_\sigma(i, c,
