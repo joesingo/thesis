@@ -367,7 +367,7 @@ property characterises chain editing-based operators $\phi$.
 \sloppy
 That is, the ranking of $K$ is obtained by choosing the neighbourhood-subset
 rankings for some closest chain tournament $K'$. Operators satisfying
-\axiomref{chain-min} will be called \emph{chain-minimal}.
+\chainmin{} will be called \emph{chain-minimal}.
 
 \begin{example}
     \label{tourn_ex_minch}
@@ -437,7 +437,7 @@ well-defined chain-minimal operator.
 \subsection{A Maximum Likelihood Interpretation}
 \label{tourn_sec_mle}
 
-So far we have motivated \axiomref{chain-min} as a way to fix
+So far we have motivated \chainmin{} as a way to fix
 errors in a tournament and recover the ideal or \emph{true} ranking. In this
 section we make this notion precise by defining a probabilistic model in which
 chain-minimal rankings arise as maximum likelihood estimates.
@@ -848,7 +848,7 @@ operators.
    \label{tourn_result_mle_iff_chainmin_operator}
    Let $\bm{\alpha} = \tuple{\beta, \beta}$ for some $\beta < \frac{1}{2}$.
    Then $\phi$ is a maximum likelihood operator w.r.t $\bm{\alpha}$
-   if and only if $\phi$ satisfies \axiomref{chain-min}.
+    if and only if $\phi$ satisfies \chainmin{}.
 \end{theorem}
 
 \begin{proof}
@@ -867,16 +867,16 @@ operators.
     $\minch{K}$. This shows that $\theta$ is an MLE iff $K_\theta \in
     \minch{K}$.
 
-    Now, by definition, $\phi$ satisfies \axiomref{chain-min} iff for every
+    Now, by definition, $\phi$ satisfies \chainmin{} iff for every
     tournament $K$ there is $K' \in \minch{K}$ such that $\phi(K) =
     ({\anle_{K'}}, {\bnle_{K'}})$. Using \cref{tourn_result_chain_iff_ktheta} and the
     above result, $K' \in \minch{K}$ if and only if $K' = K_\theta$ for some
-    MLE $\theta$ for $K$. We see that \axiomref{chain-min} can be equivalently
+    MLE $\theta$ for $K$. We see that \chainmin{} can be equivalently
     stated as follows: for all tournament $K$ there exists an MLE $\theta$ such
     that $\phi(K) = ({\anle_{K_\theta}}, {\bnle_{K_\theta}})$. But by
     \cref{tourn_result_ktheta_ordering} we have $a \anle_{K_\theta} a'$ iff $x_a \le
     x_{a'}$ and $b \bnle_{K_\theta} b'$ iff $y_b \le y_{b'}$ (where $\theta =
-    \tuple{\bm{x}, \bm{y}}$). The above reformulation of \axiomref{chain-min}
+    \tuple{\bm{x}, \bm{y}}$). The above reformulation of \chainmin{}
     now coincides with the definition of a maximum likelihood operator, and we
     are done.
 \end{proof}
@@ -901,11 +901,11 @@ of chain-minimal operators via the axiomatic method of social choice theory. We
 formulate several axioms for bipartite tournament ranking
 % -- mostly adaptations of standard ones --
 and assess whether they
-are compatible with \axiomref{chain-min}. It will be seen that an important
+are compatible with \chainmin{}. It will be seen that an important
 \emph{anonymity} axiom fails for all chain-minimal operators; later in
 \Cref{tourn_sec_match_preference_operators} we describe a scenario in which this is
 acceptable and define a class of concrete operators for this case, and in
-\Cref{tourn_sec_relaxing_chain_min} we relax the \axiomref{chain-min} requirement in
+\Cref{tourn_sec_relaxing_chain_min} we relax the \chainmin{} requirement in
 order to gain anonymity.
 
 \subsection{The Axioms}
@@ -957,16 +957,16 @@ $A$s in $\dual{K}$.
     $b \ble_K^\phi b'$ iff $b \ale_\dual{K}^\phi b'$.
 \end{axiom}
 
-Whilst \axiomref{dual} is not necessarily a universally desirable property --
+Whilst \dualaxiom{} is not necessarily a universally desirable property --
 one can imagine situations where $A$ and $B$ are not fully abstract and should
 not be treated symmetrically -- it is important to consider in any study of
-bipartite tournaments. Note that \axiomref{dual} implies $a \ale_K^\phi
-a'$ iff $a \ble_{\dual{K}}^\phi a'$, so that a \axiomref{dual}-operator can be
+bipartite tournaments. Note that \dualaxiom{} implies $a \ale_K^\phi
+a'$ iff $a \ble_{\dual{K}}^\phi a'$, so that a \dualaxiom{}-operator can be
 defined by giving the ranking for one of $A$ or $B$ only, and defining the
-other by duality. This explains our choice to define \axiomref{anon} (and
+other by duality. This explains our choice to define \anon{} (and
 subsequent axioms) solely in terms of the $A$ ranking: the analogous anonymity
-constraint for the $B$ ranking follows from \axiomref{anon} together with
-\axiomref{dual}.
+constraint for the $B$ ranking follows from \anon{} together with
+\dualaxiom{}.
 
 \paragraph{An Independence Property.}
 %
@@ -982,14 +982,14 @@ in~\cite{rubinstein1980ranking}, which has subsequently been called
 
 \end{axiom}
 
-\axiomref{IIM} is a strong property, which says the relative ranking of $a$ and
+\iim{} is a strong property, which says the relative ranking of $a$ and
 $a'$ does not depend on the results of any match not involving $a$ or $a'$.
 This axiom has been questioned for generalised
 tournaments~\cite{gonzalez2014paired}, and a similar argument can be made
 against it here: although each player in $A$ faces the same opponents, we may
 wish to take the \emph{strength} of opponents into account, e.g. by rewarding
 victories against highly-ranked players in $B$. Consequently we do not view
-\axiomref{IIM} as an essential requirement, but rather introduce it to
+\iim{} as an essential requirement, but rather introduce it to
 facilitate comparison with our work and the existing tournament literature.
 
 \paragraph{Monotonicity Properties.}
@@ -1004,7 +1004,7 @@ well as $a$.
     If $K(a) \subseteq K(a')$ then $a \ale_K^\phi a'$.
 \end{axiom}
 
-Note that \axiomref{mon} simply says ${\ale_K^\phi}$ extends the (in general,
+Note that \mon{} simply says ${\ale_K^\phi}$ extends the (in general,
 partial) preorder ${\anle_K}$.
 %
 Yet another standard axiom is \emph{positive responsiveness}.
@@ -1020,19 +1020,19 @@ Yet another standard axiom is \emph{positive responsiveness}.
 That is, adding an extra victory for $a$ should only improve its ranking, with
 ties now broken in its favour. This version of positive responsiveness was
 again introduced in~\cite{rubinstein1980ranking}, where together with
-\axiomref{anon} and \axiomref{IIM} it characterises the \emph{points system}
+\anon{} and \iim{} it characterises the \emph{points system}
 ranking method for round-robin tournaments, which simply ranks players
 according to the number of victories. The analogous operator in our framework
 is $\phicount$, and it can be shown that $\phicount$ is uniquely characterised
-by \axiomref{anon}, \axiomref{IIM}, \axiomref{pos-resp} and \axiomref{dual}.
+by \anon{}, \iim{}, \posresp{} and \dualaxiom{}.
 %
-Finally, note that \axiomref{pos-resp} also acts as a kind of
+Finally, note that \posresp{} also acts as a kind of
 \emph{strategyproofness}: $a$ cannot improve its ranking by deliberately losing
 a match. Specifically, if $K_{ab} = 1$ and $a \ale_K^\phi a'$, then
-\axiomref{pos-resp} implies $a \alt_{K - \bm{1}_{ab}}^\phi a'$.
+\posresp{} implies $a \alt_{K - \bm{1}_{ab}}^\phi a'$.
 
 % \subsection{Axiom Satisfaction for Chain-minimal Operators}
-\subsection{Axiom Compatibility with \axiomref{chain-min}}
+\subsection{Axiom Compatibility with \chainmin{}}
 
 % \begin{table}[t]
 %     \caption{Satisfaction of the axioms}
@@ -1057,26 +1057,26 @@ a match. Specifically, if $K_{ab} = 1$ and $a \ale_K^\phi a'$, then
 %     \end{tabular}
 % \end{table}
 
-We come to analysing the compatibility of \axiomref{chain-min} with the axioms.
+We come to analysing the compatibility of \chainmin{} with the axioms.
 First, the negative results.
 
 \begin{theorem}
     \label{tourn_result_chainmin_axiom_incompatibilities}
 
-    There is no operator satisfying \axiomref{chain-min} and any of
-    \axiomref{anon}, \axiomref{IIM} or \axiomref{pos-resp}.
+    There is no operator satisfying \chainmin{} and any of
+    \anon{}, \iim{} or \posresp{}.
 
 \end{theorem}
 
 \begin{proof}
 
     We take each axiom in turn. Let $\phi$ be any operator satisfying
-    \axiomref{chain-min}.
+    \chainmin{}.
 
-    \axiomref{anon:} Consider $K = \left[\begin{smallmatrix} 1&0\\0&1
+    \anon{}. Consider $K = \left[\begin{smallmatrix} 1&0\\0&1
     \end{smallmatrix}\right]$, and define permutations $\sigma = \pi = (1\ 2)$,
     i.e. the permutations which simply swap 1 and 2. It is easily seen that
-    $\pi(\sigma(K)) = K$. Supposing $\phi$ satisfied \axiomref{anon}, we would
+    $\pi(\sigma(K)) = K$. Supposing $\phi$ satisfied \anon{}, we would
     get $1 \ale_K^\phi 2$ iff $\sigma(1) \ale_{\pi(\sigma(K))}^\phi \sigma(2)$
     iff $2 \ale_K^\phi 1$, which implies $1 \aeq_K^\phi 2$.
     %
@@ -1101,14 +1101,14 @@ First, the negative results.
            \end{smallmatrix}\right]
         \right\}
     \]
-    Since $\phi$ satisfies \axiomref{chain-min} and $1, 2 \in A$ rank equally
+    Since $\phi$ satisfies \chainmin{} and $1, 2 \in A$ rank equally
     in ${\ale_K^\phi}$, there must be $K' \in \minch{K}$ such that 1 and 2 rank
     equally in ${\anle_{K'}}$, i.e. $K'(1) = K'(2)$. But clearly there is no
     such $K'$; all tournaments in $\minch{K}$ have distinct first and second
-    rows. Hence $\phi$ cannot satisfy \axiomref{anon}.
+    rows. Hence $\phi$ cannot satisfy \anon{}.
 
-    \axiomref{IIM:} Suppose $\phi$ satisfies \axiomref{chain-min} and
-    \axiomref{IIM}. Write
+    \iim{}. Suppose $\phi$ satisfies \chainmin{} and
+    \iim{}. Write
     \[
          K_1 = \left[\begin{smallmatrix}
             1 & 0 & 0 \\
@@ -1123,7 +1123,7 @@ First, the negative results.
          \end{smallmatrix}\right]
     \]
     Note that the first and second rows of $K_1$ and $K_2$ are identical, so by
-    \axiomref{IIM} we have $1 \ale_{K_1}^\phi 2$ iff $1 \ale_{K_2}^\phi 2$.
+    \iim{} we have $1 \ale_{K_1}^\phi 2$ iff $1 \ale_{K_2}^\phi 2$.
     Both tournaments have a unique closest chain tournament requiring changes
     to only a single entry:
     \[
@@ -1144,13 +1144,13 @@ First, the negative results.
         \right\}
     \]
     Write ${K_1}'$ and ${K_2}'$ for these nearest chain tournaments
-    respectively. By \axiomref{chain-min}, we must have $\phi(K_i) =
+    respectively. By \chainmin{}, we must have $\phi(K_i) =
     ({\anle_{{K_i}'}}, {\bnle_{{K_i}'}})$. In particular, $1
     \alt_{K_1}^\phi 2$ and $2 \alt_{K_2}^\phi 1$. But this contradicts
-    \axiomref{IIM}, and we are done.
+    \iim{}, and we are done.
 
-    \axiomref{pos-resp:} Suppose $\phi$ satisfies \axiomref{chain-min} and
-    \axiomref{pos-resp}, and consider
+    \posresp{}. Suppose $\phi$ satisfies \chainmin{} and
+    \posresp{}, and consider
     \[
         K = \left[\begin{smallmatrix}
             1 & 1 & 1 \\
@@ -1170,10 +1170,10 @@ First, the negative results.
         \end{smallmatrix}\right]
         \right\}
     \]
-    \axiomref{chain-min} therefore implies $\phi(K) = ({\anle_{K'}},
+    \chainmin{} therefore implies $\phi(K) = ({\anle_{K'}},
     {\bnle_{K'}})$.  Note that $K'(1) = K'(2)$, so we have $1 \aeq_K^\phi 2$.
     In particular, $1 \ale_K^\phi 2$. Since $K_{23} = 0$, we may apply
-    \axiomref{pos-resp} to get $1 \alt_{K + \bm{1}_{23}}^\phi 2$.  But $K +
+    \posresp{} to get $1 \alt_{K + \bm{1}_{23}}^\phi 2$.  But $K +
     \bm{1}_{23}$ is just $K'$. Since the chain property already holds for
     $K'$, we have $\minch{K'} = \{K'\}$ and consequently
     \[
@@ -1183,12 +1183,12 @@ First, the negative results.
         = \phi(K)
     \]
     so in fact $1 \aeq_{K + \bm{1}_{23}}^\phi 2$, contradicting
-    \axiomref{pos-resp}.
+    \posresp{}.
 \end{proof}
 
-Note that the counterexample for \axiomref{anon} is particularly simple: we
+Note that the counterexample for \anon{} is particularly simple: we
 take $K = \left[\begin{smallmatrix} 1&0\\0&1 \end{smallmatrix}\right]$.
-Swapping the rows and columns brings us back to $K$, so \axiomref{anon} implies
+    Swapping the rows and columns brings us back to $K$, so \anon{} implies
 $1, 2 \in A$ rank equally. However, we saw that no chain tournament in
 $\minch{K}$ yields this ranking.
 
@@ -1197,37 +1197,37 @@ explanation for this result. For $K$ above to arise in the noise model of
 \Cref{tourn_def_probdist} there must have been two `mistakes' (false positives or
 false negatives). This is less likely than a single mistake from just one of
 $1,2 \in A$, but the likelihood maximisation forces us to choose one or the
-other. A similar argument explains the \axiomref{pos-resp} failure.
+other. A similar argument explains the \posresp{} failure.
 
-It is also worth noting that \axiomref{anon} only fails at the last step of
+It is also worth noting that \anon{} only fails at the last step of
 chain editing, where a single element of $\minch{K}$ is chosen. Indeed, the set
 $\minch{K}$ itself \emph{does} exhibit the kind of symmetry one might expect:
 we have $\minch{\pi(\sigma(K))} = \{\pi(\sigma(K')) \mid K' \in \minch{K}\}$.
 This means that an operator which aggregates the rankings from \emph{all} $K'
 \in \minch{K}$ -- e.g. any anonymous social welfare function --
-would satisfy \axiomref{anon}. The other axioms are compatible with
-\axiomref{chain-min}.
+would satisfy \anon{}. The other axioms are compatible with
+\chainmin{}.
 
 \begin{theorem}
     \label{tourn_result_chainmin_axiom_compatibilities}
 
-    For each of \axiomref{dual} and \axiomref{mon}, there exists an operator
-    satisfying \axiomref{chain-min} and the stated property.
+    For each of \dualaxiom{} and \mon{}, there exists an operator
+    satisfying \chainmin{} and the stated property.
 
 \end{theorem}
 
-Despite the simplicity of \axiomref{mon},
+Despite the simplicity of \mon{},
 \Cref{tourn_result_chainmin_axiom_compatibilities} is deceptively difficult to
 prove, and we devote the rest of this section to its proof. We describe
-operators satisfying \axiomref{chain-def} and \axiomref{dual} or \axiomref{mon}
+operators satisfying \chaindef{} and \dualaxiom{} or \mon{}
 non-constructively by first taking an \emph{arbitrary} chain-minimal operator
 $\phi$, and using properties of the set $\minch{K}$ to produce another operator
-$\phi'$ satisfying \axiomref{dual} or \axiomref{mon}. Note also that we have
-not yet constructed an operator satisfying \axiomref{dual}, \axiomref{mon} and
-\axiomref{chain-min} simultaneously, although we conjecture that such operators
+$\phi'$ satisfying \dualaxiom{} or \mon{}. Note also that we have
+not yet constructed an operator satisfying \dualaxiom{}, \mon{} and
+\chainmin{} simultaneously, although we conjecture that such operators
 do exist.
 
-First we show compatibility of \axiomref{chain-min} and \axiomref{dual}. We
+First we show compatibility of \chainmin{} and \dualaxiom{}. We
 need a preliminary result.
 
 \begin{lemma}
@@ -1315,17 +1315,17 @@ need a preliminary result.
     \end{itemize}
 \end{proof}
 
-We can now find an operator with both \axiomref{chain-min} and \axiomref{dual}.
+We can now find an operator with both \chainmin{} and \dualaxiom{}.
 
 \begin{proposition}
     \label{tourn_result_chainmin_dual_compatibility}
-    There exists an operator $\phi$ satisfying \axiomref{chain-min} and
-    \axiomref{dual}.
+    There exists an operator $\phi$ satisfying \chainmin{} and
+    \dualaxiom{}.
 \end{proposition}
 
 \begin{proof}
     %
-    Let $\phi$ be an arbitrary operator satisfying \axiomref{chain-min}. Then
+    Let $\phi$ be an arbitrary operator satisfying \chainmin{}. Then
     there is a function $\alpha: \K \to \K$ such that $\phi(K) =
     ({\anle_{\alpha(K)}}, {\bnle_{\alpha(K)}})$ and $\alpha(K) \in \minch{K}$
     for all tournaments $K$. We will construct a new function $\alpha'$, based
@@ -1364,7 +1364,7 @@ We can now find an operator with both \axiomref{chain-min} and \axiomref{dual}.
 
     Finally, define a new operator $\phi'$ by $\phi'(K) =
     ({\anle_{\alpha'(K)}}, {\bnle_{\alpha'(K)}})$. Since $\alpha'(K) \in
-    \minch{K}$ for all $K$, $\phi'$ satisfies \axiomref{chain-min}. Moreover,
+    \minch{K}$ for all $K$, $\phi'$ satisfies \chainmin{}. Moreover,
     using \Cref{tourn_result_chainmin_dual_lemma} part
     (\labelcref{tourn_item_dual_lemma_nle}) and the fact that $\dual{\alpha'(K)} =
     \alpha'(\dual{K})$, for any tournament $K$ and $b, b' \in B$ we have
@@ -1376,7 +1376,7 @@ We can now find an operator with both \axiomref{chain-min} and \axiomref{dual}.
         &\iff b \anle_{\alpha'(\dual{K})} b' \\
         &\iff b \ble_{\dual{K}}^{\phi'} b'
     \end{align*}
-    which shows $\phi'$ also satisfies \axiomref{dual}.
+    which shows $\phi'$ also satisfies \dualaxiom{}.
     %
     \footnotetext{
         Note that $\K$ is countable, so such an order can be easily
@@ -1386,7 +1386,7 @@ We can now find an operator with both \axiomref{chain-min} and \axiomref{dual}.
     %
 \end{proof}
 
-To find an operator satisfying \axiomref{chain-min} and \axiomref{mon}, we
+To find an operator satisfying \chainmin{} and \mon{}, we
 proceed in three stages. First, \Cref{tourn_result_chainmin_mon_swapping} shows
 that if $K(a_1) \subseteq K(a_2)$ and $K' \in \minch{K}$ is some closest chain
 tournament with the reverse inclusion $K'(a_2) \subseteq K'(a_1)$, then
@@ -1399,8 +1399,8 @@ inclusion). Finally, we modify this $K'$ in
 \Cref{tourn_result_chainmin_mon_extend_full} to additionally satisfy $K'(a_1) =
 K'(a_2)$ whenever $K(a_1) = K(a_2)$.  This shows that there always exist an
 element of $\minch{K}$ extending the neighbourhood-subset relation $\anle_K$,
-and consequently it is possible to satisfy \axiomref{chain-min} and
-\axiomref{mon} simultaneously.
+and consequently it is possible to satisfy \chainmin{} and
+\mon{} simultaneously.
 
 \begin{definition}
     %
@@ -1734,8 +1734,8 @@ The pieces are now in place to prove the following.
 
 \begin{proposition}
     \label{tourn_result_chainmin_mon_compatibility}
-    There exists an operator $\phi$ satisfying \axiomref{chain-min} and
-    \axiomref{mon}.
+    There exists an operator $\phi$ satisfying \chainmin{} and
+    \mon{}.
 \end{proposition}
 
 \begin{proof}
@@ -1755,7 +1755,7 @@ The pieces are now in place to prove the following.
     \]
     Note that the minimum is unique since ${\ll}$ is a total order. Defining an
     operator $\phi$ by $\phi(K) = ({\anle_{\alpha(K)}}, {\bnle_{\alpha(K)}})$,
-    we see that $\phi$ satisfies \axiomref{chain-min} and \axiomref{mon}, as
+    we see that $\phi$ satisfies \chainmin{} and \mon{}, as
     required.
     %
 \end{proof}
@@ -1767,14 +1767,14 @@ The pieces are now in place to prove the following.
 \section{Match-preference operators}
 \label{tourn_sec_match_preference_operators}
 
-% The counterexample for \axiomref{chain-min} and \axiomref{anon} in
+% The counterexample for \chainmin{} and \anon{} in
 % \Cref{tourn_result_chainmin_axiom_incompatibilities} suggests that chain-minimal
 % operators require some form of tie-breaking mechanism when the
 % tournaments in $\minch{K}$ cannot be distinguished while respecting
 % anonymity. In this section we define a class of chain-minimal operators which
 % use additional information to implement such tie-breaking in a principled way.
 
-The counterexample for \axiomref{chain-min} and \axiomref{anon} suggests that
+The counterexample for \chainmin{} and \anon{} suggests that
 chain-minimal operators require some form of tie-breaking mechanism when the
 tournaments in $\minch{K}$ cannot be distinguished while respecting anonymity.
 While this limits the use of chain-minimal operators as general purpose ranking
@@ -2070,10 +2070,10 @@ $.
 \label{tourn_sec_relaxing_chain_min}
 
 Having studied chain-minimal operators in some detail, we turn to two remaining
-problems: \axiomref{chain-min} is incompatible with \axiomref{anon}, and
+problems: \chainmin{} is incompatible with \anon{}, and
 computing a chain-minimal operator is \complexityclass{NP}-hard. In this
 section we obtain both anonymity and tractability by relaxing the
-\axiomref{chain-min} requirement to a property we call
+\chainmin{} requirement to a property we call
 \emph{chain-definability}. We go on to characterise the class of operators with
 this weaker property via a greedy approximation algorithm, single out a
 particularly intuitive instance, revisit the axioms of
@@ -2082,9 +2082,9 @@ this intuitive instance.
 
 \subsection{Chain-definability}
 
-The source of the difficulties with \axiomref{chain-min} lies in the
+The source of the difficulties with \chainmin{} lies in the
 minimisation aspect of chain editing. A natural way to retain the spirit of
-\axiomref{chain-min} without the complications is to require that $\phi(K)$
+\chainmin{} without the complications is to require that $\phi(K)$
 corresponds to \emph{some} chain tournament, not necessarily one closest to
 $K$. We call this property \emph{chain-definability}.
 
@@ -2093,7 +2093,7 @@ $K$. We call this property \emph{chain-definability}.
     $\phi(K) = ({\anle_{K'}}, {\bnle_{K'}})$.
 \end{axiom}
 
-Clearly \axiomref{chain-min} implies \axiomref{chain-def}. `Chain-definable'
+Clearly \chainmin{} implies \chaindef{}. `Chain-definable'
 operators can also be cast in the MLE framework of \Cref{tourn_sec_mle} as those
 whose rankings correspond to \emph{some} (not necessarily MLE) state $\theta$.
 
@@ -2101,7 +2101,7 @@ At first glance it may seem difficult to determine whether a given pair of
 rankings correspond to a chain tournament, since the number of such tournaments
 grows rapidly with $m$ and $n$.
 %
-Fortunately, \axiomref{chain-def} can be characterised without reference to
+Fortunately, \chaindef{} can be characterised without reference to
 chain tournaments by considering the number of \emph{ranks} of ${\ale_K^\phi}$
 and ${\ble_K^\phi}$. In what follows $\ranks{\preceq}$ denotes the number of
 ranks of a total preorder $\preceq$, i.e. the number of equivalence classes of
@@ -2110,7 +2110,7 @@ its symmetric part.
 \begin{theorem}
     \label{tourn_result_chain_def_ranks_characterisation}
 
-    $\phi$ satisfies \axiomref{chain-def} if and only if $|\ranks{\ale_K^\phi}
+    $\phi$ satisfies \chaindef{} if and only if $|\ranks{\ale_K^\phi}
     - \ranks{\ble_K^\phi}| \le 1$ for every tournament $K$.
 \end{theorem}
 
@@ -2128,7 +2128,7 @@ its symmetric part.
     setting $[z]_{\preceq} \le [z']_{\preceq}$ iff $z \preceq z'$.
 
     We start with the `only if' statement of the theorem. Suppose
-    $\phi$ satisfies \axiomref{chain-def}, and let $K$ be a tournament. We need
+    $\phi$ satisfies \chaindef{}, and let $K$ be a tournament. We need
     to show that $|\ranks{\ale_K^\phi} - \ranks{\ble_K^\phi}| \le 1$.
 
     By chain-definability, there is $K'$ with the chain property such that $a
@@ -2365,13 +2365,13 @@ with $A_i = B_i = \emptyset$. Since $A_{i + 1} \subseteq A_i$ and $B_{i + 1}
 \end{proof}
 
 Before giving a concrete example of an interleaving operator, we note that
-interleaving is not just \emph{one} way to satisfying \axiomref{chain-def}, it
+interleaving is not just \emph{one} way to satisfying \chaindef{}, it
 is the \emph{only} way.
 
 \begin{theorem}
    \label{tourn_result_chaindef_iff_interleaving}
 
-    An operator $\phi$ satisfies \axiomref{chain-def} if and only if $\phi =
+    An operator $\phi$ satisfies \chaindef{} if and only if $\phi =
     \intop{f,g}$ for some selection functions $f, g$.
 
 \end{theorem}
@@ -2421,7 +2421,7 @@ selection functions $f$ and $g$.
     required.
 
     Now for the `only if' direction. Suppose $\phi$ satisfies
-    \axiomref{chain-def}. We will define $f, g$ such that $\phi = \intop{f,g}$.
+    \chaindef{}. We will define $f, g$ such that $\phi = \intop{f,g}$.
     The idea behind the construction is straightforward: since $f$ and $g$ pick
     off the next-top-ranked $A$s and $B$s at each iteration, simply define
     $f(K, A_i, B_i)$ as the maximal elements of $A_i$ with respect to the
@@ -2711,28 +2711,28 @@ $O(N^3)$ time.
 
 We now revisit the axioms of \Cref{tourn_sec_axiomatic_analysis} in relation to
 chain-definable operators in general and $\phicardint$ specifically. Firstly,
-the weakening of \axiomref{chain-min} pays off: \axiomref{chain-def} is
+the weakening of \chainmin{} pays off: \chaindef{} is
 compatible with all our axioms.
 
 \begin{theorem}
     \label{tourn_result_chaindef_axiom_compatibilities}
 
-    For each of \axiomref{anon}, \axiomref{dual}, \axiomref{IIM},
-    \axiomref{mon} and \axiomref{pos-resp}, there exists an operator satisfying
-    \axiomref{chain-def} and the stated property.
+    For each of \anon{}, \dualaxiom{}, \iim{},
+    \mon{} and \posresp{}, there exists an operator satisfying
+    \chaindef{} and the stated property.
 
 \end{theorem}
 
 \begin{proof}
 
-    Since \axiomref{chain-min} implies \axiomref{chain-def},
+    Since \chainmin{} implies \chaindef{},
     \Cref{tourn_result_chainmin_axiom_compatibilities} implies the existence of an
-    operator with \axiomref{chain-def} and \axiomref{dual}, and an operator
-    with \axiomref{chain-def} and \axiomref{mon}.  Moreover, the trivial
+    operator with \chaindef{} and \dualaxiom{}, and an operator
+    with \chaindef{} and \mon{}.  Moreover, the trivial
     operator which ranks all $A$s and $B$s equally satisfies
-    \axiomref{chain-def}, \axiomref{anon}
-    and \axiomref{IIM}. It only remains to show that there is an operator
-    satisfying both \axiomref{chain-def} and \axiomref{pos-resp}.
+    \chaindef{}, \anon{}
+    and \iim{}. It only remains to show that there is an operator
+    satisfying both \chaindef{} and \posresp{}.
 
     To that end, for any tournament $K$, define $K'$ by
     \[
@@ -2744,15 +2744,15 @@ compatible with all our axioms.
     Note that $K'(a) = \{1,\ldots,|K(a)|\}$ for $|K(a)| > 0$. Consequently
     $K'(a) \subseteq K'(a')$ iff $|K(a)| \le |K(a)|$. We see that $K'$ has the
     chain property, and the operator $\phi$ defined by $\phi(K) =
-    ({\anle_{K'}}, {\bnle_{K'}})$ satisfies \axiomref{chain-def}. In
+    ({\anle_{K'}}, {\bnle_{K'}})$ satisfies \chaindef{}. In
     particular, $a \ale_K^\phi a'$ iff $|K(a)| \le |K(a')|$.
 
-    To show \axiomref{pos-resp}, suppose $a \ale_K^\phi a'$ and $K_{a',b} = 0$
+    To show \posresp{}, suppose $a \ale_K^\phi a'$ and $K_{a',b} = 0$
     for some $a, a' \in A$ and $b \in B$. Write $\hat{K} = K + \bm{1}_{a',b}$.
 
     Since $a \ale_K^\phi a'$ implies $|K(a)| \le |K(a')|$, we have
     $|\hat{K}(a')| = 1 + |K(a')| > |K(a)| = |\hat{K}(a)|$, and therefore $a
-    \alt_{\hat{K}}^\phi a'$ as required for \axiomref{pos-resp}.
+    \alt_{\hat{K}}^\phi a'$ as required for \posresp{}.
 \end{proof}
 
 Unfortunately, these cannot all hold at the same time. Indeed, taking
@@ -2762,18 +2762,18 @@ $
         0 & 1 & 0 & 1
     \end{smallmatrix}\right]^\tr
 $
-and assuming \axiomref{anon} and \axiomref{pos-resp}, the ranking on $A$ is
+and assuming \anon{} and \posresp{}, the ranking on $A$ is
 fully determined as $1 \alt 2 \aeq 3 \alt 4$, and $\ranks{\ale_K^\phi} = 3$.
-However, \axiomref{anon} with \axiomref{dual} implies the ranking of $B$ is
-flat, i.e.  $\ranks{\ble_K^\phi} = 1$. This contradicts \axiomref{chain-def} by
+However, \anon{} with \dualaxiom{} implies the ranking of $B$ is
+flat, i.e.  $\ranks{\ble_K^\phi} = 1$. This contradicts \chaindef{} by
 \Cref{tourn_result_chain_def_ranks_characterisation}, yielding the following
 impossibility result.
 
 \begin{theorem}
     \label{tourn_result_chaindef_impossibility}
 
-    There is no operator satisfying \axiomref{chain-def}, \axiomref{anon},
-    \axiomref{dual} and \axiomref{pos-resp}.
+    There is no operator satisfying \chaindef{}, \anon{},
+    \dualaxiom{} and \posresp{}.
 
 \end{theorem}
 
@@ -2805,12 +2805,12 @@ impossibility result.
             1 & \bm{{\color{red}0}}
         \end{smallmatrix}\right].
     \]
-    Now, \axiomref{anon} in $K_1$ gives $1 \aeq_{K_1}^\phi 2$ (e.g. take
+    Now, \anon{} in $K_1$ gives $1 \aeq_{K_1}^\phi 2$ (e.g. take
     $\sigma = (1\ 2)$, $\pi = \text{id}_B$). In particular, $1 \ale_{K_1}^\phi
-    2$, so \axiomref{pos-resp} implies $1 \alt_K^\phi 2$. A similar argument
+    2$, so \posresp{} implies $1 \alt_K^\phi 2$. A similar argument
     with $K_2$ shows that $3 \aeq_{K_2}^\phi 4$ and $3 \alt_K^\phi 4$.
 
-    On the other hand, applying \axiomref{anon} to $K$ directly with $\sigma =
+    On the other hand, applying \anon{} to $K$ directly with $\sigma =
     (2\ 3)$ and $\pi = (1\ 2)$, we see that $2 \aeq_K^\phi 3$. The ranking of
     $A$ is thus fully determined as $1 \alt 2 \aeq 3 \alt 4$. In particular,
     $\ranks{\ale_K^\phi} = 3$.
@@ -2818,10 +2818,10 @@ impossibility result.
     But now considering the dual tournament $\dual{K} =
     \left[\begin{smallmatrix} 1&1&0&0 \\ 1&0&1&0 \end{smallmatrix}\right]$ and
     applying permutations $\sigma = (1\ 2)$ and $\pi = (2\ 3)$, we obtain $1
-    \aeq_{\dual{K}}^\phi 2$ by \axiomref{anon}, i.e. the $A$ ranking in
-    $\dual{K}$ is flat. By \axiomref{dual} this implies the $B$ ranking in $K$
+    \aeq_{\dual{K}}^\phi 2$ by \anon{}, i.e. the $A$ ranking in
+    $\dual{K}$ is flat. By \dualaxiom{} this implies the $B$ ranking in $K$
     is flat, i.e. $\ranks{\ble_K^\phi} = 1$. We see that $\ranks{\ale_K^\phi}$
-    and $\ranks{\ble_K^\phi}$ differ by 2, contradicting \axiomref{chain-def}
+    and $\ranks{\ble_K^\phi}$ differ by 2, contradicting \chaindef{}
     according to \Cref{tourn_result_chain_def_ranks_characterisation}.
 \end{proof}
 
@@ -2842,13 +2842,13 @@ $\intop{f, g}$ to satisfy various axioms.
             f(\pi(\sigma(K)), \sigma(A'), \pi(B')) &= \sigma(f(K, A', B')) \\
             g(\pi(\sigma(K)), \sigma(A'), \pi(B')) &= \pi(g(K, A', B'))
         \end{align*}
-        then $\phi$ satisfies \axiomref{anon}.
+           then $\phi$ satisfies \anon{}.
 
    \item \label{tourn_item_int_lemma_dual}
 
         If for any tournament $K$ and $A' \subseteq A$, $B \subseteq B$ we have
         \[ g(K, A', B') = f(\dual{K}, B', A') \] then $\phi$ satisfies
-        \axiomref{dual}.
+           \dualaxiom{}.
 
    \item \label{tourn_item_int_lemma_mon}
 
@@ -2859,7 +2859,7 @@ $\intop{f, g}$ to satisfy various axioms.
             \implies
             a \not\in f(K, A', B') \text{ or } a' \in f(K, A', B')
         \]
-        then $\phi$ satisfies \axiomref{mon}.
+           then $\phi$ satisfies \mon{}.
 
     \end{enumerate}
 
@@ -2918,7 +2918,7 @@ $\intop{f, g}$ to satisfy various axioms.
     \end{align*}
 
     From this it easily follows that $a \ale_K^\phi a'$ iff $\sigma(a)
-    \ale_{K'}^\phi \sigma(a')$, i.e.  $\phi$ satisfies \axiomref{anon}.
+            \ale_{K'}^\phi \sigma(a')$, i.e.  $\phi$ satisfies \anon{}.
 
     \item
     Once again, fix a tournament $K$ and let $A_i, B_i$ and $A_i', B_i'$ denote
@@ -2933,7 +2933,7 @@ $\intop{f, g}$ to satisfy various axioms.
         &= r_{\dual{K}}(b)
     \end{align*}
     which implies $b \ble_K^\phi b'$ iff $b \ale_{\dual{K}}^\phi b'$, as
-    required for \axiomref{dual}.
+    required for \dualaxiom{}.
 
     \item
     Let $K$ be a tournament and $a, a' \in A$ such that $K(a) \subseteq K(a')$.
@@ -2959,9 +2959,9 @@ For the specific operator $\phicardint$,
 \begin{theorem}
     \label{tourn_result_phicardint_axioms}
 
-    $\phicardint$ satisfies \axiomref{chain-def}, \axiomref{anon},
-    \axiomref{dual} and \axiomref{mon}, and does not satisfy \axiomref{IIM} or
-    \axiomref{pos-resp}.
+    $\phicardint$ satisfies \chaindef{}, \anon{},
+    \dualaxiom{} and \mon{}, and does not satisfy \iim{} or
+    \posresp{}.
 
 \end{theorem}
 
@@ -2970,10 +2970,10 @@ For the specific operator $\phicardint$,
     We take each axiom in turn. Let $f$ and $g$ be the selection functions
     corresponding to $\phicardint$ from \Cref{tourn_ex_cardint}.
 
-    \axiomref{chain-def.} Since $\phicardint$ is an interleaving operator,
-    \axiomref{chain-def} follows from \Cref{tourn_result_chaindef_iff_interleaving}.
+    \chaindef{}. Since $\phicardint$ is an interleaving operator,
+    \chaindef{} follows from \Cref{tourn_result_chaindef_iff_interleaving}.
 
-    \axiomref{anon.} Let $K$ be a tournament and let $\sigma: A \to A$ and $\pi:
+    \anon{}. Let $K$ be a tournament and let $\sigma: A \to A$ and $\pi:
     B \to B$ be bijective mappings. Write $K' = \pi(\sigma(K))$. We will show
     that the conditions on $f$ and $g$ in
     \Cref{tourn_result_interleaving_suffconditions} part
@@ -2998,11 +2998,11 @@ For the specific operator $\phicardint$,
         &= \sigma(f(K, A', B'))
     \end{align*}
     as required. The result for $g$ follows by a near-identical argument. Thus
-    $\phicardint$ satisfies \axiomref{anon} by
+    $\phicardint$ satisfies \anon{} by
     \Cref{tourn_result_interleaving_suffconditions} part
     (\labelcref{tourn_item_int_lemma_anon}).
 
-    \axiomref{dual.} Fix a tournament $K$ and let $A' \subseteq A$, $B'
+    \dualaxiom{}. Fix a tournament $K$ and let $A' \subseteq A$, $B'
     \subseteq B$. Note that for $b \in B'$ we have
     \begin{align*}
         |K^{-1}(b) \cap A'|
@@ -3019,9 +3019,10 @@ For the specific operator $\phicardint$,
         &= f(\dual{K}, B', A')
     \end{align*}
     and, by \Cref{tourn_result_interleaving_suffconditions} part
-    (\labelcref{tourn_item_int_lemma_dual}), $\phicardint$ satisfies \axiomref{dual}.
+    (\labelcref{tourn_item_int_lemma_dual}), $\phicardint$ satisfies
+    \dualaxiom{}.
 
-    \axiomref{mon.} Once again, we use
+    \mon{}. Once again, we use
     \Cref{tourn_result_interleaving_suffconditions}.  Let $K$ be a tournament and $A'
     \subseteq A$, $B' \subseteq B$. Suppose $a, a' \in A'$ with $K(a) \subseteq
     K(a')$. We need to show that either $a \not\in f(K, A', B')$ or $a' \in
@@ -3034,14 +3035,14 @@ For the specific operator $\phicardint$,
     $a' \in f(K, A', B')$. This shows the property required by
     \Cref{tourn_result_interleaving_suffconditions} part
     (\labelcref{tourn_item_int_lemma_mon}) is satisfied, and thus $\phicardint$
-    satisfies \axiomref{mon}.
+    satisfies \mon{}.
 
-    \axiomref{pos-resp.} We have show that $\phicardint$ satisfies
-    \axiomref{chain-def}, \axiomref{anon} and \axiomref{dual}; due to
+    \posresp{}. We have show that $\phicardint$ satisfies
+    \chaindef{}, \anon{} and \dualaxiom{}; due to
     impossibility result of \Cref{tourn_result_chaindef_impossibility}, $\phicardint$
-    cannot satisfy \axiomref{pos-resp}.
+    cannot satisfy \posresp{}.
 
-    \axiomref{IIM.} Write
+    \iim{}. Write
     \[
         K_1 = \begin{bmatrix}
             1 & 0 & 0 \\
@@ -3056,12 +3057,12 @@ For the specific operator $\phicardint$,
         \end{bmatrix}
     \]
     Note that the first and second rows of each tournament are identical, so
-    \axiomref{IIM} would imply $1 \ale_{K_1}^\phicardint 2$ iff $1
+    \iim{} would imply $1 \ale_{K_1}^\phicardint 2$ iff $1
     \ale_{K_2}^\phicardint 2$.  However, it is easily verified that $1
     \alt_{K_1}^\phicardint 2$ whereas $2 \alt_{K_2}^\phicardint 1$. Therefore
-    $\phicardint$ does not satisfy \axiomref{IIM}.
+    $\phicardint$ does not satisfy \iim{}.
 \end{proof}
-Note that \axiomref{anon} \emph{is} satisfied. This makes $\phicardint$ an
+Note that \anon{} \emph{is} satisfied. This makes $\phicardint$ an
 important example of a well-motivated, tractable, chain-definable
 and anonymous operator, meeting the criteria outlined at the start of
 this section.
@@ -3071,11 +3072,11 @@ this section.
 In \Cref{tourn_result_phicardint_axioms} we saw which of the axioms from
 \cref{tourn_sec_axiomatic_analysis} hold for $\phicardint$. We now characterise
 $\phicardint$ axiomatically by introducing two new axioms. The first, which we
-call \axiomref{rank-removal}, is a technical axiom obtained via a related
+call \rankremoval{}, is a technical axiom obtained via a related
 property specific to interleaving operators. The second, called
-\axiomref{argmax}, says that the maximum rank in $\ale_K^\phi$ should coincide
-with that of $\ale_K^{\phicardint}$. Together with \axiomref{dual} and
-\axiomref{chain-def}, these will characterise $\phicardint$.
+\argmaxaxiom{}, says that the maximum rank in $\ale_K^\phi$ should coincide
+with that of $\ale_K^{\phicardint}$. Together with \dualaxiom{} and
+\chaindef{}, these will characterise $\phicardint$.
 
 Unlike the axioms introduced so far, which were straightforward, general
 properties for ranking methods, the new axioms are geared specifically towards
@@ -3106,26 +3107,26 @@ formally as an axiom for interleaving operators $\intop{f, g}$, called
     \end{align*}
 \end{axiom}
 
-Note that \axiomref{SMI} is a property of the selection functions $f$ and $g$.
+Note that \smi{} is a property of the selection functions $f$ and $g$.
 In principle, it is possible that an interleaving operator $\phi$ admits two
-pairs of selection functions $(f, g)$ and $(f', g')$ such that \axiomref{SMI}
+pairs of selection functions $(f, g)$ and $(f', g')$ such that \smi{}
 holds for one pair but not the other. However, it will follow from later
 results (\Cref{tourn_result_rank_removal_smi}) that this is not possible:
-\axiomref{SMI} either holds for $\phi$ or does not, independently of the choice
+\smi{} either holds for $\phi$ or does not, independently of the choice
 of selection functions $f$ and $g$. Nevertheless, to avoid circularity we will
-say $\phi$ satisfies \axiomref{SMI} if \emph{there exist} $f, g$ with the
-\axiomref{SMI} property such that $\phi = \intop{f, g}$.
+say $\phi$ satisfies \smi{} if \emph{there exist} $f, g$ with the
+\smi{} property such that $\phi = \intop{f, g}$.
 
-First, $\phicardint$ does indeed satisfy \axiomref{SMI}.
+First, $\phicardint$ does indeed satisfy \smi{}.
 
 \begin{proposition}
     \label{tourn_result_phicardint_smi}
-    $\phicardint$ satisfies \axiomref{SMI}.
+    $\phicardint$ satisfies \smi{}.
 \end{proposition}
 
 \begin{proof}
     Let $f$ and $g$ denote the selection functions for $\phicardint$. Let $A_i,
-    B_i$ and $K^-$ be as in the statement of \axiomref{SMI}. Note that for any
+    B_i$ and $K^-$ be as in the statement of \smi{}. Note that for any
     $a_p \in A_i$,
     \begin{align*}
         K(a_p) \cap B_i
@@ -3142,19 +3143,19 @@ First, $\phicardint$ does indeed satisfy \axiomref{SMI}.
         &\iff p \in f(K^-, [m'], [n'])
     \end{align*}
     as required. An identical argument shows the desired property for $g$.
-    Hence $\phicardint$ satisfies \axiomref{SMI}.
+    Hence $\phicardint$ satisfies \smi{}.
 \end{proof}
 
-Note that in the statement of \axiomref{SMI}, $[m'] = A_{K^-}$ and $[n'] =
-B_{K^-}$. Consequently, \axiomref{SMI} implies that the ranks of $A$ and $B$
+Note that in the statement of \smi{}, $[m'] = A_{K^-}$ and $[n'] =
+B_{K^-}$. Consequently, \smi{} implies that the ranks of $A$ and $B$
 are fully determined by the \emph{maximal} ranks of successively smaller
 sub-tournaments. This is expressed in the following result, which shows that
-two \axiomref{SMI} operators agreeing on maximal ranks for all $K$ must in fact
+two \smi{} operators agreeing on maximal ranks for all $K$ must in fact
 be equal.
 
 \begin{proposition}
     \label{tourn_result_smi_maximal_ranks_equal}
-    Let $\phi$ and $\phi'$ be interleaving operators satisfying \axiomref{SMI}.
+    Let $\phi$ and $\phi'$ be interleaving operators satisfying \smi{}.
     Suppose that for all tournaments $K$,
     \begin{align*}
         \max(A, {\ale_K^\phi}) &= \max(A, \ale_K^{\phi'}) \\
@@ -3179,9 +3180,9 @@ be equal.
 
     Write $A_i = A'_i = \{a_1, \ldots, a_{m'}\}$ and $B_i = B'_i =
     \{b_1, \ldots, b_{n'}\}$, with $a_p < a_{p+1}$ and $b_q < b_{q+1}$. Let
-    $K^-$ be the associated sub-matrix, as in the statement of \axiomref{SMI}.
+    $K^-$ be the associated sub-matrix, as in the statement of \smi{}.
     From property \labelcref{tourn_item_f_sel_1} from
-    \Cref{tourn_def_selectionfunction} for $f$ and \axiomref{SMI}, we have
+    \Cref{tourn_def_selectionfunction} for $f$ and \smi{}, we have
     \begin{align}
         \label{tourn_eqn_smi_maximal_ranks_equal_f}
         \begin{split}
@@ -3212,23 +3213,23 @@ be equal.
 \end{proof}
 
 This result simplifies the task of characterising $\phicardint$ among the
-interleaving operators with \axiomref{SMI}, since we only need to consider the
+interleaving operators with \smi{}, since we only need to consider the
 maximal ranks of $A$ and $B$. In fact, given that $\phicardint$ satisfies
-\axiomref{dual} we only need to consider the $A$ ranking. The following axiom
+\dualaxiom{} we only need to consider the $A$ ranking. The following axiom
 says that maximally-ranked players in $A$ are exactly those for whom $|K(a)|$
 is maximal; this will clearly capture the maximal ranks of $\phicardint$
-together with \axiomref{dual}.
+together with \dualaxiom{}.
 
 \begin{axiom}[argmax]
     $\max(A, {\ale_K^\phi}) = \argmax_{a \in A}{|K(a)|}$.
 \end{axiom}
 
-Note that \axiomref{argmax} does \emph{not} require $\ale_K^\phi$ to reduce to
+Note that \argmaxaxiom{} does \emph{not} require $\ale_K^\phi$ to reduce to
 $\phicount$, since we only consider $a$ such that $|K(a)|$ is \emph{maximal}.
 
-Now, since \axiomref{chain-def} characterises interleaving operators, to obtain
+Now, since \chaindef{} characterises interleaving operators, to obtain
 a characterisation of $\phicardint$ among \emph{all} operators it suffices to
-find an alternative version of \axiomref{SMI} which can be applied to any
+find an alternative version of \smi{} which can be applied to any
 operator. This is the role of the following axiom, which says that removing the
 maximally ranked players from each side preserves the ordering among the rest
 of $A$ and $B$.
@@ -3245,9 +3246,9 @@ of $A$ and $B$.
     \end{align*}
 \end{axiom}
 
-In what sense does \axiomref{rank-removal} capture \axiomref{SMI}? In the
-following we show it is \emph{equivalent} to \axiomref{SMI}, when taken with
-\axiomref{chain-def}. We need a preliminary lemma.
+In what sense does \rankremoval{} capture \smi{}? In the
+following we show it is \emph{equivalent} to \smi{}, when taken with
+\chaindef{}. We need a preliminary lemma.
 
 \begin{lemma}
     \label{tourn_result_selectionfunction_lemma}
@@ -3281,17 +3282,17 @@ following we show it is \emph{equivalent} to \axiomref{SMI}, when taken with
 
 \begin{proposition}
     \label{tourn_result_rank_removal_smi}
-    $\phi$ satisfies \axiomref{chain-def} and \axiomref{rank-removal} if and
-    only if $\phi$ is an interleaving operator satisfying \axiomref{SMI}.
+    $\phi$ satisfies \chaindef{} and \rankremoval{} if and
+    only if $\phi$ is an interleaving operator satisfying \smi{}.
 \end{proposition}
 
 \begin{proof}
     For the `if" direction, suppose $\phi = \intop{f, g}$ is an interleaving
-    operator satisfying \axiomref{SMI}. Then $\phi$ satisfies
-    \axiomref{chain-def} by \Cref{tourn_result_chaindef_iff_interleaving}. We
-    show \axiomref{rank-removal}. Let $\{a_1, \ldots, a_{m'}\}$, $\{b_1,
+    operator satisfying \smi{}. Then $\phi$ satisfies
+    \chaindef{} by \Cref{tourn_result_chaindef_iff_interleaving}. We
+    show \rankremoval{}. Let $\{a_1, \ldots, a_{m'}\}$, $\{b_1,
     \ldots, b_{n'}\}$ and $K^-$ be as in the statement of
-    \axiomref{rank-removal}.
+    \rankremoval{}.
 
     Let $A_i, B_i$ denote the interleaving sets for $\phi$ applied to $K$, and
     $A^-_i, B^-_i$ those for $\phi$ applied to $K^-$. First we claim that for
@@ -3335,7 +3336,7 @@ following we show it is \emph{equivalent} to \axiomref{SMI}, when taken with
     \ldots, p_{m''}\}$ and $B^-_i = \{q_1, \ldots, q_{n''}\}$ in increasing
     order. Let $K^{--}$ be the $m'' \times n''$ sub-matrix of $K^-$ formed by
     $A^-_i$ and $B^-_i$, i.e. $K^{--}_{st} = K^-_{p_s, q_t}$. Since $\phi =
-    \intop{f, g}$ satisfies \axiomref{SMI}, we get that for all $s \in [m'']$
+    \intop{f, g}$ satisfies \smi{}, we get that for all $s \in [m'']$
     and $t \in [n'']$,
     \[
         p_s \in f(K^-, A^-i, B^-_i) \iff s \in f(K^{--}, [m''], [n'']).
@@ -3350,7 +3351,7 @@ following we show it is \emph{equivalent} to \axiomref{SMI}, when taken with
         B_{i + 1} &= \{b_q \mid q \in B^-_i\} = \{b_{q_t} \mid t \in [n'']\}.
     \end{align*}
     We see that $K^{--}$ can also be viewed as the $m'' \times n''$ sub-matrix
-    of $K$ formed by $A_{i + 1}$ and $B_{i + 1}$. Applying \axiomref{SMI} in
+    of $K$ formed by $A_{i + 1}$ and $B_{i + 1}$. Applying \smi{} in
     this instance, we find
     \[
         a_{p_s} \in f(K, A_{i + 1}, B_{i + 1})
@@ -3386,15 +3387,15 @@ following we show it is \emph{equivalent} to \axiomref{SMI}, when taken with
     \in A_1$. Since the additive constant of $-1$ does not affect the ranking,
     we see that the ranking of $[m']$ in $\ale_{K^-}^\phi$ corresponds exactly
     to that of $\{a_1, \ldots, a_{m'}\}$ in $\ale_K^\phi$, as required for
-    \axiomref{rank-removal}. The case for the $B$ ranking is identical, and we
+    \rankremoval{}. The case for the $B$ ranking is identical, and we
     are done.
 
     Now for the `only if" direction, suppose $\phi$ satisfies
-    \axiomref{chain-def} and \axiomref{rank-removal}. By
+    \chaindef{} and \rankremoval{}. By
     \Cref{tourn_result_chaindef_iff_interleaving} there are selection functions
     $f$ and $g$ such that $\phi = \intop{f, g}$. We need to show that
-    \axiomref{SMI} holds. Let $K$, $A_i = \{a_1, \ldots, a_{m'}\}, B_i = \{b_1,
-    \ldots, b_{n'}\}$ and $K^-$ be as in the statement of \axiomref{SMI}.
+    \smi{} holds. Let $K$, $A_i = \{a_1, \ldots, a_{m'}\}, B_i = \{b_1,
+    \ldots, b_{n'}\}$ and $K^-$ be as in the statement of \smi{}.
     Without loss of generality, $i > 0 $. A simple induction shows that
     \[
         A_j = A \setminus \bigcup_{k < j}{f(K, A_k, B_k)}
@@ -3402,7 +3403,7 @@ following we show it is \emph{equivalent} to \axiomref{SMI}, when taken with
     for all $j \ge 0$. From \Cref{tourn_result_selectionfunction_lemma} we see
     that $A_i$ is the result of removing the top $i - 1$ ranks of players in
     $A$, according to the ranking $\ale_K^\phi$. Applying
-    \axiomref{rank-removal} $i - 1$ times, we get
+    \rankremoval{} $i - 1$ times, we get
     \[
         a_p \ale_K^\phi a_{p'}
         \iff p \ale_{K^-}^\phi p'
@@ -3417,21 +3418,21 @@ following we show it is \emph{equivalent} to \axiomref{SMI}, when taken with
         &\iff p \in \max([m'], {\ale_{K^-}^\phi}) \\
         &\iff p \in f(K^-, [m'], [n'])
     \end{align*}
-    as required for \axiomref{SMI}. One can show $b_q \in g(K, A_i, B_i) \iff q
+    as required for \smi{}. One can show $b_q \in g(K, A_i, B_i) \iff q
     \in g(K^-, [m'], [n'])$ by an identical argument.
 \end{proof}
 
 Finally, we can state the axiomatic characterisation of $\phicardint$.
 
 \begin{theorem}
-    $\phicardint$ is the unique operator satisfying \axiomref{dual},
-    \axiomref{chain-def}, \axiomref{rank-removal} and \axiomref{argmax}.
+    $\phicardint$ is the unique operator satisfying \dualaxiom{},
+    \chaindef{}, \rankremoval{} and \argmaxaxiom{}.
 \end{theorem}
 
 \begin{proof}
     We have already seen in \Cref{tourn_result_phicardint_axioms} that
-    $\phicardint$ satisfies \axiomref{dual} and \axiomref{chain-def}. For
-    \axiomref{argmax}, note that for any tournament $K$,
+    $\phicardint$ satisfies \dualaxiom{} and \chaindef{}. For
+    \argmaxaxiom{}, note that for any tournament $K$,
     \begin{align*}
         \max(A, {\ale_K^{\phicardint}})
         &= f(K, A, B) \\
@@ -3439,18 +3440,18 @@ Finally, we can state the axiomatic characterisation of $\phicardint$.
         &= \argmax_{a \in A}{|K(a)|}
     \end{align*}
     directly from the definition of the selection function $f$ for
-    $\phicardint$. Finally, \axiomref{rank-removal} follows from
+    $\phicardint$. Finally, \rankremoval{} follows from
     \Cref{tourn_result_rank_removal_smi} since $\phicardint$ is an interleaving
-    operator with \axiomref{SMI} (by \Cref{tourn_result_phicardint_smi}).
+    operator with \smi{} (by \Cref{tourn_result_phicardint_smi}).
 
     For uniqueness, suppose some operator $\phi$ also satisfies the stated
     axioms. By \Cref{tourn_result_rank_removal_smi}, $\phi$ is an interleaving
-    operator satisfying \axiomref{SMI}. To show $\phi = \phicardint$ it is
+    operator satisfying \smi{}. To show $\phi = \phicardint$ it is
     sufficient by \Cref{tourn_result_smi_maximal_ranks_equal} to show that
     $\phi$ and $\phicardint$ agree on maximal ranks for all tournaments $K$.
-    Clearly this is the case for the ranking of $A$, since \axiomref{argmax}
+    Clearly this is the case for the ranking of $A$, since \argmaxaxiom{}
     completely prescribes $\max(A, {\ale_K^\phi})$ solely in terms of $K$.
-    Moreover, by \axiomref{dual} we have ${\ble_K^\phi} =
+    Moreover, by \dualaxiom{} we have ${\ble_K^\phi} =
     {\ale_{\dual{K}}^\phi}$, so
     \begin{align*}
         \max(B_K, {\ble_K^\phi})
@@ -3459,7 +3460,7 @@ Finally, we can state the axiomatic characterisation of $\phicardint$.
         &= \max(A_{\dual{K}}, {\ale_{\dual{K}}^{\phicardint}}) \\
         &= \max(B, {\ble_K^{\phicardint}})
     \end{align*}
-    where we apply \axiomref{argmax} for $\phi$ and $\phicardint$ to the dual
+    where we apply \argmaxaxiom{} for $\phi$ and $\phicardint$ to the dual
     tournament $\dual{K}$. This completes the proof.
 \end{proof}
 
