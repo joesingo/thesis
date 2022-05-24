@@ -1039,17 +1039,17 @@ $\sigma^k$ denote the $k$-fold repetition of $\sigma$.
 %
 Consider the following properties which may hold of a learning method $L$.
 
-\begin{postulate}[\equivalence{}]
+\begin{axiom}[\equivalence{}]
     If $\sigma \equiv \delta$ then $L(\sigma) = L(\delta)$.
-\end{postulate}
+\end{axiom}
 
-\begin{postulate}[\repetition{}]
+\begin{axiom}[\repetition{}]
     $L(\sigma^k) = L(\sigma)$.
-\end{postulate}
+\end{axiom}
 
-\begin{postulate}[\soundness{}]
+\begin{axiom}[\soundness{}]
     $L(\sigma) \subseteq \Xsnd_\sigma$.
-\end{postulate}
+\end{axiom}
 
 \equivalence{} says that $L$ should not care about the syntactic form of the
 input. \repetition{} says that beliefs should not change if each
@@ -1083,14 +1083,14 @@ whenever $W \in T_\sigma$.
     \label{thm_tt_characterisation}
     A method $L$ satisfying \equivalence{}, \repetition{} and \soundness{} is
     truth-tracking if and only if it satisfies the following property.
-    \begin{postulate}[\credulity{}]
+    \begin{axiom}[\credulity{}]
         $
         % \forall \sigma, i, c, \phi:\
         T_\sigma, c \not\models \S_i\phi
         \implies
         L(\sigma), c \models \neg\S_i\phi.
         $
-    \end{postulate}
+    \end{axiom}
 
 \end{theorem}
 

@@ -9,7 +9,7 @@ our beliefs in light of the new information. Dr.\ A then claims that patient 2
 suffers from the same condition, but Dr.\ B disagrees. Given that doctors
 specialise in different areas and may make mistakes, who should we trust?
 %
-Since the \postulatename{Success} postulate ($\alpha \in K \ast \alpha$)
+Since the \axiomref{Success} postulate ($\alpha \in K \ast \alpha$)
 assumes information is reliable, we are outside the realm of AGM revision, and
 must instead apply some form of \emph{non-prioritised}
 revision~\cite{hansson1999survey}.
@@ -117,7 +117,7 @@ time).
 %revision~\cite{peppas_2008} address
 %how beliefs should be formed (and revised) on the basis of these reports.
 %\emph{Non-prioritised} belief revision/merging~\cite{hansson1999survey} allows
-%one to model unreliable sources by dropping the \postulatename{Success}
+%one to model unreliable sources by dropping the \axiomref{Success}
 %postulate ($\alpha \in K \ast \alpha$) of the AGM
 %framework~\cite{alchourron1985logic}, so that not all reports must be believed.
 %Such approaches may be guided by additional structure providing a
@@ -740,34 +740,34 @@ $(G^\sigma_\snd)_c = \{\S_i\phi \mid \tuple{i, c, \phi} \in \sigma\}$, i.e.
 the collection of soundness statements corresponding to the reports in
 $\sigma$.
 
-\begin{postulate}[\closure{}]
+\begin{axiom}[\closure{}]
     $B^\sigma = \cn(B^\sigma)$ and  $K^\sigma = \cn(K^\sigma)$
-\end{postulate}
-\begin{postulate}[\containment{}]
+\end{axiom}
+\begin{axiom}[\containment{}]
     $K^\sigma \sqsubseteq B^\sigma$
-\end{postulate}
-\begin{postulate}[\consistency{}]
+\end{axiom}
+\begin{axiom}[\consistency{}]
     If $\sigma$ is $\ast$-consistent, $B^\sigma$ and $K^\sigma$ are
     consistent
-\end{postulate}
-\begin{postulate}[\soundness{}]
+\end{axiom}
+\begin{axiom}[\soundness{}]
     If $\tuple{i, c, \phi} \in \sigma$, then $\S_i\phi \in K^\sigma_c$
-\end{postulate}
-\begin{postulate}[\kbound{}]
+\end{axiom}
+\begin{axiom}[\kbound{}]
     $K^\sigma \sqsubseteq \cn(G^\sigma_\snd \sqcup K^\emptyset)$
-\end{postulate}
-\begin{postulate}[\priorext{}]
+\end{axiom}
+\begin{axiom}[\priorext{}]
     $K^\emptyset \sqsubseteq K^\sigma$
-\end{postulate}
-\begin{postulate}[\rearr{}]
+\end{axiom}
+\begin{axiom}[\rearr{}]
     If $\sigma$ is a permutation of $\rho$, then $B^\sigma = B^\rho$ and
     $K^\sigma = K^\rho$
-\end{postulate}
-\begin{postulate}[\equivpost{}]
+\end{axiom}
+\begin{axiom}[\equivpost{}]
     If $\phi \equiv \psi$ then $B^{\sigma \concat \tuple{i, c, \phi}} = B^{\sigma
     \concat \tuple{i, c, \psi}}$ and $K^{\sigma \concat \tuple{i, c, \phi}} =
     K^{\sigma \concat \tuple{i, c, \psi}}$
-\end{postulate}
+\end{axiom}
 
 \closure{} says that the belief and knowledge collections are closed under
 logical consequence. In light of earlier remarks,
@@ -874,9 +874,9 @@ postulates, says that \emph{knowledge is monotonic}: knowledge after receiving
 $\sigma$ and $\rho$ together is just the case-wise union of $K^\sigma$ and
 $K^\rho$.
 
-\begin{postulate}[\kconj{}]
+\begin{axiom}[\kconj{}]
     $K^{\sigma \concat \rho} = \cn(K^\sigma \sqcup K^\rho)$
-\end{postulate}
+\end{axiom}
 
 \kconj{} reflects the idea that one should be cautious when it comes to
 knowledge: a formula should only be accepted as known if it won't be given up
@@ -1254,9 +1254,9 @@ broadly more expertise in $W$ than in $W'$.\footnotemark{}
     $A \subseteq B$.
 }
 
-\begin{postulate}[\refinement{}]
+\begin{axiom}[\refinement{}]
     If $W \preceq W'$ then $W \le W'$
-\end{postulate}
+\end{axiom}
 
 Since $\preceq$ is only a partial order on $\W$ there are many possible total
 extensions; \varbasedcond{} and \partbasedcond{} provide two specific examples.
@@ -1267,30 +1267,30 @@ conditioning operators can be characterised using an approach similar to that of
 \textcite{delgrande2018general} in their account of \emph{generalised AGM belief
 revision}.\footnotemark{} This involves a technical property
 \citeauthor{delgrande2018general}
-call \postulatename{Acyc}, which finds its roots in the \emph{Loop}
+call \axiomref{Acyc}, which finds its roots in the \emph{Loop}
 property of \textcite{kraus1990nonmonotonic}.
 %
 \footnotetext{ Note that while the result is similar, our framework is not an
 instance of theirs.  }
 
-\begin{postulate}[\duprem{}]
+\begin{axiom}[\duprem{}]
     If $\rho_1 = \sigma \concat \tuple{i, c, \phi}$ and $\rho_2 = \rho_1
     \concat \tuple{i, c, \phi}$ then $B^{\rho_1} = B^{\rho_2}$ and
     $K^{\rho_1} = K^{\rho_2}$
-\end{postulate}
-\begin{postulate}[\condcons{}]
+\end{axiom}
+\begin{axiom}[\condcons{}]
     If $K^\sigma$ is consistent then so is $B^\sigma$
-\end{postulate}
-\begin{postulate}[\incvac{}]
+\end{axiom}
+\begin{axiom}[\incvac{}]
     $B^{\sigma \concat \rho} \sqsubseteq \cn(B^\sigma \sqcup K^\rho)$, with
     equality if $B^\sigma \sqcup K^\rho$ is consistent
-\end{postulate}
-\begin{postulate}[\acyc{}]
+\end{axiom}
+\begin{axiom}[\acyc{}]
     If $\sigma_0, \ldots, \sigma_n$ are such that $K^{\sigma_j} \sqcup
     B^{\sigma_{j+1}}$ is consistent for all $0 \le j < n$ and $K^{\sigma_n}
     \sqcup B^{\sigma_0}$ is consistent, then $K^{\sigma_0} \sqcup B^{\sigma_n}$
     is consistent
-\end{postulate}
+\end{axiom}
 
 \incvac{} is so-named since it is analogous to the combination of
 \emph{Inclusion} and \emph{Vacuity} from AGM revision, if one informally views
@@ -1997,12 +1997,12 @@ reinterpretation.
 First, we address how propositional beliefs should be affected by reliable
 information.
 
-\begin{postulate}[\agm{}]
+\begin{axiom}[\agm{}]
     For any $\sigma$ and $c \in \C$ there is an AGM operator $\star$
     for $\proppart{B^\sigma_c}$ such that $\proppart{B^{\sigma \concat
     \tuple{\ast, c, \phi}}_c} = \proppart{B^\sigma_c} \star \phi$ whenever
     $\neg\phi \notin K^\sigma_c$
-\end{postulate}
+\end{axiom}
 
 \agm{} says that receiving information from the reliable source $\ast$ acts in
 accordance with the well-known AGM postulates~\cite{alchourron1985logic} for propositional belief
@@ -2279,26 +2279,26 @@ We can now prove \cref{kr_prop_examples_satisfy_agm}.
 Thus, we do indeed extend AGM revision in the case of reliable information.
 What about non-reliable information? First note that the analogue of \agm{} for
 ordinary sources $i \ne \ast$ is \emph{not} desirable. In particular, we
-should not have the \postulatename{Success} postulate:
+should not have the \axiomref{Success} postulate:
 \[
     \phi \in B^{\sigma \concat \tuple{i, c, \phi}}_c.
 \]
 Indeed, the sequence in \cref{kr_ex_model_based} with $\phi = \neg p
-\land q$ already shows that \postulatename{Success} would conflict with the
+\land q$ already shows that \axiomref{Success} would conflict with the
 basic postulates.
 %
-However, there are weaker modifications of \postulatename{Success} which may be
+However, there are weaker modifications of \axiomref{Success} which may be
 more appropriate. We consider two such postulates.
 
-\begin{postulate}[\condsucc{}]
+\begin{axiom}[\condsucc{}]
     If $\E_i\phi \in B^\sigma_c$ and $\neg\phi \notin B^\sigma_c$, then $\phi
     \in B^{\sigma \concat \tuple{i, c, \phi}}_c$
-\end{postulate}
+\end{axiom}
 
-\begin{postulate}[\strongcondsucc{}]
+\begin{axiom}[\strongcondsucc{}]
     If $\neg(\E_i\phi \land \phi) \notin B^\sigma_c$, then $\phi \in B^{\sigma
     \concat \tuple{i, c, \phi}}_c$
-\end{postulate}
+\end{axiom}
 
 \condsucc{} says that if $i$ is deemed an expert on $\phi$, which is consistent
 with current beliefs, then $\phi$ is accepted after $i$ reports it. That is,
@@ -2636,14 +2636,14 @@ on the propositional part of $B^\sigma_c$. In what follows, let
 $\Gamma^\sigma_c = \{\phi \in \lprop \mid \exists i \in \srcs: \tuple{i, \phi}
 \in \sigma \rs c\}$.
 
-\begin{postulate}[\boundedness{}]
+\begin{axiom}[\boundedness{}]
     If $\sigma$ is $\ast$-consistent, $\proppart{B^\sigma_c}
     \subseteq \cnprop(\Gamma^\sigma_c)$
-\end{postulate}
+\end{axiom}
 
 \boundedness{} says that the propositional beliefs in case $c$ should not go
 beyond the consequences of the formulas reported in case $c$. In some sense
-this can be seen as an iterated version of \postulatename{Inclusion} from AGM
+this can be seen as an iterated version of \axiomref{Inclusion} from AGM
 revision, in the case where $\proppart{B^\sigma_c} = \cnprop(\emptyset)$. We
 have the following characterisation.
 
@@ -2943,7 +2943,7 @@ For any set of cases $H \subseteq \C$, sequence $\sigma$ and $c \in \C$, write
     \}.
 \end{align*}
 
-\begin{postulate}[\hboundedness{}]
+\begin{axiom}[\hboundedness{}]
     For any $\ast$-consistent $\sigma$, $H \subseteq \C$ and $c \in \C$,
     \[
         \proppart{B^\sigma_c}
@@ -2956,7 +2956,7 @@ For any set of cases $H \subseteq \C$, sequence $\sigma$ and $c \in \C$, write
                 }
             \right)
     \]
-\end{postulate}
+\end{axiom}
 
 Note that \boundedness{} is obtained as the special case where $H =
 \emptyset$. We illustrate with an example.
@@ -3217,7 +3217,7 @@ for $\Phi$, $\mu$ we consider the sequence $\sigma_{\Phi, \mu}$ where $\ast$
 reports $\mu$ and each source $i$ reports $\phi_i$. Any operator then gives
 rise to a merging operator $\Delta_\mu(\Phi) =
 \bigland\proppart{B^{\sigma_{\Phi,\mu}}_c}$. Note that our basic postulates
-imply $\Delta_\mu(\Phi) \vdash \mu$ -- the \postulatename{IC0} postulate of
+imply $\Delta_\mu(\Phi) \vdash \mu$ -- the \axiomref{IC0} postulate of
 \textcite{konieczny2002merging}. We leave it to future work to determine which
 other merging postulates hold.
 
@@ -3228,7 +3228,7 @@ say $i$ is not trusted on $\psi$ if $\Delta_\mu(\Phi) \not\vdash \psi$ when
 $\phi_i \vdash \psi$), bringing expertise to the object level allows us to
 express more complex beliefs about expertise, such as $\E_a{x} \lor \E_b{x}$ in
 \cref{kr_ex_hospital_ex_formalised}. It also facilitates postulates which refer
-directly to expertise, such as the weakenings of \postulatename{Success} in
+directly to expertise, such as the weakenings of \axiomref{Success} in
 \cref{kr_sec_one_step_postulates}.
 
 However, our problem is more specialised than merging, since we focus
@@ -3313,7 +3313,7 @@ Secondly, there is scope for deeper postulate-based analysis. For example,
 there should be postulates governing how beliefs change in case $c$ in response
 to reports in case $d$. We could also consider more postulates relating trust
 and belief, and compare these postulates with those of \textcite{yasser_21}.
-Moreover, there are many weaker version of \postulatename{Success} which have
+Moreover, there are many weaker version of \axiomref{Success} which have
 been considered in the literature (e.g. in
 \cite{ferme1999selective,hansson_2001,booth_trust_2018}); we should compare
 these against our \condsucc{} and \strongcondsucc{} in future work.

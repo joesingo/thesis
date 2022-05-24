@@ -1,8 +1,3 @@
-% Environment for postulate definition
-% See https://tex.stackexchange.com/a/417959 or `texdoc amsthm` for arguments
-\newtheoremstyle{postulatestyle}{}{}{\slshape}{}{\bfseries}{}{ }{\thmnote{ #3 }}
-\theoremstyle{postulatestyle} \newtheorem*{postulate}{}
-
 % symbols
 \newcommand{\E}{\mathsf{E}}
 \renewcommand{\S}{\mathsf{S}}
@@ -46,30 +41,25 @@
 \newcommand{\bigjoin}{\bigvee}
 
 % postulates
-% \newcommand{\postulatename}[1]{\textbf\emph{#1}}
-\newcommand{\postulatename}[1]{\emph{#1}}
-% \newcommand{\postulatename}[1]{{\sc{#1}}}
-\newcommand{\closure}{\postulatename{Closure}}
-\newcommand{\containment}{\postulatename{Containment}}
-\newcommand{\consistency}{\postulatename{Consistency}}
-\newcommand{\soundness}{\postulatename{Soundness}}
-\newcommand{\kbound}{\postulatename{K-bound}}
-\newcommand{\priorext}{\postulatename{Prior-Extension}}
-\newcommand{\kconj}{\postulatename{K-conjunction}}
-\newcommand{\rearr}{\postulatename{Rearrangement}}
-\newcommand{\equivpost}{\postulatename{Equivalence}}
-% \newcommand{\ssym}{\postulatename{Source-symmetry}}
-% \newcommand{\csym}{\postulatename{Case-symmetry}}
-\newcommand{\duprem}{\postulatename{Duplicate-removal}}
-\newcommand{\condcons}{\postulatename{Conditional-consistency}}
-\newcommand{\incvac}{\postulatename{Inclusion-vacuity}}
-\newcommand{\acyc}{\postulatename{Acyc}}
-\newcommand{\agm}{\postulatename{AGM-$\ast$}}
-\newcommand{\condsucc}{\postulatename{Cond-success}}
-\newcommand{\strongcondsucc}{\postulatename{Strong-cond-success}}
-\newcommand{\boundedness}{\postulatename{Boundedness}}
-\newcommand{\hboundedness}{\postulatename{H-Boundedness}}
-\newcommand{\refinement}{\postulatename{Refinement}}
+\newcommand{\closure}{\axiomref{Closure}}
+\newcommand{\containment}{\axiomref{Containment}}
+\newcommand{\consistency}{\axiomref{Consistency}}
+\newcommand{\soundness}{\axiomref{Soundness}}
+\newcommand{\kbound}{\axiomref{K-bound}}
+\newcommand{\priorext}{\axiomref{Prior-extension}}
+\newcommand{\kconj}{\axiomref{K-conjunction}}
+\newcommand{\rearr}{\axiomref{Rearrangement}}
+\newcommand{\equivpost}{\axiomref{Equivalence}}
+\newcommand{\duprem}{\axiomref{Duplicate-removal}}
+\newcommand{\condcons}{\axiomref{Conditional-consistency}}
+\newcommand{\incvac}{\axiomref{Inclusion-vacuity}}
+\newcommand{\acyc}{\axiomref{Acyc}}
+\newcommand{\agm}{\axiomref{AGM-$\ast$}}
+\newcommand{\condsucc}{\axiomref{Cond-success}}
+\newcommand{\strongcondsucc}{\axiomref{Strong-cond-success}}
+\newcommand{\boundedness}{\axiomref{Boundedness}}
+\newcommand{\hboundedness}{\axiomref{H-Boundedness}}
+\newcommand{\refinement}{\axiomref{Refinement}}
 
 % concrete operators
 \newcommand{\concopname}[1]{$\mathsf{#1}$}

@@ -359,7 +359,7 @@ property characterises chain editing-based operators $\phi$.
     $k$ -- is \complexityclass{NP}-complete~\cite{drange2015threshold}.
 }
 
-\begin{axiom}[chain-min]
+\begin{axiom}[\chainmin{}]
     For every tournament $K$ there is $K' \in \minch{K}$ such that $\phi(K) =
     ({\anle_{K'}}, {\bnle_{K'}})$.
 \end{axiom}
@@ -929,7 +929,7 @@ $[\sigma(K)]_{ab} = K_{\sigma^{-1}(a), b}$ and $[\pi(K)]_{ab} = K_{a,
 quantification over $K$, $a, a' \in A$ and $b, b' \in B$ for
 brevity.
 
-\begin{axiom}[anon]
+\begin{axiom}[\anon{}]
     Let $\sigma:A \to A$ and $\pi:B \to B$ be permutations. Then $a \ale_K^\phi
     a'$ iff $\sigma(a) \ale_{\pi(\sigma(K))}^\phi \sigma(a')$.
 \end{axiom}
@@ -953,7 +953,7 @@ $K_{ab} = 1$ iff $\dual{K}_{ba} = 0$. Also note that $\dual{\dual{K}} = K$.
 The duality axiom states that the ranking of the $B$s in $K$ is the same as the
 $A$s in $\dual{K}$.
 
-\begin{axiom}[dual]
+\begin{axiom}[\dualaxiom{}]
     $b \ble_K^\phi b'$ iff $b \ale_\dual{K}^\phi b'$.
 \end{axiom}
 
@@ -975,7 +975,7 @@ bipartite adaptation of a classic axiom introduced
 in~\cite{rubinstein1980ranking}, which has subsequently been called
 \emph{Independence of Irrelevant Matches}~\cite{gonzalez2014paired}.
 
-\begin{axiom}[IIM]
+\begin{axiom}[\iim{}]
 
     If $K_1, K_2$ are tournaments of the same size with identical $a$-th and
     $a'$-th rows, then $a \ale_{K_1}^\phi a'$ iff $a \ale_{K_2}^\phi a'$.
@@ -1000,7 +1000,7 @@ intuition for constructing the natural ranking associated with a chain graph;
 namely that $K(a) \subseteq K(a')$ indicates $a'$ has performed at least as
 well as $a$.
 
-\begin{axiom}[mon]
+\begin{axiom}[\mon{}]
     If $K(a) \subseteq K(a')$ then $a \ale_K^\phi a'$.
 \end{axiom}
 
@@ -1009,7 +1009,7 @@ partial) preorder ${\anle_K}$.
 %
 Yet another standard axiom is \emph{positive responsiveness}.
 
-\begin{axiom}[pos-resp]
+\begin{axiom}[\posresp{}]
 
     If $a \ale_K^\phi a'$ and $K_{a',b} = 0$ for some $b \in B$, then $a
     \alt_{K + \bm{1}_{a', b}}^\phi a'$, where $\bm{1}_{a', b}$ is the matrix
@@ -1557,12 +1557,10 @@ and consequently it is possible to satisfy \chainmin{} and
     This shows that $d(K, K'') \le d(K, K')$, and the proof is complete.
 \end{proof}
 
-\begin{notation}
-    For a relation $R$ on a set $X$ and $x \in X$, write
-    \[ U(x, R) = \{y \in X \mid x \mathrel{R} y\} \]
-    \[ L(x, R) = \{y \in X \mid y \mathrel{R} x\} \]
-    for the upper- and lower-sets of $x$ respectively.
-\end{notation}
+We need some new notation. For a relation $R$ on a set $X$ and $x \in X$, write
+\[ U(x, R) = \{y \in X \mid x \mathrel{R} y\} \]
+\[ L(x, R) = \{y \in X \mid y \mathrel{R} x\} \]
+for the upper- and lower-sets of $x$ respectively.
 
 \begin{lemma}
     \label{tourn_result_chainmin_mon_extend_strict_part}
@@ -2088,7 +2086,7 @@ minimisation aspect of chain editing. A natural way to retain the spirit of
 corresponds to \emph{some} chain tournament, not necessarily one closest to
 $K$. We call this property \emph{chain-definability}.
 
-\begin{axiom}[chain-def]
+\begin{axiom}[\chaindef{}]
     For every $m \times n$ tournament $K$ there is $K' \in \ch_{m,n}$ such that
     $\phi(K) = ({\anle_{K'}}, {\bnle_{K'}})$.
 \end{axiom}
@@ -3093,7 +3091,7 @@ $g$. In general this does not hold for interleaving operators. We express this
 formally as an axiom for interleaving operators $\intop{f, g}$, called
 \emph{sub-matrix independence}.
 
-\begin{axiom}[SMI]
+\begin{axiom}[\smi{}]
     Let $K$ be a tournament and $A_i$, $B_i$ a pair of non-empty sets arising
     in the interleaving algorithm for $f$, $g$ and $K$ in
     \cref{tourn_def_interleaving}. Write $A_i = \{a_1, \ldots, a_{m'}\}$ and
@@ -3220,7 +3218,7 @@ says that maximally-ranked players in $A$ are exactly those for whom $|K(a)|$
 is maximal; this will clearly capture the maximal ranks of $\phicardint$
 together with \dualaxiom{}.
 
-\begin{axiom}[argmax]
+\begin{axiom}[\argmaxaxiom{}]
     $\max(A, {\ale_K^\phi}) = \argmax_{a \in A}{|K(a)|}$.
 \end{axiom}
 
@@ -3234,7 +3232,7 @@ operator. This is the role of the following axiom, which says that removing the
 maximally ranked players from each side preserves the ordering among the rest
 of $A$ and $B$.
 
-\begin{axiom}[rank-removal]
+\begin{axiom}[\rankremoval{}]
     Suppose $\max(A, {\ale_K^\phi}) \ne A$ and $\max(B, {\ble_K^\phi}) \ne B$.
     Write $A \setminus \max(A, {\ale_K^\phi}) = \{a_1, \ldots, a_{m'}\}$ and $B
     \setminus \max(B, {\ble_K^\phi}) = \{b_1, \ldots, b_{m'}\}$, ordered such
