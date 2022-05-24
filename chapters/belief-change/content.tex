@@ -244,7 +244,7 @@ expertise of the sources, and is defined by the following grammar:
              \\
 \]
 where $i\in \srcs$ and $\phi \in \lprop$. We introduce Boolean connectives
-$\lor$, $\rightarrow$, $\leftrightarrow$ and $\falsum$ as
+$\lor$, $\limplies$, $\liff$ and $\falsum$ as
 abbreviations. We use upper case Greek letters ($\Phi$, $\Psi$ etc)
 for formulas in $\lext$.
 %
@@ -304,7 +304,7 @@ depend on the case $c$. On the other hand, $\S_i\phi$ holds in case $c$ iff
 the $c$-valuation of $W$ is indistinguishable from some model of $\phi$. That
 is, it is consistent with $i$'s expertise that $\phi$ is true.
 
-Note that the mapping $2^\vals \rightarrow 2^\vals$ given by $U \mapsto \Pi[U]$
+Note that the mapping $2^\vals \to 2^\vals$ given by $U \mapsto \Pi[U]$
 satisfies the \emph{Kuratowski closure axioms},\footnotemark{} so can be
 considered a closure operator of the set of propositional valuations. Then $W,
 c \models \E_i\phi$ iff $\propmods{\phi}$ is closed in $V$, and $W, c \models
@@ -369,23 +369,23 @@ For any $i \in \srcs$, $c \in \C$ and $\phi, \psi \in \lprop$, the following
 formulas are valid
 \begin{enumerate}
     \item \label{kr_item_replacement_equivalents_e_s}
-          $\S_i\phi \leftrightarrow \S_i\psi$ and $\E_i\phi \leftrightarrow
+          $\S_i\phi \liff \S_i\psi$ and $\E_i\phi \liff
           \E_i\psi$, whenever $\phi \equiv \psi$
     \item \label{kr_item_e_symmetric}
-          $\E_i\phi \leftrightarrow \E_i\neg\phi$ and $\E_i\phi \land
-          \E_i\psi \rightarrow \E_i(\phi \land \psi)$
+          $\E_i\phi \liff \E_i\neg\phi$ and $\E_i\phi \land
+          \E_i\psi \limplies \E_i(\phi \land \psi)$
     \item \label{kr_item_exp_on_all_variables} $\E_i{p_1} \land \cdots \land
-          \E_i{p_k} \rightarrow \E_i\phi$, where $p_1, \ldots, p_k$ are the
+          \E_i{p_k} \limplies \E_i\phi$, where $p_1, \ldots, p_k$ are the
           propositional variables appearing in $\phi$
     \item \label{kr_item_e_and_s_implies_phi}
-          $\E_i\phi \land \S_i\phi \rightarrow \phi$, and
-          $\S_i\phi \land \neg \phi \rightarrow \neg \E_i\phi$
+          $\E_i\phi \land \S_i\phi \limplies \phi$, and
+          $\S_i\phi \land \neg \phi \limplies \neg \E_i\phi$
     \item \label{kr_item_sound_neg_pair}
-          $\S_i\phi \land \S_i{\neg \phi} \rightarrow \neg \E_i\phi$
+          $\S_i\phi \land \S_i{\neg \phi} \limplies \neg \E_i\phi$
     \item \label{kr_item_star_exp}
-          $\S_\ast{\phi} \leftrightarrow \phi$ and $\E_\ast\phi$
+          $\S_\ast{\phi} \liff \phi$ and $\E_\ast\phi$
     % \item \label{kr_item_soundness_weakening}
-    %       $\S_i\phi \rightarrow \S_i\psi$ whenever $\phi \rightarrow \psi$ is
+    %       $\S_i\phi \limplies \S_i\psi$ whenever $\phi \limplies \psi$ is
     %       a propositional tautology
 \end{enumerate}
 \end{proposition}
@@ -417,7 +417,7 @@ true.
         If $\phi \equiv \psi$ then $\propmods{\phi} = \propmods{\psi}$; since
         the semantics for $\S_i\phi$ and $\E_i\phi$ only refer to
         $\propmods{\phi}$ (and likewise for $\psi$), we have that $\S_i\phi
-        \leftrightarrow \S_i\psi$ and $\E_i\phi \leftrightarrow \E_i\psi$
+        \liff \S_i\psi$ and $\E_i\phi \liff \E_i\psi$
         are valid.
 
     \item[\labelcref{kr_item_e_symmetric}.]
@@ -435,11 +435,11 @@ true.
         \propmods{\neg\phi}$. This shows that $\Pi_i[\neg\phi] \subseteq
         \propmods{\neg\phi}$, so $W, c \models \E_i\neg\phi$.
 
-        We have shown that $\E_i\phi \rightarrow \E_i\neg\phi$ is valid. For
-        the converse note that, by symmetry, $\E_i\neg\phi \rightarrow
+        We have shown that $\E_i\phi \limplies \E_i\neg\phi$ is valid. For
+        the converse note that, by symmetry, $\E_i\neg\phi \limplies
         \E_i\neg\neg\phi$ is valid; since $\E_i\neg\neg\phi$ is equivalent to
         $\E_i\phi$ by (\labelcref{kr_item_replacement_equivalents_e_s}) we get
-        $\E_i\phi \leftrightarrow \E_i\neg\phi$.
+        $\E_i\phi \liff \E_i\neg\phi$.
 
         For the second validity, suppose $W, c \models \E_i\phi \land
         \E_i\psi$. Note that
@@ -475,8 +475,8 @@ true.
         %
         Suppose $W, c \models \E_i\phi \land \S_i\phi$. Then $v_c \in
         \Pi_i[\phi] = \propmods{\phi}$, so $W, c \models \phi$. Hence
-        $\E_i\phi \land \S_i\phi \rightarrow \phi$ is valid. Similarly,
-        $\S_i\phi \land \neg\phi \rightarrow \neg \E_i\phi$ is valid.
+        $\E_i\phi \land \S_i\phi \limplies \phi$ is valid. Similarly,
+        $\S_i\phi \land \neg\phi \limplies \neg \E_i\phi$ is valid.
 
     \item[\labelcref{kr_item_sound_neg_pair}.]
         %
@@ -607,11 +607,11 @@ combinations of partition-equivalent worlds.
     \subseteq \vals$, let $\phi_U$ be any propositional sentence with
     $\propmods{\phi_U} = U$. For each $c \in \C$, consider the sentence
     \[
-        \Phi_c = \bigvee_{W' \in S}\left(
+        \Phi_c = \biglor_{W' \in S}\left(
             \phi_{\{v^{W'}_c\}}
             \land
-            \bigwedge_{i \in \srcs}
-                \bigwedge_{U \subseteq \vals}
+            \bigland_{i \in \srcs}
+                \bigland_{U \subseteq \vals}
                     R_{W', i, U}
         \right)
     \]
@@ -945,14 +945,14 @@ belief in expertise) and \emph{belief/knowledge}.
               K^\rho_c$, \closure{} gives $\neg\psi \in K^\rho_c$. Recalling
               from \cref{kr_prop_validities} part
               (\labelcref{kr_item_e_and_s_implies_phi}) that $\S_i\psi \land \neg
-              \psi \rightarrow \neg \E_i\psi$, \closure{} gives $\neg
+              \psi \limplies \neg \E_i\psi$, \closure{} gives $\neg
               \E_i\psi \in K^\rho_c$, as desired.
 
           \item Suppose $\tuple{i, c, \phi} \in \sigma$ and $\E_i\phi \in
                 B^\sigma_c$. By \soundness{} and \containment{}, $\S_i\phi \in
                 B^\sigma_c$. From \cref{kr_prop_validities} part
                 (\labelcref{kr_item_e_and_s_implies_phi}) again we have $\E_i\phi
-                \land \S_i\phi \rightarrow \phi$. By \closure{}, $\phi \in
+                \land \S_i\phi \limplies \phi$. By \closure{}, $\phi \in
                 B^\sigma_c$.
 
     \end{enumerate}
@@ -1954,8 +1954,8 @@ conditioning operator.\footnotemark{}
      example given at the start of this \lcnamecref{kr_sec_score_based}:
      \[
         \sigma = (
-            \tuple{i, c, p \rightarrow q},
-            \tuple{j, c, p \rightarrow \neg q},
+            \tuple{i, c, p \limplies q},
+            \tuple{j, c, p \limplies \neg q},
             \tuple{\ast, c, p},
             \tuple{i, d, p},
             \tuple{i, d, q}
@@ -1968,7 +1968,7 @@ conditioning operator.\footnotemark{}
      decline to decide, and have $\proppart{B^\sigma_c} = \cnprop(p)$. However,
      since \scorebasedop{} takes into account each report in the
      sequence, the fact that $i$ reports both $p$ and $q$ in case $d$ leads to
-     $\E_i{p} \land \E_i{q} \in B^\sigma_c$. This gives $\E_i(p \rightarrow q)
+     $\E_i{p} \land \E_i{q} \in B^\sigma_c$. This gives $\E_i(p \limplies q)
      \in B^\sigma_c$ by \cref{kr_prop_validities} part
      (\labelcref{kr_item_exp_on_all_variables}), so we can make use of the report
      from $i$ in case $c$: we have $\proppart{B^\sigma_c} = \cnprop(p \land
@@ -2980,9 +2980,9 @@ Note that \boundedness{} is obtained as the special case where $H =
     \proppart{B^\sigma_d})$.
     %
     This also has an interesting implication for case $d$: if $\phi \in
-    \proppart{B^\sigma_c}$, then $p \rightarrow \phi \in
+    \proppart{B^\sigma_c}$, then $p \limplies \phi \in
     \proppart{B^\sigma_d}$. This follows since $\beta \in \cnprop(\{\alpha\}
-    \cup \Gamma)$ iff $\alpha \rightarrow \beta \in \cnprop(\Gamma)$ for
+    \cup \Gamma)$ iff $\alpha \limplies \beta \in \cnprop(\Gamma)$ for
     $\alpha, \beta \in \lprop$.
     Intuitively, this says that if $p$ (from $i$) and $q$
     (from $j$) is enough to accept $\phi$ in case $c$, then $\phi$ is
@@ -3216,7 +3216,7 @@ This can be seen as the special case of our framework with a single case $c$:
 for $\Phi$, $\mu$ we consider the sequence $\sigma_{\Phi, \mu}$ where $\ast$
 reports $\mu$ and each source $i$ reports $\phi_i$. Any operator then gives
 rise to a merging operator $\Delta_\mu(\Phi) =
-\bigwedge\proppart{B^{\sigma_{\Phi,\mu}}_c}$. Note that our basic postulates
+\bigland\proppart{B^{\sigma_{\Phi,\mu}}_c}$. Note that our basic postulates
 imply $\Delta_\mu(\Phi) \vdash \mu$ -- the \postulatename{IC0} postulate of
 \textcite{konieczny2002merging}. We leave it to future work to determine which
 other merging postulates hold.
@@ -3251,23 +3251,23 @@ equivalence relation (or equivalently, a partition).
 
 Our previous work~\cite{singleton2021logic} -- in which expertise and soundness
 were introduced in a modal logic framework -- showed that ``expertise
-models" are in 1-to-1 correspondence with S5 models, such that $E(\phi)$
-holds iff $A(\phi \rightarrow K\phi)$ holds in the S5 model, where $A$ is the
+models" are in 1-to-1 correspondence with S5 models, such that $\E{\phi}$
+holds iff $\A(\phi \limplies \K\phi)$ holds in the S5 model, where $\A$ is the
 universal modality. By symmetry of expertise, we can also replace $\phi$ with
 its negation. Thus, expertise has a precise epistemic interpretation: it is the
 ability to \emph{know whether} $\phi$ holds in \emph{any possible state}.
-Similarly, $S(\phi)$ translates to $\neg K \neg \phi$. That is, $\phi$ is sound
+Similarly, $\S\phi$ translates to $\neg\K\neg\phi$. That is, $\phi$ is sound
 exactly when the source does not \emph{know} $\phi$ is false.
 
 In the present framework, if we set
 %
-$W, c \models K_i(\phi)$ iff $\Pi_i[v_c] \subseteq \propmods{\phi}$ and
+$W, c \models \K_i\phi$ iff $\Pi_i[v_c] \subseteq \propmods{\phi}$ and
 %
-$W, c \models A\Phi$ iff $\forall v:\ W_{c=v}, c \models \Phi$,
+$W, c \models \A\Phi$ iff $\forall v:\ W_{c=v}, c \models \Phi$,
 %
 where $W_{c=v}$ is the world obtained from $W$ by setting $v'_c = v$, then we
-have $\E_i\phi \equiv A(\phi \rightarrow K_i(\phi))$ and $\S_i\phi \equiv
-\neg K_i(\neg \phi)$. While $K_i$ is not quite an S5 modality (the \textbf{5}
+have $\E_i\phi \equiv \A(\phi \limplies \K_i\phi)$ and $\S_i\phi \equiv
+\neg \K_i(\neg \phi)$. While $K_i$ is not quite an S5 modality (the \textbf{5}
 axiom requires iterating $K_i$, which is not possible in our framework), this
 shows the fundamental link between expertise, soundness and knowledge.
 
