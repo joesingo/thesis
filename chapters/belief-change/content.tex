@@ -35,7 +35,7 @@ revision~\cite{booth_trust_2018}), which assume information about the
 reliability of sources is known up front. The problem is also related to
 \emph{belief merging}~\cite{konieczny2002merging} which deals
 with combining belief bases from multiple sources; a detailed comparison will
-be given in \cref{sec:relatedwork}.
+be given in \cref{kr_sec_relatedwork}.
 
 Our work is also connected to trust and belief revision, if one interprets
 trust as \emph{belief in expertise}. As \textcite{yasser_21} note in recent work,
@@ -83,7 +83,7 @@ and that experts are always right.
 \footnotetext{
     The relationship between this notion of expertise and \emph{S5 epistemic
     logic} is explored in a modal logic setting in \textcite{singleton2021logic},
-    and we revisit this connection in \cref{sec:relatedwork}.
+    and we revisit this connection in \cref{kr_sec_relatedwork}.
 }
 
 Note that in our introductory example, the fact that we had a report from Dr.\ A
@@ -203,18 +203,18 @@ Finally, we put forward several postulates and two concrete classes of
 operators -- with a representation result for one class -- and analyse these
 operators with respect to the postulates.
 
-\paragraph{Chapter Outline.} In \cref{sec:framework} we develop the formal
-framework. \Cref{sec:the_problem} introduces the problem and lists some core
+\paragraph{Chapter Outline.} In \cref{kr_sec_framework} we develop the formal
+framework. \Cref{kr_sec_the_problem} introduces the problem and lists some core
 postulates. We give two constructions and specific example operators in
-\cref{sec:constructions}. \Cref{sec:one_step_postulates} introduces some
+\cref{kr_sec_constructions}. \Cref{kr_sec_one_step_postulates} introduces some
 further postulates concerning belief change on the basis of one new report. An
 analogue of selective revision~\cite{ferme1999selective} is presented
-\cref{sec:selective_change}. \Cref{sec:relatedwork} discusses related work, and
-we conclude in \cref{sec:conclusion}.
+\cref{kr_sec_selective_change}. \Cref{kr_sec_relatedwork} discusses related work, and
+we conclude in \cref{kr_sec_conclusion}.
 \todo{mention expertise and selectivity?}
 
 \section{The Framework}
-\label{sec:framework}
+\label{kr_sec_framework}
 
 Let $\Srcs$ be a finite set of information sources. For convenience, we assume
 there is a \emph{completely reliable} source in $\Srcs$, which we denote by
@@ -326,7 +326,7 @@ every source $i$. Thus, all sources are experts on \emph{something}, even if
 just the tautologies.
 
 \begin{example}
-    \label{ex:hospital_world}
+    \label{kr_ex_hospital_world}
     Let us extend the hospital example from the introduction. Let $\Srcs = \{\ast,
     a, b\}$ denote the reliable source, Dr.\ A and Dr.\ B, and let $\C = \{c_1,
     c_2\}$ denote patients 1 and 2. Consider propositional variables
@@ -364,63 +364,63 @@ Say $\Phi$ is \emph{valid} if $W, c \models \Phi$ for all $W \in \W$ and $c \in 
 For future reference we collect a list of validities.
 
 \begin{proposition}
-\label{prop:validities}
+\label{kr_prop_validities}
 For any $i \in \Srcs$, $c \in \C$ and $\phi, \psi \in \lprop$, the following
 formulas are valid
 \begin{enumerate}
-    \item \label{item:replacement_equivalents_e_s}
+    \item \label{kr_item_replacement_equivalents_e_s}
           $\S_i\phi \leftrightarrow \S_i\psi$ and $\E_i\phi \leftrightarrow
           \E_i\psi$, whenever $\phi \equiv \psi$
-    \item \label{item:e_symmetric}
+    \item \label{kr_item_e_symmetric}
           $\E_i\phi \leftrightarrow \E_i\neg\phi$ and $\E_i\phi \land
           \E_i\psi \rightarrow \E_i(\phi \land \psi)$
-    \item \label{item:exp_on_all_variables} $\E_i{p_1} \land \cdots \land
+    \item \label{kr_item_exp_on_all_variables} $\E_i{p_1} \land \cdots \land
           \E_i{p_k} \rightarrow \E_i\phi$, where $p_1, \ldots, p_k$ are the
           propositional variables appearing in $\phi$
-    \item \label{item:e_and_s_implies_phi}
+    \item \label{kr_item_e_and_s_implies_phi}
           $\E_i\phi \land \S_i\phi \rightarrow \phi$, and
           $\S_i\phi \land \neg \phi \rightarrow \neg \E_i\phi$
-    \item \label{item:sound_neg_pair}
+    \item \label{kr_item_sound_neg_pair}
           $\S_i\phi \land \S_i{\neg \phi} \rightarrow \neg \E_i\phi$
-    \item \label{item:star_exp}
+    \item \label{kr_item_star_exp}
           $\S_\ast{\phi} \leftrightarrow \phi$ and $\E_\ast\phi$
-    % \item \label{item:soundness_weakening}
+    % \item \label{kr_item_soundness_weakening}
     %       $\S_i\phi \rightarrow \S_i\psi$ whenever $\phi \rightarrow \psi$ is
     %       a propositional tautology
 \end{enumerate}
 \end{proposition}
 
 We comment on each property before giving the proof.
-(\labelcref{item:replacement_equivalents_e_s}) states syntax-irrelevance
+(\labelcref{kr_item_replacement_equivalents_e_s}) states syntax-irrelevance
 properties.
 %
-(\labelcref{item:e_symmetric}) says that expertise is symmetric with respect to
+(\labelcref{kr_item_e_symmetric}) says that expertise is symmetric with respect to
 negation, and closed under conjunctions. Intuitively, symmetry means that $i$
 is an expert on $\phi$ if they know \emph{whether or not} $\phi$ holds.
 %
-(\labelcref{item:exp_on_all_variables}) says that expertise on each
+(\labelcref{kr_item_exp_on_all_variables}) says that expertise on each
 propositional variable in $\phi$ is sufficient for expertise on $\phi$ itself.
 %
-(\labelcref{item:e_and_s_implies_phi}) says that, in the presence of expertise,
+(\labelcref{kr_item_e_and_s_implies_phi}) says that, in the presence of expertise,
 soundness of $\phi$ is sufficient for $\phi$ to in fact be true.
 %
-(\labelcref{item:sound_neg_pair}) says that if both $\phi$ and $\neg\phi$ are
+(\labelcref{kr_item_sound_neg_pair}) says that if both $\phi$ and $\neg\phi$ are
 true up to the expertise of $i$, then $i$ cannot have expertise on $\phi$.
 %
-Finally, (\labelcref{item:star_exp}) says that the reliable source $\ast$ has
+Finally, (\labelcref{kr_item_star_exp}) says that the reliable source $\ast$ has
 expertise on \emph{all} formulas, and thus $\phi$ is sound for $\ast$ iff it is
 true.
 
 \begin{proof}\leavevmode
 \begin{itemize}
-    \item[\labelcref{item:replacement_equivalents_e_s}.]
+    \item[\labelcref{kr_item_replacement_equivalents_e_s}.]
         If $\phi \equiv \psi$ then $\propmods(\phi) = \propmods(\psi)$; since
         the semantics for $\S_i\phi$ and $\E_i\phi$ only refer to
         $\propmods(\phi)$ (and likewise for $\psi$), we have that $\S_i\phi
         \leftrightarrow \S_i\psi$ and $\E_i\phi \leftrightarrow \E_i\psi$
         are valid.
 
-    \item[\labelcref{item:e_symmetric}.]
+    \item[\labelcref{kr_item_e_symmetric}.]
         For the first validity, suppose $W, c \models \E_i\phi$. Then
         $\propmods(\phi) = \Pi_i[\phi]$. We show $W, c \models \E_i\neg\phi$.
         Indeed, take $v \in \Pi_i[\neg\phi]$. Then there is $v' \in
@@ -438,7 +438,7 @@ true.
         We have shown that $\E_i\phi \rightarrow \E_i\neg\phi$ is valid. For
         the converse note that, by symmetry, $\E_i\neg\phi \rightarrow
         \E_i\neg\neg\phi$ is valid; since $\E_i\neg\neg\phi$ is equivalent to
-        $\E_i\phi$ by (\labelcref{item:replacement_equivalents_e_s}) we get
+        $\E_i\phi$ by (\labelcref{kr_item_replacement_equivalents_e_s}) we get
         $\E_i\phi \leftrightarrow \E_i\neg\phi$.
 
         For the second validity, suppose $W, c \models \E_i\phi \land
@@ -457,7 +457,7 @@ true.
         \]
         which shows $W, c \models \E_i(\phi \land \psi)$.
 
-    \item[\labelcref{item:exp_on_all_variables}.]
+    \item[\labelcref{kr_item_exp_on_all_variables}.]
         %
         Let $\phi$ be a propositional formula, and let $p_1, \ldots, p_k$ be
         the variables appearing in $\phi$. Let $\widehat{\lprop} \subseteq
@@ -466,32 +466,32 @@ true.
         \widehat{\lprop}$ with $\phi \equiv \psi$.
 
         Suppose $W, c \models \E_i{p_1} \land \cdots \land \E_i{p_k}$. By this
-        assumption and the properties in (\labelcref{item:e_symmetric}),
+        assumption and the properties in (\labelcref{kr_item_e_symmetric}),
         one can show by induction that $W, c \models \E_i{\theta}$ for all
         $\theta \in \widehat{\lprop}$. In particular, $W, c \models \E_i\psi$.
         Since $\phi \equiv \psi$, we get $W, c \models \E_i\phi$.
 
-    \item[\labelcref{item:e_and_s_implies_phi}.]
+    \item[\labelcref{kr_item_e_and_s_implies_phi}.]
         %
         Suppose $W, c \models \E_i\phi \land \S_i\phi$. Then $v_c \in
         \Pi_i[\phi] = \propmods(\phi)$, so $W, c \models \phi$. Hence
         $\E_i\phi \land \S_i\phi \rightarrow \phi$ is valid. Similarly,
         $\S_i\phi \land \neg\phi \rightarrow \neg \E_i\phi$ is valid.
 
-    \item[\labelcref{item:sound_neg_pair}.]
+    \item[\labelcref{kr_item_sound_neg_pair}.]
         %
         Suppose $W, c \models \S_i\phi \land \S_i\neg\phi$, and, for
         contradiction, $W, c \models \E_i\phi$. On the one hand we have $W, c
         \models \E_i\phi \land \S_i\phi$, so
-        (\labelcref{item:e_and_s_implies_phi}) gives $W, c \models \phi$. On
+        (\labelcref{kr_item_e_and_s_implies_phi}) gives $W, c \models \phi$. On
         the other hand, $W, c \models \E_i\phi$ gives $W, c \models
-        \E_i\neg\phi$ by (\labelcref{item:e_symmetric}), so $W, c \models
+        \E_i\neg\phi$ by (\labelcref{kr_item_e_symmetric}), so $W, c \models
         \E_i\neg\phi \land \S_i\neg\phi$; by
-        (\labelcref{item:e_and_s_implies_phi}) again we have $W, c \models
+        (\labelcref{kr_item_e_and_s_implies_phi}) again we have $W, c \models
         \neg\phi$. But then $W, c \models \phi \land \neg\phi$ --
         contradiction.
 
-    \item[\labelcref{item:star_exp}.]
+    \item[\labelcref{kr_item_star_exp}.]
         %
         Since the distinguished source $\ast$ has the unit partition $\Pi_\ast$
         in any world $W$, we have $\Pi_\ast[\phi] = \propmods(\phi)$, so $W, c
@@ -526,10 +526,10 @@ for the collection $\{\cn_c(G)\}_{c \in \C}$.
     Suppose $\C = \{c_1, c_2, c_3\}$, and define $G$ by $\Gamma_{c_1} = \{\S_i(p
     \land q)\}$, $\Gamma_{c_2} = \{\E_i{p}\}$ and $\Gamma_{c_3} = \{\E_i{q}\}$.
     Then, since expertise holds independently of case, any model $W$ of $G$ has
-    $W, c_1 \models \E_i{p} \land \E_i{q}$. By \cref{prop:validities} part
-    (\labelcref{item:exp_on_all_variables}), $W, c_1 \models \E_i(p \land q)$.
-    Since $W$ satisfies $\Gamma_{c_1}$ in case $c_1$, \cref{prop:validities}
-    part (\labelcref{item:e_and_s_implies_phi}) gives $W, c_1 \models p \land
+    $W, c_1 \models \E_i{p} \land \E_i{q}$. By \cref{kr_prop_validities} part
+    (\labelcref{kr_item_exp_on_all_variables}), $W, c_1 \models \E_i(p \land q)$.
+    Since $W$ satisfies $\Gamma_{c_1}$ in case $c_1$, \cref{kr_prop_validities}
+    part (\labelcref{kr_item_e_and_s_implies_phi}) gives $W, c_1 \models p \land
     q$. Since $W$ was an arbitrary model of $G$, we have $p \land q \in
     \cn_{c_1}(G)$, i.e. $p \land q$ is a $c_1$-consequence of $G$.
     %
@@ -592,7 +592,7 @@ v^{W_c}_c$.  Then a set is elementary iff it is closed under valuation
 combinations of partition-equivalent worlds.
 
 \begin{proposition}
-\label{prop:elementary_characterisation}
+\label{kr_prop_elementary_characterisation}
     $S \subseteq \W$ is elementary if and only if the following condition
     holds: for all $W \in \W$ and $W_1, W_2 \in S$, if $W$ is
     partition-equivalent to both $W_1, W_2$ and $W$ is a valuation combination
@@ -627,12 +627,12 @@ combinations of partition-equivalent worlds.
     \Gamma_c$. Hence $W \in \mod(G)$ implies $W, c \models \Phi_c$ for each $c$.
     Consequently, for each $c$ there is some $W_c \in S$ such that
     \begin{inlinelist}
-        \item \label{item:vals_equal} $v^W_c = v^{W_c}_c$; and
-        \item \label{item:partition_equiv} for each $i \in \Srcs$ and $U \subseteq
+        \item \label{kr_item_vals_equal} $v^W_c = v^{W_c}_c$; and
+        \item \label{kr_item_partition_equiv} for each $i \in \Srcs$ and $U \subseteq
               V$, $W, c \models \E_i{\phi_U}$ iff $W_c, c \models \E_i{\phi_U}$.
     \end{inlinelist}
-    From \ref{item:vals_equal}, $W$ is a valuation combination from $\{W_c\}_{c
-    \in \C}$. From \ref{item:partition_equiv} it can be shown that in fact
+    From \ref{kr_item_vals_equal}, $W$ is a valuation combination from $\{W_c\}_{c
+    \in \C}$. From \ref{kr_item_partition_equiv} it can be shown that in fact
     $\Pi^W_i = \Pi^{W_c}_i$ for each $c$ and $i$; that is, $W$ is
     partition-equivalent to each $W_c$. In particular, all the $W_c$ are
     partition-equivalent to each other.
@@ -646,7 +646,7 @@ combinations of partition-equivalent worlds.
 
     ``only if": Suppose $S$ is elementary, i.e. $S = \mod(G)$ for some
     collection $G = \{\Gamma_c\}_{c \in \C}$, and let $W, W_1, W_2$ be as in
-    the statement of the \lcnamecref{prop:elementary_characterisation}. Take $c
+    the statement of the \lcnamecref{kr_prop_elementary_characterisation}. Take $c
     \in \C$ and $\Phi \in \Gamma_c$. We will show $W, c \models \Phi$. By assumption,
     there is $n \in \{1, 2\}$ such that $v^W_c = v^{W_n}_c$. It can be shown by
     induction on $\lext$ formulas that, since $W$ and $W_n$ are
@@ -659,7 +659,7 @@ combinations of partition-equivalent worlds.
 \end{proof}
 
 \section{The Problem}
-\label{sec:the_problem}
+\label{kr_sec_the_problem}
 
 With the framework set out, we can formally define the problem. We
 seek an operator with the following behaviour:
@@ -680,7 +680,7 @@ seek an operator with the following behaviour:
 \end{itemize}
 
 %\begin{example}
-%    \label{ex:most_basic_example}
+%    \label{kr_ex_most_basic_example}
 
 %    \todo{Make sure this example links back to the informal one in the
 %    introduction, and discuss knowledge before belief}
@@ -702,13 +702,13 @@ seek an operator with the following behaviour:
 %    expertise on $p$. Under the assumption that sources are honest, we do
 %    however know that both cannot be experts: $\neg(\E_i{p} \land \E_j{p}) \in
 %    K^\sigma_c$.\footnote{This will in fact follow from the \closure{} and
-%    \soundness{} postulates we introduce in \cref{sec:basic_postulates}.}
+%    \soundness{} postulates we introduce in \cref{kr_sec_basic_postulates}.}
 
 %\end{example}
 
 %\begin{example}
-%    \label{ex:most_basic_example_extended}
-%    Consider an extension of \cref{ex:most_basic_example}: set
+%    \label{kr_ex_most_basic_example_extended}
+%    Consider an extension of \cref{kr_ex_most_basic_example}: set
 %    $
 %        \sigma = (
 %            \tuple{i, c, p}, \tuple{j, c, \neg p}, \tuple{i, d, p},
@@ -729,7 +729,7 @@ seek an operator with the following behaviour:
 %\end{example}
 
 \subsection{Basic Postulates}
-\label{sec:basic_postulates}
+\label{kr_sec_basic_postulates}
 
 We immediately narrow the scope of operators under consideration by introducing
 some basic postulates which are expected to hold. In what follows, say a
@@ -782,8 +782,8 @@ we are not in the degenerate case where $\ast$ gives inconsistent reports.
 %
 \soundness{} says we \emph{know} that all reports are sound in their respective
 cases. This formalises our assumption that sources are \emph{honest}, i.e. that
-false reports only arise due to lack of expertise. By \cref{prop:validities}
-part (\labelcref{item:e_and_s_implies_phi}) it also implies \emph{experts are
+false reports only arise due to lack of expertise. By \cref{kr_prop_validities}
+part (\labelcref{kr_item_e_and_s_implies_phi}) it also implies \emph{experts are
 always right}: if a source has expertise on their report then it must be true.
 %
 While \soundness{} places a lower bound on knowledge, \kbound{} places an upper
@@ -815,7 +815,7 @@ Taking all the basic postulates together, the knowledge component $K^\sigma$ is
 fully determined once $K^\emptyset$ is chosen.
 
 \begin{proposition}
-    \label{prop:prior_knowledge}
+    \label{kr_prop_prior_knowledge}
     Suppose an operator satisfies the basic postulates. Then
     \begin{enumerate}
         \item $K^\sigma = \cn(G^\sigma_\snd \sqcup K^\emptyset)$
@@ -883,13 +883,13 @@ knowledge: a formula should only be accepted as known if it won't be given up
 in light of new information.
 
 \begin{proposition}
-    \label{prop:kconj}
+    \label{kr_prop_kconj}
     Any operator satisfying the basic postulates satisfies \kconj{}.
 \end{proposition}
 
 \begin{proof}
     Suppose an operator satisfies the basic postulates, and take sequences
-    $\sigma$ and $\rho$. By \cref{prop:prior_knowledge},
+    $\sigma$ and $\rho$. By \cref{kr_prop_prior_knowledge},
     \[
         K^{\sigma \concat \rho}
         =
@@ -902,7 +902,7 @@ in light of new information.
         &= \cn(G^\sigma_\snd \sqcup G^\rho_\snd \sqcup K^\emptyset) \\
         &= \cn((G^\sigma_\snd \sqcup K^\emptyset) \sqcup (G^\rho_\snd \sqcup K^\emptyset))
     \end{align*}
-    By \cref{prop:prior_knowledge} again, we have $K^\sigma = \cn(G^\sigma_\snd
+    By \cref{kr_prop_prior_knowledge} again, we have $K^\sigma = \cn(G^\sigma_\snd
     \sqcup K^\emptyset)$ and $K^\rho = \cn(G^\rho_\snd \sqcup K^\emptyset)$. It
     is easily verified that for any collections $G, D$, we have
     \[
@@ -921,13 +921,13 @@ The postulates also imply some useful properties linking \emph{trust} (seen as
 belief in expertise) and \emph{belief/knowledge}.
 
 \begin{proposition}
-    \label{prop:basic_postulates_consequences}
+    \label{kr_prop_basic_postulates_consequences}
     Suppose an operator satisfies the basic postulates. Then
     \begin{enumerate}
-        \item \label{item:knowledge_trust_link} If $\phi \in K^\sigma_c$ and
+        \item \label{kr_item_knowledge_trust_link} If $\phi \in K^\sigma_c$ and
               $\neg\psi \in \cnprop(\phi)$ then $\neg \E_i\psi \in K^{\sigma
               \concat \tuple{i, c, \psi}}_c$.
-        \item \label{item:trust_belief_link} If $\tuple{i, c, \phi} \in
+        \item \label{kr_item_trust_belief_link} If $\tuple{i, c, \phi} \in
               \sigma$ and $\E_i\phi \in B^\sigma_c$ then $\phi \in
               B^\sigma_c$.
     \end{enumerate}
@@ -943,33 +943,33 @@ belief in expertise) and \emph{belief/knowledge}.
               \subseteq \cn_c(K^\sigma \sqcup K^{\tuple{i, c, \psi}}) =
               K^\rho_c$. Since $\neg\psi \in \cnprop(\phi)$ and $\phi \in
               K^\rho_c$, \closure{} gives $\neg\psi \in K^\rho_c$. Recalling
-              from \cref{prop:validities} part
-              (\labelcref{item:e_and_s_implies_phi}) that $\S_i\psi \land \neg
+              from \cref{kr_prop_validities} part
+              (\labelcref{kr_item_e_and_s_implies_phi}) that $\S_i\psi \land \neg
               \psi \rightarrow \neg \E_i\psi$, \closure{} gives $\neg
               \E_i\psi \in K^\rho_c$, as desired.
 
           \item Suppose $\tuple{i, c, \phi} \in \sigma$ and $\E_i\phi \in
                 B^\sigma_c$. By \soundness{} and \containment{}, $\S_i\phi \in
-                B^\sigma_c$. From \cref{prop:validities} part
-                (\labelcref{item:e_and_s_implies_phi}) again we have $\E_i\phi
+                B^\sigma_c$. From \cref{kr_prop_validities} part
+                (\labelcref{kr_item_e_and_s_implies_phi}) again we have $\E_i\phi
                 \land \S_i\phi \rightarrow \phi$. By \closure{}, $\phi \in
                 B^\sigma_c$.
 
     \end{enumerate}
 \end{proof}
 
-(\labelcref{item:knowledge_trust_link}) expresses how knowledge can negatively
+(\labelcref{kr_item_knowledge_trust_link}) expresses how knowledge can negatively
 affect trust: we should distrust sources who make reports we know to be false.
-(\labelcref{item:trust_belief_link}) expresses how trust affects belief: we
+(\labelcref{kr_item_trust_belief_link}) expresses how trust affects belief: we
 should believe reports from trusted sources.
 It can also be seen as a form of \emph{success} for ordinary sources, and
-implies AGM success when $i = \ast$ (by \cref{prop:validities} part
-(\labelcref{item:star_exp}) and \closure{}). We illustrate the basic postulates
+implies AGM success when $i = \ast$ (by \cref{kr_prop_validities} part
+(\labelcref{kr_item_star_exp}) and \closure{}). We illustrate the basic postulates
 by formalising the introductory hospital example.
 
 \begin{example}
-    \label{ex:hospital_ex_formalised}
-    Set $\Srcs, \C$ and $\propvars$ as in \cref{ex:hospital_world}, and consider
+    \label{kr_ex_hospital_ex_formalised}
+    Set $\Srcs, \C$ and $\propvars$ as in \cref{kr_ex_hospital_world}, and consider
     the sequence
     \[
         \sigma
@@ -981,12 +981,12 @@ by formalising the introductory hospital example.
         ).
     \]
     What do we know on the basis of this sequence, assuming the basic
-    postulates? First note that by \soundness{}, \cref{prop:validities}
-    part (\labelcref{item:star_exp}) and \closure{}, the report from $\ast$ gives $x
+    postulates? First note that by \soundness{}, \cref{kr_prop_validities}
+    part (\labelcref{kr_item_star_exp}) and \closure{}, the report from $\ast$ gives $x
     \in K^\sigma_{c_1}$, i.e. reliable reports are known. \soundness{} also
     gives $\S_a{x} \land \S_b{\neg x} \in K^\sigma_{c_2}$. Combined with
-    \cref{prop:validities} parts (\labelcref{item:e_symmetric}),
-    (\labelcref{item:e_and_s_implies_phi}) and \closure{}, this yields
+    \cref{kr_prop_validities} parts (\labelcref{kr_item_e_symmetric}),
+    (\labelcref{kr_item_e_and_s_implies_phi}) and \closure{}, this yields
     $\neg(\E_a{x} \land \E_b{x}) \in K^\sigma_c$ for all $c$, formalising the
     intuitive idea that Drs.\ A and B cannot both be experts on X, since they
     give conflicting reports.
@@ -1004,8 +1004,8 @@ by formalising the introductory hospital example.
     that at least one source has expertise on $x$ (i.e. $\E_a{x} \lor \E_b{x} \in
     B^\sigma_c$).  Combined with $\neg \E_a{x} \in K^\sigma_c$, \closure{} and
     \containment{}, we get $\E_b{x} \in B^\sigma_{c_2}$. Symmetry of expertise
-    together with \cref{prop:basic_postulates_consequences} part
-    (\labelcref{item:trust_belief_link}) then gives $\neg x \in
+    together with \cref{kr_prop_basic_postulates_consequences} part
+    (\labelcref{kr_item_trust_belief_link}) then gives $\neg x \in
     B^\sigma_{c_2}$, i.e. we trust Dr.\ B in the example and believe patient 2
     does not suffer from condition X.
 
@@ -1019,7 +1019,7 @@ specify $K^\sigma$ and $B^\sigma$ in semantic terms by selecting a set of
 We call such operators \emph{model-based}.
 
 \begin{definition}
-\label{def:model_based}
+\label{kr_def_model_based}
 An operator is \emph{model-based} if for every $\sigma$ there
 are sets $\X_\sigma, \Y_\sigma \subseteq \W$ such that
 \begin{inlinelist}
@@ -1040,7 +1040,7 @@ follows from the relevant definitions that $\X_\sigma \subseteq
 Model-based operators are characterised by our first two basic postulates.
 
 \begin{theorem}
-\label{thm:model_based_characterisation}
+\label{kr_thm_model_based_characterisation}
 An operator satisfies \closure{} and \containment{} if and only if it
 is model-based.
 \end{theorem}
@@ -1073,7 +1073,7 @@ so $K^\sigma \sqsubseteq B^\sigma$.
 \[
     \Y_\sigma = \mods(B^\sigma)
 \]
-We show the three properties required in \cref{def:model_based}.  $\X_\sigma
+We show the three properties required in \cref{kr_def_model_based}.  $\X_\sigma
 \supseteq \Y_\sigma$ follows from \containment{} and the definition of a
 model of a collection. For the second property, note that $\Phi \in K^\sigma_c$
 iff $\Phi \in \cn_c(K^\sigma)$ by \closure{}, i.e. iff $\mods(K^\sigma)
@@ -1088,7 +1088,7 @@ operators we consider from now on will be model-based.
 We introduce our first concrete operator.
 
 \begin{definition}
-    \label{def:weakop}
+    \label{kr_def_weakop}
     Define the model-based operator \weakop{} by
     \[
         \X_\sigma = \Y_\sigma = \{
@@ -1107,7 +1107,7 @@ Syntactically, $K^\sigma = B^\sigma = \cn(G^\sigma_\snd)$.
 
 Clearly \weakop{} satisfies \soundness{}, and one
 can show that it satisfies all of the basic postulates of
-\cref{sec:basic_postulates}.\footnotemark In fact, it is the \emph{weakest}
+\cref{kr_sec_basic_postulates}.\footnotemark In fact, it is the \emph{weakest}
 operator satisfying \closure{}, \containment{} and \soundness{}, in that
 for any other operator $\sigma \mapsto \tuple{\hat{B}^\sigma,
 \hat{K}^\sigma}$ with these properties we have $B^\sigma \sqsubseteq
@@ -1121,13 +1121,13 @@ for any other operator $\sigma \mapsto \tuple{\hat{B}^\sigma,
 }
 
 \begin{example}
-\label{ex:model_based}
+\label{kr_ex_model_based}
     Consider \weakop{} applied to the sequence
     $
         \sigma
         = (\tuple{\ast, c, p}, \tuple{i, c, \neg p \land q})
     $.
-    By \soundness{}, \closure{} and the validities from \cref{prop:validities},
+    By \soundness{}, \closure{} and the validities from \cref{kr_prop_validities},
     we have $p \in K^\sigma_c$ and $\neg \E_i{p} \in K^\sigma_c$. In fact, by
     \closure{}, we
     have $\neg \E_i{p} \in K^\sigma_d$ for all cases $d$.
@@ -1138,9 +1138,9 @@ for any other operator $\sigma \mapsto \tuple{\hat{B}^\sigma,
 \end{example}
 
 \section{Constructions}
-\label{sec:constructions}
+\label{kr_sec_constructions}
 
-For model-based operators in \Cref{def:model_based}, the sets $\X_\sigma$ and
+For model-based operators in \Cref{kr_def_model_based}, the sets $\X_\sigma$ and
 $\Y_\sigma$ -- which determine knowledge and belief -- can
 depend on $\sigma$ in a completely arbitrary manner. This lack of structure
 leads to very wide class of operators, and one cannot say much about them in
@@ -1148,7 +1148,7 @@ general beyond the satisfaction of \closure{} and \containment{}. In this
 section we specialise model-based operators by providing two constructions.
 
 \subsection{Conditioning Operators}
-\label{sec:conditioning_operators}
+\label{kr_sec_conditioning_operators}
 
 Intuitively, $\Y_\sigma$ is supposed to represent the \emph{most
 plausible} worlds among the possible worlds in $\X_\sigma$. This suggests the
@@ -1163,10 +1163,10 @@ obtain $\Y_\sigma$ by selecting the minimal (i.e. most plausible) worlds.
 }
 
 \begin{definition}
-\label{def:conditioning_operator}
+\label{kr_def_conditioning_operator}
 An operator is a \emph{conditioning operator} if there is a total
 preorder $\le$ on $\W$ and a mapping $\sigma \mapsto \tuple{\X_\sigma,
-\Y_\sigma}$ as in \cref{def:model_based} such that
+\Y_\sigma}$ as in \cref{kr_def_model_based} such that
 $
     \Y_\sigma = \min_{\le}{\X_\sigma}
 $
@@ -1184,9 +1184,9 @@ Write $W \simeq W'$ iff both $W \le W'$ and $W' \le W$.
 We now present examples of how such an ordering can be defined.
 
 \begin{definition}
-    \label{def:varbasedcond}
+    \label{kr_def_varbasedcond}
     Define the conditioning operator \varbasedcond{} by setting
-    $\X_\sigma$ in the same way as \weakop{} in \cref{def:weakop}, and $W \le
+    $\X_\sigma$ in the same way as \weakop{} in \cref{kr_def_weakop}, and $W \le
     W'$ iff $r(W) \le r(W')$, where
     \[
         r(W) = - \sum_{i \in \Srcs}\left|\left\{
@@ -1202,13 +1202,13 @@ variables} as possible. One can check that \varbasedcond{} satisfies the
 basic postulates.
 
 \begin{example}
-    \label{ex:conditioning_operator}
+    \label{kr_ex_conditioning_operator}
     Revisiting the sequence
     $
         \sigma
         = (\tuple{\ast, c, p}, \tuple{i, c, \neg p \land q})
     $
-    from \cref{ex:model_based} with \varbasedcond{}, the knowledge set
+    from \cref{kr_ex_model_based} with \varbasedcond{}, the knowledge set
     $K^\sigma_c$ is the same as before, but we now have $q \land \E_i{q} \in
     B^\sigma_c$. This reflects the ``credulous'' behaviour of the ranking
     $\le$: while it is not possible to believe $i$ is an expert on $p$, we
@@ -1236,7 +1236,7 @@ role. As expected, \partbasedcond{} satisfies the basic postulates.
 
 \begin{example}
     Applying \partbasedcond{} to $\sigma$ from
-    \cref{ex:model_based,ex:conditioning_operator}, we no longer extract $q$
+    \cref{kr_ex_model_based,kr_ex_conditioning_operator}, we no longer extract $q$
     from the report of $i$: $q \notin B^\sigma_c$ and $\E_i{q} \notin
     B^\sigma_c$. Instead, we have $\proppart{B^\sigma_c} = \cnprop(p)$, and
     $\E_i(p \lor q) \in B^\sigma_c$.
@@ -1262,7 +1262,7 @@ Since $\preceq$ is only a partial order on $\W$ there are many possible total
 extensions; \varbasedcond{} and \partbasedcond{} provide two specific examples.
 
 We now turn to an axiomatic characterisation of conditioning operators.
-Taken with the basic postulates from \cref{sec:basic_postulates},
+Taken with the basic postulates from \cref{kr_sec_basic_postulates},
 conditioning operators can be characterised using an approach similar to that of
 \textcite{delgrande2018general} in their account of \emph{generalised AGM belief
 revision}.\footnotemark{} This involves a technical property
@@ -1304,7 +1304,7 @@ which rules out cycles in the plausibility order
 constructed in the representation result.
 
 As with the result of \citeauthor{delgrande2018general}, a technical condition beyond
-\cref{def:conditioning_operator} is required to obtain the characterisation:
+\cref{kr_def_conditioning_operator} is required to obtain the characterisation:
 say that a conditioning operator is \emph{elementary} if for each $\sigma$ the
 sets of worlds $\X_\sigma$ and $\Y_\sigma = \min_{\le}\X_\sigma$ are
 elementary.\footnotemark{}
@@ -1315,9 +1315,9 @@ elementary.\footnotemark{}
 }
 
 \begin{theorem}
-    \label{thm:conditioning_characterisation}
+    \label{kr_thm_conditioning_characterisation}
     Suppose an operator satisfies the basic postulates of
-    \cref{sec:basic_postulates}.\footnotemark{} Then it is an elementary
+    \cref{kr_sec_basic_postulates}.\footnotemark{} Then it is an elementary
     conditioning operator if and only if it satisfies \duprem{},
     \condcons{}, \incvac{} and \acyc{}.
 
@@ -1333,7 +1333,7 @@ differences arise due to the form of our input as finite sequences of reports.
 First, we need a preliminary result.
 
 \begin{lemma}
-\label{lemma:model_based_elementary}
+\label{kr_lemma_model_based_elementary}
     For any model-based operator and sequence $\sigma$, $\X_\sigma =
     \mod(K^\sigma)$ iff $\X_\sigma$ is elementary, and $\Y_\sigma =
     \mod(B^\sigma)$ iff $\Y_\sigma$ is elementary.
@@ -1349,11 +1349,11 @@ Consequently $\mod(K^\sigma) = \mod(\cn(G)) = \mod(G) = \X_\sigma$.
 \end{proof}
 
 We will prove the following result -- slightly more general than
-\cref{thm:conditioning_characterisation} -- from which
-\cref{thm:conditioning_characterisation} immediately follows.
+\cref{kr_thm_conditioning_characterisation} -- from which
+\cref{kr_thm_conditioning_characterisation} immediately follows.
 
 \begin{proposition}
-    \label{prop:conditioning_pre_characterisation}
+    \label{kr_prop_conditioning_pre_characterisation}
     Suppose an operator satisfies \closure{}, \containment{},
     \kconj{} and \equivpost{}. Then it is an elementary
     conditioning operator if and only if it satisfies \rearr{},
@@ -1374,7 +1374,7 @@ Take some operator $\sigma \mapsto \tuple{B^\sigma, K^\sigma}$ satisfying
 \[ \X_\sigma = \mods(K^\sigma) \] \[ \Y_\sigma = \mods(B^\sigma) \]
 %
 Then -- by \closure{} and \containment{} as shown in the proof of
-\cref{thm:model_based_characterisation} -- our operator is model based
+\cref{kr_thm_model_based_characterisation} -- our operator is model based
 corresponding to this choice of $\X_\sigma$ and $\Y_\sigma$. Clearly both are
 elementary. We will construct a total preorder $\le$ over $\W$ such that
 $\Y_\sigma = \min_{\le}{\X_\sigma}$; this will show the operator is an
@@ -1409,7 +1409,7 @@ $\rho(W_1, W_2)$ be some enumeration of $\reports(W_1) \cap \reports(W_2)$. We
 establish some useful properties of $\rho(W_1, W_2)$.
 
     \begin{claim}
-        \label{claim:w_j_in_rho}
+        \label{kr_claim_w_j_in_rho}
         If $\rho(W_1, W_2) \ne \emptyset$, $W_1, W_2 \in \X_{\rho(W_1, W_2)}$.
     \end{claim}
     \begin{proof}
@@ -1428,7 +1428,7 @@ establish some useful properties of $\rho(W_1, W_2)$.
     \end{proof}
 
     \begin{claim}
-        \label{claim:exists_delta}
+        \label{kr_claim_exists_delta}
         If a sequence $\sigma$ contains no equivalent reports (i.e. no distinct
         tuples $\tuple{i, c, \phi}$, $\tuple{i, c, \psi}$ with $\phi \equiv
         \psi$) and $W_1, W_2 \in \X_\sigma$, there is a sequence $\delta$ such
@@ -1438,7 +1438,7 @@ establish some useful properties of $\rho(W_1, W_2)$.
     \begin{proof}
         If $\sigma = \emptyset$ then we can simply take $\delta = \rho(W_1,
         W_2)$. So suppose $\sigma \ne \emptyset$. By the same argument as in
-        the proof of \cref{claim:w_j_in_rho}, we have
+        the proof of \cref{kr_claim_w_j_in_rho}, we have
         \[
             \X_\sigma = \bigcap_{\tuple{i, c, \phi} \in \sigma}{\X_{\tuple{i, c,
             \phi}}}
@@ -1462,7 +1462,7 @@ establish some useful properties of $\rho(W_1, W_2)$.
         permutation of $\widehat{\sigma} \concat \delta$. Since $\sigma \ne
         \emptyset$ implies $\widehat{\sigma} \ne \emptyset$ and thus $\rho(W_1,
         W_2) \ne \emptyset$, by \rearr{}, \kconj{} and
-        \cref{claim:w_j_in_rho} we get
+        \cref{kr_claim_w_j_in_rho} we get
         \[
             W_1, W_2 \in \X_{\rho(W_1, W_2)}
             = \X_{\widehat{\sigma} \concat \delta}
@@ -1479,7 +1479,7 @@ Now define a relation $R$ on $\W$ by
 We have that any world in $\Y_\sigma$ $R$-precedes all worlds $\X_\sigma$.
 
     \begin{claim}
-        \label{claim:y_subset_minimal}
+        \label{kr_claim_y_subset_minimal}
         If $W \in \Y_\sigma$, then for all $W' \in \X_\sigma$ we have $W R W'$
     \end{claim}
     \begin{proof}
@@ -1488,7 +1488,7 @@ We have that any world in $\Y_\sigma$ $R$-precedes all worlds $\X_\sigma$.
         $\sigma$ contains no distinct equivalent reports.
 
         Let $W \in \Y_\sigma$ and $W' \in \X_\sigma$. Then $W \in \X_\sigma$
-        too. By \cref{claim:exists_delta} and \rearr{}, there is
+        too. By \cref{kr_claim_exists_delta} and \rearr{}, there is
         some sequence $\delta$ such that $\Y_{\rho(W, W')} =
         \Y_{\widehat{\sigma} \concat \delta}$ and $W, W' \in \X_\delta$.
         Consequently $W \in \Y_\sigma \cap \X_\delta = \Y_{\widehat{\sigma}}
@@ -1509,11 +1509,11 @@ We have that any world in $\Y_\sigma$ $R$-precedes all worlds $\X_\sigma$.
     \end{proof}
 
 Now let $\le_0$ be the transitive closure of $R$. Then $\le_0$ is a (partial)
-preorder. By \cref{claim:y_subset_minimal}, every world in $\Y_\sigma$ is
+preorder. By \cref{kr_claim_y_subset_minimal}, every world in $\Y_\sigma$ is
 $\le_0$-minimal in $\X_\sigma$. In fact, the converse is also true.
 
     \begin{claim}
-        \label{claim:minimal_subset_y}
+        \label{kr_claim_minimal_subset_y}
         If $W \in \X_\sigma$ and there is no $W' \in \X_\sigma$ with $W' <_0
         W$, then $W \in \Y_\sigma$.
     \end{claim}
@@ -1524,7 +1524,7 @@ $\le_0$-minimal in $\X_\sigma$. In fact, the converse is also true.
         Take $W$ as in the statement of the claim. Then $\X_\sigma \ne
         \emptyset$, so $\Y_\sigma \ne \emptyset$ by
         \condcons{}. Let $W' \in \Y_\sigma$.  By
-        \cref{claim:y_subset_minimal}, $W' R W$ and thus $W' \le_0 W$. But by
+        \cref{kr_claim_y_subset_minimal}, $W' R W$ and thus $W' \le_0 W$. But by
         assumption, $W' \not<_0 W$. So we must have $W \le_0 W'$. By definition
         of $\le_0$ as the transitive closure of $R$, there are $W_0, \ldots
         W_n$ such that $W_0 = W$, $W_n = W'$ and
@@ -1547,7 +1547,7 @@ $\le_0$-minimal in $\X_\sigma$. In fact, the converse is also true.
         %
         \footnotetext{
             If $\rho_j \ne \emptyset$ this follows from
-            \cref{claim:w_j_in_rho}. Otherwise, $W_{j+1} \in \Y_{\rho_{j+1}}
+            \cref{kr_claim_w_j_in_rho}. Otherwise, $W_{j+1} \in \Y_{\rho_{j+1}}
             \subseteq \X_{\rho_{j+1}} = \X_{\rho_{j+1} \concat \emptyset} =
             \X_{\rho_{j+1}} \cap \X_\emptyset \subseteq \X_\emptyset =
             \X_{\rho_j}$ by \kconj{}.
@@ -1584,7 +1584,7 @@ $\le_0$-minimal in $\X_\sigma$. In fact, the converse is also true.
         have $W_0 \in \Y_{\rho_n}$.
 
         Now, since $W_0, W_n \in \X_\sigma$ and $\rho_n = \rho(W_0, W_n)$,
-        \cref{claim:exists_delta} gives that there is $\delta$ with $W_0, W_n
+        \cref{kr_claim_exists_delta} gives that there is $\delta$ with $W_0, W_n
         \in \X_{\delta}$ such that $\rho_n$ is a permutation of
         $\widehat{\sigma} \concat \delta$. Recalling that $W_n = W' \in
         \Y_\sigma = \Y_{\widehat{\sigma}}$ by assumption, we have $W_n \in
@@ -1611,7 +1611,7 @@ $\le$ be any total preorder extending $\le_0$ and preserving strict
 inequalities, i.e. $\le$ such that
 \begin{inlinelist}
     \item $W \le_0 W'$ implies $W \le W'$; and
-    \item\label{item:strict_ineq_preserved} $W <_0 W'$ implies $W < W'$.
+    \item\label{kr_item_strict_ineq_preserved} $W <_0 W'$ implies $W < W'$.
 \end{inlinelist}\footnote{
     Such $\le$ always exists. Indeed, note that $\le_0$ induces a partial order
     on the equivalence classes of $\W$ with respect to the symmetric part of
@@ -1627,15 +1627,15 @@ inequalities, i.e. $\le$ such that
     \begin{proof}
         Take any $\sigma$. For the left-to-right inclusion, take $W \in
         \Y_\sigma$. Then $W \in \X_\sigma$. Let $W' \in \X_\sigma$. By
-        \cref{claim:y_subset_minimal}, $W R W'$, so $W \le_0 W'$ and $W \le
+        \cref{kr_claim_y_subset_minimal}, $W R W'$, so $W \le_0 W'$ and $W \le
         W'$. Hence $W$ is $\le$-minimal in $\X_\sigma$.
 
         For the right-to-left inclusion, take $W \in \min_{\le}{\X_\sigma}$.
         Then for any $W' \in \X_\sigma$ we have $W \le W'$. In particular, $W'
-        \not< W$. By property \labelcref{item:strict_ineq_preserved} of $\le$,
+        \not< W$. By property \labelcref{kr_item_strict_ineq_preserved} of $\le$,
         we have $W' \not<_0 W$. Since $W'$ was an arbitrary member of
         $\X_\sigma$ and $W \in \X_\sigma$, the conditions of
-        \cref{claim:minimal_subset_y} are satisfied, and we get $W \in
+        \cref{kr_claim_minimal_subset_y} are satisfied, and we get $W \in
         \Y_\sigma$.
     \end{proof}
 
@@ -1647,14 +1647,14 @@ i.e. there is a total preorder $\le$ on $\W$ and a mapping $\sigma \mapsto
 \tuple{\X_\sigma, \Y_\sigma}$ such that for each $\sigma$, $\Y_\sigma =
 \min_{\le}{X_\sigma}$, $\X_\sigma$ and $\Y_\sigma$ are elementary, and
 $K^\sigma$, $B^\sigma$ are determined by $\X_\sigma$, $\Y_\sigma$ respectively
-according to \cref{def:model_based}. By elementariness and
-\cref{lemma:model_based_elementary}, $\X_\sigma = \mod(K^\sigma)$ and $\Y_\sigma
+according to \cref{kr_def_model_based}. By elementariness and
+\cref{kr_lemma_model_based_elementary}, $\X_\sigma = \mod(K^\sigma)$ and $\Y_\sigma
 = \mod(B^\sigma)$.
 
 The following claim will be useful at various points.
 
     \begin{claim}
-        \label{claim:x_equal_implies_output_equal}
+        \label{kr_claim_x_equal_implies_output_equal}
         Suppose $\sigma$ and $\rho$ are such that $\X_\sigma = \X_\rho$. Then
         $K^\sigma = K^\rho$ and $B^\sigma = B^\rho$.
     \end{claim}
@@ -1684,7 +1684,7 @@ We take the postulates to be shown in turn.
           Since $\sigma$ and $\rho$ contain exactly the same reports -- just in
           a different order -- commutativity and associativity of intersection
           of sets gives $\X_\sigma = \X_\rho$. \rearr{} follows
-          from \cref{claim:x_equal_implies_output_equal}.
+          from \cref{kr_claim_x_equal_implies_output_equal}.
 
     \item \duprem{}: Let $\sigma$, $\rho_1$ and $\rho_2$ be as
           in the statement of \duprem{}. Then by
@@ -1700,7 +1700,7 @@ We take the postulates to be shown in turn.
             &= \X_{\sigma} \cap \X_{\tuple{i, c, \phi}} \\
             &= \X_{\rho_1}
           \end{align*}
-          and we may conclude by \cref{claim:x_equal_implies_output_equal}.
+          and we may conclude by \cref{kr_claim_x_equal_implies_output_equal}.
     \item \condcons{}: Suppose $K^\sigma$ is consistent,
           i.e. $\X_\sigma \ne \emptyset$. Since $\W$ is finite, $\X_\sigma$ is
           finite and thus some $\le$-minimal world must exist in $\X_\sigma$.
@@ -1764,10 +1764,10 @@ We take the postulates to be shown in turn.
 
 \end{proof}
 
-Note that while the requirement in \cref{thm:conditioning_characterisation}
+Note that while the requirement in \cref{kr_thm_conditioning_characterisation}
 that $\X_{\sigma}$ and $\Y_{\sigma}$ are elementary is a technical
 condition,\footnotemark{} the characterisation in
-\cref{prop:elementary_characterisation} implies a simple sufficient condition
+\cref{kr_prop_elementary_characterisation} implies a simple sufficient condition
 for elementariness.
 %
 \footnotetext{
@@ -1775,7 +1775,7 @@ for elementariness.
 }
 
 \begin{proposition}
-    \label{prop:partition_equiv_tpo_implies_elementariness}
+    \label{kr_prop_partition_equiv_tpo_implies_elementariness}
     Suppose $\le$ is such that $W \simeq W'$ whenever $W$ and $W'$ are
     partition-equivalent. Then $\min_{\le}{S}$ is elementary for any
     elementary set $S \subseteq \W$.
@@ -1783,7 +1783,7 @@ for elementariness.
 
 \begin{proof}
     We use the characterisation of elementary sets from
-    \cref{prop:elementary_characterisation}. Take $S \subseteq \W$ elementary.
+    \cref{kr_prop_elementary_characterisation}. Take $S \subseteq \W$ elementary.
     Suppose $W \in \W$, $W_1, W_2 \in \min_{\le}{S}$ are such that $W$ is
     partition-equivalent to both $W_1, W_2$ and $W$ is a valuation combination
     from $\{W_1, W_2\}$. By hypothesis we have $W \simeq W_1 \simeq W_2$.
@@ -1794,7 +1794,7 @@ for elementariness.
     property for $\min_{\le}{S}$, and we are done.
 \end{proof}
 
-\Cref{prop:partition_equiv_tpo_implies_elementariness} implies that
+\Cref{kr_prop_partition_equiv_tpo_implies_elementariness} implies that
 \varbasedcond{} and \partbasedcond{} are elementary. Indeed, for both operators
 $\X_\sigma = \mods(G^\sigma_\snd)$ so is elementary by definition. Since the
 ranking $\le$ for each operator only depends on the partitions of worlds,
@@ -1802,7 +1802,7 @@ $\Y_\sigma =
 \min_{\le}{\X_\sigma}$ is elementary also.
 
 \subsection{Score-Based Operators}
-\label{sec:score_based}
+\label{kr_sec_score_based}
 
 The fact that the plausibility order $\le$ of a conditioning operator is fixed
 may be too limiting. For example, consider
@@ -1823,7 +1823,7 @@ p$ (i.e. $W_2$ sides with source $i$). Appealing to symmetry, one may argue
 that neither world is \emph{a priori} more plausible than the other, so any
 fixed plausibility order should have $W_1 \simeq W_2$. If these worlds
 are maximally plausible (e.g. if taking the ``optimistic" view outlined in
-\cref{ex:hospital_ex_formalised}), conditioning gives $p \notin B^\sigma_d$ and
+\cref{kr_ex_hospital_ex_formalised}), conditioning gives $p \notin B^\sigma_d$ and
 $\neg p \notin B^\sigma_d$.
 %
 However, there is an argument that $W_2$ should be considered more plausible
@@ -1835,7 +1835,7 @@ that we need the plausibility order to be responsive to the input sequence for
 adequate belief change.\footnotemark{}
 
 \footnotetext{
-    In \cref{sec:one_step_postulates} we make this argument more precise
+    In \cref{kr_sec_one_step_postulates} we make this argument more precise
     by providing an impossibility result which shows conditioning operators
     with some basic properties cannot accept $p$ in sequences such as this.
 }
@@ -1848,9 +1848,9 @@ for each sequence $\sigma$. We represent these rankings by \emph{scoring
 functions}, and call the resulting operators \emph{score-based}.
 
 \begin{definition}
-\label{def:score_based}
+\label{kr_def_score_based}
     An operator is \emph{score-based} if there is a mapping $\sigma \mapsto
-    \tuple{\X_\sigma, \Y_\sigma}$ as in \cref{def:model_based} and functions
+    \tuple{\X_\sigma, \Y_\sigma}$ as in \cref{kr_def_model_based} and functions
     $r_0: \W \to \Ninf$, $d: \W \times (\Srcs \times \C \times \lprop) \to \Ninf$
     such that $\X_\sigma = \{W \mid r_\sigma(W) < \infty\}$ and $\Y_\sigma =
     \argmin_{W \in \X_\sigma}{r_\sigma(W)}$, where
@@ -1872,7 +1872,7 @@ of each report $\tuple{i, c, \phi}$ with equal weight, we treat each report inde
 Score-based operators generalise elementary conditioning operators with \kconj{}.
 
 \begin{proposition}
-\label{prop:kconj_conditioning_implies_score_based}
+\label{kr_prop_kconj_conditioning_implies_score_based}
     Any elementary conditioning operator satisfying \kconj{} is score-based.
 \end{proposition}
 
@@ -1907,7 +1907,7 @@ Score-based operators generalise elementary conditioning operators with \kconj{}
 We now give a concrete example.
 
 \begin{definition}
-    \label{def:scorebasedop}
+    \label{kr_def_scorebasedop}
     Define a score-based operator \scorebasedop{} by setting
     $r_0(W) = 0$ and
     \[
@@ -1935,23 +1935,23 @@ expertise on $\phi$; other worlds are ordered by how much they deviate from
 this ideal.
 
 One can verify that \scorebasedop{} satisfies the basic postulates of
-\cref{sec:basic_postulates}. It can also be seen that $\X_\sigma$ and
+\cref{kr_sec_basic_postulates}. It can also be seen that $\X_\sigma$ and
 $\Y_\sigma$ are elementary, and \scorebasedop{} fails \duprem{} and \incvac{}.
 It follows from
-\cref{thm:conditioning_characterisation} that \scorebasedop{} is \emph{not} a
+\cref{kr_thm_conditioning_characterisation} that \scorebasedop{} is \emph{not} a
 conditioning operator.\footnotemark{}
 
 \footnotetext{
     We will later give an alternative proof of this fact, via an impossibility
     result for conditioning operators
-    (\cref{prop:strongcondsucc_conditioning_impossibilitity}).
+    (\cref{kr_prop_strongcondsucc_conditioning_impossibilitity}).
 }
 
 \begin{example}
-\label{ex:score_based}
+\label{kr_ex_score_based}
      To illustrate the differences between \scorebasedop{} and conditioning,
      consider a more elaborate version of the
-     example given at the start of this \lcnamecref{sec:score_based}:
+     example given at the start of this \lcnamecref{kr_sec_score_based}:
      \[
         \sigma = (
             \tuple{i, c, p \rightarrow q},
@@ -1969,8 +1969,8 @@ conditioning operator.\footnotemark{}
      since \scorebasedop{} takes into account each report in the
      sequence, the fact that $i$ reports both $p$ and $q$ in case $d$ leads to
      $\E_i{p} \land \E_i{q} \in B^\sigma_c$. This gives $\E_i(p \rightarrow q)
-     \in B^\sigma_c$ by \cref{prop:validities} part
-     (\labelcref{item:exp_on_all_variables}), so we can make use of the report
+     \in B^\sigma_c$ by \cref{kr_prop_validities} part
+     (\labelcref{kr_item_exp_on_all_variables}), so we can make use of the report
      from $i$ in case $c$: we have $\proppart{B^\sigma_c} = \cnprop(p \land
      q)$.
      %
@@ -1982,9 +1982,9 @@ conditioning operator.\footnotemark{}
 \end{example}
 
 \section{One-Step Revision}
-\label{sec:one_step_postulates}
+\label{kr_sec_one_step_postulates}
 
-The postulates of \cref{sec:basic_postulates} only set out very basic
+The postulates of \cref{kr_sec_basic_postulates} only set out very basic
 requirements for an operator. In this section we introduce some more demanding
 postulates which address how beliefs should change when a sequence $\sigma$ is
 extended by a new report $\tuple{i, c, \phi}$.  In view of \rearr{}, we do not
@@ -2015,7 +2015,7 @@ constructions are consistent with \agm{}.
 \todo{flow in what follows.}
 
 \begin{proposition}
-    \label{prop:examples_satisfy_agm}
+    \label{kr_prop_examples_satisfy_agm}
     \varbasedcond{}, \partbasedcond{} and \scorebasedop{}
     satisfy \agm{}.
 \end{proposition}
@@ -2025,7 +2025,7 @@ We require some preliminary results. For a case $c \in \C$ and valuation $v \in
 worlds whose $c$ valuation is $v$.
 
 \begin{lemma}
-    \label{lemma:model_based_models_of_proppart}
+    \label{kr_lemma_model_based_models_of_proppart}
     For any model-based operator, sequence $\sigma$, case $c$, and valuation
     $v\ in \vals$,
     \[
@@ -2057,7 +2057,7 @@ worlds whose $c$ valuation is $v$.
 We have a sufficient condition for \agm{} for score-based operators.
 
 \begin{lemma}
-    \label{lemma:score_based_agm_sufficient_conditions}
+    \label{kr_lemma_score_based_agm_sufficient_conditions}
     Suppose a score-based operator is such that for each $c \in \C$ and $\phi
     \in \lprop$ there is a constant $M \in \mathbb{N}$ with
     \[
@@ -2110,7 +2110,7 @@ We have a sufficient condition for \agm{} for score-based operators.
         \begin{proof}
 
             ``$\subseteq$": let $v \in \propmods\proppart{B^\sigma_c}$. By
-            \cref{lemma:model_based_models_of_proppart}, there is some $W \in
+            \cref{kr_lemma_model_based_models_of_proppart}, there is some $W \in
             \Y_\sigma \cap \W_{c\ :\  v}$. Since $W \in \X_\sigma$ too, by
             definition of $k$ we have $k(v) \le r_\sigma(W) < \infty$. Now let
             $v' \in \vals$. Without loss of generality assume $k(v') < \infty$.
@@ -2143,7 +2143,7 @@ We have a sufficient condition for \agm{} for score-based operators.
                 \le r_\sigma(W')
             \]
             That is, $W \in \Y_\sigma \cap \W_{c\ :\  v}$. By
-            \cref{lemma:model_based_models_of_proppart}, $v \in
+            \cref{kr_lemma_model_based_models_of_proppart}, $v \in
             \propmods\proppart{B^\sigma_c}$.
 
         \end{proof}
@@ -2153,13 +2153,13 @@ We have a sufficient condition for \agm{} for score-based operators.
     \sigma \concat \tuple{\ast, c, \phi}$. We claim the following.
 
         \begin{claim}
-            \label{claim:propmods_rho_min_models_of_phi}
+            \label{kr_claim_propmods_rho_min_models_of_phi}
             $\propmods\proppart{B^\rho_c} =
             \min\nolimits_{\preceq}{\propmods(\phi)}$.
         \end{claim}
         \begin{proof}
             ``$\subseteq$": let $v \in \propmods\proppart{B^\rho_c}$.  By
-            \cref{lemma:model_based_models_of_proppart} again, there is some $W
+            \cref{kr_lemma_model_based_models_of_proppart} again, there is some $W
             \in \Y_\rho \cap \W_{c\ :\  v}$. Since $\tuple{\ast, c, \phi} \in
             \rho$ and $d(W, \tuple{\ast, c, \phi}) \le r_\rho(W) < \infty$, we
             must have $W, c \models \phi$ by the assumed property of the score
@@ -2233,14 +2233,14 @@ We have a sufficient condition for \agm{} for score-based operators.
                 = r_\rho(W')
             \]
             This shows $W \in \Y_\rho$, i.e. $\Y_\rho \cap \W_{c\ :\  v} \ne
-            \emptyset$. By \cref{lemma:model_based_models_of_proppart}, we are
+            \emptyset$. By \cref{kr_lemma_model_based_models_of_proppart}, we are
             done.
 
         \end{proof}
 
     Noting that $\propmods\proppart{B^\sigma_c} \star \phi =
     \min_{\preceq}{\propmods(\phi)}$, it follows from
-    \cref{claim:propmods_rho_min_models_of_phi} that
+    \cref{kr_claim_propmods_rho_min_models_of_phi} that
     $\cnprop(\proppart{B^\rho_c}) = \cnprop(\proppart{B^\sigma_c} \star \phi)$.
     But $\proppart{B^\rho_c}$ is deductively closed by \closure{}, and
     $\proppart{B^\sigma_c}
@@ -2250,13 +2250,13 @@ We have a sufficient condition for \agm{} for score-based operators.
 
 \end{proof}
 
-As a consequence of \cref{prop:kconj_conditioning_implies_score_based} (and the
+As a consequence of \cref{kr_prop_kconj_conditioning_implies_score_based} (and the
 construction of $d$ in its proof), one can apply
-\cref{lemma:score_based_agm_sufficient_conditions} with $M = 0$ for
+\cref{kr_lemma_score_based_agm_sufficient_conditions} with $M = 0$ for
 conditioning operators with \kconj{} and a certain natural property.
 
 \begin{corollary}
-    \label{cor:conditioning_agm}
+    \label{kr_cor_conditioning_agm}
     Suppose an elementary conditioning operator satisfying \kconj{} has the
     property that
     \[
@@ -2265,15 +2265,15 @@ conditioning operators with \kconj{} and a certain natural property.
     Then \agm{} holds.
 \end{corollary}
 
-We can now prove \cref{prop:examples_satisfy_agm}.
+We can now prove \cref{kr_prop_examples_satisfy_agm}.
 
-\begin{proof}[Proof of \cref{prop:examples_satisfy_agm}]
+\begin{proof}[Proof of \cref{kr_prop_examples_satisfy_agm}]
     For the conditioning operators \varbasedcond{} and \partbasedcond{}, it is
-    easily verified that the condition in \cref{cor:conditioning_agm} holds,
+    easily verified that the condition in \cref{kr_cor_conditioning_agm} holds,
     and thus \agm{} does also.
 
     For the score-based operator \scorebasedop{}, we may use
-    \cref{lemma:score_based_agm_sufficient_conditions} with $M = 0 $.
+    \cref{kr_lemma_score_based_agm_sufficient_conditions} with $M = 0 $.
 \end{proof}
 
 Thus, we do indeed extend AGM revision in the case of reliable information.
@@ -2283,7 +2283,7 @@ should not have the \postulatename{Success} postulate:
 \[
     \phi \in B^{\sigma \concat \tuple{i, c, \phi}}_c.
 \]
-Indeed, the sequence in \cref{ex:model_based} with $\phi = \neg p
+Indeed, the sequence in \cref{kr_ex_model_based} with $\phi = \neg p
 \land q$ already shows that \postulatename{Success} would conflict with the
 basic postulates.
 %
@@ -2312,7 +2312,7 @@ believe reports if there is no reason not to. It is easily shown that
 We once again revisit our examples. \todo{flow, again.}
 
 \begin{proposition}
-    \label{prop:examples_satisfy_condsucc}
+    \label{kr_prop_examples_satisfy_condsucc}
     \varbasedcond{}, \partbasedcond{} and \scorebasedop{}
     satisfy \condsucc{}, and \scorebasedop{} additionally
     satisfies \strongcondsucc{}.
@@ -2324,7 +2324,7 @@ condition on the total preorder $\le$: a natural constraint on the mapping
 $\sigma \mapsto \X_\sigma$ (together with some basic postulates) is enough.
 
 \begin{lemma}
-    \label{lemma:conditioning_condsucc_sufficient_condition}
+    \label{kr_lemma_conditioning_condsucc_sufficient_condition}
     Suppose an elementary conditioning operator satisfies \kconj{},
     \soundness{} and
     \[
@@ -2354,8 +2354,8 @@ $\sigma \mapsto \X_\sigma$ (together with some basic postulates) is enough.
     Consequently, $\E_i\phi \in B^\sigma_c$ means $W', c \models \E_i\phi$.
     On the other hand, \soundness{} together with $\tuple{i, c, \phi} \in \rho$
     and $W' \in \X_\rho$ means $W', c \models \S_i\phi$. Hence $W', c \models
-    \E_i\phi \land \S_i\phi$. From \cref{prop:validities}
-    part (\labelcref{item:e_and_s_implies_phi}), we get $W', c \models \phi$.
+    \E_i\phi \land \S_i\phi$. From \cref{kr_prop_validities}
+    part (\labelcref{kr_item_e_and_s_implies_phi}), we get $W', c \models \phi$.
 
     We have shown that $\phi$ holds in case $c$ at an arbitrary world in
     $\Y_\rho$. Hence $\phi \in B^\rho_c$, as required.
@@ -2368,7 +2368,7 @@ truthful report are strictly more plausible than worlds in which $i$ makes a
 false report.
 
 \begin{lemma}
-    \label{lemma:score_based_strongcondsucc_sufficient_conditions}
+    \label{kr_lemma_score_based_strongcondsucc_sufficient_conditions}
     Suppose a score-based operator is such that for any $i \in \Srcs$, $c \in \C$,
     $\phi \in \lprop$ and $W, W' \in \W$,
     \begin{align*}
@@ -2415,13 +2415,13 @@ false report.
 
 The main result now follows.
 
-\begin{proof}[Proof of \cref{prop:examples_satisfy_condsucc}]
+\begin{proof}[Proof of \cref{kr_prop_examples_satisfy_condsucc}]
     For the conditioning operators \varbasedcond{} and \partbasedcond{},
     \condsucc{} follows from
-    \cref{lemma:conditioning_condsucc_sufficient_condition} since $W, c \models
+    \cref{kr_lemma_conditioning_condsucc_sufficient_condition} since $W, c \models
     \phi$ implies $W, c \models \S_i\phi$. For the score-based operator
     \scorebasedop{}, one can easily check that the condition in
-    \cref{lemma:score_based_strongcondsucc_sufficient_conditions} holds, and
+    \cref{kr_lemma_score_based_strongcondsucc_sufficient_conditions} holds, and
     thus \strongcondsucc{} and \condsucc{} follow.
 \end{proof}
 
@@ -2435,34 +2435,34 @@ write $\pi(W)$ for the world with $v^{\pi(W)}_c = v^W_c$ and $\Pi^{\pi(W)}_i =
 \Pi^W_{\pi(i)}$. We have an impossibility result.
 
 \begin{proposition}
-    \label{prop:strongcondsucc_conditioning_impossibilitity}
+    \label{kr_prop_strongcondsucc_conditioning_impossibilitity}
     No elementary conditioning operator satisfying the basic postulates can
     simultaneously satisfy the following properties:
     \begin{enumerate}
-        \item \label{item:conditioning_impossibility_first}
+        \item \label{kr_item_conditioning_impossibility_first}
               $K^\emptyset = \cn(\emptyset)$
 
-        \item \label{item:anonymity}
+        \item \label{kr_item_anonymity}
               If $\pi$ is a permutation of $\Srcs$ with $\pi(\ast) = \ast$, $W
               \simeq \pi(W)$
 
         \item \refinement{}
 
-        \item \label{item:conditioning_impossibility_last} \strongcondsucc{}
+        \item \label{kr_item_conditioning_impossibility_last} \strongcondsucc{}
     \end{enumerate}
     However, any proper subset of
-    (\labelcref{item:conditioning_impossibility_first}) -
-    (\labelcref{item:conditioning_impossibility_last}) is satisfiable.
+    (\labelcref{kr_item_conditioning_impossibility_first}) -
+    (\labelcref{kr_item_conditioning_impossibility_last}) is satisfiable.
 \end{proposition}
 
-(\labelcref{item:conditioning_impossibility_first}) says that before any
+(\labelcref{kr_item_conditioning_impossibility_first}) says that before any
 reports are received, we only know tautologies. As remarked earlier, this is
 not an \emph{essential} property, but is reasonable when no prior knowledge is
-available. (\labelcref{item:anonymity}) is an anonymity postulate: it says that
+available. (\labelcref{kr_item_anonymity}) is an anonymity postulate: it says that
 permuting the ``names" of sources does not affect the plausibility of a world,
 and is a desirable property in light of
-(\labelcref{item:conditioning_impossibility_first}). \refinement{}, introduced
-in \cref{sec:conditioning_operators}, says that worlds in which all sources
+(\labelcref{kr_item_conditioning_impossibility_first}). \refinement{}, introduced
+in \cref{kr_sec_conditioning_operators}, says that worlds in which all sources
 have more expertise are preferred.
 
 \begin{proof}
@@ -2512,7 +2512,7 @@ have more expertise are preferred.
     operator.
 
         \begin{claim}
-            \label{claim:w1_simeq_w2}
+            \label{kr_claim_w1_simeq_w2}
             $W_1 \simeq W_2$.
         \end{claim}
         \begin{proof}
@@ -2520,21 +2520,21 @@ have more expertise are preferred.
             It is easily observed that $\pi(W_1)$ is partition-equivalent to
             $W_2$. By reflexivity of partition refinement, $\pi(W_1) \preceq
             W_2$ and $W_2 \preceq \pi(W_1)$. By \refinement{}, we get $\pi(W_1)
-            \simeq W_2$. By property (\labelcref{item:anonymity}), $W_1 \simeq
+            \simeq W_2$. By property (\labelcref{kr_item_anonymity}), $W_1 \simeq
             \pi(W_1)$. By transitivity of ${\simeq}$ we get $W_1 \simeq W_2$ as
             desired.
         \end{proof}
 
     Now, from the basic postulates, property
-    (\labelcref{item:conditioning_impossibility_first}) and
-    \cref{prop:prior_knowledge} we have $K^\sigma = \cn(G^\sigma_\snd)$. By
-    elementariness and \cref{lemma:model_based_elementary}, we get
+    (\labelcref{kr_item_conditioning_impossibility_first}) and
+    \cref{kr_prop_prior_knowledge} we have $K^\sigma = \cn(G^\sigma_\snd)$. By
+    elementariness and \cref{kr_lemma_model_based_elementary}, we get
     $\X_\sigma = \mods(K^\sigma) = \mods(G^\sigma_\snd)$. It is easily checked
     that both $W_1$ and $W_2$ satisfy the soundness statements corresponding to
     $\sigma$, and thus $W_1, W_2 \in \mods(G^\sigma_\snd) = \X_\sigma$.
 
         \begin{claim}
-            \label{claim:w1_w2_in_ysigm}
+            \label{kr_claim_w1_w2_in_ysigm}
             $W_1, W_2 \in \Y_\sigma$.
         \end{claim}
         \begin{proof}
@@ -2588,14 +2588,14 @@ have more expertise are preferred.
     \todo{Show that any strict subset is satisfiable}
 \end{proof}
 
-\Cref{prop:strongcondsucc_conditioning_impossibilitity} highlights an important
+\Cref{kr_prop_strongcondsucc_conditioning_impossibilitity} highlights an important
 difference between conditioning and score-based operators, and hints that
 a fixed plausibility order may be too restrictive: we
 need to allow the order to be responsive to new reports in order to satisfy
 properties such as \strongcondsucc{}.
 
 \section{Selective Change}
-\label{sec:selective_change}
+\label{kr_sec_selective_change}
 
 In the previous section we saw how a single formula $\phi$ may be accepted when
 it is received as an additional report. But what can we say about propositional
@@ -2608,7 +2608,7 @@ consistent with the source's expertise). In what follows, write $\sigma \rs c =
 $\sigma$.
 
 \begin{definition}
-    \label{def:selectivity}
+    \label{kr_def_selectivity}
     A \emph{selection scheme} is a mapping $f$ assigning to each
     $\ast$-consistent sequence $\sigma$ a function $f_\sigma: \Srcs \times \C
     \times \lprop \to \lprop$ such that $f_\sigma(i, c, \phi) \in
@@ -2648,7 +2648,7 @@ revision, in the case where $\proppart{B^\sigma_c} = \cnprop(\emptyset)$. We
 have the following characterisation.
 
 \begin{theorem}
-    \label{thm:selectivity_characterisation}
+    \label{kr_thm_selectivity_characterisation}
     A model-based operator is selective if and only if it satisfies
     \boundedness{}.
 \end{theorem}
@@ -2737,7 +2737,7 @@ have the following characterisation.
 
 \todo{flow.}
 
-This characterisation in \cref{thm:selectivity_characterisation} allows us to
+This characterisation in \cref{kr_thm_selectivity_characterisation} allows us to
 easily analyse when conditioning and score-based operators are selective. In
 the case of conditioning operators with $K^\emptyset = \cn(\emptyset)$, we in
 fact have a precise characterisation. First, some terminology: say that a world
@@ -2748,7 +2748,7 @@ v} = \{W \in \W \mid v^W_c = v\}$ for the set of worlds whose $c$ valuation is
 $v$. We have the following.
 
 \begin{proposition}
-    \label{prop:conditioning_selectivity_characterisation}
+    \label{kr_prop_conditioning_selectivity_characterisation}
     Suppose an elementary conditioning operator satisfies the basic postulates
     and has $K^\emptyset = \cn(\emptyset)$. Then it is selective if and only if
     for all $W$, $c$, $v$ there is $W' \in \W_{c\ :\ v}$ such that $W' \le W$
@@ -2756,9 +2756,9 @@ $v$. We have the following.
 \end{proposition}
 
 While the condition on $\le$ in
-\cref{prop:conditioning_selectivity_characterisation} is somewhat technical, it
+\cref{kr_prop_conditioning_selectivity_characterisation} is somewhat technical, it
 is implied by the very natural \emph{partition-equivalence} property from
-\cref{sec:framework}. Consequently, \varbasedcond{} and \partbasedcond{} are
+\cref{kr_sec_framework}. Consequently, \varbasedcond{} and \partbasedcond{} are
 selective. For the score-based operator \scorebasedop{}, one can show
 \boundedness{} holds directly using a property of the disagreement scoring
 function $d$ similar to the property of $\le$ above. Consequently,
@@ -2767,7 +2767,7 @@ function $d$ similar to the property of $\le$ above. Consequently,
 We first state some preliminary results.
 
 \begin{lemma}
-    \label{lemma:local_refinement}
+    \label{kr_lemma_local_refinement}
     Suppose $W$ refines $W'$ at $c$. Then for any $i \in \Srcs$ and $\phi \in
     \lprop$,
     \[
@@ -2786,7 +2786,7 @@ We first state some preliminary results.
 \end{proof}
 
 \begin{lemma}
-    \label{lemma:local_refinement_sequence}
+    \label{kr_lemma_local_refinement_sequence}
     For any $W \in \W$ and $c \in \C$, there is a $\ast$-consistent sequence
     $\sigma$ -- containing only reports for case $c$ -- such that for all $W'
     \in \W$,
@@ -2821,17 +2821,17 @@ We first state some preliminary results.
     $\impliedby$: Suppose $W$ refines $W'$ at $c$. Take any $\tuple{i, c,
     \phi(v)} \in \sigma$. Then $v \in \Pi^W_i[v^W_c]$, so $v^W_c \in \Pi^W_i[v]
     = \Pi^W_i[\phi(v)]$. This shows $W, c \models \S_i\phi(v)$, and
-    \cref{lemma:local_refinement} gives $W', c \models \S_i\phi(v)$. Hence $W'
+    \cref{kr_lemma_local_refinement} gives $W', c \models \S_i\phi(v)$. Hence $W'
     \in \mods(G^\sigma_\snd)$.
 
 \end{proof}
 
-\begin{proof}[Proof of \cref{prop:conditioning_selectivity_characterisation}]
+\begin{proof}[Proof of \cref{kr_prop_conditioning_selectivity_characterisation}]
     Take an elementary conditioning operator with the basic postulates
     and $K^\emptyset = \cn(\emptyset)$.
 
     ``if":  Suppose the stated property holds. Since all conditioning operators
-    are model-based, by \cref{thm:selectivity_characterisation} it suffices to
+    are model-based, by \cref{kr_thm_selectivity_characterisation} it suffices to
     show \boundedness{}. To that end, let $\sigma$ be $\ast$-consistent and
     take $c \in \C$. We need $\proppart{B^\sigma_c} \subseteq
     \cnprop(\Gamma^\sigma_c)$; or equivalently, by \closure{},
@@ -2843,8 +2843,8 @@ We first state some preliminary results.
     the statement of the result, there is $W' \in \W_{c\ :\ v}$ such that $W'
     \le W$ and $W$ refines $W'$ at all cases $d \ne c$.
 
-    We claim $W' \in \X_\sigma$. By \cref{prop:prior_knowledge}, elementariness
-    and \cref{lemma:model_based_elementary}, we have $\X_\sigma =
+    We claim $W' \in \X_\sigma$. By \cref{kr_prop_prior_knowledge}, elementariness
+    and \cref{kr_lemma_model_based_elementary}, we have $\X_\sigma =
     \mods(K^\sigma) = \mods(G^\sigma_\snd)$. Take any $\tuple{i, d, \phi} \in
     \sigma$. We consider cases.
     \begin{itemize}
@@ -2856,20 +2856,20 @@ We first state some preliminary results.
 
         \item \textbf{Case 2} ($d \ne c$). By assumption, $W$ refines $W'$ at
               $d$. Since $W \in \Y_\sigma \subseteq \X_\sigma$, we have $W, d
-              \models \S_i\phi$. By \cref{lemma:local_refinement}, $W', d
+              \models \S_i\phi$. By \cref{kr_lemma_local_refinement}, $W', d
               \models \S_i\phi$ also.
     \end{itemize}
     We have shown $W' \in \mods(G^\sigma_\snd) = \X_\sigma$. Now recall that $W
     \in \Y_\sigma$ -- so $W$ is $\le$-minimal in $\X_\sigma$ -- and $W' \le W$.
     Thus $W'$ is also $\le$-minimal in $\X_\sigma$, i.e. $W' \in \Y_\sigma$.
     Since $W' \in \W_{c\ :\ v}$ also, we have by
-    \cref{lemma:model_based_models_of_proppart} that $v \in
+    \cref{kr_lemma_model_based_models_of_proppart} that $v \in
     \propmods\proppart{B^\sigma_c}$, as required.
 
     ``only if": Suppose our operator is selective, i.e. satisfies
     \boundedness{}. To show the desired property holds, take any $W$, $c$ and
     $v$. Enumerate $\C \setminus \{c\}$ as $\{d_1, \ldots, d_N\}$. By
-    \cref{lemma:local_refinement_sequence}, for each $1 \le n \le N$ there is a
+    \cref{kr_lemma_local_refinement_sequence}, for each $1 \le n \le N$ there is a
     $\ast$-consistent sequence $\sigma_n$ such that
     \[
         \mods(G^{\sigma_n}_\snd)
@@ -2894,7 +2894,7 @@ We first state some preliminary results.
         = \{v, v^W_c\}.
     \]
     In particular, $v \in \propmods\proppart{B^\rho_c}$. By
-    \cref{lemma:model_based_models_of_proppart}, there is some $W' \in \Y_\rho
+    \cref{kr_lemma_model_based_models_of_proppart}, there is some $W' \in \Y_\rho
     \cap \W_{c\ :\ v}$.
 
     We show $W'$ has the required properties. First note that since $W$ refines
@@ -2921,7 +2921,7 @@ case. For this reason it is natural to consider \emph{case independent}
 selective schemes.
 
 \begin{definition}
-    \label{def:case_independent_selectivity}
+    \label{kr_def_case_independent_selectivity}
     A selection scheme $f$ is \emph{case independent} if $f_\sigma(i, c, \phi)
     \equiv f_\sigma(i, d, \phi)$ for all $\ast$-consistent $\sigma$ and $i \in
     \Srcs$, $c, d \in \C$ and $\phi \in \lprop$.
@@ -2962,7 +2962,7 @@ Note that \boundedness{} is obtained as the special case where $H =
 \emptyset$. We illustrate with an example.
 
 \begin{example}
-    \label{ex:hprop}
+    \label{kr_ex_hprop}
     Consider case $c$ in the following sequence:
     \[
         \sigma
@@ -2994,7 +2994,7 @@ Note that \boundedness{} is obtained as the special case where $H =
 The characterisation is as follows.
 
 \begin{theorem}
-    \label{thm:case_independent_selectivity_characterisation}
+    \label{kr_thm_case_independent_selectivity_characterisation}
     A model-based operator is case-independent-selective if and only if it
     satisfies \hboundedness{}.
 \end{theorem}
@@ -3015,7 +3015,7 @@ The characterisation is as follows.
     \]
     By closure, it is sufficient for \hboundedness{} to show that
     \begin{equation}
-        \label{eqn:hbnd_inclusion}
+        \label{kr_eqn_hbnd_inclusion}
         M_c
         \supseteq
         \propmods(\Gamma^{\sigma, H}_c) \cap \bigcap_{d \in H}{M_d}.
@@ -3034,7 +3034,7 @@ The characterisation is as follows.
     \notin \Gamma^{\sigma, H}_c$. Since $\tuple{i, \phi} \in \sigma \rs c$,
     this means there is $d \in H$ such that $\tuple{i, \phi} \in \sigma \rs d$.
     Hence $v \in M_d$ gives $v \in F_\sigma(i, \phi)$. This shows the inclusion
-    in \labelcref{eqn:hbnd_inclusion}, and we are done.
+    in \labelcref{kr_eqn_hbnd_inclusion}, and we are done.
 
     ``if": Suppose a model-based operator satisfies \hboundedness{}. Let
     $\sigma$ be a $\ast$-consistent sequence. As before, write $M_c$ for
@@ -3067,7 +3067,7 @@ The characterisation is as follows.
     \]
     Apply \hboundedness{} and taking the models of both sides, we obtain
     \begin{equation}
-        \label{eqn:hbnd_application}
+        \label{kr_eqn_hbnd_application}
         M_c
         \supseteq
         \propmods(\Gamma^{\sigma, H}_c) \cap \bigcap_{d \in H}{M_d}.
@@ -3082,7 +3082,7 @@ The characterisation is as follows.
     \notin H$. On the other, $v \in M_d$ gives $d \in H$ directly by the
     definition of $H$: contradiction. This shows $v \in \propmods(\phi)$. Since
     $\phi$ was arbitrary, we have $v \in \propmods(\Gamma^{\sigma, H}_c)$. By
-    \labelcref{eqn:hbnd_application} we get $v \in M_c$, and the proof is
+    \labelcref{kr_eqn_hbnd_application} we get $v \in M_c$, and the proof is
     complete.
 
 \end{proof}
@@ -3099,7 +3099,7 @@ reporting sources is \emph{credible}, or \emph{trusted}. In our framework, this
 property of the selection scheme $f$ can be captured as follows.
 
 \begin{definition}
-    \label{def:ec_scheme}
+    \label{kr_def_ec_scheme}
     A selection scheme $f$ is \emph{expertise-compatible} (EC) with an operator
     $\sigma \mapsto \tuple{B^\sigma, K^\sigma}$ if for all $\ast$-consistent
     $\sigma$ and $\tuple{i, c, \phi} \in \sigma$,
@@ -3132,7 +3132,7 @@ Consequently, EC-selectivity would imply $\proppart{B^\sigma_c} =
 \cnprop(\top)$. This is a very conservative stance: while there is total
 consensus for $p$ in case $c$, $p$ cannot be believed due to disagreement
 elsewhere. This also conflicts with the ``optimistic" attitude described in
-\cref{ex:hospital_ex_formalised}. According to that view we should have
+\cref{kr_ex_hospital_ex_formalised}. According to that view we should have
 $\E_i{p}
 \lor \E_j{p} \in B^\sigma_c$, but this implies $p \in B^\sigma_c$ by
 \soundness{}, \containment{} and \closure{}.
@@ -3148,13 +3148,13 @@ operators are fully determined by the expertise part of $B^\sigma$, together
 with the reports in $\sigma$. If the knowledge $K^\sigma$ is formed according
 to the soundness constraints of $\sigma$ (as in our examples so far), we in
 fact have a characterisation result to this effect. The following
-\lcnamecref{lemma:ec_selective_propmodels}, which may also be of independent
+\lcnamecref{kr_lemma_ec_selective_propmodels}, which may also be of independent
 interest, is required. For a set of worlds $S \subseteq \W$, write $\Pi^S_i =
 \bigjoin_{W \in S}{\Pi^W_i}$ for the join of the $i$-partitions of worlds in
 $S$.
 
 \begin{lemma}
-    \label{lemma:ec_selective_propmodels}
+    \label{kr_lemma_ec_selective_propmodels}
     If a model-based operator is EC-selective and satisfies \soundness{}, then
     \[
         \propmods\proppart{B^\sigma_c}
@@ -3171,7 +3171,7 @@ Now write $G^\snd_\sigma$ for the collection with $(G^\snd_\sigma)_c =
 write $\exppart{G}$ for the sub-collection of formulas of the form $\E_i\phi$.
 
 \begin{theorem}
-    \label{thm:ec_selectivity_characterisation}
+    \label{kr_thm_ec_selectivity_characterisation}
     Suppose a model-based operator satisfies \consistency{} and $K^\sigma =
     \cn(G^\snd_\sigma)$ for all $\sigma$. Then it is EC-selective if and only
     if
@@ -3185,19 +3185,19 @@ write $\exppart{G}$ for the sub-collection of formulas of the form $\E_i\phi$.
 
 \todo{Write up from online notes.}
 
-Finally, note that \cref{lemma:ec_selective_propmodels} immediately implies
+Finally, note that \cref{kr_lemma_ec_selective_propmodels} immediately implies
 selectivity with respect to any scheme $f$ such that $\propmods(f_\sigma(i, c,
 \phi)) = \Pi^{\Y_\sigma}_i[\phi]$. Since the right-hand side does not depend on
 the case $c$, we get the following corollary.
 
 \begin{corollary}
-    \label{cor:ec_selective_ci}
+    \label{kr_cor_ec_selective_ci}
     If a model-based operator is EC-selective and satisfies \soundness{}, then
     it is case-independent-selective.
 \end{corollary}
 
 \section{Related Work}
-\label{sec:relatedwork}
+\label{kr_sec_relatedwork}
 
 In this section we discuss related work.
 
@@ -3225,9 +3225,9 @@ possible to model expertise \emph{implicitly} in belief merging (for example,
 say $i$ is not trusted on $\psi$ if $\Delta_\mu(\Phi) \not\vdash \psi$ when
 $\phi_i \vdash \psi$), bringing expertise to the object level allows us to
 express more complex beliefs about expertise, such as $\E_a{x} \lor \E_b{x}$ in
-\cref{ex:hospital_ex_formalised}. It also facilitates postulates which refer
+\cref{kr_ex_hospital_ex_formalised}. It also facilitates postulates which refer
 directly to expertise, such as the weakenings of \postulatename{Success} in
-\cref{sec:one_step_postulates}.
+\cref{kr_sec_one_step_postulates}.
 
 However, our problem is more specialised than merging, since we focus
 specifically on conflicting information due to lack of expertise. Belief
@@ -3270,7 +3270,7 @@ axiom requires iterating $K_i$, which is not possible in our framework), this
 shows the fundamental link between expertise, soundness and knowledge.
 
 \section{Conclusion}
-\label{sec:conclusion}
+\label{kr_sec_conclusion}
 
 \paragraph{Summary.} In this chapter we studied a belief change problem --
 extending the classical AGM framework -- in which
