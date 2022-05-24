@@ -35,6 +35,9 @@
 - References to `\item`s: I think we have a mix of `\labelcref`, `\cref` and
   custom macros
 
+- List proofs: in KR chapter we have references back to items, but not in
+  expertise chapter
+
 - Check if `\textcite` is really what I want
 
 - Duplicate references in bibliography
