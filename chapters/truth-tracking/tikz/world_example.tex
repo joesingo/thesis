@@ -1,0 +1,45 @@
+\begin{tikzpicture}[scale=1.65]
+    \def\p{0.3}
+    \def\q{0.45}
+
+    \node at (0, 0) {\Large $\mathbf{pq}$};
+    \node at (1, 0) {\Large $\mathbf{p\bar{q}}$};
+    \node at (0, 1) {\Large $\mathbf{\bar{p}q}$};
+    \node at (1, 1) {\Large $\mathbf{\bar{p}\bar{q}}$};
+
+    \draw[techcells]
+        (-\p, -\p) --
+        (1 + \p, -\p) --
+        (1 + \p, \p) --
+        (-\p, \p) --
+        cycle;
+    \draw[techcells]
+        (-\p, 1 + \p) --
+        (1 + \p, 1 + \p) --
+        (1 + \p, 1 - \p) --
+        (-\p, 1 - \p) --
+        cycle;
+
+    \draw[drcells]
+        (-\q, -\q) --
+        (1 + \q, -\q) --
+        (1 + \q, \q) --
+        (\q, \q) --
+        (\q, 1 + \q) --
+        (-\q, 1 + \q) --
+        cycle;
+    \draw[drcells]
+        (1 - \q, 1 + \q) --
+        (1 + \q, 1 + \q) --
+        (1 + \q, 1 - \q) --
+        (1 - \q, 1 - \q) --
+        cycle;
+
+    \node[color=red] at (1.75, 0) {\Large $\mathbf{\Pi_{\tech{}}}$};
+    \node[color=blue] at (1.75, 1) {\Large $\mathbf{\Pi_{\dr{}}}$};
+
+    \node[color=black!60!green] (va) at (-0.75, 1) {\Large $\mathbf{v_{\patientA{}}}$};
+    \node[color=black!60!green] (vb) at (-0.75, 0) {\Large $\mathbf{v_{\patientB{}}}$};
+    \draw[vals,->] (va) -- (-0.175, 1);
+    \draw[vals,->] (vb) -- (-0.175, 0);
+\end{tikzpicture}

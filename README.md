@@ -33,7 +33,7 @@
 - Standardise \paragraph vs \subsection etc divisions across chapters
 
 - References to `\item`s: I think we have a mix of `\labelcref`, `\cref` and
-  custom macros
+  custom macros. Similarly for equations
 
 - List proofs: in KR chapter we have references back to items, but not in
   expertise chapter
@@ -41,6 +41,8 @@
 - Check if `\textcite` is really what I want
 
 - Duplicate references in bibliography
+
+- Shared notation between KR and NMR papers
 
 ## TD
 

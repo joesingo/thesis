@@ -1,0 +1,63 @@
+% tikz styles
+\input{chapters/truth-tracking/tikz/styles.tex}
+
+\crefformat{equation}{(#2#1#3)}
+\Crefformat{equation}{(#2#1#3)}
+\crefformat{enumi}{(#2#1#3)}
+\Crefformat{enumi}{(#2#1#3)}
+\crefformat{inlinelisti}{#2#1#3}
+\Crefformat{inlinelisti}{#2#1#3}
+
+\newcommand{\postulatename}[1]{\emph{#1}}
+
+% postulates
+\newcommand{\equivalence}{\postulatename{Equivalence}}
+\newcommand{\repetition}{\postulatename{Repetition}}
+\newcommand{\soundness}{\postulatename{Soundness}}
+\newcommand{\credulity}{\postulatename{Credulity}}
+
+% logical framework symbols
+\renewcommand{\phi}{\varphi}
+\newcommand{\srcs}{\mathcal{S}}
+\newcommand{\css}{\mathcal{C}}
+\newcommand{\propvars}{\mathsf{Prop}}
+\newcommand{\vals}{\mathcal{V}}
+\newcommand{\lang}{\mathcal{L}}
+\newcommand{\Lprop}{\lang_0}
+\renewcommand{\L}{\lang}
+\newcommand{\E}{\mathsf{E}}
+\renewcommand{\S}{\mathsf{S}}
+\newcommand{\limplies}{\rightarrow}
+\newcommand{\liff}{\leftrightarrow}
+\newcommand{\worlds}{\mathcal{W}}
+\newcommand{\propmodels}{\Vdash}
+\newcommand{\propmods}[1]{\|{#1}\|}
+\newcommand{\falsum}{\bot}
+\newcommand{\cnprop}[1]{\operatorname{Cn}_0\left({#1}\right)}
+\newcommand{\parts}{\mathcal{P}}
+\newcommand{\repr}[1]{\widehat{#1}}
+
+% methods
+\newcommand{\methodname}[1]{\mathsf{#1}}
+\newcommand{\vbc}{\methodname{vbc}}
+\newcommand{\pbc}{\methodname{pbc}}
+
+% orders
+\newcommand{\refines}{\preceq}
+\newcommand{\specleq}{\sqsubseteq}
+\newcommand{\speclt}{\sqsubset}
+\newcommand{\speceq}{\approx}
+\newcommand{\seqss}{\preceq}
+
+% misc
+\newcommand{\tuple}[1]{\langle{#1}\rangle}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Xsnd}{\X^\mathsf{snd}}
+\newcommand{\seqappend}{\circ}
+
+% example characters
+\newcommand{\dr}{\mathsf{D}}
+\newcommand{\tech}{\mathsf{T}}
+\newcommand{\patientA}{A}
+\newcommand{\patientB}{B}

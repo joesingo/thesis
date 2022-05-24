@@ -1,2 +1,1517 @@
 \chapter{Truth-Tracking}
-    \section{Summary}
+
+\section{Introduction}
+
+In this chapter we study truth-tracking in the logical framework of
+\textcite{singleton_booth_22_preprint} for reasoning about multiple non-expert
+information sources. Broadly speaking, the goal of truth-tracking is to find
+the true state of the world given some input which describes it. In our case
+this involves finding the true state of some propositional domain about which
+the sources give reports, and finding the extent of the expertise of the
+sources themselves.
+
+The general problem of truth-tracking has been studied in various forms across
+many domains. Perhaps the oldest approach goes back to \textcite{condorcet}, whose
+celebrated \emph{Jury Theorem} states that a majority vote on a yes/no issue
+will yield the ``correct" answer with probability approaching 1 as the number
+of voters tends to infinity, provided that each voter is more reliable than
+random choice. This result has since been generalised in many
+directions~\textcite{grofman1983thirteen}. More widely, \emph{epistemic social
+choice}~\cite{elkind2016rationalizations} studies aggregation methods (e.g.
+voting rules) from the point of finding the ``correct" result with high
+probability, where individual votes are seen as noisy approximations. Of
+particular relevance to our work is truth-tracking in \emph{judgement
+aggregation} in social
+choice~\cite{hartmann_judgment_2012,TerzopoulouEndrissSAGT2019}, which also
+takes place in a logical framework. \emph{Belief merging} has close links with
+judgement aggregation, and generalised jury theorems have been found here
+too~\cite{everaere_epistemic_2010}.
+
+In crowdsourcing, the problem of \emph{truth discovery}~\cite{li_survey_2016}
+looks at how information from unreliable sources can be aggregated to find the
+true value of a number of variables, and to find the true reliability level of
+the sources. This is close to our setting, since incoming information is not
+always assumed to be reliable, and information about the sources themselves is
+sought after. Work in this area combines empirical results (e.g. how well
+methods find the truth on test datasets for which true values are known) and
+theoretical guarantees, and is
+typically set in a probabilistic framework.
+
+On the other hand, \emph{formal learning theory}~\cite{jain1999systems} offers
+a non-probabilistic view on truth-tracking, stemming from the framework of
+\textcite{Gold_1967} for identification in the limit. In this paradigm a learner
+receives an infinite sequence of information step-by-step, such that all true
+information eventually appears in the sequence. The learner outputs a
+hypothesis at each step, and aims to stabilise on the correct hypothesis after
+some finite number of steps. This framework has been combined with belief
+revision theory~\cite{kelly1997reliable,baltag_tt_2019} and dynamic
+epistemic logic~\cite{baltag2019dynamic}.
+
+This is the approach we take, and in particular we adapt the truth-tracking
+setting of \textcite{baltag_tt_2019}. We apply this to the logical
+framework of \textcite{singleton_booth_22_preprint}. Briefly, this framework
+extends finite propositional logic with two new notions: that of a source
+having \emph{expertise} on a formula, and a formula being \emph{sound} for a
+source to report. Intuitively, expertise on $\phi$ means the source has the
+epistemic capability to distinguish between any pair of $\phi$ and $\neg\phi$
+states: they know whether or not $\phi$ holds in any state. A formula is sound
+for a source if it is true \emph{up to their lack of expertise}. For example,
+if a source has expertise on $\phi$ but not $\psi$, then $\phi \land \psi$ is
+sound whenever $\phi$ holds, since we can ignore the $\psi$ part (on which the
+source has no expertise). The resulting logical language therefore addresses
+both the \emph{ontic} facts of the world, through the propositional part, and
+the \emph{epistemic} state of the sources, via expertise and soundness.
+
+Generally speaking, formal learning theory supposes that all information
+received is true, and that all true information is eventually
+received.\footnotemark{} This is not a tenable assumption with non-expert
+sources: some sources may simply lack the expertise to know whether $\phi$ is
+true or false. Instead we make a different (and strong) assumption: all and
+only \emph{sound} reports are received. Thus, sources report everything
+consistent with their expertise. This necessitates inconsistent reports from
+non-experts, even if we assume sources are rational. Consequently, the input to
+our learning methods should be distinguished from the inputs to belief revision
+and belief merging methods~\cite{alchourron1985logic,konieczny2002merging} --
+also propositional formulas -- which represent \emph{beliefs} of the reporting
+sources. Indeed, we do not model beliefs of the sources at all.
+
+\footnotetext{
+    \textcite{baltag_tt_2019} consider erroneous reports, but only
+    provided that all errors are eventually corrected.
+}
+
+The following example informally illustrates the core concepts of the logical
+framework and truth-tracking, and will be returned to throughout the chapter.
+
+\begin{example}
+    \label{ex_informal_example}
+
+    Consider a medical scenario in which patient $\patientA{}$ is checked for
+    conditions $p$ and $q$. By examining $\patientA{}$, a doctor
+    $\dr{}$ has expertise to determine whether $\patientA{}$ has at least one
+    of $p$ or $q$, but cannot tell which one(s) without a blood test. A test is
+    only available for $p$, however, so that the technician $\tech{}$
+    performing the test has expertise on $p$ but not $q$.
+
+    Supposing $\patientA{}$ in fact suffers from $q$ but not $p$, $\dr{}$
+    considers each of $p \land q$, $\neg p \land q$ and $p \land \neg q$
+    possible, whereas $\tech{}$ considers both $\neg p \land q$ and $\neg p
+    \land \neg q$ possible.
+    %
+    Assuming both sources report \emph{all} they consider possible, their
+    combined expertise leaves $\neg p \land q$ as the only
+    possibility. Intuitively, this means we \emph{can} find the true values of
+    $p$ and $q$ in this case.
+
+    Now consider a patient $\patientB{}$ who suffers from both conditions.
+    $\dr{}$ cannot distinguish $\patientA{}$ and $\patientB{}$, so will provide
+    the same reports, and $\tech{}$ considers both $p \land q$ and $p \land
+    \neg q$ possible. In this case $\tech{}$ is more knowledgable than $\dr{}$
+    -- since they consider fewer situations possible -- but we cannot narrow
+    down the true value of $q$. Thus truth-tracking is only possible for $p$.
+    %
+    The second patient still provides useful information, though, since
+    together with the reports on $\patientA{}$,
+    $\tech{}$'s lack of expertise tells us all the (in)distinctions between
+    states they are able to make. Namely, $\tech{}$ cannot distinguish between
+    $p \land q$ and $p \land \neg q$. Thus we can find the truth about
+    $\tech{}$'s expertise.
+
+\end{example}
+
+\paragraph{Chapter outline.}
+
+In \cref{sec_preliminaries} we outline the logical framework for reasoning
+about expertise. \cref{sec_truthtracking} introduces the key concepts of
+truth-tracking and solvable questions. We characterise solvable questions in
+\cref{sec_characterising_solvable_questions}, and explore what they can reveal
+about the actual world in \cref{sec_learning_info}. \cref{sec_methods} looks at
+learning methods themselves, and characterises truth-tracking methods. We
+conclude in \cref{sec_conclusion}.
+
+\section{Preliminaries}
+\label{sec_preliminaries}
+
+In this section we recall the logical framework of
+\textcite{singleton_booth_22_preprint} for reasoning with non-expert sources.
+
+\paragraph{Syntax.}
+
+Let $\propvars$ be a finite set of propositional variables, and let $\Lprop$
+denote the propositional language generated from $\propvars$. We use $\Lprop$
+to model the domain underlying the truth-tracking problem; it describes the
+``ontic" facts of the world, irrespective of the expertise of the sources.
+Formulas in $\Lprop$ will be denoted by lower-case Greek letters ($\phi$,
+$\psi$, etc).
+
+Let $\srcs$ be a finite set of sources. The language $\L$ extends $\Lprop$ with
+expertise and soundness formulas for each source $i \in \srcs$, and is defined
+by the following grammar:
+\[
+    \Phi
+    ::=  \phi
+    \mid \E_i\phi
+    \mid \S_i\phi
+    \mid \Phi \land \Phi
+    \mid \neg\Phi,
+\]
+for $\phi \in \Lprop$ and $i \in \srcs$. Formulas in $\L$ will be denoted by
+upper-case Greek letters ($\Phi$, $\Psi$ etc). Other logical connectives
+($\lor$, $\limplies$, $\liff$) are introduced as abbreviations. We read
+$\E_i\phi$ as ``$i$ has expertise on $\phi$", and $\S_i\phi$ as ``$\phi$ is
+sound for $i$". Note that we restrict the expertise and soundness formulas to
+propositional arguments, and do not considered iterated formulas such as
+$\E_i\S_j\phi$.
+
+\paragraph{Semantics.}
+
+Let $\vals$ denote the set of propositional valuations
+over $\propvars$. We represent the expertise of a source $i$ with a
+\emph{partition} $\Pi_i$ of $\vals$. Intuitively, this partition represents
+the distinctions between states the source is able to make: valuations in the
+same cell in $\Pi_i$ are indistinguishable to $i$, whereas $i$ is able to tell
+apart valuations in different cells. We say $i$ has expertise on $\phi$ iff $i$
+can distinguish all $\phi$ states from $\neg\phi$ states, and $\phi$ is sound
+for $i$ if the ``actual" state is indistinguishable from some $\phi$ state.
+Note that these notions are closely linked to \emph{S5 knowledge} from
+epistemic logic; see
+\cite{singleton_booth_22_preprint,singleton2021logic} for further discussion.
+
+Let $\css$ be a finite set of \emph{cases}, thought of as independent
+instantiations of the domain of interest. For example, the cases in
+\cref{ex_informal_example} are the patients $\patientA{}$ and $\patientB{}$. We
+consider the expertise of sources to be fixed across all cases.
+
+\begin{figure}
+    \centering
+    \input{chapters/truth-tracking/tikz/world_example.tex}
+    \caption{
+        Example of a world $W$, which formalises \cref{ex_informal_example}.
+        Here $\propvars = \{p, q\}$, $\srcs = \{\dr{}, \tech{}\}$ and $\css =
+        \{\patientA{}, \patientB{}\}$.
+    }
+    \label{fig_example_world}
+\end{figure}
+
+A \emph{world} is a pair $W = \tuple{\{v_c\}_{c \in \css},
+\{\Pi_i\}_{i \in \srcs}}$, where
+\begin{itemize}
+    \item $v_c \in \vals$ is the ``actual" valuation for case $c$;
+    \item $\Pi_i \subseteq 2^\vals$ is a partition representing the
+          expertise of $i$.
+\end{itemize}
+
+Let $\worlds$ denote the set of worlds. Note that $\worlds$ is finite, since
+$\vals$, $\css$ and $\srcs$ are.
+%
+For $\phi \in \Lprop$, write $\propmods{\phi} \subseteq \vals$ for the
+models of $\phi$, and write $v \propmodels \phi$ iff $v \in \propmods{\phi}$.
+The consequences of a set $\Gamma \subseteq \Lprop$ is denoted by
+$\cnprop{\phi}$, and we write $\Gamma \propmodels \phi$ if $\phi \in
+\cnprop{\Gamma}$.
+%
+For a partition $\Pi$, let $\Pi[v]$ denote the unique cell in $\Pi$ containing
+$v$, and write $\Pi[U] = \bigcup_{v \in U}{\Pi[v]}$ for $U \subseteq
+\vals$. For brevity, we write $\Pi[\phi]$ instead of
+$\Pi[\propmods{\phi}]$. We evaluate $\L$ formulas with respect to a world $W$
+and a case $c$ as follows:
+\begin{align*}
+    W, c \models \phi &\iff v_c \propmodels \phi \\
+    W, c \models \E_i\phi &\iff \Pi_i[\phi] = \propmods{\phi} \\
+    W, c \models \S_i\phi &\iff v_c \in \Pi_i[\phi],
+\end{align*}
+where the clauses for conjunction and negation are as standard. The semantics
+follows the intuition outlined above: $\E_i\phi$ holds when $\Pi_i$ separates
+the $\phi$ states from the $\neg\phi$ states, and $\S_i\phi$ holds when $v_c$
+is indistinguishable from some $\phi$ state. Consequently, $\S_i\phi$ means
+$\phi$ is true \emph{up to the expertise of $i$}: if we weaken $\phi$ according
+to $i$'s expertise, the resulting formula (with models $\Pi_i[\phi]$) is true.
+
+\begin{example}
+    \label{ex_semantics}
+    Take $W$ from \cref{fig_example_world}, which formalises
+    \cref{ex_informal_example}. Then $W, c \models \E_{\dr{}}(p \lor q)$ for
+    all $c \in \css$, since $\propmods{p \lor q}$ is a cell in $\Pi_{\dr{}}$.
+    We also have $W, \patientA{} \models \neg{p} \land \S_{\dr{}}p$, i.e.
+    patient $\patientA{}$ does not suffer from condition $p$, but it is
+    consistent with $\dr{}$'s expertise that they do.
+\end{example}
+
+We write $W, c \models \Gamma$, for a set of formulas $\Gamma \subseteq \L$, if
+$W, c \models \Phi$ for all $\Phi \in \Gamma$. For a set $S \subseteq \worlds$,
+we write $S, c \models \Phi$ iff $W, c \models \Phi$ for all $W \in S$.
+
+\paragraph{Reports.}
+
+A \emph{report} is triple $\tuple{i, c, \phi}$, where $i \in \srcs$, $c \in
+\css$ and $\phi \in \Lprop$ with $\phi \not\equiv \falsum$. In this chapter, we
+interpret such triples as source $i$ reporting that $\phi$ is possible in case
+$c$. An \emph{input sequence} $\sigma$ is a finite sequence of reports.
+
+A \emph{method} $L$ maps each input sequence $\sigma$ to a set of worlds
+$L(\sigma) \subseteq \worlds$, representing the worlds $L$ considers most
+plausible given $\sigma$.\footnotemark{} We say $L$ \emph{believes} $S
+\subseteq \worlds$ on the basis of $\sigma$ if $L(\sigma) \subseteq S$. $L$ is
+\emph{consistent} if $L(\sigma) \ne \emptyset$ for all input sequences
+$\sigma$.
+
+\footnotetext{
+    We depart from the original framework here by taking a semantic view of
+    belief change operators, with the output a set of worlds instead of
+    formulas.
+}
+
+\section{Truth-Tracking}
+\label{sec_truthtracking}
+
+We adapt the framework for truth-tracking
+from~\cite{Baltag_2016,baltag_tt_2019}, which finds its roots in
+formal learning theory. In this framework, a learning method receives
+increasing initial segments of an infinite sequence -- called a \emph{stream}
+-- which enumerates all (and only) the true propositions observable at the
+``actual" world. Truth-tracking requires the method to eventually find
+the actual world (or some property thereof), given \emph{any} stream.
+
+As mentioned in the introduction, in our setting we cannot assume the sources
+themselves report only true propositions. Instead, our streams will enumerate
+all the \emph{sound} reports. Thus, a stream may include false reports, but
+such false reports only arise due to lack of expertise of the corresponding
+source.\footnotemark{} Moreover, \emph{all} sound reports will eventually
+arise. Since $\S_i\phi$ means $\phi$ is possible from the point of view of
+$i$'s expertise, we can view a stream as each source sharing \emph{all that
+they consider possible} for each case $c \in \css$. In particular, a non-expert
+source may report both $\phi$ and $\neg\phi$ for the same case.
+
+\footnotetext{
+    Alternatively, we can consider statements of the form ``$\phi$ is sound for
+    $i$ in case $c$" as a higher-order ``proposition"; a stream then enumerates
+    all true propositions of this kind.
+}
+
+\begin{definition}
+    \label{def_stream}
+    An infinite sequence of reports $\rho$ is a \emph{stream} for $W$ iff for
+    all $i, c, \phi$:
+    \[
+        \tuple{i, c, \phi} \in \rho \iff W, c \models \S_i\phi.
+    \]
+\end{definition}
+
+We refer to the left-to-right implication as \emph{soundness} of $\rho$ for
+$W$, and the right-to-left direction as \emph{completeness}. Note that every
+world $W$ has some stream: the set $\{\tuple{i, c, \phi} \mid W, c \models
+\S_i\phi\}$ is countable, so can be indexed by $\N$ to form a stream. For $n
+\in \N$ we let $\rho_n$ denote the $n$-th report in $\rho$, and write $\rho[n]$
+for the finite initial segment of $\rho$ of length $n$.
+
+\begin{example}
+    \label{ex_stream}
+    Consider $W$ from \cref{fig_example_world} and case $\patientA{}$. From the
+    point of view of $\dr{}$'s expertise, the ``actual" world could be $pq$,
+    $\bar{p}q$, $p\bar{q}$. Consequently, in a stream for $W$, $\dr{}$ will
+    report $p$, $\neg p$, $q$, $\neg q$, $p \lor q$, and so on. A report that
+    $\dr{}$ will \emph{not} give is $\neg (p \lor q)$, since $\dr{}$ has
+    expertise to know this is false.
+
+    Note that $v_{\patientA{}}$ and $v_{\patientB{}}$ are indistinguishable to
+    $\dr{}$, so the reports of $\dr{}$ in any stream will be the same for both
+    cases. In contrast, $\tech{}$ \emph{can} distinguish the two cases, and
+    will report $\neg p$ in case $\patientA{}$ but not in $\patientB{}$, and
+    $p$ in case $\patientB{}$ but not in $\patientA{}$.
+\end{example}
+
+A \emph{question} $Q$ is a partition of $\worlds$. That is, a question is a set
+of disjoint \emph{answers} $A \in Q$, with each world $W$ appearing in a unique
+cell $Q[W]$ -- the correct answer at $W$.
+
+\begin{example}\leavevmode
+    \label{ex_questions}
+    \begin{enumerate}
+        \item Any formula $\Phi \in \L$ and case $c$ defines a question
+              $Q_{\Phi, c}$, whose two cells consist of the worlds satisfying
+              $\Phi$, respectively $\neg\Phi$, in case $c$. Intuitively, this
+              question asks whether $\Phi$ is true or false in case $c$.
+        \item The finest question $Q_\bot = \{\{W\} \mid W \in \worlds\}$ asks:
+              what is the ``actual" world?
+        \item More generally, for any set $X$ and function $f: \worlds \to X$,
+              the equivalence relation given by $W \simeq_f W'$ iff $f(W) =
+              f(W')$ defines a question $Q_f$.
+
+              In this way any data associated with a world gives rise to a
+              question. For example, if $f(W) = \{i \in \srcs \mid \Pi^W_i[p]
+              = \propmods{p}\}$ we ask for the set of sources with expertise
+              on $p$; if $f(W) = |\{c \in \css \mid W, c \models p\}|$ we
+              ask for the number of cases where $p$ holds, etc.
+
+              In fact, all questions are of this form: given $Q$ we may define $f:
+              \worlds \to Q$ by $f(W) = Q[W]$; then $Q_f = Q$.
+    \end{enumerate}
+\end{example}
+
+A method solves $Q$ if it eventually believes the correct answer when given any
+stream.
+
+\begin{definition}
+    \label{def_solvability}
+    A method $L$ \emph{solves} a question $Q$ if for all worlds $W$ and all
+    streams $\rho$ for $W$, there is $n \in \N$ such that $L(\rho[m]) \subseteq
+    Q[W]$ for all $m \ge n$. A question $Q$ is \emph{solvable} if there is some
+    consistent method $L$ which solves $Q$.
+\end{definition}
+
+Note that we do not require $W \in L(\rho[m])$.
+%
+Since we work in a finite framework, solvability can be also expressed
+in terms of eliminating incorrect worlds.
+
+\begin{proposition}
+    \label{prop_elimination_solving}
+    A method $L$ solves $Q$ if and only if for all $W$, all streams $\rho$ for
+    $W$, and all $W' \notin Q[W]$, there is $n_{W'} \in \N$ such that $W'
+    \notin L(\rho[m])$ for all $m \ge n_{W'}$.
+\end{proposition}
+
+\begin{proof}
+    ``if": Taking $n = \max\{n_{W'} \mid W' \notin Q[W]\}$, which exists
+    since $\worlds$ is finite, $L(\rho[m]) \subseteq Q[W]$ for $m \ge
+    n$.
+
+    ``only if": Taking $n$ from the definition of $L$ solving $Q$, we may
+    simply take $n_{W'} = n$ for all $W' \notin Q[W]$.
+\end{proof}
+
+\section{Characterising Solvable Questions}
+\label{sec_characterising_solvable_questions}
+
+In this section we explore solvability of questions, finding that there is a
+unique ``hardest" question which subsumes all solvable questions. We show this
+is itself solvable, and thus obtain a precise characterisation of solvability.
+
+Questions are partially ordered by partition refinement: $Q \refines Q'$ iff
+each $A' \in Q'$ can be written as a union of answers from $Q$. Equivalently,
+$Q[W] \subseteq Q'[W]$ for all $W$. This can be interpreted as a
+\emph{difficulty ordering}: if $Q \refines Q'$ then each answer of $Q'$ is just
+a disjunction of answers of $Q$, and thus $Q'$ is \emph{easier} than $Q$.
+Naturally, if $Q$ is solvable then so too is any easier question.
+
+\begin{proposition}
+    \label{prop_easier_questions_also_solvable}
+    If $Q$ is solvable and $Q \refines Q'$, then $Q'$ is solvable.
+\end{proposition}
+\begin{proof}
+    The method which solves $Q$ also solves $Q'$.
+\end{proof}
+
+Since question solving is based on streams of sound reports, worlds satisfying
+the same soundness statements cannot be distinguished by any solvable question.
+To formalise this, define a preorder $\specleq$ on $\worlds$ by
+\[
+    W \specleq W'
+    \iff
+    \forall i, c, \phi:\
+        W, c \models \S_i\phi \implies W', c \models \S_i\phi.
+\]
+Thus, $W \specleq W'$ iff any report sound for $W$ is also sound for $W'$. We
+denote by $\speclt$ and $\speceq$ the strict and symmetric parts of $\specleq$,
+respectively.\footnotemark{}
+
+\footnotetext{
+    \textcite{Baltag_2016} explore \emph{topological} interpretations of
+    solvability by considering the topology on the set of worlds generated by
+    observable propositions. In our setting, this is the topology generated by
+    sets of the form $\{W \mid W, c \models \S_i\phi\}$. In this topology,
+    $\specleq$ is the \emph{specialisation preorder}.
+}
+
+\begin{lemma}
+    \label{lemma_spec_active_cell}
+    $W \specleq W'$ if and only if for all $i \in \srcs$ and $c \in \css$,
+    $\Pi^W_i[v^W_c] \subseteq \Pi^{W'}_i[v^{W'}_c]$.
+\end{lemma}
+
+\begin{proof}
+    ``if": Suppose $W, c \models \S_i\phi$. Then $v^W_c \in \Pi^W_i[\phi]$, so
+    there is $u \in \propmods{\phi}$ such that $v^W_c \in \Pi^W_i[u]$.
+    Consequently $u \in \Pi^W_i[v^W_c] \subseteq \Pi^{W'}_i[v^{W'}_c]$, which
+    means $v^{W'}_c \in \Pi^{W'}_i[u] \subseteq \Pi^{W'}_i[\phi]$. Hence $W', c
+    \models \S_i\phi$. This shows $W \specleq W'$.
+
+    ``only if": Let $u \in \Pi^W_i[v^W_c]$. Let $\phi$ be any formula with
+    $\propmods{\phi} = \{u\}$. Then $W, c \models \S_i\phi$, so $W \specleq W'$
+    gives $W', c \models \S_i\phi$, i.e. $v^{W'}_c \in \Pi^{W'}_i[u]$, so $u
+    \in \Pi^{W'}_i[v^{W'}_c]$. Hence $\Pi^W_i[v^W_c] \subseteq
+    \Pi^{W'}_i[v^{W'}_c]$.
+\end{proof}
+
+Note that $\Pi_i[v_c]$ is the set of valuations indistinguishable from the
+``actual" valuation in case $c$, for source $i$. In light of
+\cref{lemma_spec_active_cell}, we can interpret $W \specleq W'$ as saying that
+all sources are \emph{more knowledgeable} in each case $c$ in world $W$ than in
+$W'$. However, $W \specleq W'$ does not say anything about the partition cells
+not containing some $v_c$.
+
+\begin{proposition}
+    \label{prop_speceq_equivalent_conditions}
+    The following are equivalent.
+    \begin{enumerate}
+        \item\label{item_same_streams} $W$ and $W'$ have exactly the same
+            streams.
+        \item\label{item_speceq} $W \speceq W'$.
+        \item\label{item_active_cells_equal} For all $i \in \srcs$ and $c \in
+            \css$, $\Pi^W_i[v^W_c] = \Pi^{W'}_i[v^{W'}_c]$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \cref{item_speceq} and \cref{item_active_cells_equal} are easily seen to be
+    equivalent in light of \cref{lemma_spec_active_cell}. To show
+    \cref{item_same_streams} is equivalent to \cref{item_speceq}, first suppose
+    $W$ and $W'$ have the same streams, and suppose $W, c \models \S_i\phi$.
+    Taking an arbitrary stream $\rho$ for $W$, completeness gives $\tuple{i, c,
+    \phi} \in \rho$. But $\rho$ is a stream for $W'$ too, and soundness gives
+    $W', c \models \S_i\phi$. Hence $W \specleq W'$. A symmetrical argument
+    shows $W' \specleq W$.
+
+    On the other hand, if $W \speceq W'$ then $W$ and $W'$ satisfy exactly the
+    same soundness statements, so it is clear that any sequence $\rho$ is a
+    stream for $W$ iff it is a stream for $W'$.
+\end{proof}
+
+Since it will play a special role throughout, we denote by $Q^*$ the question
+formed by the equivalence relation $\speceq$. Then $Q^*[W]$ is the set of $W'$
+with $W \speceq W'$. Since no solvable question can distinguish
+$\speceq$-equivalent worlds, we have the following.
+
+\begin{lemma}
+    \label{lemma_solvable_implies_coarser_than_qstar}
+    If $Q$ is solvable then $Q^* \refines Q$.
+\end{lemma}
+
+\begin{proof}
+    Suppose $L$ is a consistent method solving $Q$. We show $Q^*[W] \subseteq
+    Q[W]$ for all $W$.  Indeed, let $W' \in Q^*[W]$. Then $W' \speceq W$.
+    Taking any stream $\rho$ for $W$, there is $n$ such that $L(\rho[m])
+    \subseteq Q[W]$ for $m \ge n$. On the other hand $\rho$ is also a stream
+    for $W'$ by \cref{prop_speceq_equivalent_conditions}, so there is $n'$ such
+    that $L(\rho[m]) \subseteq Q[W']$ for $m \ge n'$. Setting $m = \max\{n,
+    n'\}$ and using the fact that $L$ is consistent, we find $\emptyset \subset
+    L(\rho[m]) \subseteq Q[W] \cap Q[W']$. Since $Q$ is a partition, this means
+    $Q[W] = Q[W']$, i.e. $W' \in Q[W]$.
+\end{proof}
+
+So, any solvable question is coarser than $Q^*$. Fortunately, $Q^*$ itself is
+solvable since we work in a finite framework. For a sequence $\sigma$, write
+$\Xsnd_\sigma$ for the set of worlds $W$ such that $W, c \models \S_i\phi$ for
+all $\tuple{i, c, \phi} \in \sigma$. To solve $Q^*$ it suffices to conjecture
+the $\specleq$-minimal worlds in $\Xsnd_\sigma$.
+
+\begin{proposition}
+    \label{prop_qstar_solvable}
+    $Q^*$ is solvable.
+\end{proposition}
+
+\begin{proof}
+    Set $L(\sigma) = \min_{\specleq}{\Xsnd_\sigma}$ if $\Xsnd_\sigma \ne
+    \emptyset$, and $L(\sigma) = \worlds$ otherwise (where $W \in
+    \min_{\specleq}{\Xsnd_\sigma}$ iff $W \in \Xsnd_\sigma$ and there is no
+    $W' \in \Xsnd_\sigma$ with $W' \speclt W$). Note that $L$ is consistent
+    since $\worlds$ is finite and non-empty. We show that $L$ solves $Q^*$ by
+    \cref{prop_elimination_solving}. Take any world $W$ and a stream $\rho$.
+    First note that, by soundness of $\rho$, $W \in \Xsnd_{\rho[n]}$ for all $n
+    \in \N$, so we are always in the first case in the definition of $L$.
+
+    Take $W' \notin Q^*[W]$. Then $W \not\speceq W'$. Consider two cases:
+    \begin{itemize}
+        \item \textbf{Case 1:} $W \not\specleq W'$. By definition, there are
+              $i, c, \phi$ such that $W, c \models \S_i\phi$ but $W', c
+              \not\models \S_i\phi$. By completeness of $\rho$ for $W$, there
+              is $n$ such that $\rho_n = \tuple{i, c, \phi}$. Consequently $W'
+              \notin \Xsnd_{\rho[m]}$ for all $m \ge n$. Since $L(\rho[m])
+              \subseteq \Xsnd_{\rho[m]}$, we have $W' \notin L(\rho[m])$ as
+              required.
+
+        \item \textbf{Case 2:} $W \speclt W'$. Since $W \in \Xsnd_{\rho[n]}$
+              for all $n$, $W'$ can never be $\specleq$-minimal. Thus $W'
+              \notin L(\rho[n])$ for all $n$.
+    \end{itemize}
+    Note that these cases are exhaustive since $W \not\speceq W'$. This
+    completes the proof.
+\end{proof}
+
+Putting
+\cref{prop_easier_questions_also_solvable,lemma_solvable_implies_coarser_than_qstar,prop_qstar_solvable}
+together we obtain a characterisation of solvable questions.
+
+\begin{theorem}
+    \label{thm_solvability_characterisation}
+    $Q$ is solvable if and only if $Q^* \refines Q$.
+\end{theorem}
+
+Given this result, $Q^*$ is the only question that really matters: any other
+question is either unsolvable or formed by coarsening $Q^*$. With this in mind,
+we make the following definition.
+
+\begin{definition}
+    \label{def_truthtracking}
+    A method is \emph{truth-tracking} if it solves $Q^*$.
+\end{definition}
+
+\begin{example}
+    \label{ex_questions_revisited}
+    We refer back to the questions of \cref{ex_questions}.
+    \begin{enumerate}
+        \item The question $Q_{\phi, c}$, for any propositional formula $\phi
+              \in \Lprop$, is solvable if and only if either $\phi$ is a
+              tautology or a contradiction. To see the ``only if" part,
+              consider the contrapositive. For any contingent formula $\phi$,
+              take worlds $W_1, W_2$ where no source has any expertise (i.e.
+              $\Pi^{W_k}_i = \{\vals\}$) but where $v^{W_1}_c \propmodels
+              \phi$, $v^{W_2}_c \propmodels \neg\phi$. Then $W_1 \speceq W_2$
+              (e.g. by \cref{prop_speceq_equivalent_conditions}) but $W_1
+              \notin Q_{\phi, c}[W_2]$.
+
+              Similarly, $Q_{\E_i\phi, c}$ is solvable iff either $\phi$ is a
+              tautology or contradiction, when $|\propvars| \ge 2$.
+
+        \item The finest question $Q_\bot$ is not solvable, since there are
+              always distinct $W, W'$ with $W \speceq W'$.
+
+        \item In general, $Q_f$ is solvable iff $W \speceq W'$ implies $f(W) =
+            f(W')$, i.e. iff $f$ takes a unique value on each equivalence class
+            of $\speceq$.
+    \end{enumerate}
+\end{example}
+
+\section{What Information can be Learned?}
+\label{sec_learning_info}
+
+Solving a question $Q$ has a \emph{global} character: we must find the correct
+answer $Q[W]$ starting from \emph{any} world $W$. As we saw in
+\cref{ex_questions_revisited}, this rules out the possibility of solving many
+interesting questions due to the presence of ``abnormal" worlds (e.g. those in
+which no sources have any expertise). In this section we take a more
+fine-grained approach by looking \emph{locally}: given some \emph{particular}
+world $W$, what can we learn about $W$ via truth-tracking methods?
+Concretely, what properties of $W$ are uniquely defined across $Q^*[W]$?
+
+Clearly this depends on $W$. If no sources have expertise then
+source partitions are uniquely defined (since \emph{all} consistent formulas
+are sound, and only the trivial partitions have this property), but any
+combination of valuations is possible. On the other hand if all sources have
+total expertise then valuations are uniquely defined, but there may not be
+enough cases to uniquely identify the source partitions. Of particular interest
+is the case where $Q^*[W]$ contains only $W$; starting in such a world,
+truth-tracking methods are able to find the true world exactly.
+
+In what follows, say $S$ \emph{decides $\Phi$ in case
+$c$} iff either $S, c \models \Phi$ or $S, c \models \neg\Phi$. That is, the
+truth value of $\Phi$ in case $c$ is unambiguously defined across $S$. If
+$\Phi$ does not depend on the case (e.g. if $\Phi = \E_i\phi$) we simply say
+$S$ decides $\Phi$.
+
+\subsection{Valuations}
+
+We start by considering when $Q^*[W]$ decides a propositional formula $\phi$ in
+case $c$, i.e. when truth-tracking methods are guaranteed to successfully
+determine whether or not $\phi$ holds in the ``actual" world. This leads to a
+precise characterisation of when $Q^*[W]$ contains a \emph{unique} valuation in
+case $c$, so that $v^W_c$ can be found exactly.
+
+We need a notion of \emph{group expertise}. For $\srcs' \subseteq \srcs$ and
+$\Gamma \subseteq \Lprop$, write $W \models \E_{\srcs'}{\Gamma}$ if for each
+$\psi \in \Gamma$ there is $i \in \srcs'$ such that $W \models \E_i\psi$. Then
+the group $\srcs'$ have expertise on $\Gamma$ in a collective sense, even if no
+single source has expertise on \emph{all} formulas in $\Gamma$.
+%
+We have that $\phi$ is decided if $\srcs$ have group expertise on a set of true
+formulas $\Gamma \subseteq \Lprop$ such that either $\Gamma \propmodels \phi$
+or $\Gamma \propmodels \neg\phi$.
+
+\begin{theorem}
+    \label{thm_decide_phi}
+    $Q^*[W]$ decides $\phi \in \Lprop$ in case $c$ if and only if there is
+    $\Gamma \subseteq \Lprop$ such that
+    \begin{inlinelist}
+        \item $W, c \models \Gamma$;
+        \item $W \models \E_{\srcs}{\Gamma}$; and
+        \item either $\Gamma \propmodels \phi$ or $\Gamma \propmodels
+              \neg\phi$.
+    \end{inlinelist}
+\end{theorem}
+
+$Q^*[W]$ decides \emph{all} propositional formulas -- and thus determines the
+$c$-valuation $v^W_c$ exactly -- iff $\srcs$ have group expertise on a
+maximally consistent set of true formulas. For $S \subseteq \worlds$ and $c \in
+\css$, write $\vals^S_c = \{v^W_c \mid W \in S\}$ for the $c$-valuations
+appearing in $S$.
+
+\begin{theorem}
+    \label{thm_qstar_unique_cval_conditions}
+    The following are equivalent.
+    \begin{enumerate}
+        \item\label{item_uniqueval} $\vals^{Q^*[W]}_c = \{v^W_c\}$.
+        \item\label{item_define_all_phi} $Q^*[W]$ decides $\phi$ in case $c$,
+            for all $\phi \in \Lprop$.
+        \item\label{item_mcs_gamma} There is $\Gamma \subseteq \Lprop$ such
+            that
+              \begin{inlinelist}
+                  \item $W, c \models \Gamma$;
+                  \item $W \models \E_{\srcs}{\Gamma}$; and
+                  \item $\cnprop{\Gamma}$ is a maximally consistent set.
+              \end{inlinelist}
+    \end{enumerate}
+\end{theorem}
+
+We illustrate \cref{thm_qstar_unique_cval_conditions} with an example.
+
+\begin{example}
+    \label{ex_qstar_unique_cval_conditions}
+    Consider $W$ from \cref{fig_example_world}.
+    %
+    Then one can show $\vals^{Q^*[W]}_{\patientA{}} = \{\bar{p}q\} =
+    \{v^W_{\patientA{}}\}$, and $\vals^{Q^*[W]}_{\patientB{}} = \{pq,
+    p\bar{q}\} \ne \{v^W_{\patientB{}}\}$. That is, $W$'s $\patientA{}$
+    valuation is uniquely determined by truth-tracking methods, but its
+    $\patientB{}$ valuation is not: there is some world $W' \speceq W$ whose
+    $\patientB{}$-valuation differs from $W$'s. This matches the informal
+    reasoning in \cref{ex_informal_example}, in which patient $\patientA{}$
+    could be successfully diagnosed on both $p$ and $q$ but $\patientB{}$ could
+    not.
+
+    Formally, take $\Gamma = \{p \lor q, \neg p\}$. Then $W, \patientA{}
+    \models \Gamma$, $W \models \E_{\srcs}{\Gamma}$ (since $\dr{}$ has
+    expertise on $p \lor q$ and $\tech{}$ has expertise on $\neg p$), and
+    $\cnprop{\Gamma} = \cnprop{\neg p \land q}$, which is maximally consistent.
+    %
+    This example shows how the expertise of multiple sources can be combined to
+    find valuations uniquely, but that this is not necessarily possible in all
+    cases.
+
+\end{example}
+
+The remainder of this section proves
+\cref{thm_decide_phi,thm_qstar_unique_cval_conditions}.
+
+\begin{lemma}
+    \label{lemma_phi_and_ephi}
+    For $W \speceq W'$, $i \in \srcs$ and $\phi \in \Lprop$,
+    \[
+        W, c \models \phi \land \E_i\phi \implies W', c \models \phi.
+    \]
+\end{lemma}
+
+\begin{proof}
+    From $W, c \models \phi$ we have $v^W_c \in \propmods{\phi}$, so
+    $\Pi^W_i[v^W_c] \subseteq \Pi^W_i[\phi]$. But $W, c \models \E_i\phi$ means
+    $\Pi^W_i[\phi] = \propmods{\phi}$, so in fact $\Pi^W_i[v^W_c] \subseteq
+    \propmods{\phi}$. Now using $W \speceq W'$, we find $v^{W'}_c \in
+    \Pi^{W'}_i[v^{W'}_c] = \Pi^W_i[v^W_c] \subseteq \propmods{\phi}$. Hence
+    $W', c \models \phi$.
+\end{proof}
+
+\begin{lemma}
+    \label{lemma_vals_qstar_c}
+    $\vals^{Q^*[W]}_c = \bigcap_{i \in \srcs}{\Pi^W_i[v^W_c]}$.
+\end{lemma}
+
+\begin{proof}
+    ``$\subseteq$": Suppose $u \in \vals^{Q^*[W]}_c$. Then there is $W' \speceq
+    W$ such that $u = v^{W'}_c$. Let $i \in \srcs$. Then $u \in
+    \Pi^{W'}_i[v^{W'}_c] = \Pi^W_i[v^W_c]$ by
+    \cref{prop_speceq_equivalent_conditions}, as required.
+
+    ``$\supseteq$": Suppose $u \in \bigcap_{i \in \srcs}{\Pi^W_i[v^W_c]}$. Let
+    $W'$ be the world obtained from $W$ by setting the $c$-valuation to $u$,
+    keeping partitions and other valuations the same. We need to show $W'
+    \speceq W$. We do so via \cref{prop_speceq_equivalent_conditions}, by
+    showing condition \cref{item_active_cells_equal}. Take any $i \in
+    \srcs$ and $d \in \css$. If $d \ne c$ then $v^{W'}_d = v^W_d$; since
+    partitions are the same in $W'$ as in $W$ we get $\Pi^W_i[v^W_d] =
+    \Pi^{W'}_i[v^{W'}_d]$. For $c = d$, note $\Pi^{W'}_i[v^{W'}_c] =
+    \Pi^W_i[u]$. By assumption $u \in \Pi^W_i[v^W_c]$, so $\Pi^W_i[u] =
+    \Pi^W_i[v^W_c]$. Hence $\Pi^{W'}_i[v^{W'}_c] = \Pi^W_i[v^W_c]$ as required.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm_decide_phi}]
+    ``if": Take $W' \in Q^*[W]$. Note that since $W, c \models \Gamma$ and $W,
+    c \models \E_\srcs\Gamma$, we may apply \cref{lemma_phi_and_ephi} to each
+    formula in $\Gamma$ in turn to find $W', c \models \Gamma$. Now, if $W, c
+    \models \phi$ then we must have $\Gamma \propmodels \phi$, so $W', c
+    \models \phi$ too. Otherwise $W, c \not\models \phi$, so we must have
+    $\Gamma \propmodels \neg\phi$ and $W', c \not\models \phi$. This shows $W',
+    c \models \phi$ if and only if $W, c \models \phi$. Since $W' \in Q^*[W]$
+    was arbitrary, $Q^*[W]$ decides $\phi$ in case $c$.
+
+    ``only if": Suppose $Q^*[W]$ decides $\phi$ in case $c$. For each $i \in
+    \srcs$, take some $\psi_i \in \Lprop$ such that $\propmods{\psi_i} =
+    \Pi^W_i[v^W_c]$. Then $W \models \E_i\psi_i$. Set $\Gamma = \{\psi_i\}_{i
+    \in \srcs}$. Clearly $W, c \models \Gamma$ and $W \models \E_\srcs\Gamma$.
+    Now, take any $u \in \propmods{\Gamma}$. By \cref{lemma_vals_qstar_c},
+    $\propmods{\Gamma} = \bigcap_{i \in \srcs}{\Pi^W_i[v^W_c]} =
+    \vals^{Q^*[W]}_c$. Hence there is some $W' \in Q^*[W]$ such that $u =
+    v^{W'}_c$. But $Q^*[W]$ decides $\phi$ in case $c$, so $W', c \models \phi$
+    iff $W, c \models \phi$. Thus $u \propmodels \phi$ iff $W, c \models \phi$.
+    Since $u \in \propmods{\Gamma}$ was arbitrary, we have $\Gamma \propmodels
+    \phi$ if $W, c \models \phi$, and $\Gamma \propmodels \neg\phi$ otherwise.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm_qstar_unique_cval_conditions}]
+    \cref{item_uniqueval} implies \cref{item_define_all_phi}: If $W' \in
+    Q^*[W]$ then $W$ and $W'$ share the same $c$-valuation by
+    \cref{item_uniqueval}, so clearly $W, c \models \phi$ iff $W', c \models
+    \phi$, for any $\phi$. Hene $Q^*[W]$ decides $\phi$ in case $c$.
+
+    \cref{item_define_all_phi} implies \cref{item_uniqueval}: Clearly $v^W_c
+    \in \vals^{Q^*[W]}_c$. Suppose $u \in \vals^{Q^*[W]}_c$. Then there is $W'
+    \in Q^*[W]$ such that $u = v^{W'}_c$. Let $p \in \propvars$. Since $W, W'
+    \in Q^*[W]$ and $Q^*[W]$ decides $p$ in case $c$, we have $u \propmodels p$
+    iff $v^W_c \propmodels p$. Since $p$ was arbitrary, $u = v^W_c$.
+
+    \cref{item_define_all_phi} implies \cref{item_mcs_gamma}: Applying
+    \cref{thm_decide_phi} to each $\phi \in \Lprop$, there is a set
+    $\Gamma_\phi \subseteq \Lprop$ such that $W, c \models \Gamma_\phi$, $W
+    \models \E_\srcs\Gamma_\phi$, and either $\Gamma_\phi \propmodels \phi$ or
+    $\Gamma_\phi \propmodels \neg\phi$. Set $\Gamma = \bigcup_{\phi \in
+    \Lprop}{\Gamma_\phi}$. Clearly $W, c \models \Gamma$ -- so $\Gamma$ is
+    consistent -- and $W \models \E_\srcs\Gamma$. To show $\cnprop{\Gamma}$ is
+    \emph{maximally} consistent, suppose $\phi \notin \cnprop{\Gamma}$. From
+    monotonicity of classical consequence and $\Gamma_\phi \subseteq \Gamma$,
+    we get $\phi \notin \cnprop{\Gamma_\phi}$. Hence $\Gamma_\phi \propmodels
+    \neg\phi$, and $\Gamma \propmodels \neg\phi$ too. This means
+    $\cnprop{\Gamma} \cup \{\phi\}$ is inconsistent, and we are done.
+
+    \cref{item_mcs_gamma} implies \cref{item_define_all_phi}: Take $\phi \in
+    \Lprop$. Then we may apply \cref{thm_decide_phi} with $\Gamma$ from
+    \cref{item_mcs_gamma} -- noting that the maximal consistency property
+    ensure either $\Gamma \propmodels \phi$ or $\Gamma \models \neg\phi$ -- to
+    see that $Q^*[W]$ decides $\phi$ in case $c$.
+\end{proof}
+
+\subsection{Source Partitions}
+
+We now apply the analysis of the previous section to the set of source
+partitions $\{\Pi^W_i\}_{i \in \srcs}$. For $S \subseteq \worlds$ and $i \in
+\srcs$, write $\parts^S_i = \{\Pi^W_i \mid S \in W\}$ for the $i$-partitions
+appearing in $S$. When $S = Q^*[W]$, these are exactly those partitions which
+agree with $\Pi^W_i$ at each valuation $v^W_c$.
+
+\begin{lemma}
+    \label{lemma_qstar_partitions}
+    $\Pi \in \parts^{Q^*[W]}_i$
+    if and only if
+    $\{\Pi^W_i[v^W_c]\}_{c \in \css} \subseteq \Pi$.
+\end{lemma}
+
+\begin{proof}
+
+    ``if": Suppose $\{\Pi^W_i[v^W_c]\}_{c \in \css} \subseteq \Pi$. Let $W'$ be
+    obtained from $W$ by setting $i$'s partition to $\Pi$, keeping valuations
+    and other source partitions the same. We claim $W' \speceq W$. Indeed, take
+    any $j \in \srcs$ and $c \in \css$. If $j \ne i$ then $\Pi^{W'}_j =
+    \Pi^W_i$; since valuations are the same we get $\Pi^W_j[v^W_c] =
+    \Pi^{W'}_j[v^{W'}_c]$. For $j = i$, note that since $\Pi^W_i[v^W_c] \in
+    \Pi$ by assumption, and $v^W_c \in \Pi^W_i[v^W_c]$, we have $\Pi[v^W_c] =
+    \Pi^W_i[v^W_c]$. By construction of $W'$, this means $\Pi^W_i[v^W_c] =
+    \Pi[v^{W'}_c] = \Pi^{W'}_i[v^{W'}_c]$. By
+    \cref{prop_speceq_equivalent_conditions},
+    $W' \speceq W$. Hence $\Pi \in \parts^{Q^*[W]}_i$.
+
+    ``only if": This is clear from \cref{prop_speceq_equivalent_conditions}.
+\end{proof}
+
+\begin{figure}
+    \centering
+    \input{chapters/truth-tracking/tikz/partition_example.tex}
+    \caption{
+        World $W$ from \cref{ex_qstar_partitions}. Note that for brevity we do
+        not label the valuations.
+    }
+    \label{fig_qstar_partitions}
+\end{figure}
+
+\begin{example}
+    \label{ex_qstar_partitions}
+    Suppose $|\propvars| = 3$, $\css = \{c_1, c_2\}$ and $i \in \srcs$.
+    Consider a world $W$ whose $i$-partition is shown in
+    \cref{fig_qstar_partitions}. By \cref{lemma_qstar_partitions}, a partition
+    $\Pi$ appears as $\Pi^{W'}_i$ for some $W' \speceq W$ if and only if it
+    contains the leftmost and bottommost sets. Any such $\Pi$ consists
+    of these cells together with a partition of the shaded area. Since there
+    are 5 possible partitions of a 3-element set, it follows that
+    $|\parts^{Q^*[W]}_i| = 5$.
+\end{example}
+
+\cref{ex_qstar_partitions} hints that if the cells containing the valuations
+$v^W_c$ cover the whole space of valuations $\vals$, or just omit a single
+valuation, then $i$'s partition is uniquely defined in $Q^*[W]$. That is,
+truth-tracking methods can determine the full extent of $i$'s expertise if the
+``actual" world is $W$. Indeed, we have the following analogue of
+\cref{thm_qstar_unique_cval_conditions} for partitions.
+
+\begin{theorem}
+    \label{thm_qstar_unique_ipartition_conditions}
+    The following are equivalent.
+
+    \begin{enumerate}
+        \item\label{item_uniquepart} $\parts^{Q^*[W]}_i = \{\Pi^W_i\}$.
+        \item\label{item_define_all_ephi} $Q^*[W]$ decides $\E_i\phi$ for all
+            $\phi \in \Lprop$.
+        \item\label{item_r_almost_covers} $|\vals \setminus R| \le 1$, where $R
+            = \bigcup_{c \in \css}{\Pi^W_i[v^W_c]}$.
+    \end{enumerate}
+\end{theorem}
+
+Note that $R = \bigcup_{c \in \css}{\Pi^W_i[v^W_c]}$ is the set of valuations
+indistinguishable from the actual state at some case $c$.
+\cref{thm_qstar_unique_ipartition_conditions} \cref{item_r_almost_covers} says
+this set needs to essentially cover the whole space $\vals$, omitting at most a
+single point. In this sense, it is easier to find $\Pi^W_i$ uniquely when $i$
+has \emph{less expertise}, since the cells $\Pi^W_i[v^W_c]$ will be larger. In
+the extreme case where $i$ has total expertise, i.e. $\Pi^W_i = \{\{v\} \mid v
+\in \vals\}$, we need at least $2^{|\propvars|} - 1$ cases with distinct
+valuations in order to find $\Pi^W_i$ exactly.
+
+\begin{example}
+    \label{ex_qstar_unique_ipartition_conditions}
+    In \cref{ex_qstar_partitions} we have already seen an example of a world
+    $W$ for which $\parts^{Q^*[W]}_i$ does not contain a unique partition.
+    %
+    For a positive example, consider the world $W$ from
+    \cref{fig_example_world}. Then $\vals \setminus R_{\dr{}} =
+    \{\bar{p}\bar{q}\}$ and $\vals \setminus R_{\tech{}} = \emptyset$, so both
+    the partitions of $\dr{}$ and $\tech{}$ can be found uniquely by
+    truth-tracking methods.
+\end{example}
+
+The remainder of this section proves
+\cref{thm_qstar_unique_ipartition_conditions}.
+
+\begin{lemma}
+    \label{lemma_u_expansion_equal}
+    Let $i \in \srcs$ and $U \subseteq \vals$. Then $U \subseteq \bigcup_{c \in
+    \css}{\Pi^W_i[v^W_c]}$ and $W \speceq W'$ implies $\Pi^W_i[U] =
+    \Pi^{W'}_i[U]$.
+\end{lemma}
+
+\begin{proof}
+    It suffices to show that for all $u \in U$ we have $\Pi^W_i[u] =
+    \Pi^{W'}_i[u]$, since by definition $\Pi[U] = \bigcup_{u \in U}{\Pi[u]}$.
+    Let $u \in U$. Then there is $c \in \css$ such that $u \in \Pi^W_i[v^W_c]$.
+    Hence $\Pi^W_i[u] = \Pi^W_i[v^W_c]$. But since $W \speceq W'$,
+    $\Pi^W_i[v^W_c] = \Pi^{W'}_i[v^{W'}_c]$. This means $u \in
+    \Pi^{W'}_i[v^{W'}_c]$, so $\Pi^{W'}_i[u] = \Pi^{W'}_i[v^{W'}_c] =
+    \Pi^W_i[v^W_c] = \Pi^W_i[u]$, as required,
+\end{proof}
+
+\begin{lemma}
+    \label{lemma_decide_ephi}
+    $Q^*[W]$ decides $\E_i\phi$ if and only if, writing $R = \bigcup_{c \in
+    \css}{\Pi^W_i[v^W_c]}$, either
+    \begin{inlinelist}
+        \item\label{item_phi_sub_r} $\propmods{\phi} \subseteq R$;
+        \item\label{item_negphi_sub_r} $\propmods{\neg\phi} \subseteq R$; or
+        \item\label{item_r_boundary} there is some $c \in \css$ such that
+            $\Pi^W_i[v^W_c]$ intersects with both $\propmods{\phi}$ and
+            $\propmods{\neg\phi}$.
+    \end{inlinelist}
+\end{lemma}
+
+\begin{proof}
+
+    ``if": First suppose \cref{item_phi_sub_r} holds. Take $W' \in Q^*[W]$.
+    From $\propmods{\phi} \subseteq R$, $W \speceq W'$ and
+    \cref{lemma_u_expansion_equal} we get $\Pi^W_i[\phi] = \Pi^{W'}_i[\phi]$.
+    Consequently, $W' \models \E_i\phi$ iff $W \models \E_i\phi$. Since $W'$
+    was arbitrary, either all worlds in $Q^*[W]$ satisfy $\E_i\phi$, or all do
+    not. Hence $Q^*[W]$ decides $\E_i\phi$.
+
+    If \cref{item_negphi_sub_r} holds, a similar argument shows that $Q^*[W]$
+    decides $\E_i\neg\phi$. But it is easily checked that $\E_i\phi \equiv
+    \E_i\neg\phi$, so $Q^*[W]$ also decides $\E_i\phi$.
+
+    Finally, suppose \cref{item_r_boundary} holds. Then there is $c \in \css$
+    and $u \in \propmods{\phi}$, $v \in \propmods{\neg\phi}$ such that $u, v
+    \in \Pi^W_i[v^W_c]$. We claim $Q^*[W] \models \neg\E_i\phi$. Indeed, take
+    $W' \in Q^*[W]$. Then $\Pi^W_i[v^W_c] = \Pi^{W'}_i[v^{W'}_c]$, so $u, v \in
+    \Pi^{W'}_i[v^{W'}_c]$. In particular, $u$ and $v$ differ on $\phi$ but are
+    contained in the same cell in $\Pi^{W'}_i$. Hence $W' \models
+    \neg\E_i\phi$.
+
+    ``only if": We show the contrapositive. Suppose none of
+    \cref{item_phi_sub_r}, \cref{item_negphi_sub_r}, \cref{item_r_boundary}
+    hold. Then there is $u \in \propmods{\phi} \setminus R$ and $v \in
+    \propmods{\neg\phi} \setminus R$. Let us define two worlds $W_1$, $W_2$
+    from $W$ by modifying $i$'s partition:
+    \begin{align*}
+        \Pi^{W_1}_i
+            &= \{\Pi^W_i[v^W_c]\}_{c \in \css} \cup \{\vals \setminus R \}, \\
+        \Pi^{W_2}_i
+            &= \{\Pi^W_i[v^W_c]\}_{c \in \css} \cup \{\{w\} \mid w \in \vals
+                    \setminus R\}.
+    \end{align*}
+    Then $W_1, W_2 \in Q^*[W]$ by \cref{lemma_qstar_partitions}. We claim that
+    $W_1 \models \neg\E_i\phi$ but $W_2 \models \E_i\phi$, which will show
+    $Q^*[W]$ does not decide $\E_i\phi$.
+
+    First, note that since $u, v \notin R$, we have $\Pi^{W_1}_i[u] =
+    \Pi^{W_1}_i[v] = \vals \setminus R$. Since $u$ and $v$ differ on $\phi$ but
+    share the same partition cell, $W_1 \models \neg\E_i\phi$.
+
+    To show $W_2 \models \E_i\phi$, take $w \in \propmods{\phi}$. If $w \notin
+    R$ then $\Pi^{W_2}_i[w] = \{w\} \subseteq \propmods{\phi}$. Otherwise there
+    is $c \in \css$ such that $w \in \Pi^W_i[v^W_c]$. Thus $\Pi^W_i[v^W_c]$
+    intersects with $\propmods{\phi}$. Since \cref{item_r_boundary} does not
+    hold, this in fact implies $\Pi^W_i[v^W_c] \subseteq \propmods{\phi}$, and
+    consequently $\Pi^{W_2}_i[w] = \Pi^W_i[v^W_c] \subseteq \propmods{\phi}$.
+    Since $w \in \propmods{\phi}$ was arbitrary, we have shown
+    $\Pi^{W_2}_i[\phi] = \bigcup_{w \in \propmods{\phi}}{\Pi^{W_2}_i[w]}
+    \subseteq \propmods{\phi}$. Since the reverse inclusion always holds, this
+    shows $W_2 \models \E_i\phi$, and we are done.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm_qstar_unique_ipartition_conditions}]
+
+    The implication \cref{item_uniquepart} to \cref{item_define_all_ephi} is
+    clear since if $W' \in Q^*[W]$ then $\Pi^{W'}_i = \Pi^W_i$ by
+    \cref{item_uniquepart}, so $W' \models \E_i\phi$ iff $W \models \E_i\phi$,
+    and thus $Q^*[W]$ decides $\E_i\phi$.
+
+    To show \cref{item_define_all_ephi} implies \cref{item_r_almost_covers} we
+    show the contrapositive. Suppose $|\vals \setminus R| > 1$. Then there are
+    distinct $u, v \in \vals \setminus R$. Let $\phi$ be any propositional
+    formula with $\propmods{\phi} = \{u\}$. We show by \cref{lemma_decide_ephi}
+    that $Q^*[W]$ does not decide $\E_i\phi$. Indeed, all three conditions
+    fail: $\propmods{\phi} \not\subseteq R$ (since $u \notin R$),
+    $\propmods{\neg\phi} \not\subseteq R$ (since $v \in \propmods{\neg\phi}
+    \setminus R$) and no $\Pi^W_i[v^W_c]$ intersects with $\propmods{\phi}$
+    (otherwise $u \in \Pi^W_i[v^W_c] \subseteq R$).
+
+    Finally, for \cref{item_r_almost_covers} implies \cref{item_uniquepart} we
+    also show the contrapositive. Suppose there is $\Pi \in \parts^{Q^*[W]}_i
+    \setminus \{\Pi^W_i\}$. Write $\mathcal{R} = \{\Pi^W_i[v^W_c]\}_{c \in
+    \css}$, so that $\mathcal{R}$ is a partition of $R$. By
+    \cref{lemma_qstar_partitions}, $\mathcal{R} \subseteq \Pi$. Note that
+    $\mathcal{R} \subseteq \Pi^W_i$ too. Since $\Pi \ne \Pi^W_i$, we in fact
+    have $\mathcal{R} \subset \Pi$ and $\mathcal{R} \subset \Pi^W_i$. Hence
+    $\Pi \setminus \mathcal{R}$ and $\Pi^W_i \setminus \mathcal{R}$ are
+    distinct partitions of $\vals \setminus R$. Since a one-element set has a
+    unique partition, $\vals \setminus R$ must contain at least two elements.
+\end{proof}
+
+\subsection{Learning the Actual World Exactly}
+
+Putting
+\cref{thm_qstar_unique_cval_conditions,thm_qstar_unique_ipartition_conditions},
+we obtain a precise characterisation of when $W$ can be found \emph{exactly} by
+truth-tracking methods, i.e when $Q^*[W] = \{W\}$.
+
+\begin{corollary}
+    \label{cor_qstar_unique_world}
+    $Q^*[W] = \{W\}$ if and only if
+    \begin{enumerate}
+        \item There is a collection $\{\Gamma_c\}_{c \in \css} \subseteq
+              \Lprop^\css$ such that for each $c$,
+              \begin{inlinelist}
+                \item $W, c \models \Gamma_c$;
+                \item $W \models \E_{\srcs}{\Gamma_c}$;
+                \item $\cnprop{\Gamma_c}$ is maximally consistent; and
+              \end{inlinelist}
+        \item For each each $i \in \srcs$, $|\vals \setminus \bigcup_{c \in
+            \css}{\Pi^W_i[v^W_c]}| \le 1$.
+    \end{enumerate}
+\end{corollary}
+
+\section{Truth-Tracking Methods}
+\label{sec_methods}
+
+So far we have focussed on solvable questions, and the extent to which they
+reveal information about the actual world. We now turn to the methods which
+solve them. We give a general characterisation of truth-tracking methods under
+mild assumptions, before discussing the family of \emph{conditioning} methods
+from \textcite{singleton_booth_22_preprint}.
+
+\subsection{A General Characterisation}
+
+For sequences $\sigma, \delta$, write $\sigma \equiv \delta$ iff $\delta$ is
+obtained from $\sigma$ by replacing each report $\tuple{i, c, \phi}$ with
+$\tuple{i, c, \psi}$, for some $\psi \equiv \phi$. For $k \in \N$, let
+$\sigma^k$ denote the $k$-fold repetition of $\sigma$.
+%
+Consider the following properties which may hold of a learning method $L$.
+
+\begin{postulate}[\equivalence{}]
+    If $\sigma \equiv \delta$ then $L(\sigma) = L(\delta)$.
+\end{postulate}
+
+\begin{postulate}[\repetition{}]
+    $L(\sigma^k) = L(\sigma)$.
+\end{postulate}
+
+\begin{postulate}[\soundness{}]
+    $L(\sigma) \subseteq \Xsnd_\sigma$.
+\end{postulate}
+
+\equivalence{} says that $L$ should not care about the syntactic form of the
+input. \repetition{} says that beliefs should not change if each
+source repeats their reports $k$ times. \soundness{} says that all reports in
+$\sigma$ are believed to be sound.
+
+For methods satisfying these properties, we have a precise characterisation of
+truth-tracking, i.e. necessary and sufficient conditions for $L$ to solve
+$Q^*$. First, some new notation is required. Write $\delta \seqss \sigma$ iff
+for each $\tuple{i, c, \phi} \in \delta$ there is $\psi \equiv \phi$ such that
+$\tuple{i, c, \psi} \in \sigma$. That is, $\sigma$ contains everything $\delta$
+does, up to logical equivalence. Set
+\[
+    T_\sigma
+    = \Xsnd_\sigma
+        \setminus
+        \bigcup\left\{
+            \Xsnd_\delta
+            \mid
+            \delta \not\seqss \sigma\right
+        \}
+    \subseteq \worlds.
+\]
+Then $W \in T_\sigma$ iff $\sigma$ is sound for $W$ and any $\delta$ sound for
+$W$ has $\delta \seqss \sigma$. In this sense $\sigma$ contains \emph{all}
+soundness statements for $W$ -- up to equivalence -- so can be seen as a finite
+version of a stream. Let us call $\sigma$ a \emph{psuedo-stream} for $W$
+whenever $W \in T_\sigma$.
+
+\begin{theorem}
+    \label{thm_tt_characterisation}
+    A method $L$ satisfying \equivalence{}, \repetition{} and \soundness{} is
+    truth-tracking if and only if it satisfies the following property.
+    \begin{postulate}[\credulity{}]
+        $
+        % \forall \sigma, i, c, \phi:\
+        T_\sigma, c \not\models \S_i\phi
+        \implies
+        L(\sigma), c \models \neg\S_i\phi.
+        $
+    \end{postulate}
+
+\end{theorem}
+
+Before the proof, we comment on our interpretation of
+\credulity{}. It says that whenever $\neg\S_i\phi$
+is consistent with $T_\sigma$ -- those $W$ for which $\sigma$ is a
+psuedo-stream -- $L$ should believe $\neg\S_i\phi$. Since the number of
+sound statements \emph{decreases} with increasing expertise, this is a
+principle of \emph{maximal trust}: we should believe $i$ has the expertise to
+rule out $\phi$ in case $c$, whenever this is consistent with $T_\sigma$.  That
+is, some amount of \emph{credulity} is required to find the truth. Our
+assumption that learning methods receive complete streams ensures that, if a
+source in fact lacks this expertise, they will eventually report $\phi$ and
+this belief can be be retracted.
+%
+A stronger version of \credulity{} spells this out
+explicitly in terms of expertise:
+\begin{equation}
+    \label{eqn_stronger_tt_property}
+    \forall \sigma, i, c, \phi:\
+    T_\sigma, c \not\models \neg\E_i\phi
+    \implies
+    L(\sigma), c \models \E_i\phi.
+\end{equation}
+\cref{eqn_stronger_tt_property} implies \credulity{}
+in the presence of \soundness{}, and is thus a sufficient condition for
+truth-tracking (when also taken with \equivalence{} and
+\repetition{}).\footnotemark{}
+
+\footnotetext{
+    We conjecture \cref{eqn_stronger_tt_property} is strictly stronger than
+    \credulity{}.
+}
+
+\cref{thm_tt_characterisation} also shows truth-tracking cannot be performed
+\emph{deductively}: the method $L(\sigma) = \Xsnd_\sigma$, which does not go
+beyond the mere information that each report is sound, fails \credulity{}. Some
+amount of \emph{inductive} or \emph{non-monotonic} reasoning, as captured by
+\credulity{}, is necessary.
+
+The rest of this section works towards the proof of
+\cref{thm_tt_characterisation}. We collect some useful properties of
+psuedo-streams. First, psuedo-streams provide a way of accessing $Q^*$ via a
+finite sequence: $T_\sigma$ is a cell in $Q^*$ whenever it is non-empty.
+
+\begin{lemma}
+    \label{lemma_tsigma_qstar}
+    If $W \in T_\sigma$, then
+    \begin{inlinelist}
+        \item\label{item_ps_upperset} $W' \in \Xsnd_\sigma$ iff $W \specleq
+            W'$; and
+        \item\label{item_tsigma_qstar} $T_\sigma = Q^*[W]$.
+    \end{inlinelist}
+\end{lemma}
+
+\begin{proof}
+
+    Suppose $W \in T_\sigma$. For \cref{item_ps_upperset}, first suppose $W'
+    \in \Xsnd_\sigma$ and $W, c \models \S_i\phi$.  Considering the singleton
+    sequence $\delta = \tuple{i, c, \phi}$ we have $W \in \Xsnd_\delta$. From
+    $W \in T_\sigma$ we get $\delta \seqss \sigma$, i.e. there is $\psi \equiv
+    \phi$ such that $\tuple{i, c, \psi} \in \sigma$. From $W' \in \Xsnd_\sigma$
+    and $\S_i\phi \equiv \S_i\psi$ we get $W', c \models \S_i\phi$.  This shows
+    $W \specleq W'$.
+
+    Now suppose $W \specleq W'$ and let $\tuple{i, c, \phi} \in \sigma$. Then
+    since $W \in T_\sigma \subseteq \Xsnd_\sigma$ we have $W, c \models
+    \S_i\phi$, and $W \specleq W'$ gives $W', c \models \S_i\phi$. Consequently
+    $W' \in \Xsnd_\sigma$.
+
+    Now for \cref{item_tsigma_qstar}, first suppose $W' \in Q^*[W]$. Then $W$
+    and $W'$ satisfy exactly the same soundness statements, so $W' \in
+    T_\sigma$ also.
+    %
+    Conversely, suppose $W' \in T_\sigma$. Then $W' \in \Xsnd_\sigma$, so
+    \cref{item_ps_upperset} gives $W \specleq W'$.  But we also have $W' \in
+    T_\sigma$ and $W \in \Xsnd_\sigma$, so \cref{item_ps_upperset} again gives
+    $W' \specleq W$. Hence $W \speceq W'$, i.e. $W' \in Q^*[W]$.
+\end{proof}
+
+The next two results show that initial segments of streams are (eventually)
+psuedo-streams, and that any psuedo-stream gives rise to a stream.
+
+\begin{lemma}
+    \label{lemma_stream_to_pseudostream}
+    If $\rho$ is a stream for $W$, there is $n$ such that $W \in T_{\rho[m]}$
+    for all $m \ge n$.
+\end{lemma}
+
+\begin{proof}
+
+    Let $\repr{\cdot}$ be a function which selects a representative formula for
+    each equivalence class of $\Lprop / {\equiv}$, so that $\phi \equiv
+    \repr{\phi}$ and $\phi \equiv \psi$ implies $\repr{\phi}$ is equal to
+    $\repr{\psi}$. Note that since $\propvars$ is finite, and since $\srcs$ and
+    $\css$ are also finite, there are only finitely many reports of the form
+    $\tuple{i, c, \repr{\phi}}$. By completeness of $\rho$ for $W$, we may take
+    $n$ sufficiently large so that $W, c \models \S_i{\repr{\phi}}$ implies
+    $\tuple{i, c, \repr{\phi}} \in \rho[n]$, for all $i, c, \phi$.
+    %
+    Now, take $m \ge n$. We need to show $W \in T_{\rho[m]}$. Clearly $W \in
+    \Xsnd_{\rho[m]}$, since $\rho$ is sound for $W$. Suppose $W \in
+    \Xsnd_\delta$. We need to show $\delta \seqss \rho[m]$. Indeed, take
+    $\tuple{i, c, \phi} \in \delta$. Then $W, c \models \S_i\phi$. Since
+    $\S_i\phi \equiv \S_i{\repr{\phi}}$, we have $W, c \models
+    \S_i{\repr{\phi}}$. Hence $\tuple{i, c, \repr{\phi}}$ appears in $\rho[n]$,
+    and consequently in $\rho[m]$ too. Since $\phi \equiv \repr{\phi}$, this
+    shows $\delta \seqss \rho[m]$.
+\end{proof}
+
+\begin{lemma}
+    \label{lemma_pseudostream_to_stream}
+    If $W \in T_\sigma$ and $N = |\sigma|$, there is a stream $\rho$ for $W$
+    such that $\rho[Nk] \equiv \sigma^k$ for all $k \in \N$.
+\end{lemma}
+
+\begin{proof}
+
+    First note that $W \in T_\sigma$ implies $\sigma \ne \emptyset$, so $N >
+    0$. Since $\Lprop$ is countable, we may index the set of $\Lprop$ formulas
+    equivalent to $\phi \in \Lprop$ as $\{\phi_n\}_{n \in \N}$. Let $\sigma_n$
+    be obtained from $\sigma$ by replacing each report $\tuple{i, c, \phi}$
+    with $\tuple{i, c, \phi_n}$. Then $\sigma \equiv \sigma_n$.
+    %
+    Let $\rho$ be the sequence obtained as the infinite concatenation $\sigma_1
+    \seqappend \sigma_2 \seqappend \sigma_3 \seqappend \cdots$ (this is
+    possible since $\sigma$ is of positive finite length). Then $\rho[Nk] =
+    \sigma_1 \seqappend \cdots \seqappend \sigma_k$, and consequently $\rho[Nk]
+    \equiv \sigma^k$.
+
+    It remains to show $\rho$ is a stream for $W$. Soundness of $\rho$ follows
+    from $W \in T_\sigma \subseteq \Xsnd_\sigma$, since every report in $\rho$
+    is equivalent to some report in $\sigma$ by construction. For completeness,
+    suppose $W, c \models \S_i\phi$. As in the proof of
+    \cref{lemma_tsigma_qstar}, considering the singleton sequence $\delta =
+    \tuple{i, c, \phi}$, we get from $W \in T_\sigma$ that there is $\psi
+    \equiv \phi$ such that $\tuple{i, c, \psi} \in \sigma$. Hence there is $n
+    \in \N$ such that $\phi = \psi_n$, so $\tuple{i, c, \phi} \in \sigma_n$,
+    and thus $\tuple{i, c, \phi} \in \rho$.
+\end{proof}
+
+Next we obtain an equivalent formulation of
+\credulity{} which is less transparent as a
+postulate for learning methods, but easier to work with.
+
+\begin{lemma}
+    \label{lemma_equivalent_tt_property}
+    Suppose $L$ satisfies \soundness{}. Then $L$ satisfies
+    \credulity{} if and only if $L(\sigma) \subseteq
+    T_\sigma$ for all $\sigma$ with $T_\sigma \ne \emptyset$.
+\end{lemma}
+
+\begin{proof}
+
+    ``if": Suppose $T_\sigma, c \not\models \S_i\phi$. Then there is $W \in
+    T_\sigma$ such that $W, c \not\models \S_i\phi$. By our assumption and
+    \cref{lemma_tsigma_qstar}, $L(\sigma) \subseteq T_\sigma = Q^*[W]$. Thus
+    every world in $L(\sigma)$ agrees with $W$ on soundness statements, so
+    $L(\sigma), c \models \neg\S_i\phi$.
+
+    ``only if": Suppose there is some $W \in T_\sigma$, and take $W' \in
+    L(\sigma)$. We need to show $W' \in T_\sigma$; by
+    \cref{lemma_tsigma_qstar}, this is equivalent to $W \speceq W'$.
+    %
+    First suppose $W, c \models \S_i\phi$. Then $W \in T_\sigma$ implies there
+    is $\psi \equiv \phi$ such that $\tuple{i, c, \psi} \in \sigma$. By
+    \soundness{} for $L$, we have $W' \in L(\sigma) \subseteq \Xsnd_\sigma$.
+    Consequently $W', c \models \S_i\psi$ and thus $W', c \models \S_i\phi$.
+    This shows $W \specleq W'$.
+    %
+    Now suppose $W, c \not\models \S_i\phi$. Then $T_\sigma, c \not\models
+    \S_i\phi$. By \credulity{}, $L(\sigma), c
+    \models \neg\S_i\phi$. Hence $W', c \not\models \S_i\phi$. This shows $W'
+    \specleq W$. Thus $W \speceq W'$ as required.
+\end{proof}
+
+Finally, we prove the characterisation of truth-tracking.
+
+\begin{proof}[Proof of \cref{thm_tt_characterisation}]
+    Suppose $L$ satisfies \equivalence{}, \repetition{} and \soundness{}.
+
+    ``if": Suppose \credulity{} holds. We show $L$
+    solves $Q^*$. Take any world $W$ and stream $\rho$ for $W$.  By
+    \cref{lemma_stream_to_pseudostream}, there is $n$ such that $W \in
+    T_{\rho[m]}$ for all $m \ge n$. By \cref{lemma_tsigma_qstar}, $T_{\rho[m]}
+    = Q^*[W]$ for such $m$. In particular, $T_{\rho[m]} \ne \emptyset$.  By
+    \credulity{} and
+    \cref{lemma_equivalent_tt_property}, we get $L(\rho[m]) \subseteq
+    T_{\rho[m]} = Q^*[W]$.
+
+    ``only if": Suppose $L$ solves $Q^*$. We show
+    \credulity{} via
+    \cref{lemma_equivalent_tt_property}. Suppose there is some $W \in
+    T_\sigma$, and write $N = |\sigma| > 0$. By
+    \cref{lemma_pseudostream_to_stream}, there is a stream $\rho$ for $W$ such
+    that $\rho[Nk] \equiv \sigma^k$ for all $k \in \N$. By \repetition{} and
+    \equivalence{}, $L(\sigma) = L(\sigma^k) = L(\rho[Nk])$. But $L$ solves
+    $Q^*$, so for $k$ sufficiently large we have $L(\rho[Nk]) \subseteq Q^*[W]
+    = T_\sigma$. Hence, going via some large $k$, we obtain $L(\sigma)
+    \subseteq T_\sigma$ as required.
+\end{proof}
+
+\subsection{Conditioning Methods}
+
+In this section we turn to the family of \emph{conditioning} methods, proposed
+in \cite{singleton_booth_22_preprint} and inspired by similar methods in the
+belief change literature~\cite{spohn1988ordinal}.
+% These methods were originally proposed in relation to \emph{rationality
+% postulates} for a belief change problem with non-expert sources. By studying
+% them in relation to truth-tracking, we will see that rationality is compatible
+% with truth-tracking.
+While our interpretation of input sequences is different -- we read $\tuple{i,
+c, \phi}$ as $i$ reporting $\phi$ is \emph{possible} in case $c$, whereas
+\textcite{singleton_booth_22_preprint} read this as $i$ \emph{believes} $\phi$ --
+this class of methods can still be applied in our setting.
+
+Conditioning methods operate by successively restricting a fixed
+\emph{plausibility total preorder}\footnote{A total preorder is a reflexive,
+transitive and total relation.} to the information corresponding to each
+new report $\tuple{i, c, \phi}$. In this chapter, we take a report $\tuple{i, c,
+\phi}$ to correspond to the fact that $\S_i\phi$ holds in case $c$; this fits
+with our assumption throughout that sources only report sound
+statements.\footnote{\textcite{singleton_booth_22_preprint} consider more general
+conditioning methods in which this choice is not fixed.} Thus, the worlds under
+consideration given a sequence $\sigma$ are exactly those satisfying all
+soundness statements in $\sigma$, i.e. $\Xsnd_\sigma$. Note that $\Xsnd_\sigma$
+represents the \emph{indefeasible knowledge} given by $\sigma$: worlds outside
+$\Xsnd_\sigma$ are eliminated and cannot be recovered with further reports,
+since $\Xsnd_{\sigma \seqappend \delta} \subseteq \Xsnd_\sigma$. The
+plausibility order allows us to represent \emph{defeasible beliefs} about the
+most plausible worlds within $\Xsnd_\sigma$.
+
+\begin{definition}
+    \label{def_conditioning_method}
+    For a total preorder $\le$ on $\worlds$, the \emph{conditioning method}
+    $L_{\le}$ is given by $L_{\le}(\sigma) = \min_{\le}{\Xsnd_\sigma}$.
+\end{definition}
+
+Note that since $\Xsnd_\sigma \ne \emptyset$ for all $\sigma$\footnotemark{}
+and $\worlds$ is finite, $L_{\le}$ is consistent. Moreover, $L_{\le}$ satisfies
+\equivalence{}, \repetition{} and \soundness{}.
+
+\footnotetext{
+    For example, if $\Pi^W_i = \{\vals\}$ for all $i$ then $W \in \Xsnd_\sigma$
+    for all $\sigma$.
+}
+
+\begin{example}
+    \label{ex_conditioning_operators}
+    We recall two concrete choices of $\le$ from
+    \textcite{singleton_booth_22_preprint}.
+
+    \begin{enumerate}
+        \item Set $W \le W'$ iff $r(W) \le r(W')$, where
+              \[
+                  r(W) = -\sum_{i \in \srcs} |\{
+                      p \in \propvars
+                      \mid
+                      \Pi^W_i[p] = \propmods{p}
+                  \}|.
+              \]
+              The most plausible worlds in this order are those in which
+              source have as much expertise on the propositional variables as
+              possible, on aggregate. We denote the corresponding conditioning
+              method by $L_\vbc{}$, standing for \emph{variable-based
+              conditioning}.
+
+        \item Set $W \le W'$ iff $r(W) \le r(W')$, where
+              \[
+                  r(W) = -\sum_{i \in \srcs} |\Pi^W_i|.
+              \]
+              This order aims to maximise the number of cells in each source's
+              partitions, thereby maximising the number of propositions on
+              which they have expertise. Note that the propositional variables
+              play no special role. We denote the corresponding conditioning
+              operator by $L_\pbc{}$, for \emph{partition-based conditioning}.
+    \end{enumerate}
+
+\end{example}
+
+A straightforward property of $\le$ characterises truth-tracking for
+conditioning methods. For a generic total preorder $\le$, let $<$ denote its
+strict part.
+
+\begin{theorem}
+    \label{thm_conditioning_tt_characterisation}
+    $L_{\le}$ is truth-tracking if and only if
+    \begin{equation}
+        \label{eq_conditioning_tt_characterisation}
+        W \speclt W'
+            \implies
+                \exists W'' \speceq W \text{ such that }
+                    W'' < W'.
+    \end{equation}
+\end{theorem}
+
+Like \credulity{}, \cref{eq_conditioning_tt_characterisation} is a principle of
+maximising trust in sources. Recall from that \cref{lemma_spec_active_cell}
+that $W \speclt W'$ means all sources are more knowledgeable in each case in
+$W$ than in $W'$, and there is at least one source and case for which this
+holds strictly. If we aim to trust sources as much as possible, we might impose
+$W < W'$ here; then $W'$ is strictly less plausible and will be ruled out in
+favour of $W$.  This yields a sufficient condition for truth-tracking, but to
+obtain a necessary condition we need to allow a ``surrogate" world $W'' \speceq
+W$ to take the place of $W$.
+
+\begin{proof}[Proof of \cref{thm_conditioning_tt_characterisation}]
+    Write $L = L_{\le}$. Since $L$ satisfies \equivalence{}, \repetition{} and
+    \soundness{}, we may use \cref{thm_tt_characterisation}. Furthermore, it is
+    sufficient by \cref{lemma_equivalent_tt_property} to show that
+    \cref{eq_conditioning_tt_characterisation} holds if and only if $L(\sigma)
+    \subseteq T_\sigma$, whenever $T_\sigma \ne \emptyset$.
+
+    ``if": Suppose $W \speclt W'$. Let $\sigma$ be some pseudo-stream for $W$,
+    so that $W \in T_\sigma$.\footnotemark{} Note that since $W \in T_\sigma
+    \subseteq \Xsnd_\sigma$ and $W \speclt W'$, we have $W' \in \Xsnd_\sigma$
+    also. By assumption, $L(\sigma) \subseteq T_\sigma = Q^*[W]$. Since $W
+    \not\speceq W'$, this means $W' \in \Xsnd_\sigma \setminus L(\sigma)$. That
+    is, $W'$ lies in $\Xsnd_\sigma$ but is not $\le$-minimal. Consequently
+    there is $W'' \in \Xsnd_\sigma$ such that $W'' < W'$. Since $L$ is
+    consistent, we may assume without loss of generality that $W'' \in
+    L(\sigma)$. Hence $W'' \in Q^*[W]$, so $W'' \speceq W$.
+
+    \footnotetext{
+        For example, pick some stream $\rho$ and apply
+        \cref{lemma_stream_to_pseudostream} to obtain a pseudo-stream.
+    }
+
+    ``only if": Suppose there is some $W \in T_\sigma$, and let $W' \in
+    L(\sigma)$. We need to show $W' \in T_\sigma = Q^*[W]$, i.e. $W \speceq
+    W'$. Since $W' \in L(\sigma) \subseteq \Xsnd_\sigma$,
+    \cref{lemma_tsigma_qstar} gives $W \specleq W'$. Suppose for contradiction
+    that $W \not\speceq W'$. Then $W \speclt W'$. By
+    \cref{eq_conditioning_tt_characterisation}, there is $W'' \speceq W$ such
+    that $W'' < W'$. But $W'$ is $\le$-minimal in $\Xsnd_\sigma$, so this must
+    mean $W'' \notin \Xsnd_\sigma$. On the other hand, $W'' \in Q^*[W] =
+    T_\sigma \subseteq \Xsnd_\sigma$: contradiction.
+\end{proof}
+
+\begin{figure}
+    \centering
+    \input{chapters/truth-tracking/tikz/vbc_counterexample.tex}
+    \caption{Worlds which demonstrate $L_\vbc{}$ is not truth-tracking.}
+    \label{fig_vbc_counterexample}
+\end{figure}
+
+\begin{example}
+    We revisit the methods of \cref{ex_conditioning_operators}.
+
+    \begin{enumerate}
+
+        \item The variable-based conditioning method $L_\vbc{}$ is \emph{not}
+              truth-tracking. Indeed, consider the worlds $W$ and $W'$ shown in
+              \cref{fig_vbc_counterexample}, where we assume $\propvars = \{p,
+              q\}$, $\srcs = \{i\}$ and $\css = \{c\}$. Then $W \speclt W'$
+              (e.g. by \cref{lemma_spec_active_cell}).
+              Note that $i$ does not have expertise on $p$ or $q$ in both $W$
+              and $W'$, so $r(W) = r(W') = 0$. Moreover, $i$'s partition is
+              uniquely determined in $Q^*[W]$ by
+              \cref{thm_qstar_unique_ipartition_conditions}, so if $W'' \speceq
+              W$ then $r(W'') = 0$ also. That is, there is no $W'' \speceq W$
+              such that $W'' < W'$. Hence
+              \cref{eq_conditioning_tt_characterisation} fails, and $L_\vbc{}$
+              is not truth-tracking.
+                %
+              Intuitively, the problem here is that since $i$'s expertise is
+              not split along the lines of the propositional variables when $W$
+              is the actual world, $L_\vbc{}$ will always maintain $W'$ as a
+              possibility.
+
+          \item The partition-based conditioning method $L_\pbc{}$ \emph{is}
+                truth-tracking. Indeed, if $W \speclt W'$ we may construct
+                $W''$ from $W$ by modifying the partition of each source $i$ so
+                that all valuations outside of $\bigcup_{c \in
+                \css}{\Pi^W_i[v^W_c]}$ lie in their own cell.
+                Then $W \speceq W''$. One can show that $\Pi^{W''}_i$ refines
+                $\Pi^{W'}_i$ for all $i \in \srcs$, and there is some $i$ for
+                which the refinement is strict. Hence the partitions in $W''$
+                contain strictly more cells, so $W'' < W'$.
+
+    \end{enumerate}
+
+\end{example}
+
+\section{Conclusion}
+\label{sec_conclusion}
+
+\paragraph{Summary.}
+
+In this chapter we studied truth-tracking in the presence of non-expert sources.
+The model assumes sources report everything true \emph{up to their lack of
+expertise}, i.e. all that they consider possible. We obtained precise
+characterisations of when truth-tracking methods can uniquely find the
+valuations and partitions of a world $W$. We then gave a postulational
+characterisation of truth-tracking methods under mild assumptions, before looking
+specifically at the conditioning methods of
+\textcite{singleton_booth_22_preprint}.
+
+\paragraph{Limitations and future work.}
+
+Conceptually, the assumption that streams are complete is very strong. As seen
+in \cref{ex_stream}, completeness requires sources to give jointly inconsistent
+reports whenever $\Pi_i[v_c]$ contains more than just $v_c$. Such reports
+provide information about the source's expertise: if $i$ reports both $\phi$
+and $\neg\phi$ we know $\neg\E_i\phi$. To provide all sound reports sources
+must also have \emph{negative introspection} over their own knowledge, i.e.
+they \emph{know} when they do not know something. Indeed, our use of partitions
+makes expertise closely related to S5
+knowledge~\cite{singleton_booth_22_preprint,singleton2021logic}, which has been
+criticised in the philosophical literature as too strong.
+%
+In reality, non-expert sources may have \emph{beliefs} about the world, and may
+prefer to report only that which they believe. A source may even believe a
+sound report $\phi$ is \emph{false}, since soundness only says the source does
+not \emph{know} $\neg\phi$. For example, in \cref{ex_informal_example} the
+doctor $\dr{}$ may think it is more likely that $\patientA{}$ suffers from $p$
+than $q$, but we cannot express this in our framework.
+
+On the technical side, our results on solvability of $Q^*$ and the
+characterisation of \cref{thm_tt_characterisation} rely on the fact that we
+only consider finitely many worlds. In a sense this trivialises the problem of
+induction as studied by \textcite{kelly1997reliable,Baltag_2016}, among others. In
+future work it would be interesting to see which results can be carried over to
+the case where $\propvars$ is infinite.

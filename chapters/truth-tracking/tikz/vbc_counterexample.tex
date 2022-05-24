@@ -1,0 +1,49 @@
+\begin{tikzpicture}[scale=1.65]
+    \def\q{0.35}
+    \def\sep{2.25}
+
+    \node at (0, 0) {\Large $\mathbf{pq}$};
+    \node at (1, 0) {\Large $\mathbf{p\bar{q}}$};
+    \node at (0, 1) {\Large $\mathbf{\bar{p}q}$};
+    \node at (1, 1) {\Large $\mathbf{\bar{p}\bar{q}}$};
+
+    \node at (\sep + 0, 0) {\Large $\mathbf{pq}$};
+    \node at (\sep + 1, 0) {\Large $\mathbf{p\bar{q}}$};
+    \node at (\sep + 0, 1) {\Large $\mathbf{\bar{p}q}$};
+    \node at (\sep + 1, 1) {\Large $\mathbf{\bar{p}\bar{q}}$};
+
+    \draw[drcells]
+        (-\q, -\q) --
+        (1 + \q, -\q) --
+        (1 + \q, \q) --
+        (\q, \q) --
+        (\q, 1 + \q) --
+        (-\q, 1 + \q) --
+        cycle;
+    \draw[drcells]
+        (1 - \q, 1 + \q) --
+        (1 + \q, 1 + \q) --
+        (1 + \q, 1 - \q) --
+        (1 - \q, 1 - \q) --
+        cycle;
+
+    \draw[drcells]
+        (\sep + -\q, -\q) --
+        (\sep + 1 + \q, -\q) --
+        (\sep + 1 + \q, 1 + \q) --
+        (\sep + -\q, 1 + \q) --
+        cycle;
+
+    \draw[color=black,line width=0.5mm]
+        ({0.5*(1 + \sep)}, 1 + \q) --
+        ({0.5*(1 + \sep)}, -\q);
+
+    \node[color=black!60!green] (vw) at (0, 0.5) {\Large $\mathbf{v^{W}_c}$};
+    \node[color=black!60!green] (vwprime) at (\sep, 0.5) {\Large $\mathbf{v^{W'}_c}$};
+    \draw[vals,->] (vw) -- (0, 1 - 0.15);
+    \draw[vals,->] (vwprime) -- (\sep, 0.15);
+
+    \node[color=blue] at (0.5, -0.6) {\Large $\mathbf{\Pi^W_i}$};
+    \node[color=blue] at (\sep + 0.5, -0.6) {\Large $\mathbf{\Pi^{W'}_i}$};
+
+\end{tikzpicture}
