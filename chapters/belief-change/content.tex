@@ -216,8 +216,8 @@ we conclude in \cref{kr_sec_conclusion}.
 \section{The Framework}
 \label{kr_sec_framework}
 
-Let $\Srcs$ be a finite set of information sources. For convenience, we assume
-there is a \emph{completely reliable} source in $\Srcs$, which we denote by
+Let $\srcs$ be a finite set of information sources. For convenience, we assume
+there is a \emph{completely reliable} source in $\srcs$, which we denote by
 $\ast$.  For example, we can treat our first-hand observations as if they are
 reported by $\ast$. Other sources besides $\ast$ will be termed \emph{ordinary
 sources}.  Let $\C$ be a finite set of \emph{cases}, which we interpret as
@@ -243,7 +243,7 @@ expertise of the sources, and is defined by the following grammar:
              \S_i\phi
              \\
 \]
-where $i\in \Srcs$ and $\phi \in \lprop$. We introduce Boolean connectives
+where $i\in \srcs$ and $\phi \in \lprop$. We introduce Boolean connectives
 $\lor$, $\rightarrow$, $\leftrightarrow$ and $\falsum$ as
 abbreviations. We use upper case Greek letters ($\Phi$, $\Psi$ etc)
 for formulas in $\lext$.
@@ -263,12 +263,12 @@ formulas, so we will not consider iterated formulas such as $\E_i\S_j\phi$.
 
 Let $\vals$ denote the set of propositional valuations over $\propvars$. For
 each $\phi \in \lprop$, the set of valuations making $\phi$ true is denoted by
-$\propmods(\phi)$. A \emph{world} $W = \tuple{\{v_c\}_{c \in \C}, \{\Pi_i\}_{i
-\in \Srcs}}$ is a possible complete specification of the environment we find
+$\propmods{\phi}$. A \emph{world} $W = \tuple{\{v_c\}_{c \in \C}, \{\Pi_i\}_{i
+\in \srcs}}$ is a possible complete specification of the environment we find
 ourselves in:
 \begin{itemize}
     \item $v_c \in \vals$ is the ``true" valuation at case $c \in \C$;
-    \item $\Pi_i$ is a partition of $\vals$ for each $i \in \Srcs$, representing
+    \item $\Pi_i$ is a partition of $\vals$ for each $i \in \srcs$, representing
           the ``true" expertise of source $i$; and
     \item $\Pi_\ast$ is the unit partition $\{\{v\} \mid v \in \vals\}$.
 \end{itemize}
@@ -279,7 +279,7 @@ possible partition, reflecting the fact that $\ast$ is completely reliable.
 For any partition $\Pi$ and valuation $v$, write $\Pi[v]$ for the unique cell
 in $\Pi$ containing $v$. For a set of valuations $U$, write $\Pi[U] =
 \bigcup_{v \in U}{\Pi[v]}$. For brevity, we write $\Pi[\phi]$ for
-$\Pi[\propmods(\phi)]$. Then $\Pi[\phi]$ is the set of valuations
+$\Pi[\propmods{\phi}]$. Then $\Pi[\phi]$ is the set of valuations
 indistinguishable from a $\phi$ valuation.
 
 For our belief change problem we will be interested in maintaining a
@@ -288,13 +288,13 @@ collection of several belief sets, describing beliefs about each case $c \in
 semantics for $\lext$ formulas with respect to a world and a case:
 \[
     \begin{array}{lll}
-        &W, c \models \phi &\iff v_c \in \propmods(\phi) \\
-        &W, c \models \E_i\phi &\iff \Pi_i[\phi] = \propmods(\phi) \\
+        &W, c \models \phi &\iff v_c \in \propmods{\phi} \\
+        &W, c \models \E_i\phi &\iff \Pi_i[\phi] = \propmods{\phi} \\
         &W, c \models \S_i\phi &\iff v_c \in \Pi_i[\phi]
     \end{array}
 \]
-where $i \in \Srcs$, $\phi \in \lprop$, and the clauses for conjunction and
-negation are the expected ones. Since $\propmods(\phi) \subseteq \Pi_i[\phi]$
+where $i \in \srcs$, $\phi \in \lprop$, and the clauses for conjunction and
+negation are the expected ones. Since $\propmods{\phi} \subseteq \Pi_i[\phi]$
 always holds, we have that $\E_i\phi$ holds iff there is no
 $\neg\phi$ valuation which is indistinguishable from a $\phi$ valuation (c.f.
 \textcite{booth_trust_2018}). Note
@@ -307,9 +307,9 @@ is, it is consistent with $i$'s expertise that $\phi$ is true.
 Note that the mapping $2^\vals \rightarrow 2^\vals$ given by $U \mapsto \Pi[U]$
 satisfies the \emph{Kuratowski closure axioms},\footnotemark{} so can be
 considered a closure operator of the set of propositional valuations. Then $W,
-c \models \E_i\phi$ iff $\propmods(\phi)$ is closed in $V$, and $W, c \models
-\S_i\phi$ iff $v_c$ lies in the closure of $\propmods(\phi)$, i.e. $\phi$ is
-true after closing $\propmods(\phi)$ along the lines of the expertise of source
+c \models \E_i\phi$ iff $\propmods{\phi}$ is closed in $V$, and $W, c \models
+\S_i\phi$ iff $v_c$ lies in the closure of $\propmods{\phi}$, i.e. $\phi$ is
+true after closing $\propmods{\phi}$ along the lines of the expertise of source
 $i$. Also note that $\Pi[U] = U$ iff $U$ can be expressed as a union of the
 partition cells in $\Pi$, so that $W, c \models \E_i\phi$ can alternatively be
 interpreted as saying $\phi$ is a disjunction of stronger formulas on which $i$
@@ -327,7 +327,7 @@ just the tautologies.
 
 \begin{example}
     \label{kr_ex_hospital_world}
-    Let us extend the hospital example from the introduction. Let $\Srcs = \{\ast,
+    Let us extend the hospital example from the introduction. Let $\srcs = \{\ast,
     a, b\}$ denote the reliable source, Dr.\ A and Dr.\ B, and let $\C = \{c_1,
     c_2\}$ denote patients 1 and 2. Consider propositional variables
     $\propvars = \{x, y\}$, standing
@@ -356,8 +356,8 @@ just the tautologies.
     \bar{x}y\} \cup \{x\bar{y}, \bar{x}\bar{y}\} \ni xy = v_{c_1}$), but $W,
     c_1 \models \neg \S_b{\neg x}$ (the same formula is \emph{not} sound for
     Dr.\
-    B; we have $\Pi_b[\neg x] = \{\bar{x}y, \bar{x}\bar{y}\} = \propmods(\neg
-    x) \not\ni xy = v_{c_1}$).
+    B; we have $\Pi_b[\neg x] = \{\bar{x}y, \bar{x}\bar{y}\} = \propmods{\neg
+    x} \not\ni xy = v_{c_1}$).
 \end{example}
 
 Say $\Phi$ is \emph{valid} if $W, c \models \Phi$ for all $W \in \W$ and $c \in \C$.
@@ -365,7 +365,7 @@ For future reference we collect a list of validities.
 
 \begin{proposition}
 \label{kr_prop_validities}
-For any $i \in \Srcs$, $c \in \C$ and $\phi, \psi \in \lprop$, the following
+For any $i \in \srcs$, $c \in \C$ and $\phi, \psi \in \lprop$, the following
 formulas are valid
 \begin{enumerate}
     \item \label{kr_item_replacement_equivalents_e_s}
@@ -414,26 +414,26 @@ true.
 \begin{proof}\leavevmode
 \begin{itemize}
     \item[\labelcref{kr_item_replacement_equivalents_e_s}.]
-        If $\phi \equiv \psi$ then $\propmods(\phi) = \propmods(\psi)$; since
+        If $\phi \equiv \psi$ then $\propmods{\phi} = \propmods{\psi}$; since
         the semantics for $\S_i\phi$ and $\E_i\phi$ only refer to
-        $\propmods(\phi)$ (and likewise for $\psi$), we have that $\S_i\phi
+        $\propmods{\phi}$ (and likewise for $\psi$), we have that $\S_i\phi
         \leftrightarrow \S_i\psi$ and $\E_i\phi \leftrightarrow \E_i\psi$
         are valid.
 
     \item[\labelcref{kr_item_e_symmetric}.]
         For the first validity, suppose $W, c \models \E_i\phi$. Then
-        $\propmods(\phi) = \Pi_i[\phi]$. We show $W, c \models \E_i\neg\phi$.
+        $\propmods{\phi} = \Pi_i[\phi]$. We show $W, c \models \E_i\neg\phi$.
         Indeed, take $v \in \Pi_i[\neg\phi]$. Then there is $v' \in
-        \propmods(\neg\phi)$ such that $v \in \Pi_i[v']$. Thus $v' \in
+        \propmods{\neg\phi}$ such that $v \in \Pi_i[v']$. Thus $v' \in
         \Pi_i[v]$ also. Supposing for contradiction that $v \in
-        \propmods(\phi)$, we get
+        \propmods{\phi}$, we get
         \[
-            v' \in \Pi_i[v] \subseteq \Pi_i[\phi] = \propmods(\phi).
+            v' \in \Pi_i[v] \subseteq \Pi_i[\phi] = \propmods{\phi}.
         \]
-        But then $v' \in \propmods(\neg\phi) \cap \propmods(\phi) = \emptyset$;
-        contradiction. Hence $v \notin \propmods(\phi)$, i.e. $v \in
-        \propmods(\neg\phi)$. This shows that $\Pi_i[\neg\phi] \subseteq
-        \propmods(\neg\phi)$, so $W, c \models \E_i\neg\phi$.
+        But then $v' \in \propmods{\neg\phi} \cap \propmods{\phi} = \emptyset$;
+        contradiction. Hence $v \notin \propmods{\phi}$, i.e. $v \in
+        \propmods{\neg\phi}$. This shows that $\Pi_i[\neg\phi] \subseteq
+        \propmods{\neg\phi}$, so $W, c \models \E_i\neg\phi$.
 
         We have shown that $\E_i\phi \rightarrow \E_i\neg\phi$ is valid. For
         the converse note that, by symmetry, $\E_i\neg\phi \rightarrow
@@ -446,14 +446,14 @@ true.
         \[
             \Pi_i[\phi \land \psi]
             \subseteq \Pi_i[\phi]
-            = \propmods(\phi)
+            = \propmods{\phi}
         \]
-        and, similarly, $\Pi_i[\phi \land \psi] \subseteq \propmods(\psi)$.
+        and, similarly, $\Pi_i[\phi \land \psi] \subseteq \propmods{\psi}$.
         Hence
         \[
             \Pi_i[\phi \land \psi]
-            \subseteq \propmods(\phi) \cap \propmods(\psi)
-            = \propmods(\phi \land \psi),
+            \subseteq \propmods{\phi} \cap \propmods{\psi}
+            = \propmods{\phi \land \psi},
         \]
         which shows $W, c \models \E_i(\phi \land \psi)$.
 
@@ -474,7 +474,7 @@ true.
     \item[\labelcref{kr_item_e_and_s_implies_phi}.]
         %
         Suppose $W, c \models \E_i\phi \land \S_i\phi$. Then $v_c \in
-        \Pi_i[\phi] = \propmods(\phi)$, so $W, c \models \phi$. Hence
+        \Pi_i[\phi] = \propmods{\phi}$, so $W, c \models \phi$. Hence
         $\E_i\phi \land \S_i\phi \rightarrow \phi$ is valid. Similarly,
         $\S_i\phi \land \neg\phi \rightarrow \neg \E_i\phi$ is valid.
 
@@ -494,9 +494,9 @@ true.
     \item[\labelcref{kr_item_star_exp}.]
         %
         Since the distinguished source $\ast$ has the unit partition $\Pi_\ast$
-        in any world $W$, we have $\Pi_\ast[\phi] = \propmods(\phi)$, so $W, c
+        in any world $W$, we have $\Pi_\ast[\phi] = \propmods{\phi}$, so $W, c
         \models \E_\ast\phi$. Similarly, $W, c \models \S_i\phi$ iff $v_c \in
-        \Pi_\ast[\phi] = \propmods(\phi)$ iff $W, c \models \phi$.
+        \Pi_\ast[\phi] = \propmods{\phi}$ iff $W, c \models \phi$.
 
 \end{itemize}
 \end{proof}
@@ -565,7 +565,7 @@ $
 $
 i.e. the propositional parts of $G$ are (classically) closed.
 
-In propositional logic, $\propmods$ is a 1-to-1 correspondence between closed
+In propositional logic, $\propmods{\cdot}$ is a 1-to-1 correspondence between closed
 sets of formulas and sets of valuations. This is not so in our setting, since
 some subsets of $\W$ do not arise as the models of any collection. Instead, we
 have a 1-to-1 correspondence into a restricted collection of sets of worlds.
@@ -605,12 +605,12 @@ combinations of partition-equivalent worlds.
     \lext \mid S \subseteq \mod_c(\Phi)\}$. Clearly $S \subseteq \mod(G)$. For the
     reverse inclusion, suppose $W \in \mod(G)$. For any set of valuations $U
     \subseteq \vals$, let $\phi_U$ be any propositional sentence with
-    $\propmods(\phi_U) = U$. For each $c \in \C$, consider the sentence
+    $\propmods{\phi_U} = U$. For each $c \in \C$, consider the sentence
     \[
         \Phi_c = \bigvee_{W' \in S}\left(
             \phi_{\{v^{W'}_c\}}
             \land
-            \bigwedge_{i \in \Srcs}
+            \bigwedge_{i \in \srcs}
                 \bigwedge_{U \subseteq \vals}
                     R_{W', i, U}
         \right)
@@ -628,7 +628,7 @@ combinations of partition-equivalent worlds.
     Consequently, for each $c$ there is some $W_c \in S$ such that
     \begin{inlinelist}
         \item \label{kr_item_vals_equal} $v^W_c = v^{W_c}_c$; and
-        \item \label{kr_item_partition_equiv} for each $i \in \Srcs$ and $U \subseteq
+        \item \label{kr_item_partition_equiv} for each $i \in \srcs$ and $U \subseteq
               V$, $W, c \models \E_i{\phi_U}$ iff $W_c, c \models \E_i{\phi_U}$.
     \end{inlinelist}
     From \ref{kr_item_vals_equal}, $W$ is a valuation combination from $\{W_c\}_{c
@@ -667,7 +667,7 @@ seek an operator with the following behaviour:
 \begin{itemize}
 
 \item \textbf{Input:} A sequence of reports $\sigma$, where each report is a
-      triple $\tuple{i, c, \phi} \in \Srcs \times \C \times \lprop$ and $\phi
+      triple $\tuple{i, c, \phi} \in \srcs \times \C \times \lprop$ and $\phi
       \not\equiv \falsum$. Such a report represents that {\em source $i$
       reports $\phi$ to hold in case $c$}. Note that we only allow sources to
       make \emph{propositional} reports.
@@ -969,7 +969,7 @@ by formalising the introductory hospital example.
 
 \begin{example}
     \label{kr_ex_hospital_ex_formalised}
-    Set $\Srcs, \C$ and $\propvars$ as in \cref{kr_ex_hospital_world}, and consider
+    Set $\srcs, \C$ and $\propvars$ as in \cref{kr_ex_hospital_world}, and consider
     the sequence
     \[
         \sigma
@@ -1189,10 +1189,10 @@ We now present examples of how such an ordering can be defined.
     $\X_\sigma$ in the same way as \weakop{} in \cref{kr_def_weakop}, and $W \le
     W'$ iff $r(W) \le r(W')$, where
     \[
-        r(W) = - \sum_{i \in \Srcs}\left|\left\{
+        r(W) = - \sum_{i \in \srcs}\left|\left\{
             p \in \propvars
             \mid
-            \Pi^W_i[p] = \propmods(p)
+            \Pi^W_i[p] = \propmods{p}
         \right\}\right|.
     \]
 \end{definition}
@@ -1225,7 +1225,7 @@ basic postulates.
     Define a conditioning operator \partbasedcond{} with $\X_\sigma$ as
     for \varbasedcond{}, and $\le$ defined by the ranking function
     \[
-        r(W) = -\sum_{i \in \Srcs}{|\Pi^W_i|}.
+        r(W) = -\sum_{i \in \srcs}{|\Pi^W_i|}.
     \]
 \end{definition}
 
@@ -1246,7 +1246,7 @@ Note that both \varbasedcond{} and \partbasedcond{} are based on the general
 principle of maximising the expertise of sources, subject to the constraint
 that all reports are sound. This intuition is formalised by the following
 postulate for conditioning operators. In what follows, write $W \preceq W'$ iff
-$\Pi^W_i$ refines $\Pi^{W'}_i$ for all $i \in \Srcs$, i.e. if all sources have
+$\Pi^W_i$ refines $\Pi^{W'}_i$ for all $i \in \srcs$, i.e. if all sources have
 broadly more expertise in $W$ than in $W'$.\footnotemark{}
 
 \footnotetext{
@@ -1399,7 +1399,7 @@ Now, for any world $W$, set
     \reports(W)
     = \{
         \tuple{i, c, \phi}
-        \in \Srcs \times \C \times \widehat{\lprop}
+        \in \srcs \times \C \times \widehat{\lprop}
         \mid
         W \in \X_{\tuple{i, c, \phi}}
     \}
@@ -1851,7 +1851,7 @@ functions}, and call the resulting operators \emph{score-based}.
 \label{kr_def_score_based}
     An operator is \emph{score-based} if there is a mapping $\sigma \mapsto
     \tuple{\X_\sigma, \Y_\sigma}$ as in \cref{kr_def_model_based} and functions
-    $r_0: \W \to \Ninf$, $d: \W \times (\Srcs \times \C \times \lprop) \to \Ninf$
+    $r_0: \W \to \Ninf$, $d: \W \times (\srcs \times \C \times \lprop) \to \Ninf$
     such that $\X_\sigma = \{W \mid r_\sigma(W) < \infty\}$ and $\Y_\sigma =
     \argmin_{W \in \X_\sigma}{r_\sigma(W)}$, where
     \[
@@ -1912,7 +1912,7 @@ We now give a concrete example.
     $r_0(W) = 0$ and
     \[
         d(W, \tuple{i, c, \phi}) = \begin{cases}
-            |\Pi^W_i[\phi] \setminus \propmods(\phi)|,& W, c \models \S_i\phi \\
+            |\Pi^W_i[\phi] \setminus \propmods{\phi}|,& W, c \models \S_i\phi \\
             \infty,& \text{ otherwise. }
         \end{cases}
     \]
@@ -2029,7 +2029,7 @@ worlds whose $c$ valuation is $v$.
     For any model-based operator, sequence $\sigma$, case $c$, and valuation
     $v\ in \vals$,
     \[
-        v \in \propmods\proppart{B^\sigma_c}
+        v \in \propmods{\proppart{B^\sigma_c}}
         \iff
         \Y_\sigma \cap \W_{c\ :\  v} \ne \emptyset
     \]
@@ -2038,19 +2038,19 @@ worlds whose $c$ valuation is $v$.
 \begin{proof}
     ``$\implies$": We show the contrapositive. Suppose $\Y_\sigma \cap \W_{c\
     :\ v} = \emptyset$. Let $\psi$ be any propositional formula such that
-    $\propmods(\psi) = \vals \setminus \{v\}$. Now for any $W \in \Y_\sigma$,
+    $\propmods{\psi} = \vals \setminus \{v\}$. Now for any $W \in \Y_\sigma$,
     we have $W \notin \W_{c\ :\  v}$, i.e. $v^W_c \ne v$. Hence $v^W_c \in
-    \propmods(\psi)$, so $W, c \models \psi$. By definition of the belief set
+    \propmods{\psi}$, so $W, c \models \psi$. By definition of the belief set
     of a model-based operator, we have $\psi \in B^\sigma_c$. But $\psi$ is a
     propositional formula, so $\psi \in \proppart{B^\sigma_c}$. Since $v \notin
-    \propmods(\psi)$, we have $v \notin \propmods\proppart{B^\sigma_c}$.
+    \propmods{\psi}$, we have $v \notin \propmods{\proppart{B^\sigma_c}}$.
 
     ``$\impliedby$": Suppose there is some $W \in \Y_\sigma \cap \W_{c\ :\
     v}$. Let $\phi \in \proppart{B^\sigma_c}$. Then, in particular, $\phi \in
     B^\sigma_c$, so $W, c \models \phi$ by $W \in \Y_\sigma$ and the definition
-    of the model-based belief set. That is, $v = v^W_c \in \propmods(\phi)$.
+    of the model-based belief set. That is, $v = v^W_c \in \propmods{\phi}$.
     Since $\phi \in \proppart{B^\sigma_c}$ was arbitrary, we have $v \in
-    \propmods\proppart{B^\sigma_c}$.
+    \propmods{\proppart{B^\sigma_c}}$.
 
 \end{proof}
 
@@ -2097,7 +2097,7 @@ We have a sufficient condition for \agm{} for score-based operators.
         \proppart{B^\sigma_c} \star \phi = \{
             \psi \in \lprop
             \mid
-            \min\nolimits_{\preceq}{\propmods(\phi)} \subseteq \propmods(\psi)
+            \min\nolimits_{\preceq}{\propmods{\phi}} \subseteq \propmods{\psi}
         \}
     \]
     To show that $\star$ satisfies the AGM postulates (for
@@ -2105,11 +2105,11 @@ We have a sufficient condition for \agm{} for score-based operators.
     $\proppart{B^\sigma_c}$ are exactly the $\preceq$-minimal valuations.
 
         \begin{claim}
-            $\propmods\proppart{B^\sigma_c} = \min_{\preceq}{\vals}$.
+            $\propmods{\proppart{B^\sigma_c}} = \min_{\preceq}{\vals}$.
         \end{claim}
         \begin{proof}
 
-            ``$\subseteq$": let $v \in \propmods\proppart{B^\sigma_c}$. By
+            ``$\subseteq$": let $v \in \propmods{\proppart{B^\sigma_c}}$. By
             \cref{kr_lemma_model_based_models_of_proppart}, there is some $W \in
             \Y_\sigma \cap \W_{c\ :\  v}$. Since $W \in \X_\sigma$ too, by
             definition of $k$ we have $k(v) \le r_\sigma(W) < \infty$. Now let
@@ -2144,7 +2144,7 @@ We have a sufficient condition for \agm{} for score-based operators.
             \]
             That is, $W \in \Y_\sigma \cap \W_{c\ :\  v}$. By
             \cref{kr_lemma_model_based_models_of_proppart}, $v \in
-            \propmods\proppart{B^\sigma_c}$.
+            \propmods{\proppart{B^\sigma_c}}$.
 
         \end{proof}
 
@@ -2154,24 +2154,24 @@ We have a sufficient condition for \agm{} for score-based operators.
 
         \begin{claim}
             \label{kr_claim_propmods_rho_min_models_of_phi}
-            $\propmods\proppart{B^\rho_c} =
-            \min\nolimits_{\preceq}{\propmods(\phi)}$.
+            $\propmods{\proppart{B^\rho_c}} =
+            \min\nolimits_{\preceq}{\propmods{\phi}}$.
         \end{claim}
         \begin{proof}
-            ``$\subseteq$": let $v \in \propmods\proppart{B^\rho_c}$.  By
+            ``$\subseteq$": let $v \in \propmods{\proppart{B^\rho_c}}$.  By
             \cref{kr_lemma_model_based_models_of_proppart} again, there is some $W
             \in \Y_\rho \cap \W_{c\ :\  v}$. Since $\tuple{\ast, c, \phi} \in
             \rho$ and $d(W, \tuple{\ast, c, \phi}) \le r_\rho(W) < \infty$, we
             must have $W, c \models \phi$ by the assumed property of the score
-            function $d$. Hence $v = v^W_c \in \propmods(\phi)$.
+            function $d$. Hence $v = v^W_c \in \propmods{\phi}$.
 
             Now since $\Y_\rho \subseteq \X_\rho$, we have $W \in \Y_\rho
             \subseteq \X_\rho \subseteq \X_\sigma$, so $W \in \X_\sigma \cap
             \W_{c\ :\  v}$. By definition of $k$, we have $k(v) \le
-            r_\sigma(W)$. Take any $v' \in \propmods(\phi)$. Without loss of
+            r_\sigma(W)$. Take any $v' \in \propmods{\phi}$. Without loss of
             generality, assume $k(v') < \infty$, so that there is some $W' \in
             \X_\sigma \cap \W_{c\ :\  v'}$ with $k(v') = r_\sigma(W')$. Since
-            $v^{W'}_c = v' \in \propmods(\phi)$, we have $W', c \models \phi$.
+            $v^{W'}_c = v' \in \propmods{\phi}$, we have $W', c \models \phi$.
             Consequently, by the property of $d$ again, $d(W', \tuple{\ast, c,
             \phi}) = M$. Since $W' \in \X_\sigma$ gives $r_\sigma(W') <
             \infty$, it follows that
@@ -2196,16 +2196,16 @@ We have a sufficient condition for \agm{} for score-based operators.
             and $v \preceq v'$ as required.
 
 
-            ``$\supseteq$": let $v \in \min_{\preceq}{\propmods(\phi)}$. Since
+            ``$\supseteq$": let $v \in \min_{\preceq}{\propmods{\phi}}$. Since
             $\neg\phi \notin K^\sigma_c$, there is some $\hat{W} \in \X_\sigma$
             such that $\hat{W}, c \models \phi$. Writing $\hat{v} =
-            v^{\hat{W}}_c$, we have $\hat{v} \in \propmods(\phi)$. Hence $v
+            v^{\hat{W}}_c$, we have $\hat{v} \in \propmods{\phi}$. Hence $v
             \preceq \hat{v}$. This implies
             \[
                 k(v) \le k(\hat{v}) \le r_\sigma(\hat{W}) < \infty
             \]
             so there must be some $W \in \X_\sigma \cap \W_{c\ :\  v}$ with
-            $k(v) = r_\sigma(W)$. Since $v^W_c = v \in \propmods(\phi)$, we
+            $k(v) = r_\sigma(W)$. Since $v^W_c = v \in \propmods{\phi}$, we
             have $W, c \models \phi$. By the assumed property of $d$, we get
             $d(W, \tuple{\ast, c, \phi}) = M$. Hence
             \[
@@ -2216,7 +2216,7 @@ We have a sufficient condition for \agm{} for score-based operators.
             \]
             so $W \in \X_\rho$ too. We will show that $W \in \Y_\rho$. Let $W'
             \in \X_\rho$. Then we must have $d(W', \tuple{\ast, c, \phi}) = M$
-            and $W', c \models \phi$. That is, $v^{W'}_c \in \propmods(\phi)$.
+            and $W', c \models \phi$. That is, $v^{W'}_c \in \propmods{\phi}$.
             By minimality of $v$, we have $v \preceq v^{W'}_c$. Noting that $W'
             \in \X_\rho \subseteq \X_\sigma$, we get
             \[
@@ -2238,8 +2238,8 @@ We have a sufficient condition for \agm{} for score-based operators.
 
         \end{proof}
 
-    Noting that $\propmods\proppart{B^\sigma_c} \star \phi =
-    \min_{\preceq}{\propmods(\phi)}$, it follows from
+    Noting that $\propmods{\proppart{B^\sigma_c}} \star \phi =
+    \min_{\preceq}{\propmods{\phi}}$, it follows from
     \cref{kr_claim_propmods_rho_min_models_of_phi} that
     $\cnprop(\proppart{B^\rho_c}) = \cnprop(\proppart{B^\sigma_c} \star \phi)$.
     But $\proppart{B^\rho_c}$ is deductively closed by \closure{}, and
@@ -2369,7 +2369,7 @@ false report.
 
 \begin{lemma}
     \label{kr_lemma_score_based_strongcondsucc_sufficient_conditions}
-    Suppose a score-based operator is such that for any $i \in \Srcs$, $c \in \C$,
+    Suppose a score-based operator is such that for any $i \in \srcs$, $c \in \C$,
     $\phi \in \lprop$ and $W, W' \in \W$,
     \begin{align*}
         W, c &\models \E_i\phi \land \phi
@@ -2430,7 +2430,7 @@ By omission, the reader may suppose that the conditioning operators fail
 conditioning operator with a few basic properties -- all of which are satisfied
 by \varbasedcond{} and \partbasedcond{} -- can satisfy \strongcondsucc{}.
 %
-In what follows, for a permutation $\pi: \Srcs \to \Srcs$ with $\pi(\ast) = \ast$,
+In what follows, for a permutation $\pi: \srcs \to \srcs$ with $\pi(\ast) = \ast$,
 write $\pi(W)$ for the world with $v^{\pi(W)}_c = v^W_c$ and $\Pi^{\pi(W)}_i =
 \Pi^W_{\pi(i)}$. We have an impossibility result.
 
@@ -2443,7 +2443,7 @@ write $\pi(W)$ for the world with $v^{\pi(W)}_c = v^W_c$ and $\Pi^{\pi(W)}_i =
               $K^\emptyset = \cn(\emptyset)$
 
         \item \label{kr_item_anonymity}
-              If $\pi$ is a permutation of $\Srcs$ with $\pi(\ast) = \ast$, $W
+              If $\pi$ is a permutation of $\srcs$ with $\pi(\ast) = \ast$, $W
               \simeq \pi(W)$
 
         \item \refinement{}
@@ -2466,9 +2466,9 @@ in \cref{kr_sec_conditioning_operators}, says that worlds in which all sources
 have more expertise are preferred.
 
 \begin{proof}
-    Take distinct sources $i_1, i_2 \in \Srcs \setminus \{\ast\}$, distinct cases
+    Take distinct sources $i_1, i_2 \in \srcs \setminus \{\ast\}$, distinct cases
     $c, d \in \C$, and distinct valuations $v_1, v_2 \in \vals$. Let $\phi_1,
-    \phi_2 \in \lprop$ be propositional formulas with $\propmods(\phi_k) = v_k$
+    \phi_2 \in \lprop$ be propositional formulas with $\propmods{\phi_k} = v_k$
     ($k \in \{1, 2\}$). Suppose for contradiction that some elementary
     conditioning operator -- satisfying the basic postulates -- has the stated
     properties.
@@ -2516,7 +2516,7 @@ have more expertise are preferred.
             $W_1 \simeq W_2$.
         \end{claim}
         \begin{proof}
-            Let $\pi$ be the permutation of $\Srcs$ which swaps $i_1$ and $i_2$.
+            Let $\pi$ be the permutation of $\srcs$ which swaps $i_1$ and $i_2$.
             It is easily observed that $\pi(W_1)$ is partition-equivalent to
             $W_2$. By reflexivity of partition refinement, $\pi(W_1) \preceq
             W_2$ and $W_2 \preceq \pi(W_1)$. By \refinement{}, we get $\pi(W_1)
@@ -2582,7 +2582,7 @@ have more expertise are preferred.
     \]
     $W_2$ is also $\le$-minimal in $\X_\rho$, i.e. $W_2 \in \Y_\rho$. Now
     $\phi_1 \in B^\rho_d$ gives $W_2, d \models \phi_1$. Since $v^{W_2}_d =
-    v_2$ and $\propmods(\phi_1) = \{v_1\}$, this means $v_1 = v_2$. But $v_1$
+    v_2$ and $\propmods{\phi_1} = \{v_1\}$, this means $v_1 = v_2$. But $v_1$
     and $v_2$ were assumed to be distinct: contradiction.
 
     \todo{Show that any strict subset is satisfiable}
@@ -2610,7 +2610,7 @@ $\sigma$.
 \begin{definition}
     \label{kr_def_selectivity}
     A \emph{selection scheme} is a mapping $f$ assigning to each
-    $\ast$-consistent sequence $\sigma$ a function $f_\sigma: \Srcs \times \C
+    $\ast$-consistent sequence $\sigma$ a function $f_\sigma: \srcs \times \C
     \times \lprop \to \lprop$ such that $f_\sigma(i, c, \phi) \in
     \cnprop(\phi)$.
     %
@@ -2633,7 +2633,7 @@ $\tuple{\ast, c, f_\sigma(i, c, \phi)}$.
 
 Selectivity can be characterised by a natural postulate placing an upper bound
 on the propositional part of $B^\sigma_c$. In what follows, let
-$\Gamma^\sigma_c = \{\phi \in \lprop \mid \exists i \in \Srcs: \tuple{i, \phi}
+$\Gamma^\sigma_c = \{\phi \in \lprop \mid \exists i \in \srcs: \tuple{i, \phi}
 \in \sigma \rs c\}$.
 
 \begin{postulate}[\boundedness{}]
@@ -2657,15 +2657,15 @@ have the following characterisation.
     ``if": Suppose a model-based operator satisfies \boundedness{}. Take any
     $\ast$-consistent $\sigma$. For $c \in \C$, set
     \[
-        M_c = \propmods\proppart{B^\sigma_c}.
+        M_c = \propmods{\proppart{B^\sigma_c}}.
     \]
-    By \boundedness{}, we have $M_c \supseteq \propmods(\Gamma^\sigma_c)$. Now
+    By \boundedness{}, we have $M_c \supseteq \propmods{\Gamma^\sigma_c}$. Now
     set
     \[
-        F_\sigma(i, c, \phi) = \propmods(\phi) \cup M_c.
+        F_\sigma(i, c, \phi) = \propmods{\phi} \cup M_c.
     \]
     Define a selection function $f_\sigma$ by letting $f_\sigma(i, c, \phi)$ be
-    any formula with $\propmods(f_\sigma(i,c, \phi)) = F_\sigma(i, c, \phi)$.
+    any formula with $\propmods{f_\sigma(i,c, \phi}) = F_\sigma(i, c, \phi)$.
     Since $F_\sigma(i, c, \phi)$ contains the models of $\phi$, clearly
     $f_\sigma(i, c, \phi) \in \cnprop(\phi)$. Therefore $f$ is indeed a
     selection function.
@@ -2682,23 +2682,23 @@ have the following characterisation.
     contradiction that there is some $v \in \bigcap_{\tuple{i, \phi} \in \sigma
     \rs c}{F_\sigma(i, c, \phi)}$ with $v \notin M_c$.
 
-    Take any $\phi \in \Gamma^\sigma_c$. Then there is $i \in \Srcs$ such that
+    Take any $\phi \in \Gamma^\sigma_c$. Then there is $i \in \srcs$ such that
     $\tuple{i, \phi} \in \sigma \rs c$, and hence $v \in F_\sigma(i, c, \phi)$.
-    But $v \notin M_c$ by assumption, so $v \in \propmods(\phi)$. This shows $v
-    \in \propmods(\Gamma^\sigma_c)$. But $\propmods(\Gamma^\sigma_c) \subseteq
+    But $v \notin M_c$ by assumption, so $v \in \propmods{\phi}$. This shows $v
+    \in \propmods{\Gamma^\sigma_c}$. But $\propmods{\Gamma^\sigma_c} \subseteq
     M_c$ by \boundedness{}, so $v \in M_c$; contradiction.
 
     From this we get
     \begin{align*}
-        \propmods\proppart{B^\sigma_c}
+        \propmods{\proppart{B^\sigma_c}}
         &= M_c \\
         &= \bigcap_{\tuple{i, \phi} \in \sigma \rs c}{F_\sigma(i, c, \phi)} \\
         &= \bigcap_{\tuple{i, \phi} \in \sigma \rs c}{
-            \propmods(f_\sigma(i, c, \phi))
+            \propmods{f_\sigma(i, c, \phi})
         } \\
-        &= \propmods\left(\{
+        &= \propmods{\{
             f_\sigma(i, c, \phi) \mid \tuple{i, \phi} \in \sigma \rs c
-        \}\right)
+        \}}
     \end{align*}
     Since $\proppart{B^\sigma_c}$ is deductively closed (by \closure{}, which
     holds for all model-based operators), we get
@@ -2741,7 +2741,7 @@ This characterisation in \cref{kr_thm_selectivity_characterisation} allows us to
 easily analyse when conditioning and score-based operators are selective. In
 the case of conditioning operators with $K^\emptyset = \cn(\emptyset)$, we in
 fact have a precise characterisation. First, some terminology: say that a world
-$W$ \emph{refines $W'$ at $c$} if for all $i \in \Srcs$ we have $\Pi^W_i[v^W_c]
+$W$ \emph{refines $W'$ at $c$} if for all $i \in \srcs$ we have $\Pi^W_i[v^W_c]
 \subseteq \Pi^{W'}_i[v^{W'}_c]$. Intuitively, this means each source is more
 knowledgable in case $c$ in world $W$ than they are in $W'$. Write $\W_{c\ :\
 v} = \{W \in \W \mid v^W_c = v\}$ for the set of worlds whose $c$ valuation is
@@ -2768,7 +2768,7 @@ We first state some preliminary results.
 
 \begin{lemma}
     \label{kr_lemma_local_refinement}
-    Suppose $W$ refines $W'$ at $c$. Then for any $i \in \Srcs$ and $\phi \in
+    Suppose $W$ refines $W'$ at $c$. Then for any $i \in \srcs$ and $\phi \in
     \lprop$,
     \[
         W, c \models \S_i\phi
@@ -2779,8 +2779,8 @@ We first state some preliminary results.
 
 \begin{proof}
     Suppose $W, c \models \S_i\phi$. Then $v^W_c \in \Pi^W_i[\phi]$, i.e.
-    $\propmods(\phi) \cap \Pi^W_i[v^W_c] \ne \emptyset$. By refinement,
-    $\Pi^W_i[v^W_c] \subseteq \Pi^{W'}_i[v^{W'}_c]$. Hence $\propmods(\phi)
+    $\propmods{\phi} \cap \Pi^W_i[v^W_c] \ne \emptyset$. By refinement,
+    $\Pi^W_i[v^W_c] \subseteq \Pi^{W'}_i[v^{W'}_c]$. Hence $\propmods{\phi}
     \cap \Pi^{W'}_i[v^{W'}_c] \ne \emptyset$, so $v^{W'}_c \in
     \Pi^{W'}_i[\phi]$. That is, $W', c \models \S_i\phi$.
 \end{proof}
@@ -2800,18 +2800,18 @@ We first state some preliminary results.
 \begin{proof}
 
     For a valuation $v \in \vals$, let $\phi(v)$ be a propositional formula
-    such that $\propmods(\phi(v)) = \{v\}$. Take $\sigma$ to be any enumeration
+    such that $\propmods{\phi(v}) = \{v\}$. Take $\sigma$ to be any enumeration
     of reports of the form
     \[
         \tuple{i, c, \phi(v)}
     \]
-    where $i \in \Srcs$ and $v \in \Pi^W_i[v^W_c]$. Note that such a sequence
+    where $i \in \srcs$ and $v \in \Pi^W_i[v^W_c]$. Note that such a sequence
     exists since there are only finitely many sources and valuations. Clearly
     $\sigma$ contains only $c$-reports. Since $\Pi^W_\ast$ is the unit
     partition, the only report from $\ast$ is $\tuple{\ast, c, \phi(v^W_c)}$.
     Hence $\sigma$ is $\ast$-consistent. We show the desired equivalence.
 
-    $\implies$: Suppose $W' \in \mods(G^\sigma_\snd)$. Take any $i \in \Srcs$. We
+    $\implies$: Suppose $W' \in \mods(G^\sigma_\snd)$. Take any $i \in \srcs$. We
     need to show $\Pi^W_i[v^W_c] \subseteq \Pi^{W'}_i[v^{W'}_c]$. Take $v \in
     \Pi^W_i[v^W_c]$. By construction of $\sigma$, $\tuple{i, c, \phi(v)} \in
     \sigma$. Hence $W', c \models \S_i\phi(v)$, i.e. $v^{W'}_c \in
@@ -2835,9 +2835,9 @@ We first state some preliminary results.
     show \boundedness{}. To that end, let $\sigma$ be $\ast$-consistent and
     take $c \in \C$. We need $\proppart{B^\sigma_c} \subseteq
     \cnprop(\Gamma^\sigma_c)$; or equivalently, by \closure{},
-    $\propmods\proppart{B^\sigma_c} \supseteq \propmods(\Gamma^\sigma_c)$.
+    $\propmods{\proppart{B^\sigma_c}} \supseteq \propmods{\Gamma^\sigma_c}$.
 
-    Take any $v \in \propmods(\Gamma^\sigma_c)$. Since $\sigma$ is
+    Take any $v \in \propmods{\Gamma^\sigma_c}$. Since $\sigma$ is
     $\ast$-consistent, $B^\sigma$ is consistent by \consistency{}. Hence
     $\Y_\sigma \ne \emptyset$. Take any $W \in \Y_\sigma$. By the property in
     the statement of the result, there is $W' \in \W_{c\ :\ v}$ such that $W'
@@ -2850,7 +2850,7 @@ We first state some preliminary results.
     \begin{itemize}
         \item \textbf{Case 1} ($d = c$). Here $\tuple{i, \phi} \in \sigma \rs
             c$, so $\phi \in \Gamma^\sigma_c$. Hence $v \in
-            \propmods(\Gamma^\sigma_c) \subseteq \propmods(\phi)$. Since $W'
+            \propmods{\Gamma^\sigma_c} \subseteq \propmods{\phi}$. Since $W'
             \in \W_{c\ :\ v}$, $v$ is the $c$-valuation of $W'$. Hence $W', c
             \models \phi$, and $W', c \models \S_i\phi$ follows.
 
@@ -2864,7 +2864,7 @@ We first state some preliminary results.
     Thus $W'$ is also $\le$-minimal in $\X_\sigma$, i.e. $W' \in \Y_\sigma$.
     Since $W' \in \W_{c\ :\ v}$ also, we have by
     \cref{kr_lemma_model_based_models_of_proppart} that $v \in
-    \propmods\proppart{B^\sigma_c}$, as required.
+    \propmods{\proppart{B^\sigma_c}}$, as required.
 
     ``only if": Suppose our operator is selective, i.e. satisfies
     \boundedness{}. To show the desired property holds, take any $W$, $c$ and
@@ -2876,8 +2876,8 @@ We first state some preliminary results.
         =
         \{W' \in \W \mid W \text{ refines } W' \text{ at } d_n\}.
     \]
-    Now, let $\phi$ and $\psi$ be formulas with $\propmods(\phi) = \{v\}$ and
-    $\propmods(\psi) = \{v^W_c\}$. Let $\rho$ be the concatenation
+    Now, let $\phi$ and $\psi$ be formulas with $\propmods{\phi} = \{v\}$ and
+    $\propmods{\psi} = \{v^W_c\}$. Let $\rho$ be the concatenation
     \[
         \rho
         =
@@ -2888,12 +2888,12 @@ We first state some preliminary results.
     refers to case $d_n$). We may therefore apply \boundedness{} for case $c$.
     Taking models of both sides yields
     \[
-        \propmods\proppart{B^\rho_c}
-        \supseteq \propmods(\Gamma^\rho_c)
-        = \propmods(\phi \lor \psi)
+        \propmods{\proppart{B^\rho_c}}
+        \supseteq \propmods{\Gamma^\rho_c}
+        = \propmods{\phi \lor \psi}
         = \{v, v^W_c\}.
     \]
-    In particular, $v \in \propmods\proppart{B^\rho_c}$. By
+    In particular, $v \in \propmods{\proppart{B^\rho_c}}$. By
     \cref{kr_lemma_model_based_models_of_proppart}, there is some $W' \in \Y_\rho
     \cap \W_{c\ :\ v}$.
 
@@ -2924,7 +2924,7 @@ selective schemes.
     \label{kr_def_case_independent_selectivity}
     A selection scheme $f$ is \emph{case independent} if $f_\sigma(i, c, \phi)
     \equiv f_\sigma(i, d, \phi)$ for all $\ast$-consistent $\sigma$ and $i \in
-    \Srcs$, $c, d \in \C$ and $\phi \in \lprop$.
+    \srcs$, $c, d \in \C$ and $\phi \in \lprop$.
 \end{definition}
 
 Say an operator is \emph{case-independent-selective} if it is selective
@@ -2936,7 +2936,7 @@ For any set of cases $H \subseteq \C$, sequence $\sigma$ and $c \in \C$, write
     = \{
         \phi \in \lprop
         \mid
-        \exists i \in \Srcs:
+        \exists i \in \srcs:
             &\tuple{i, \phi} \in \sigma \rs c \\
             &\text{ and }
             \forall d \in H : \tuple{i, \phi} \notin \sigma \rs d
@@ -3004,9 +3004,9 @@ The characterisation is as follows.
     ``only if": Suppose a model-based operator is selective
     according to some case-independent scheme $f$. Take any $\ast$-consistent
     $\sigma$, $H \subseteq \C$ and $c \in \C$. For any case $d$, write $M_d =
-    \propmods\proppart{B^\sigma_d}$. Note that with $c_0$ an
+    \propmods{\proppart{B^\sigma_d}}$. Note that with $c_0$ an
     arbitrary fixed case, and writing $F_\sigma(i, \phi) =
-    \propmods(f_\sigma(i, c_0, \phi))$, we have by case-independent-selectivity
+    \propmods{f_\sigma(i, c_0, \phi})$, we have by case-independent-selectivity
     that
     \[
         M_d = \bigcap_{\tuple{i, \phi} \in \sigma \rs d}{
@@ -3018,16 +3018,16 @@ The characterisation is as follows.
         \label{kr_eqn_hbnd_inclusion}
         M_c
         \supseteq
-        \propmods(\Gamma^{\sigma, H}_c) \cap \bigcap_{d \in H}{M_d}.
+        \propmods{\Gamma^{\sigma, H}_c} \cap \bigcap_{d \in H}{M_d}.
     \end{equation}
     Take any $v$ in the set on the right-hand side. To show $v \in M_c$, take
     any $\tuple{i, \phi} \in \sigma \rs c$. If $\phi \in \Gamma^{\sigma, H}_c$,
     then clearly
     \begin{align*}
         v
-        &\in \propmods(\Gamma^{\sigma, H}_c) \\
-        &\subseteq \propmods(\phi) \\
-        &\subseteq \propmods(f_\sigma(i, c, \phi)) \\
+        &\in \propmods{\Gamma^{\sigma, H}_c} \\
+        &\subseteq \propmods{\phi} \\
+        &\subseteq \propmods{f_\sigma(i, c, \phi}) \\
         &= F_\sigma(i, \phi)
     \end{align*}
     (where we use $f_\sigma(i, c, \phi) \in \cnprop(\phi)$). Otherwise, $\phi
@@ -3038,7 +3038,7 @@ The characterisation is as follows.
 
     ``if": Suppose a model-based operator satisfies \hboundedness{}. Let
     $\sigma$ be a $\ast$-consistent sequence. As before, write $M_c$ for
-    $\propmods\proppart{B^\sigma_c}$. For $i \in \Srcs$ and $c \in \C$,
+    $\propmods{\proppart{B^\sigma_c}}$. For $i \in \srcs$ and $c \in \C$,
     write
     \[
         \C(i, \phi) = \{c \in \C \mid \tuple{i, \phi} \in \sigma \rs c\},
@@ -3046,10 +3046,10 @@ The characterisation is as follows.
     and set
     \[
         F_\sigma(i, \phi)
-        = \propmods(\phi) \cup \bigcup_{c \in \C(i, \phi)}{M_c}.
+        = \propmods{\phi} \cup \bigcup_{c \in \C(i, \phi)}{M_c}.
     \]
     Define $f$ by letting $f_\sigma(i, c, \phi)$ be any propositional formula
-    with $\propmods(f_\sigma(i, c, \phi)) = F_\sigma(i, \phi)$. Then $f$ is a
+    with $\propmods{f_\sigma(i, c, \phi}) = F_\sigma(i, \phi)$. Then $f$ is a
     case-independent selection scheme. We show our operator is selective
     according to $f$; by closure of $\proppart{B^\sigma_c}$ for each $c$, it
     suffices to show
@@ -3070,18 +3070,18 @@ The characterisation is as follows.
         \label{kr_eqn_hbnd_application}
         M_c
         \supseteq
-        \propmods(\Gamma^{\sigma, H}_c) \cap \bigcap_{d \in H}{M_d}.
+        \propmods{\Gamma^{\sigma, H}_c} \cap \bigcap_{d \in H}{M_d}.
     \end{equation}
     Clearly $v \in \bigcap_{d \in H}{M_d}$ by definition of $H$. Let $\phi \in
-    \Gamma^{\sigma, H}_c$. Then there is $i \in \Srcs$ such that
+    \Gamma^{\sigma, H}_c$. Then there is $i \in \srcs$ such that
     $\tuple{i, \phi} \in \sigma \rs c$, and consequently $v \in F_\sigma(i,
-    \phi)$. We claim $v \in \propmods(\phi)$. If not, by definition of
+    \phi)$. We claim $v \in \propmods{\phi}$. If not, by definition of
     $F_\sigma(i, \phi)$ we must have $v \in \bigcup_{d \in \C(i, \phi)}{M_d}$,
     i.e. there is $d \in \C$ such that $\tuple{i, \phi} \in \sigma \rs d$ and
     $v \in M_d$. On the one hand, $\phi \in \Gamma^{\sigma, H}_c$ implies $d
     \notin H$. On the other, $v \in M_d$ gives $d \in H$ directly by the
-    definition of $H$: contradiction. This shows $v \in \propmods(\phi)$. Since
-    $\phi$ was arbitrary, we have $v \in \propmods(\Gamma^{\sigma, H}_c)$. By
+    definition of $H$: contradiction. This shows $v \in \propmods{\phi}$. Since
+    $\phi$ was arbitrary, we have $v \in \propmods{\Gamma^{\sigma, H}_c}$. By
     \labelcref{kr_eqn_hbnd_application} we get $v \in M_c$, and the proof is
     complete.
 
@@ -3157,7 +3157,7 @@ $S$.
     \label{kr_lemma_ec_selective_propmodels}
     If a model-based operator is EC-selective and satisfies \soundness{}, then
     \[
-        \propmods\proppart{B^\sigma_c}
+        \propmods{\proppart{B^\sigma_c}}
         =
         \bigcap_{\tuple{i, \phi} \in \sigma \rs c}{
             \Pi^{\Y_\sigma}_i[\phi]
@@ -3165,6 +3165,8 @@ $S$.
     \]
     for all $\ast$-consistent $\sigma$ and $c \in \C$.
 \end{lemma}
+
+\todo{Write up from online notes.}
 
 Now write $G^\snd_\sigma$ for the collection with $(G^\snd_\sigma)_c =
 \{\S_i\phi \mid \tuple{i, \phi} \in \sigma \rs c\}$. For any collection $G$,
@@ -3186,8 +3188,8 @@ write $\exppart{G}$ for the sub-collection of formulas of the form $\E_i\phi$.
 \todo{Write up from online notes.}
 
 Finally, note that \cref{kr_lemma_ec_selective_propmodels} immediately implies
-selectivity with respect to any scheme $f$ such that $\propmods(f_\sigma(i, c,
-\phi)) = \Pi^{\Y_\sigma}_i[\phi]$. Since the right-hand side does not depend on
+selectivity with respect to any scheme $f$ such that $\propmods{f_\sigma(i, c,
+\phi)} = \Pi^{\Y_\sigma}_i[\phi]$. Since the right-hand side does not depend on
 the case $c$, we get the following corollary.
 
 \begin{corollary}
@@ -3259,7 +3261,7 @@ exactly when the source does not \emph{know} $\phi$ is false.
 
 In the present framework, if we set
 %
-$W, c \models K_i(\phi)$ iff $\Pi_i[v_c] \subseteq \propmods(\phi)$ and
+$W, c \models K_i(\phi)$ iff $\Pi_i[v_c] \subseteq \propmods{\phi}$ and
 %
 $W, c \models A\Phi$ iff $\forall v:\ W_{c=v}, c \models \Phi$,
 %
