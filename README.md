@@ -11,8 +11,6 @@
       (symmetry, independence, monotonicity) but via subsections in TD and
       paragraph headings in tournaments
 
-- Figure out what to do about proof appendices
-
 - Change paper, work etc to chapter, thesis etc
 
 - Change "the appendix" to proper reference
