@@ -18,7 +18,7 @@ $T$ and $f_1, f_2 \in \F$, $|\src_N(f_1)| = |\src_N(f_2)| > 0$ implies $f_1
 
 \begin{proof}
 
-Suppose $N$ has the stated property, $T$ satisfies symmetry, and $|\src_N(f_1)|
+    Suppose $N$ has the stated property, $T$ satisfies \symmetry{}, and $|\src_N(f_1)|
 = |\src_N(f_2)| > 0$. Then there is a bijection $\phi: \src_N(f_1) \to
 \src_N(f_2)$. Note that since $f_1$ and $f_2$ are for the same object no source
 can claim both facts, i.e. $\src_N(f_1) \cap \src_N(f_2) = \emptyset$.
@@ -75,7 +75,7 @@ E'$.  By definition of a graph isomorphism, we have $(\pi^{-1}(x), \pi^{-1}(y))
 isomorphism then yields $(x, y) \in E$ and so $E' \subseteq E$. Hence $E = E'$
 and $N = N'$.
 
-To conclude the proof, we apply Symmetry of $T$ to get
+    To conclude the proof, we apply \symmetry{} of $T$ to get
 \begin{align*}
     f_1 \fle_N^T f_2
     & \iff \pi(f_1) \fle_{N'}^T \pi(f_2) \\
@@ -87,7 +87,7 @@ and so $f_1 \feq_N^T f_2$ as required.
 
 \begin{proof}[Proof of \cref{td_thm_poi_voting}]
 
-Suppose $T$ is an operator satisfying Symmetry, Monotonicity and POI. Let $N
+    Suppose $T$ is an operator satisfying \symmetry{}, Monotonicity and POI. Let $N
 \in \N$, $o \in \O$ and $f_1, f_2 \in \obj_N^{-1}(o)$. We need to show that
 $f_1 \fle_N^T f_2$ iff $|\src_N(f_1)| \le |\src_N(f_2)|$.
 
@@ -103,7 +103,7 @@ applies, and it is sufficient to show that
 $f_1 \fle_{N'}^T f_2$ iff $|\src_{N'}(f_1)| \le |\src_{N'}(f_2)|$.
 
 First suppose $|\src_{N'}(f_1)| \le |\src_{N'}(f_2)|$. If $|\src_{N'}(f_1)| =
-|\src_{N'}(f_2)|$, then we have $f_1 \feq_{N'}^T f_2$ by Symmetry and
+    |\src_{N'}(f_2)|$, then we have $f_1 \feq_{N'}^T f_2$ by \symmetry{} and
 \cref{td_lemma_poi_voting_lemma}; in particular $f_1 \fle_{N'}^T f_2$. Otherwise
 $|\src_{N'}(f_2)| - |\src_{N'}(f_1)| = k > 0$. Removing $k$ sources from $f_2$
 to obtain a new network $N''$, we can apply the lemma to get $f_1 \feq_{N''}^T
@@ -136,7 +136,7 @@ Let $N$ be a network and $f_1, f_2 \in \F$. Write $o_1 = \obj_{N}(f_1)$, $o_2
 
 \end{enumerate}
 
-Then for any operator $T$ satisfying Symmetry, $|\src_{N}(f_1)| =
+    Then for any operator $T$ satisfying \symmetry{}, $|\src_{N}(f_1)| =
 |\src_{N}(f_2)|$ implies $f_1 \feq_{N}^T f_2$.
 \end{lemma}
 
@@ -211,7 +211,7 @@ $(\pi^{-1}(x), \pi^{-1}(y)) \in E$. Using the fact that $\pi=\pi^{-1}$
 and $E \subseteq E'$ we get $(\pi(x), \pi(y)) \in E'$, which then yields $(x,
 y) \in E$ as required. Hence $E = E'$ and $N = N'$.
 
-Finally, using Symmetry of $T$ we have
+Finally, using \symmetry{} of $T$ we have
 \begin{align*}
     f_1 \fle_N^T f_2 & \iff
     \pi(f_1) \fle_{\pi(N)}^T \pi(f_2) \\ & \iff
@@ -224,7 +224,7 @@ Consequently $f_1 \feq_N^T f_2$.
 \begin{proof}[Proof of \cref{td_thm_voting_characterisation}]
 
 The `if' direction is clear since \voting{} satisfies Strong Independence,
-Monotonicity and Symmetry (see \cref{td_thm_voting_axioms}). For the other
+    Monotonicity and \symmetry{} (see \cref{td_thm_voting_axioms}). For the other
 direction, suppose $T$ satisfies the stated axioms. Let $N$ be a network and
 $f_1, f_2 \in \F$. We will construct a network $N'$ where all claims for facts
 other than $f_1, f_2$ are removed, and these facts are grouped under a single
@@ -263,14 +263,14 @@ again as above gives $f_1 \fgt_{N'}^T f_2$ and the required contradiction.
 
 \begin{proof}
 
-We will show that \voting{} satisfies Symmetry, Unanimity, Groundedness,
-Monotonicity, POI, Strong Independence and PCI, and that Coherence is
-\emph{not} satisfied. For Symmetry and PCI we use the (stronger) numerical
+    We will show that \voting{} satisfies \symmetry{}, \unanimity{}, \groundedness{},
+    Monotonicity, POI, Strong Independence and PCI, and that \coherence{} is
+    \emph{not} satisfied. For \symmetry{} and PCI we use the (stronger) numerical
 variants \emph{numerical Symmetry} and \emph{numerical PCI}, introduced in
 \cref{td_sec_axioms_for_iterative_and_recursive_operators}. $T$ will denote
 the (numerical) \voting{} operator in what follows.
 
-\paragraph{Symmetry.} Suppose $N$ and $\pi(N)$ are equivalent networks. Let $f
+    \paragraph{\symmetry{}.} Suppose $N$ and $\pi(N)$ are equivalent networks. Let $f
 \in \F$. By definition of equivalent networks we have $s \in \src_N(f)$ iff
 $\pi(s) \in \src_{\pi(N)}(\pi(f))$ for all $s \in \S$. Consequently $\pi$
 restricted to $\src_N(f)$ is a bijection into $\src_{\pi(N)}(\pi(f))$, and
@@ -280,19 +280,19 @@ hence
 \]
 
 Now let $s \in \S$. Clearly we have $T_N(s) = 1 = T_{\pi(N)}(\pi(s))$. Hence
-$T$ satisfies numerical Symmetry and therefore Symmetry.
+    $T$ satisfies numerical Symmetry and therefore \symmetry{}.
 
-\paragraph{Unanimity and Groundedness.} Suppose $N \in \N$ and $f \in \F$. If
+    \paragraph{\unanimity{} and \groundedness{}.} Suppose $N \in \N$ and $f \in \F$. If
 $\src_N(f) = \S$ then for any $g \in \F$,
 \[
     T_N(g) = |\src_N(g)| \le |\S| = |\src_N(f)| = T_N(f)
 \]
-so $g \fle_N^{T} f$ and Unanimity is satisfied. If instead $\src_N(f)
+    so $g \fle_N^{T} f$ and \unanimity{} is satisfied. If instead $\src_N(f)
 = \emptyset$, we have
 \[
     T_N(g) = |\src_N(g)| \ge 0 = |\src_N(f)| = T_N(f)
 \]
-so $f \fle_N^{T} g$ and Groundedness is satisfied.
+    so $f \fle_N^{T} g$ and \groundedness{} is satisfied.
 
 \paragraph{Monotonicity.} Let $N, N', s$ and $f$ be as given in the statement
 of Monotonicity. It is clear that $|\src_{N'}(f)| = |\src_N(f)| + 1$. Also, for
@@ -319,7 +319,7 @@ Consequently
 \end{align*}
 as required for Strong Independence.
 
-For PCI we proceed as with Symmetry by showing numerical PCI. Let $N_1, N_2$
+    For PCI we proceed as with \symmetry{} by showing numerical PCI. Let $N_1, N_2$
 have a common connected component $G$. Let $f \in G \cap \F$. By definition of
 a connected component, $s \in \src_{N_1}(f)$ iff $s \in \src_{N_2}(f)$, so
 $\src_{N_1}(f) = \src_{N_2}(f)$.
@@ -333,8 +333,8 @@ Hence
 For $s \in G \cap \S$, we trivially have $T_{N_1}(s) = 1 = T_{N_1}(s)$. Hence
 numerical PCI is satisfied.
 
-\paragraph{Coherence.} The violation of Coherence follows from
-\cref{td_thm_impossibility}, since we have already shown that Symmetry,
+\paragraph{\coherence{}.} The violation of \coherence{} follows from
+\cref{td_thm_impossibility}, since we have already shown that \symmetry{},
 Monotonicity and POI are satisfied.
 \end{proof}
 
@@ -421,7 +421,7 @@ argument.
 
 \begin{corollary}
 \label{td_cor_norm_preservation}
-$\norm$ preserves Coherence, Unanimity, Groundedness and PCI.
+    $\norm$ preserves \coherence{}, \unanimity{}, \groundedness{} and PCI.
 \end{corollary}
 
 \begin{proof}[Proof of \cref{td_thm_sums_axioms}]
@@ -430,8 +430,8 @@ Throughout this proof, $(T^n)_{n \in \Nat}$ will denote the iterative operator
 \sums{}, $T^*$ will denote the limit operator, and $U = \norm \circ
 U^{\text{Sums}}$ will denote the update function for \sums{}.
 
-\paragraph{Coherence.} Source-Coherence was shown in the main text.
-The proof that Fact-Coherence is satisfied is similar, and uses
+    \paragraph{\coherence{}.} \sourcecoherence{} was shown in the main text.
+    The proof that \factcoherence{} is satisfied is similar, and uses
 \cref{td_lemma_fact_coherence_lemma}. Suppose $N \in \N$, $T = T^n$ for some $n
 \in \Nat$, $\epsilon, \rho > 0$, and $\src_N(f_1)$ is $(\epsilon, \rho)$-less
 trustworthy than $\src_N(f_2)$ with respect to $N$ and $\tilde{T}$ under a
@@ -448,7 +448,7 @@ $T'_N(s) = \frac{1}{\alpha}\tilde{T}_N(s)$. Writing
 \[
     \beta = \frac{1}{\max\limits_{y \in \F}{|T'_N(y)|}}
 \]
-and applying a similar argument as for showing Source-Coherence, we find
+    and applying a similar argument as for showing \sourcecoherence{} we find
 \begin{align*}
     \tilde{T}_N(f_1) - \tilde{T}_N(f_2)
     &= \beta \sum_{s \in \src_N(f_1)}{ \Big(
@@ -536,10 +536,10 @@ Combined with what was shown before, this means
     \tilde{T}_N(f_1) - \tilde{T}_N(f_2)
     \le \frac{1}{2 \cdot |\S| \cdot |\F|} \Big(|\S|\epsilon - \rho\Big)
 \]
-and Fact-Coherence follows from \cref{td_lemma_fact_coherence_lemma}.
+and \factcoherence{} follows from \cref{td_lemma_fact_coherence_lemma}.
 
-\paragraph{Symmetry.} As a consequence of \cref{td_lemma_ns_npci_preservation}, to
-show Symmetry it is sufficient to show that $T^{\text{fixed}}$ satisfies
+\paragraph{\symmetry{}.} As a consequence of \cref{td_lemma_ns_npci_preservation}, to
+show \symmetry{} it is sufficient to show that $T^{\text{fixed}}$ satisfies
 numerical Symmetry, and that $U = \norm \circ U^{\text{Sums}}$ preserves
 numerical Symmetry. Since $T^{\text{fixed}}$ is constant with value $1/2$, it
 is clear that numerical Symmetry is satisfied.  Moreover,
@@ -572,20 +572,22 @@ Following the same tactic, one may also show that $T'_{\pi(N)}(\pi(f)) =
 T'_N(f)$ for all $f \in \F$. Hence $U^{\text{Sums}}$ preserves numerical
 Symmetry, and we are done.
 
-\paragraph{Unanimity and Groundedness.}
+\paragraph{\unanimity{} and \groundedness{}.}
 
-Unanimity and Groundedness can be proved together using
+\unanimity{} and \groundedness{} can be proved together using
 \cref{td_lemma_unam_groundedness_preservation} and \cref{td_cor_norm_preservation}.
-By these results it is sufficient that $T^{\text{fixed}}$ satisfies Unanimity
-and Groundedness -- this is trivial -- and that $U^{\text{Sums}}$ preserves
+By these results it is sufficient that $T^{\text{fixed}}$ satisfies
+\unanimity{}
+and \groundedness{} -- this is trivial -- and that $U^{\text{Sums}}$ preserves
 them.
 
-Suppose $T$ satisfies Unanimity and Groundedness and write $T' =
+Suppose $T$ satisfies \unanimity{} and \groundedness{} and write $T' =
 U^{\text{Sums}}(T)$. Assume without loss of generality that $T = T^n$ for some
 $n \in \Nat$ so that $T'_N \ge 0$. Suppose $N \in \N$, $f \in \F$ and that
 $\src_N(f) = \S$. Let $g \in \F$. We must show that $g \fle_N^{T'} f$. We have
 \[ T'_N(g) = \sum_{s \in \src_N(g)}{T'_N(s)} \le \sum_{s \in \S}{T'_N(s)} =
-T'_N(f) \] i.e. $g \fle_N^{T'} f$ as required for Unanimity. For Groundedness,
+T'_N(f) \] i.e. $g \fle_N^{T'} f$ as required for \unanimity{}. For
+\groundedness{},
 suppose $\src_N(f) = \emptyset$. We must show $f \fle_N^{T'} g$. Indeed, the
 sum in the expression for $T'_N(f)$ is taken over the empty set, which by
 convention is 0.  Since $T'_N(g) \ge 0$, we are done.
@@ -596,11 +598,11 @@ convention is 0.  Since $T'_N(g) \ge 0$, we are done.
 \begin{proof}
 
 Here we give only the technical details for the argument showing \scvoting{}
-satisfies Symmetry, since the results for the other axioms were given in the
+    satisfies \symmetry{}, since the results for the other axioms were given in the
 main text.
 
-\paragraph{Symmetry.}
-Since \voting{} satisfies Symmetry, it is clear that $f_1 \fle_N^{T^{SCV}} f_2$
+    \paragraph{\symmetry{}.}
+    Since \voting{} satisfies \symmetry{}, it is clear that $f_1 \fle_N^{T^{SCV}} f_2$
 iff $\pi(f_1) \fle_{\pi(N)}^{T^{SCV}} \pi(f_2)$ for any equivalent networks $N$
 and $\pi(N)$. We need to show that $s_1 \sle_N^{T^{SCV}} s_2$ iff $\pi(s_1)
 \sle_{\pi(N)}^{T^{SCV}} \pi(s_2)$.
@@ -623,7 +625,8 @@ Let $g \in \facts_{\pi(N)}(\pi(s_1))$. Write $f = \pi_1^{-1}(g) \in
 \[
     f \fle_N^{T^{SCV}} \phi(f)
 \]
-By the symmetry property of the fact-ranking (which follows from symmetry of
+    By the symmetry property of the fact-ranking (which follows from
+    \symmetry{} of
 \voting{}), we can apply $\pi$ to the above to get
 \[
     \pi(f) \fle_{\pi(N)}^{T^{SCV}} \pi(\phi(f))
@@ -665,14 +668,15 @@ Finally, this means
     & \iff |W_{\pi(N)}(\pi(s_1))| \le |W_{\pi(N)}(\pi(s_2))| \\
     & \iff \pi(s_1) \sle_{\pi(N)}^{T^{SCV}} \pi(s_2)
 \end{align*}
-as required for Symmetry.
+as required for \symmetry{}.
 \end{proof}
 
 \section{Proof of \cref{td_thm_usums_axioms}}
 
 \begin{proof}
 
-Here we show that \usums{} satisfies Symmetry, PCI, Unanimity and Groundedness,
+    Here we show that \usums{} satisfies \symmetry{}, PCI, \unanimity{} and
+    \groundedness{},
 since the other axioms were dealt with in the main text.
 
 Throughout the proof, let $(T^n)_{n \in \Nat}$ denote \usums{}, $T^*$ denote
@@ -680,7 +684,7 @@ the ordinal limit of \usums{}, and for a network $N$ let $J_N$ be as in
 \cref{td_thm_usums_ordinal_convergence}. Then the rankings in $N$ induced by $T^n$
 for $n \ge J_N$ are the same as $T^*$.
 
-\paragraph{Symmetry.} In the proof of \cref{td_thm_sums_axioms}, we saw
+    \paragraph{\symmetry{}.} In the proof of \cref{td_thm_sums_axioms}, we saw
 that the update function $U^{\text{Sums}}$ preserves numerical Symmetry, in the
 sense that if $T$ satisfies numerical Symmetry then $U^{\text{Sums}}(T)$ does
 also. Since it is clear that the prior operator for \usums{} satisfies
@@ -690,19 +694,19 @@ Symmetry for all $n \in \Nat$.
 Now, let $N$ and $\pi(N)$ be equivalent networks. Let $J, J' \in \Nat$ be
 such that $T^*(N)$ and $T^*(\pi(N))$ are given by $T_N^J$ and
 $T_{\pi(N)}^{J'}$ respectively and take $n \ge \max\{J, J'\}$. For $s_1, s_2
-\in \S$ we have by Symmetry of $T^n$,
+    \in \S$ we have by \symmetry{} of $T^n$,
 \begin{align*}
     s_1 \sle_N^{T^*} s_2
     & \iff s_1 \sle_N^{T^n} s_2 \\
     & \iff \pi(s_1) \sle_{\pi(N)}^{T^n} \pi(s_2) \\
     & \iff \pi(s_1) \sle_{\pi(N)}^{T^*} \pi(s_2)
 \end{align*}
-as required for Symmetry. Using an identical argument, one can show that $f_1
+    as required for \symmetry{}. Using an identical argument, one can show that $f_1
 \fle_N^{T^*} f_2$ iff $\pi(f) \fle_{\pi(N)}^{T^*} \pi(f_2)$. Hence $T^*$
-satisfies Symmetry.
+    satisfies \symmetry{}.
 
 \paragraph{PCI.}
-As with Symmetry, we will show that $T^n$ satisfies numerical
+    As with \symmetry{}, we will show that $T^n$ satisfies numerical
 PCI, and consequently PCI, for all $n \in \Nat$. Let $N_1,
 N_2$ be networks with a common connected component $G$. Let $s \in G \cap \S$
 and $f \in G \cap \F$. Note that $\facts_{N_1}(s) = \facts_{N_2}(s)$ and
@@ -733,8 +737,8 @@ and similarly
 Hence, by induction, $T^n$ has numerical PCI for all $n \in \Nat$, and we are
 done.
 
-\paragraph{Unanimity and Groundedness.}
-For Unanimity, suppose $\src_N(f) = \S$. For any $g \in \F$ and $n \in \Nat$ we
+\paragraph{\unanimity{} and \groundedness{}.}
+For \unanimity{}, suppose $\src_N(f) = \S$. For any $g \in \F$ and $n \in \Nat$ we
 have
 \begin{align*}
     T_N^n(g)
@@ -748,7 +752,7 @@ so $g \fle_N^{T^n} f$ for all $n \in \Nat$. Since the ranking of $T^*$
 corresponds to $T^n$ for large $n$, we have $g \fle_N^{T^*} f$ as
 required
 
-For Groundedness, suppose $\src_N(f) = \emptyset$. Then $T_N^n(f) = 0$ for all $n
+For \groundedness{}, suppose $\src_N(f) = \emptyset$. Then $T_N^n(f) = 0$ for all $n
 \in \Nat$. For any $g \in \F$, we have $T_N^n(g) \ge 0 = T_N^n(f)$.
 Consequently $f \fle_N^{T^n} g$ for all $n \in \Nat$. As above, this gives $f
 \fle_N^{T^*} g$ as required.

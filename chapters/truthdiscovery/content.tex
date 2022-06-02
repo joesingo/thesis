@@ -565,7 +565,7 @@ trustworthy than $s_1$. A similar idea holds if $\src_N(f_1)$ is less
 trustworthy than $\src_N(f_2)$ for some facts $f_1, f_2$. We state this
 formally as our first axiom.
 
-\begin{axiom}[Coherence]
+\begin{axiom}[\coherence{}]
 
 For any network $N$, $\facts_N(s_1)$ less believable than $\facts_N(s_2)$
 implies $s_1 \slt_N^T s_2$, and $\src_N(f_1)$ less trustworthy than
@@ -573,10 +573,10 @@ $\src_N(f_2)$ implies $f_1 \flt_N^T f_2$.
 
 \end{axiom}
 
-Coherence can be broken down into two sub-axioms: \emph{Source-Coherence},
+\coherence{} can be broken down into two sub-axioms: \sourcecoherence{},
 where the first implication regarding source rankings is satisfied; and
-\emph{Fact-Coherence}, where the second implication is satisfied. We take
-Coherence to be a fundamental desirable axiom for TD operators.
+\factcoherence{}, where the second implication is satisfied. We take
+\coherence{} to be a fundamental desirable axiom for TD operators.
 
 \subsection{Symmetry}
 
@@ -592,7 +592,9 @@ i.e., $\pi(s) \in \S$, $\pi(f) \in \F$ and $\pi(o) \in \O$ for all $s \in \S$,
 $f \in \F$ and $o \in \O$. In such case we write $\pi(N)$ for $N'$.
 \end{definition}
 
-\begin{axiom}[Symmetry]
+The axiom is as follows.
+
+\begin{axiom}[\symmetry{}]
 Let $N$ and $N' = \pi(N)$ be equivalent networks. Then for all $s_1, s_2 \in
 \S$, $f_1, f_2 \in \F$, we have
 %\[
@@ -605,13 +607,13 @@ and
 
 \end{axiom}
 
-In the theory of voting in social choice, Symmetry as above is expressed as two
+In the theory of voting in social choice, \symmetry{} as above is expressed as two
 axioms: \emph{Anonymity}, where output is insensitive to the names of voters,
 and \emph{Neutrality}, where output is insensitive to the names of
 alternatives~\cite{zwicker2016voting}. Analogous axioms are also used in
 judgment aggregation.
 
-Symmetry can also be broken down into sub-axioms where the above
+\symmetry{} can also be broken down into sub-axioms where the above
 need only hold for a subset of permutations $\pi$ satisfying some condition:
 \emph{Source-Symmetry} (where $\pi$ must leave facts and objects fixed) and
 \emph{Fact-Symmetry} (where $\pi$ leaves sources and objects fixed). For truth
@@ -621,37 +623,37 @@ discovery we have the additional notion of objects, and thus
 % A related axiom in social choice is \emph{non-dictatorship}. Translated to
 % truth discovery, this requires that there is no `dictator' source, whose
 % claimed facts are taken as the most believable in \emph{any} network. One can
-% show that a `dictatorial' operator cannot satisfy Symmetry; since any operator
-% of interest does satisfy Symmetry, non-dictatorship will play no further role
+% show that a `dictatorial' operator cannot satisfy \symmetry{}; since any operator
+% of interest does satisfy \symmetry{}, non-dictatorship will play no further role
 % in our work.
 
 \subsection{Fact ranking axioms}
 \label{td_sec_fact_ranking_axioms}
 
 Next, we introduce axioms that dictate the ranking of particular facts in cases
-where there is an `obvious' ordering. \emph{Unanimity} and \emph{Groundedness}
+where there is an `obvious' ordering. The first two
 express the idea that if all sources are in agreement about the status of a
 fact, then an operator should respect this in its verdict. Two obvious ways in
 which sources can be in agreement are when \emph{all} sources believe a fact is
 true, and when \emph{none} believe a fact is true.
 
-\begin{axiom}[Unanimity]
+\begin{axiom}[\unanimity{}]
 Suppose $N \in \N$, $f \in \F$, and $\src_N(f) = \S$. Then for any other $g \in
 \F$, $g \fle_N^T f$.
 \end{axiom}
 
-\begin{axiom}[Groundedness]
+\begin{axiom}[\groundedness{}]
 Suppose $N \in \N$, $f \in \F$, and $\src_N(f) = \emptyset$. Then for any other
 $g \in \F$, $f \fle_N^T g$.
 \end{axiom}
 
 That is, $f$ cannot do better than to be claimed by all sources when $T$
-satisfies Unanimity, and cannot do worse than to be claimed by none when $T$
-satisfies Groundedness.
+satisfies \unanimity{}, and cannot do worse than to be claimed by none when $T$
+satisfies \groundedness{}.
 %
-Unanimity here is a truth discovery rendition of the same axiom in judgment
+\unanimity{} here is a truth discovery rendition of the same axiom in judgment
 aggregation, and can also be compared to the \emph{weak Paretian} property in
-voting~\cite{brandt2016introduction}. Groundedness is a version of the same
+voting~\cite{brandt2016introduction}. \groundedness{} is a version of the same
 axiom studied in the analysis of collective annotation~\cite{kruger2014}.
 
 The next axiom is a monotonicity property, which states that if $f$
@@ -661,7 +663,7 @@ which we only require $g \fle_{N'}^T f$ in the consequent; we discuss this in
 \cref{td_sec_discussion}.} Note that we do not make any judgement on the new
 ranking of $s$.
 
-\begin{axiom}[Monotonicity]
+\begin{axiom}[\monotonicity{}]
 Suppose $N \in \N$, $s \in \S$, $f \in \F \setminus \facts_N(s)$. Write
 $E$ for the set of edges in $N$, and let $N'$ be the network in which $s$
 claims $f$; i.e. the network with edge set
@@ -680,9 +682,9 @@ source still has a \emph{positive} effect on the believability of a fact.
 Consequently, these axioms are not suitable in the presence of knowledgable but
 malicious sources who always claim false facts. Indeed, otherwise a fact
 claimed only by a `negative' source should rank strictly \emph{worse} than a
-fact with no sources, but this goes against Groundedness. Similarly, receiving
+fact with no sources, but this goes against \groundedness{}. Similarly, receiving
 extra support from a negative source should worsen a fact's ranking, contrary
-to Monotonicity. Moreover, Monotonicity implicitly assumes sources act
+to \monotonicity{}. Moreover, \monotonicity{} implicitly assumes sources act
 independently, i.e. they do not \emph{collude} with one another.\footnote{Note
 that collusion has been studied in the truth discovery literature (e.g.
 \cite{dong2009integrating,balakrishnan2011sourcerank,dong_truth_2009}).}
@@ -691,7 +693,7 @@ While these assumptions may appear somewhat strong, we argue that this `simple'
 case -- with no `negative' sources or collusion -- is already non-trivial and
 permits interesting axiomatic analysis.
 %
-We therefore view Unanimity, Groundedness and Monotonicity as desirable
+We therefore view \unanimity{}, \groundedness{} and \monotonicity{} as desirable
 properties for TD operators.
 
 \subsection{Independence axioms}
@@ -754,21 +756,21 @@ $\fle_{N_2}^T$ to $F_o$ are equal; that is, $f_1 \fle_{N_1}^T f_2\ \textrm{iff
 
 Considering \cref{td_fig_intro_example} again, POI implies that the ranking
 of $f$ and $g$ remains the same if the claims for $h$ and $i$ are removed. But
-in this case, Symmetry implies $f \feq g$. Similarly, the ranking of $h$ and
+in this case, \symmetry{} implies $f \feq g$. Similarly, the ranking of $h$ and
 $i$ remains the same if the claims for $f$ and $g$ are removed. In this case,
-Symmetry together with Monotonicity implies $h \flt i$, since $|\src_N(h)| <
+\symmetry{} together with \monotonicity{} implies $h \flt i$, since $|\src_N(h)| <
 |\src_N(i)|$.
 
 This observation forms the basis of the following result, which formalises the
 undesirability of POI: in the presence of our less controversial requirements
-of Symmetry and Monotonicity, it forces \voting{}-like behaviour within
+of \symmetry{} and \monotonicity{}, it forces \voting{}-like behaviour within
 $\obj_N^{-1}(o)$ for each $o \in \O$.  We note that, for the special case of
 binary networks, similar results have been shown in the literature on binary
 aggregation with abstentions~\cite{christoffbinary}.
 
 \begin{theorem}
 \label{td_thm_poi_voting}
-Let $T$ be any operator satisfying Symmetry, Monotonicity and POI. Then for any
+    Let $T$ be any operator satisfying \symmetry{}, \monotonicity{} and POI. Then for any
 $N \in \N$, $o \in \O$ and $f_1, f_2 \in \obj_N^{-1}(o)$ we have $f_1 \fle_N^T
 f_2$ iff $|\src_N(f_1)| \le |\src_N(f_2)|$.
 \end{theorem}
@@ -787,27 +789,28 @@ show that $f_1 \fle_{N'}^T f_2$ iff $|\src_{N'}(f_1)| \le |\src_{N'}(f_2)|$.
 For the `if' direction, first suppose $|\src_{N'}(f_1)| = |\src_{N'}(f_2)|$.
 Let $\pi$ be the permutation which swaps $f_1$ with $f_2$ and swaps each source
 in $\src_{N'}(f_1)$ with one in $\src_{N'}(f_2)$; then we have $\pi(N') = N'$,
-and Symmetry of $T$ gives $f_1 \feq_{N'}^T f_2$. In particular $f_1 \fle_{N'}^T
+    and \symmetry{} of $T$ gives $f_1 \feq_{N'}^T f_2$. In particular $f_1 \fle_{N'}^T
 f_2$ as required.
 
 Otherwise, $|\src_{N'}(f_2)| - |\src_{N'}(f_1)| = k > 0$. Consider $N''$ where
 $k$ sources from $\src_{N'}(f_2)$ are removed, and all other claims remain. By
-Symmetry as above, $f_1 \feq_{N''}^T f_2$. Applying Monotonicity $k$ times we
+    \symmetry{} as above, $f_1 \feq_{N''}^T f_2$. Applying \monotonicity{} $k$ times we
 can produce $N'$ from $N''$ and get $f_1 \flt_{N'}^T f_2$ as desired.
 
 For the `only if' statement, suppose $f_1 \fle_{N'}^T f_2$ but, for
-contradiction, $|\src_{N'}(f_1)| > |\src_{N'}(f_2)|$. Applying Monotonicity
+    contradiction, $|\src_{N'}(f_1)| > |\src_{N'}(f_2)|$. Applying
+    \monotonicity{}
 again as above we get $f_1 \fgt_{N'}^T f_2$ and the required contradiction.
 \end{proof}
 
-Recall that Coherence formalises the idea that source-trustworthiness should
+Recall that \coherence{} formalises the idea that source-trustworthiness should
 inform the fact ranking, and vice versa. Clearly \voting{} does not conform to
 this idea, and in fact even the object-wise voting patterns in
-\cref{td_thm_poi_voting} are incompatible with Coherence. This can easily be seen
+\cref{td_thm_poi_voting} are incompatible with \coherence{}. This can easily be seen
 in the network in \cref{td_fig_intro_example} where, regarding object $p$, we have
 $|\src_N(h)| < |\src_N(i)|$ (hence $h \flt^T_N i$) and, regarding object $o$,
 we have $|\src_N(f)| = |\src_N(g)|$ (hence $f \feq^T_N g$). Hence $\facts_N(s)$
-is less believable than $\facts_N(t)$. If Coherence held this would give $s
+    is less believable than $\facts_N(t)$. If \coherence{} held this would give $s
 \slt_N^T t$, but then $\src_N(f)$ is less trustworthy than $\src_N(g)$, giving
 $f \flt_N^T g$ -- a contradiction. From this discussion and
 \cref{td_thm_poi_voting} we obtain as a corollary the following first
@@ -815,7 +818,8 @@ impossibility result for truth discovery.
 
 \begin{theorem}
 \label{td_thm_impossibility}
-There is no TD operator satisfying Coherence, Symmetry, Monotonicity and POI.
+    There is no TD operator satisfying \coherence{}, \symmetry{},
+    \monotonicity{} and POI.
 \end{theorem}
 
 Given that \cref{td_thm_poi_voting} characterises the fact ranking of
@@ -841,7 +845,7 @@ We have the following result.
 \begin{theorem}
 \label{td_thm_voting_characterisation}
 Suppose $|\O| \ge 3$. Then an operator $T$ satisfies Strong Independence,
-Monotonicity and Symmetry if and only if for any network $N$ and $f_1, f_2 \in
+    \monotonicity{} and \symmetry{} if and only if for any network $N$ and $f_1, f_2 \in
 \F$ we have
 \[
     f_1 \fle_N^T f_2 \iff |\src_N(f_1)| \le |\src_N(f_2)|
@@ -857,7 +861,7 @@ We have established that neither POI nor Strong Independence are satisfactory
 axioms for truth discovery, and a weaker independence property is required.
 \Cref{td_fig_intro_example} can help us once again in this regard. Whereas POI and
 Strong Independence would say that facts $h$ and $i$ are irrelevant to $f$, the
-argument with Coherence for \cref{td_thm_impossibility} suggests otherwise due the
+argument with \coherence{} for \cref{td_thm_impossibility} suggests otherwise due the
 indirect links via the sources. We therefore propose that only when there is no
 (undirected) path between two nodes can we consider them to be truly irrelevant
 to each other. That is, nodes are relevant to each other iff they lie in the
@@ -923,20 +927,22 @@ gain some improvement with respect to the axioms.
 \subsection{Voting}
 
 As the simplest operator, we consider \voting{} first. The following
-theorem shows that all axioms except Coherence are satisfied. Since Coherence
+theorem shows that all axioms except \coherence{} are satisfied. Since
+\coherence{}
 is a fundamental principle of truth discovery, and we actually consider POI and
 Strong Independence to be \emph{undesirable}, this formally rules out \voting{} as a
 viable operator.
 
 \begin{theorem}
 \label{td_thm_voting_axioms}
-\voting{} satisfies Symmetry, Unanimity, Groundedness, Monotonicity, POI, Strong
-Independence and PCI. \voting{} does not satisfy Coherence.
+    \voting{} satisfies \symmetry{}, \unanimity{}, \groundedness{},
+    \monotonicity{}, POI, Strong
+    Independence and PCI. \voting{} does not satisfy \coherence{}.
 \end{theorem}
 
 The proof is straightforward, and is deferred to \cref{chapter_td_proofs}.  Note that
-once Symmetry, Monotonicity and POI are shown, the fact that \voting{} fails
-Coherence follows from our impossibility result (\cref{td_thm_impossibility}), and
+once \symmetry{}, \monotonicity{} and POI are shown, the fact that \voting{} fails
+\coherence{} follows from our impossibility result (\cref{td_thm_impossibility}), and
 \cref{td_fig_intro_example} serves as an explicit counterexample.
 
 \subsection{Iterative and recursive operators}
@@ -947,9 +953,9 @@ operators to satisfy various axioms. These results will be useful in what
 follows when analysing \sums{}, although they may also be applied more
 generally to other operators.
 
-\paragraph{Coherence.}
+\paragraph{\coherence{}.}
 
-To analyse whether the limit of a recursive operator satisfies Coherence, we
+To analyse whether the limit of a recursive operator satisfies \coherence{}, we
 consider how the update function $U$ behaves when the difference in belief
 scores between the facts of $s_1$ and $s_2$ is `small' (and similarly for the
 sources of $f_1$, $f_2$). To that end, we introduce a numerical variant of a
@@ -975,13 +981,13 @@ requirement that ${f \fle_N^T \phi(f)}$, and instead requiring that $f$ can
 only be more believable than $\phi(f)$ by some threshold $\epsilon > 0$.
 \Cref{td_def_coherence_less_believable} is recovered in the limiting
 case $\epsilon \to 0$. We obtain a sufficient condition on the update function
-$U$ for a recursive operator to satisfy Source-Coherence.
+$U$ for a recursive operator to satisfy \sourcecoherence{}.
 
 \begin{lemma}
 \label{td_lemma_source_coherence_lemma}
 
 Let $U: \num \to \num$. For any prior operator $T^{\text{prior}}$,
-$\rec(T^{\text{prior}}, U)$ satisfies Source-Coherence if the following
+    $\rec(T^{\text{prior}}, U)$ satisfies \sourcecoherence{} if the following
 condition is satisfied: there exist $C, D > 0$ such that for all networks $N$
 and numerical operators $T$ it holds that if $\facts_N(s_1)$ is $(\epsilon,
 \rho)$-less believable than $\facts_N(s_2)$ with respect to $N$ and $T$, then
@@ -1045,15 +1051,15 @@ applying our condition on $U$,
 \]
 Since $D\rho$ is positive and does not depend on $\epsilon$, we get $s_1
 \slt_N^{T^*} s_2$ by \cref{td_lemma_ordering_epsilon_lemma}. This shows that
-$T^*$ satisfies Source-Coherence.
+    $T^*$ satisfies \sourcecoherence{}.
 \end{proof}
 
-A similar result gives conditions under which Fact-Coherence is satisfied.
+A similar result gives conditions under which \factcoherence{} is satisfied.
 
 \begin{lemma}
 \label{td_lemma_fact_coherence_lemma}
 
-$\rec(T^{\text{prior}}, U)$ satisfies Fact-Coherence if there exist $E, F > 0$
+    $\rec(T^{\text{prior}}, U)$ satisfies \factcoherence{} if there exist $E, F > 0$
 such that for all networks $N$ and numerical operators $T$ it holds that if
 $\src_N(f_1)$ is $(\epsilon, \rho)$-less trustworthy than $\src_N(f_2)$ with
 respect to $N$ and $T'$, then
@@ -1084,10 +1090,10 @@ Also note that the above results still hold if $U$ has the stated property only
 for `small' $\epsilon$; that is, if there is a constant $0 < \lambda < 1$ such
 that the property holds for all $\rho$ and for all $\epsilon < \lambda\rho$.
 
-\paragraph{Symmetry and PCI.} When considering either Symmetry or PCI
+\paragraph{Symmetry and PCI.} When considering either \symmetry{} or PCI
 for an iterative operator $(T^n)_{n \in \Nat}$, it is not enough to know that
 each $T^n$ satisfies the relevant axiom. The following example illustrates this
-fact for Symmetry.
+fact for \symmetry{}.
 
 \begin{example}
 Fix some $\hat{f} \in \F$, and define an iterative operator by
@@ -1104,10 +1110,10 @@ That is, each $T^n$ is a modification of \voting{} in which we boost the score
 of all facts tied with $\hat{f}$ under \voting{} by $1 - \frac{1}{n+1}$.
 Since this additional weight is (strictly) less than 1 for each $n$, the
 ordinal operator induced by $T^n$ is simply \voting{}, and therefore satisfies
-Symmetry. However, it is easy to see that the limit operator $T^*$ has
+    \symmetry{}. However, it is easy to see that the limit operator $T^*$ has
 $T_N^*(\hat{f}) = |\src_N(\hat{f})| + 1$; this means $T^*$ uses extra
 information beyond the structure of the network $N$ in its ranking (namely, the
-identity of a selected fact $\hat{f}$) which violates Symmetry.
+    identity of a selected fact $\hat{f}$) which violates \symmetry{}.
 
 \end{example}
 
@@ -1115,14 +1121,14 @@ Using a similar tactic, one can construct a sequence of numerical operators
 $(T^n)_{n \in \Nat}$ such that each $T^n$ satisfies PCI, but the limit operator
 $T^*$ does not.
 
-Fortunately, there is a natural strengthening of both Symmetry and PCI for
+Fortunately, there is a natural strengthening of both \symmetry{} and PCI for
 numerical operators which \emph{is} preserved in the limit. Let us say that a
 numerical operator $T$ satisfies \emph{numerical Symmetry} if for any
 equivalent networks $N, \pi(N)$ we have $T_N(z) = T_{\pi(N)}(\pi(z))$ for all
 $z \in \S \cup \F$. Similarly, $T$ satisfies \emph{numerical PCI} if for any
 networks $N_1$ and $N_2$ with a common connected component $G$, we have
 $T_{N_1}(z) = T_{N_2}(z)$ for all $z \in G \cap (\S \cup \F)$. Clearly
-numerical Symmetry implies Symmetry, and numerical PCI implies PCI. The
+numerical Symmetry implies \symmetry{}, and numerical PCI implies PCI. The
 following result is immediate.
 
 \begin{lemma}
@@ -1142,8 +1148,8 @@ $T^{\text{prior}}$ satisfies numerical Symmetry and $U$ \emph{preserves}
 numerical Symmetry, in the sense that $U(T)$ satisfies numerical Symmetry
 whenever $T$ does (and similarly for PCI).
 
-\paragraph{Unanimity, Groundedness and Monotonicity.} In contrast to Symmetry
-and PCI, both Unanimity and Groundedness \emph{are} preserved when taking the
+\paragraph{\unanimity{}, \groundedness{} and \monotonicity{}.} In contrast to Symmetry
+and PCI, both \unanimity{} and \groundedness{} \emph{are} preserved when taking the
 limit of an iterative operator.
 
 \begin{lemma}
@@ -1151,20 +1157,20 @@ limit of an iterative operator.
     Suppose $(T^n)_{n \in \Nat}$ converges to $T^*$. Then
 
     \begin{itemize}
-        \item If $T^n$ satisfies Unanimity for each $n \in \Nat$, then $T^*$
-              satisfies Unanimity.
-        \item If $T^n$ satisfies Groundedness for each $n \in \Nat$, then $T^*$
-              satisfies Groundedness.
+        \item If $T^n$ satisfies \unanimity{} for each $n \in \Nat$, then $T^*$
+            satisfies \unanimity{}.
+          \item If $T^n$ satisfies \groundedness{} for each $n \in \Nat$, then $T^*$
+              satisfies \groundedness{}.
     \end{itemize}
 \end{lemma}
 
-For Monotonicity, we require the following (stronger) property to hold for each
+For \monotonicity{}, we require the following (stronger) property to hold for each
 $T^n$.
 
 \begin{definition}
 
     A numerical operator $T$ satisfies \emph{Improvement} if for each $N, N'$
-    and $f$ as in the statement of Monotonicity, we have $\delta(f) >
+    and $f$ as in the statement of \monotonicity{}, we have $\delta(f) >
     \delta(g)$ for all $g \ne f$, where
     \[
         \delta(g) = T_{N'}(g) - T_N(g)
@@ -1183,13 +1189,13 @@ new source to a fact $f$, it is $f$ that sees the largest increase.
     Suppose $(T^n)_{n \in \Nat}$ converges to $T^*$, and $T^n$ satisfies
     Improvement for each $n \in \Nat$. Suppose also that $\inf_{n \in
     \Nat}{\rho_{N,N'}^n} > 0$ for each $N, N'$ arising in the statement of
-    Monotonicity. Then $T^*$ satisfies Monotonicity.
+    \monotonicity{}. Then $T^*$ satisfies \monotonicity{}.
 
 \end{proposition}
 
 \begin{proof}
 
-    Let $N, N'$ and $f$ be as in the statement of Monotonicity, and suppose $g
+    Let $N, N'$ and $f$ be as in the statement of \monotonicity{}, and suppose $g
     \fle_N^{T^*} f$ for some $g \ne f$. We will show $g \flt_{N'}^{T^*} f$
     using \cref{td_lemma_ordering_epsilon_lemma}.
 
@@ -1213,28 +1219,28 @@ new source to a fact $f$, it is $f$ that sees the largest increase.
 
 The requirement that $\inf_{n \in \Nat}{\rho_{N,N'}^n} > 0$ is a technical
 condition which ensures the \emph{strict} inequality $g \flt_{N'}^{T^*} f$
-holds in the limit, as required for Monotonicity. If this condition fails $T^*$
-still satisfies a natural `weak Monotonicity' axiom, in which the strict
+holds in the limit, as required for \monotonicity{}. If this condition fails $T^*$
+still satisfies a natural `weak monotonicity' axiom, in which the strict
 inequality $g \flt_{N'}^{T^*} f$ is replaced with $g \fle_{N'}^{T^*} f$.
 
 \subsection{Sums}
 
-We come to the axiomatic analysis of \sums{}. Coherence and the simpler axioms
+We come to the axiomatic analysis of \sums{}. \coherence{} and the simpler axioms
 are satisfied here, and the undesirable independence axioms (POI and Strong
-Independence) are not. However, Monotonicity and PCI do \emph{not} hold. Since
+Independence) are not. However, \monotonicity{} and PCI do \emph{not} hold. Since
 PCI is one of our most important axioms that we expect any reasonable operator
 to satisfy, this potentially limits the usefulness of \sums{} in practise.
 
 \begin{theorem}
 \label{td_thm_sums_axioms}
-\sums{} satisfies Coherence, Symmetry, Unanimity and Groundedness. \sums{} does
-not satisfy POI, Strong Independence, PCI or Monotonicity.
+    \sums{} satisfies \coherence{}, Symmetry, \unanimity{} and \groundedness{}. \sums{} does
+    not satisfy POI, Strong Independence, PCI or \monotonicity{}.
 \end{theorem}
 
 \begin{proof}[Proof (sketch)]
 % \begin{proof}[Proof (sketch)]
 
-Symmetry, Unanimity and Groundedness can be easily shown from
+    Symmetry, \unanimity{} and \groundedness{} can be easily shown from
 \cref{td_lemma_ns_npci_preservation} and
 \cref{td_lemma_unam_groundedness_preservation}; the details can be found in the
 appendix.
@@ -1243,8 +1249,8 @@ In the remainder of the proof, $(T^n)_{n \in \Nat}$ will denote the iterative
 operator \sums{}, $T^*$ will denote the limit operator, and $U = \norm \circ
 U^{\text{Sums}}$ will denote the update function for \sums{}.
 
-\paragraph{Coherence.} We will show Source-Coherence using
-\cref{td_lemma_source_coherence_lemma}. The argument for Fact-Coherence is similar
+    \paragraph{\coherence{}.} We will show \sourcecoherence{} using
+    \cref{td_lemma_source_coherence_lemma}. The argument for \factcoherence{} is similar
 (using \cref{td_lemma_fact_coherence_lemma}) and can be found in the appendix.
 
 Suppose $N \in \N$, $T \in \num$, $\epsilon, \rho > 0$, and $\facts_N(s_1)$ is
@@ -1267,7 +1273,7 @@ stated property not for \emph{all} operators $T$, but only for those such that
 $T = T^n$ for some $n \in \Nat$. Next, note that if $T'_N(x) = 0$ for all $x
 \in \S$ then trust and belief scores are 0 in all subsequent iterations, and
 thus all sources rank equally in the limit $T^*$.  But this means the
-hypothesis for Source-Coherence cannot be satisfied (there are no strict
+    hypothesis for \sourcecoherence{} cannot be satisfied (there are no strict
 inequalities). We may therefore assume without loss of generality that $T'_N(x)
 \ne 0$ for at least one $x \in \S$. Therefore, by definition of $\norm$,
 \[
@@ -1355,9 +1361,9 @@ we get
 \]
 Taking $C = 1$ and $D = \frac{1}{|\F|}$, the hypotheses of
 \cref{td_lemma_source_coherence_lemma} are satisfied; thus \sums{} satisfies
-Source-Coherence.
+\sourcecoherence{}.
 
-\paragraph{POI, Strong Independence, PCI and Monotonicity.}
+\paragraph{POI, Strong Independence, PCI and \monotonicity{}.}
 
 The remaining axioms are handled by counterexamples derived from the network
 shown in \cref{td_fig_sums_indep_poi_counterexample}. It can be shown that, if $N$
@@ -1370,18 +1376,18 @@ independence axioms, if satisfied, would each imply $f \fle_N^{T^*} g$ iff $f
 \fle_{N'}^{T^*} g$. Therefore none of POI, Strong Independence and PCI can
 hold for \sums{}.
 
-For Monotonicity, consider the network $N''$ obtained from $N$ by removing the
+For \monotonicity{}, consider the network $N''$ obtained from $N$ by removing the
 edge $(u, g)$. Then we still have $T_{N''}^*(f) = T_{N''}^*(g) = 0$, and in
 particular $f \fle_{N''}^{T^*} g$. Returning to $N$ amounts to adding extra
-support for the fact $g$. Monotonicity would give $f \flt_N^{T^*} g$ here, but
-this is clearly false. Hence Monotonicity is not satisfied by \sums{}.
+support for the fact $g$. \monotonicity{} would give $f \flt_N^{T^*} g$ here, but
+this is clearly false. Hence \monotonicity{} is not satisfied by \sums{}.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[scale=0.25]{sums_indep_poi_counterexample}
 \caption{
     Network which yields counterexamples for POI, Strong Independence,
-    PCI and Monotonicity for \sums{}
+    PCI and \monotonicity{} for \sums{}
 }
 \label{td_fig_sums_indep_poi_counterexample}
 \end{figure}
@@ -1402,7 +1408,7 @@ maximum. As the next result shows, under certain conditions this causes scores
 to decrease \emph{exponentially} and become 0 in the limit. In particular, we
 can generate pathological examples such as
 \cref{td_fig_sums_indep_poi_counterexample} where a whole connected component
-receives scores of 0, which leads to failure of Monotonicity and the
+receives scores of 0, which leads to failure of \monotonicity{} and the
 independence axioms.
 
 \begin{proposition}
@@ -1494,11 +1500,11 @@ both in the case of \voting{} and \sums{}.
 
 \subsubsection{Voting}
 
-A core problem with \voting{} is that it fails Coherence. Indeed, all sources
+A core problem with \voting{} is that it fails \coherence{}. Indeed, all sources
 are ranked equally regardless of the `votes' for facts, so in some sense it is
 obvious that the source ranking does not cohere with the fact
 ranking.\footnotemark{} An easy improvement is to explicitly construct the
-source ranking to guarantee Source-Coherence.
+source ranking to guarantee \sourcecoherence{}.
 
 % two rankings do not cohere with each other.\footnotemark{} An easy
 % improvement is to ensure the rankings cohere meaningfully in at least one direction: we can
@@ -1506,7 +1512,7 @@ source ranking to guarantee Source-Coherence.
 % the fact ranking of \voting{}.
 
 \footnotetext{
-    Fact-Coherence is vacuously satisfied, however: since all sources rank
+    \factcoherence{} is vacuously satisfied, however: since all sources rank
     equally we can never have $\src_N(f_1)$ less trustworthy than
     $\src_N(f_2)$.
 }
@@ -1515,7 +1521,7 @@ source ranking to guarantee Source-Coherence.
 For a network $N$, define a binary relation $\scoh_N$ on $\S$ by $s_1
 \scoh_N s_2$ iff $\facts_N(s_1)$ is less believable than
 $\facts_N(s_2)$ with respect to \voting{}. The numerical operator \scvoting{}
-(Source-Coherence Voting) is defined by
+    (\sourcecoherence{} Voting) is defined by
 \[
     T_N^{SCV}(s) = |\{t \in \S : t \scoh_N s \}|,
     \quad
@@ -1523,20 +1529,21 @@ $\facts_N(s_2)$ with respect to \voting{}. The numerical operator \scvoting{}
 \]
 \end{definition}
 
-It can be seen that \scvoting{} satisfies Source-Coherence, which is a
+It can be seen that \scvoting{} satisfies \sourcecoherence{}, which is a
 significant improvement over regular \voting{}. Since $\scoh_N$ relies on
 `global' properties on $N$, however, this comes at the expense of Source-PCI.
 Satisfaction of the other axioms is inherited from \voting{}.
 
 \begin{theorem}
 \label{td_thm_scvoting_axioms}
-\scvoting{} satisfies Source-Coherence, Symmetry, Unanimity, Groundedness,
-Monotonicity, Fact-PCI, POI and Strong Independence. It does not
-satisfy Fact-Coherence or Source-PCI.
+    \scvoting{} satisfies \sourcecoherence{}, Symmetry, \unanimity{},
+    \groundedness{},
+    \monotonicity{}, Fact-PCI, POI and Strong Independence. It does not
+    satisfy \factcoherence{} or Source-PCI.
 \end{theorem}
 
 The following properties of ${\scoh_N}$ are useful for showing
-Source-Coherence.
+\sourcecoherence{}.
 
 \begin{lemma}
     $\scoh_N$ is transitive and irreflexive.
@@ -1573,7 +1580,8 @@ that $\hat{f} = \phi^{j - i}(\hat{f})$. Taking $n = j - i$ in
 
 \begin{proof}[Proof of \cref{td_thm_scvoting_axioms} (sketch)]
 
-Note that \scvoting{} inherits Unanimity, Groundedness, Monotonicity, Fact-PCI,
+    Note that \scvoting{} inherits \unanimity{}, \groundedness{},
+    \monotonicity{}, Fact-PCI,
 POI and Strong Independence from \voting{}, since these axioms only refer to
 the rankings of facts (which is the same for \scvoting{} as for \voting{}).
 
@@ -1616,15 +1624,15 @@ as required for Symmetry.
     \centering
     \includegraphics[scale=0.25]{scvoting_fact_coherence_counterexample}
     \caption{
-        Fact-Coherence counterexample for \scvoting{}
+        \factcoherence{} counterexample for \scvoting{}
     }
     \label{td_fig_scvoting_fact_coherence_counterexample}
 \end{figure}
 
 Consider the network shown in
 \cref{td_fig_scvoting_fact_coherence_counterexample}. We have $f \feq g \feq i
-\flt h$. Source-Coherence between $s$ and $t$ gives $t \slt s$. If
-Fact-Coherence held we would then get $g \flt f$, but this is not the case.
+    \flt h$. \sourcecoherence{} between $s$ and $t$ gives $t \slt s$. If
+    \factcoherence{} held we would then get $g \flt f$, but this is not the case.
 
 \paragraph{Source-PCI.}
 
@@ -1644,7 +1652,7 @@ network as a whole. The fact ranking is the same in both networks: $g \feq h
 facts, so neither $s \scoh_{N_1} t$ nor $t \scoh_{N_1} s$. Consequently
 $W_{N_1}(s) = W_{N_1}(t) = \emptyset$ and $s \seq_{N_1}^{T^{SCV}} t$.
 
-In $N_2$ sources $t$ and $u$ can be compared for Source-Coherence, and we see
+In $N_2$ sources $t$ and $u$ can be compared for \sourcecoherence{}, and we see
 that $u \scoh_{N_2} t$ since $i \fle_{N_2}^{T^{SCV}} g$ and $h
 \flt_{N_2}^{T^{SCV}} f$. Hence $W_{N_2}(t) = \{u\}$ and $W_{N_2}(s) =
 \emptyset$, which means $s \slt_{N_2}^{T^{SCV}} t$. This contradicts
@@ -1655,7 +1663,7 @@ Note that the idea behind \scvoting{} can be generalised
 beyond \voting{}: it is possible to define $\scoh_N$ in terms of \emph{any}
 operator $T$, and to construct a new operator $T'$ whose source ranking is
 given according to $\scoh_N$ as above, and whose fact ranking coincides with
-that of $T$. This ensures $T'$ satisfies Source-Coherence whilst keeping the
+that of $T$. This ensures $T'$ satisfies \sourcecoherence{} whilst keeping the
 existing fact ranking from $T$.
 
 Moreover we can go in the other direction and ensure \emph{Fact}-Coherence
@@ -1664,7 +1672,7 @@ $\F$ in a analogous manner to $\scoh_N$, and proceeding similarly.
 
 \subsubsection{Sums}
 
-Our main concern with \sums{} is the failure of PCI and Monotonicity.  We have
+Our main concern with \sums{} is the failure of PCI and \monotonicity{}.  We have
 seen that this is in some sense caused by the normalisation step: in
 \cref{td_fig_sums_indep_poi_counterexample} the scores of $f, g$ etc go to 0 in
 the limit after dividing the `global' maximum score across the network, which
@@ -1681,9 +1689,10 @@ However, this approach does not negate the undesirable effects of
 associated with object $o$ instead of $p_1$. Clearly \cref{td_prop_obliteration}
 still applies after this change, and all sources and facts shown now belong to
 the same connected component. Therefore the `per-component \sums{}' operator
-gives the same result as \sums{} itself, and in particular our Monotonicity
-counterexample still applies. Perhaps even worse, one can show that Coherence
-fails for this operator. We consider the loss of Coherence too high a price to
+gives the same result as \sums{} itself, and in particular our \monotonicity{}
+counterexample still applies. Perhaps even worse, one can show that
+\coherence{}
+fails for this operator. We consider the loss of \coherence{} too high a price to
 pay for PCI.
 
 Instead, let us take a step back and consider if normalisation is truly
@@ -1893,35 +1902,36 @@ In light of \cref{td_thm_usums_ordinal_convergence}, we may consider \usums{}
 itself as an ordinal operator $T^*$, where $s \sle_N^{T^*} t$ iff $s
 \sle_N^{T^{J_n}} t$ for each network $N$ (and similarly for the fact ranking).
 Moreover, with the normalisation problems aside, \usums{} provides an example
-of a principled operator satisfying our two key axioms -- Coherence and PCI. In
+of a principled operator satisfying our two key axioms -- \coherence{} and PCI. In
 particular, we escape the undesirable behaviour of \sums{} in
 \cref{td_fig_sums_indep_poi_counterexample}; whereas \sums{} trivialises the
 ranking of sources and facts in the upper connected component, \usums{} allows
 meaningful ranking (e.g. we have $g \flt f$). In particular, the counterexample
-for Monotonicity for \sums{} is no longer a counterexample for \usums{}. We
-conjecture that \usums{} also satisfies Monotonicity, but this remains to be
+for \monotonicity{} for \sums{} is no longer a counterexample for \usums{}. We
+conjecture that \usums{} also satisfies \monotonicity{}, but this remains to be
 proven. For example, we have experimentally verified that \usums{} satisfies
-all the specific instances of Monotonicity with the starting network $N$ as in
+all the specific instances of \monotonicity{} with the starting network $N$ as in
 \cref{td_fig_intro_example}.
 
 \begin{theorem}
 \label{td_thm_usums_axioms}
-\usums{} satisfies Coherence, Symmetry, Unanimity, Groundedness and
+    \usums{} satisfies \coherence{}, \symmetry{}, \unanimity{}, \groundedness{} and
 PCI. \usums{} does not satisfy POI and Strong Independence.
 \end{theorem}
 
 \begin{proof}[Proof (sketch)]
 % \begin{proof}[Proof (sketch)]
 
-The proof that \usums{} satisfies Symmetry, PCI, Unanimity and Groundedness is
+    The proof that \usums{} satisfies \symmetry{}, PCI, \unanimity{} and
+    \groundedness{} is
 routine, and we leave the details to the appendix. In what follows, let
 $(T^n)_{n \in \Nat}$ denote \usums{}, $T^*$ denote the ordinal limit of
 \usums{}, and for a network $N$ let $J_N$ be as in
 \cref{td_thm_usums_ordinal_convergence}. Then the rankings in $N$ induced by $T^n$
 for $n \ge J_N$ are the same as $T^*$.
 
-\paragraph{Coherence.}
-First we show Source-Coherence. Let $N$ be a network and suppose
+    \paragraph{\coherence{}.}
+    First we show \sourcecoherence{}. Let $N$ be a network and suppose
 $\facts_N(s_1)$ is less believable than $\facts_N(s_2)$ with respect to $N$ and
 $T^*$. Let $\phi$ and $\hat{f}$ be as in the definition of less believable.
 
@@ -1941,12 +1951,12 @@ i.e. $T_N^{n+1}(s_1) < T_N^{n+1}(s_2)$. But $T_N^{n+1}$ gives the same ranking
 as $T_N^n$ and therefore the same ranking as $T^*$, so we get $s_1 \slt_N^{T^*}
 s_2$ as required.
 
-For Fact-Coherence, suppose $\src_N(f_1)$ is less trustworthy than
+    For \factcoherence{}, suppose $\src_N(f_1)$ is less trustworthy than
 $\src_N(f_2)$ with respect to $N$ and $T^*$. Again, let $n \ge J_N$ and $\phi$,
 $\hat{s}$ be as in the definition of less trustworthy. Recall that belief
 scores for facts in $T_N^n$ are obtained from trust scores in $T_N^n$; applying
 the same argument as above we get $T_N^n(f_1) < T_N^n(f_2)$ and consequently
-$f_1 \fle_N^{T^*} f_2$ as required. Hence $T^*$ satisfies Coherence.
+    $f_1 \fle_N^{T^*} f_2$ as required. Hence $T^*$ satisfies \coherence{}.
 
 \paragraph{POI and Strong Independence.}
 
@@ -2001,10 +2011,10 @@ satisfied by each of the operators.
         \toprule
                          & Voting & SC-Voting  & Sums & U-Sums   \\
         \midrule
-        Source-Coherence & \no    & \yes       & \yes & \yes     \\
-        Fact-Coherence   & \yes   & \no        & \yes & \yes     \\
-        Symmetry         & \yes   & \yes       & \yes & \yes     \\
-        Unanimity        & \yes   & \yes       & \yes & \yes     \\
+        \sourcecoherence{} & \no    & \yes       & \yes & \yes     \\
+        \factcoherence{}   & \yes   & \no        & \yes & \yes     \\
+        \symmetry{}         & \yes   & \yes       & \yes & \yes     \\
+        \unanimity{}        & \yes   & \yes       & \yes & \yes     \\
         Ground.          & \yes   & \yes       & \yes & \yes     \\
         Mon.             & \yes   & \yes       & \no  & \notsure \\
         Source-PCI       & \yes   & \no        & \no  & \yes     \\
@@ -2053,12 +2063,12 @@ reference to the domain.
 
 Since all the axioms so far were stated with respect to a fixed but arbitrary
 domain, they can be easily lifted to the variable domain case. For instance, we
-say a variable domain operator $T$ satisfies Coherence if $T_\D$ satisfies the
-instance of Coherence for domain $\D$, for all $\D$, and similar for the other
+say a variable domain operator $T$ satisfies \coherence{} if $T_\D$ satisfies the
+instance of \coherence{} for domain $\D$, for all $\D$, and similar for the other
 axioms.
 
 But we can now go further, and introduce axioms which make use of
-\emph{several} domains. First, we generalise Symmetry to act across domains.
+\emph{several} domains. First, we generalise \symmetry{} to act across domains.
 Say networks $N, N'$ in domains $\D, \D'$ respectively are \emph{equivalent} if
 there is a graph isomorphism $\pi$ between them such that $\pi(s) \in \S'$,
 $\pi(f) \in \F'$ and $\pi(o) \in \O'$ for all $s \in \S$, $f \in \F$ and $o \in
@@ -2105,7 +2115,7 @@ x_4\}$.
 
 This axiom says that, given any pair of distinct facts $f, g$, it is possible
 to add enough new claims for $f$ to make $f$ strictly more believable than $g$.
-Intuitively, this is less demanding that Monotonicity, which requires that $f$
+Intuitively, this is less demanding that \monotonicity{}, which requires that $f$
 can become strictly more believable than $g$ with the addition of just
 \emph{one} additional claim. Note that Eventual Monotonicity is not possible to
 state in the fixed domain case (e.g. consider $N$ already containing claims
@@ -2205,11 +2215,11 @@ variable domain case -- satisfy Eventual Monotonicity.
 
 To conclude this section, we show that the impossibility result of
 \cref{td_thm_impossibility} holds in the variable domain case if one replaces
-Monotonicity with Eventual Monotonicity and Symmetry with Isomorphism.
+\monotonicity{} with Eventual Monotonicity and Symmetry with Isomorphism.
 
 \begin{theorem}
 \label{td_thm_var_dom_impossibility}
-    There is no variable domain operator satisfying Coherence, Isomorphism,
+    There is no variable domain operator satisfying \coherence{}, Isomorphism,
     Eventual Monotonicity and POI.
 \end{theorem}
 
@@ -2222,8 +2232,8 @@ Monotonicity with Eventual Monotonicity and Symmetry with Isomorphism.
     \setminus \{s, t, u, v\}$. Since $N'$ only adds claims for $p$-facts, POI
     applied to object $o$ and Isomorphism give $f \feq_{N'}^T g$ (e.g. consider
     $\pi$ which simply swaps $s$ with $t$ and $f$ with $g$). From
-    Source-Coherence we get $t \slt_{N'}^T s$. But $\src_{N'}(f) = \{s\}$ and
-    $\src_{N'}(g) = \{t\}$, so Fact-Coherence gives $g \flt_{N'}^T f$:
+    \sourcecoherence{} we get $t \slt_{N'}^T s$. But $\src_{N'}(f) = \{s\}$ and
+    $\src_{N'}(g) = \{t\}$, so \factcoherence{} gives $g \flt_{N'}^T f$:
     contradiction!
 \end{proof}
 
@@ -2260,15 +2270,15 @@ arrives; this is inconsistent with Monotonicity but consistent with Weak
 Monotonicity. The weak analogue of Eventual Monotonicity can be defined in the
 same way.
 
-In the same spirit, one could consider versions of Coherence only using weak
+In the same spirit, one could consider versions of \coherence{} only using weak
 comparisons. Say $\facts_N(s_1)$ is \emph{weakly less believable} than
 $\facts_N(s_2)$ iff the condition in \cref{td_def_coherence_less_believable}
 holds, but without the requirement that some $\hat{f} \in \facts_N(s_1)$ is
 strictly less believable than its counterpart $\phi(\hat{f})$ in
 $\facts_N(s_2)$, and define $\src_N(f_1)$ weakly less trustworthy than
-$\src_N(f_2)$ in a similar way. The weak analogue of Coherence is as follows.
+$\src_N(f_2)$ in a similar way. The weak analogue of \coherence{} is as follows.
 
-\begin{axiom}[Weak Coherence]
+\begin{axiom}[\weakcoherence{}]
 
 For any network $N$, $\facts_N(s_1)$ weakly less believable than
 $\facts_N(s_2)$ implies $s_1 \sle_N^T s_2$, and $\src_N(f_1)$ weakly less
@@ -2276,13 +2286,13 @@ trustworthy than $\src_N(f_2)$ implies $f_1 \fle_N^T f_2$.
 
 \end{axiom}
 
-Note that Coherence does \emph{not} imply Weak Coherence. This is because Weak
-Coherence relaxes both the consequent \emph{and the antecedent} in the
-implications in the statement of the axiom. Whereas Coherence imposes no
+Note that \coherence{} does \emph{not} imply \weakcoherence{}. This is because Weak
+\coherence{} relaxes both the consequent \emph{and the antecedent} in the
+implications in the statement of the axiom. Whereas \coherence{} imposes no
 constraint when $\facts_N(s_1)$ is only weakly less believable than
-$\facts_N(s_2)$, Weak Coherence requires $s_1 \sle_N^T s_2$. Consequently, the
-`weakness' of Weak Coherence refers to its use of weak comparisons between
-sources and facts, not its logical strength in relation to Coherence.
+$\facts_N(s_2)$, \weakcoherence{} requires $s_1 \sle_N^T s_2$. Consequently, the
+`weakness' of \weakcoherence{} refers to its use of weak comparisons between
+sources and facts, not its logical strength in relation to \coherence{}.
 
 A natural question now arises. Does the impossibility result of
 \cref{td_thm_impossibility} still hold with these new axioms? We have an answer in
@@ -2292,11 +2302,11 @@ ranked in all networks, satisfies all the axioms of the would-be impossibility.
 \begin{proposition}
     Define an operator $T$ by $s_1 \seq_N^T s_2$ and $f \feq_N^T f_2$ for all
     networks $N$, sources $s_1, s_2$ and facts $f_1, f_2$. Then $T$ satisfies
-    Coherence, Weak Coherence, Symmetry, Weak Monotonicity and POI.
+    \coherence{}, \weakcoherence{}, Symmetry, Weak Monotonicity and POI.
 \end{proposition}
 
 \begin{proof}
-    Coherence holds vacuously since we can never have $\facts_N(s_1)$ less
+    \coherence{} holds vacuously since we can never have $\facts_N(s_1)$ less
     believable than $\facts_N(s_2)$ or $\src_N(f_1)$ less believable than
     $\src_N(f_2)$. Since \emph{any} weak ranking holds for $T$, the other
     axioms are straightforward to see.
@@ -2310,13 +2320,13 @@ Coherence.
 
 \begin{proposition}
     \label{td_prop_weak_coherence_satisfaction}
-    \voting{}, \sums{} and \usums{} satisfy Weak Coherence
+    \voting{}, \sums{} and \usums{} satisfy \weakcoherence{}
 \end{proposition}
 
 \begin{proof}[Proof (sketch)]\leavevmode
 
     \paragraph{\voting{}.} Since $s_1 \sle_N^{T^\voting{}} s_2$ always holds,
-    Weak Source-Coherence clearly holds. For Weak Fact-Coherence, suppose
+    \weaksourcecoherence{} clearly holds. For \weakfactcoherence{}, suppose
     $\src_N(f_1)$ is weakly less trustworthy than $\src_N(f_2)$. Then there is
     a bijection $\phi: \src_N(f_1) \to \src_N(f_2)$, so $|\src_N(f_1)| =
     |\src_N(f_2)|$. By definition of \voting{}, $f_1 \feq_N^{T^\voting{}} f_2$.
@@ -2325,20 +2335,20 @@ Coherence.
     \paragraph{\sums{}.} First, one may adapt \cref{td_def_num_less_believable} to
     a numerical variant of a set of facts $Y$ being \emph{weakly} less
     believable than $Y'$, by dropping all references to $\rho$. We then have an
-    analogue of \cref{td_lemma_source_coherence_lemma}, and Weak Coherence for
-    \sums{} follows by an argument similar to the one used to show Coherence
+    analogue of \cref{td_lemma_source_coherence_lemma}, and \weakcoherence{} for
+    \sums{} follows by an argument similar to the one used to show \coherence{}
     using \cref{td_lemma_source_coherence_lemma}.
 
-    \paragraph{\usums{}.} The proof that \usums{} satisfies Coherence can be
-    adapted in a straightforward way to show Weak Coherence.
+    \paragraph{\usums{}.} The proof that \usums{} satisfies \coherence{} can be
+    adapted in a straightforward way to show \weakcoherence{}.
 \end{proof}
 
-\Cref{td_prop_weak_coherence_satisfaction} indicates that Weak Coherence may in
-fact be too weak to capture the original intuition behind Coherence -- namely,
-that there should be a mutual dependence between trustworthy sources and
-believable facts -- since it does not even rule out \voting{}. Instead, Weak
-Coherence can be seen as a simple requirement which only rules out undesirable
-behaviour, and complements (strict) Coherence.
+\Cref{td_prop_weak_coherence_satisfaction} indicates that \weakcoherence{} may
+in fact be too weak to capture the original intuition behind \coherence{} --
+namely, that there should be a mutual dependence between trustworthy sources
+and believable facts -- since it does not even rule out \voting{}. Instead,
+\weakcoherence{} can be seen as a simple requirement which only rules out
+undesirable behaviour, and complements (strict) \coherence{}.
 
 Since Monotonicity implies Weak Monotonicity, it is clear that \voting{}
 satisfies Weak Monotonicity. We conjecture that Weak Monotonicity also holds
@@ -2407,17 +2417,17 @@ nuances appropriately. Our framework provides this novel contribution.
 In \cite{altman2008}, Altman and Tennenholtz also introduce axioms for ranking
 systems. Their first set of axioms deal with the transitive effects of voting
 when the alternatives are the voters themselves. As mentioned in
-\cref{td_sec_axioms}, these axioms provided the inspiration for Coherence. The
+\cref{td_sec_axioms}, these axioms provided the inspiration for \coherence{}. The
 core idea is that if the predecessors of a node $v$ are weaker than those of
 $u$, then $v$ should be ranked below $u$. If $v$ additionally has \emph{more}
-predecessors, $v$ should rank \emph{strictly} below. Coherence applies this
-idea both in the direction of sources-to-facts (Fact-Coherence) and from
-facts-to-sources (Source-Coherence). A notable difference is that we only
+predecessors, $v$ should rank \emph{strictly} below. \coherence{} applies this
+idea both in the direction of sources-to-facts (\factcoherence{}) and from
+facts-to-sources (\sourcecoherence{}). A notable difference is that we only
 consider the case where the number of sources for two facts (or the number of
 facts, for two sources) is the same. For example, a source claiming more facts
 does not give it the strict boost Transitivity would dictate. Under the mapping $N
 \mapsto G_N$ described above, any ranking system satisfying Transitivity
-induces a truth discovery operator which satisfies Coherence.
+induces a truth discovery operator which satisfies \coherence{}.
 
 The other axiom in \cite{altman2008} is an independence axiom RIIA (ranked
 independence of irrelevant alternatives), which adapts the classical IIA axiom
@@ -2439,7 +2449,7 @@ However, the main result of Altman and Tennenholtz is an impossibility:
 Transitivity is incompatible with RIIA. Moreover, the result remains true even
 when restricting to bipartite graphs, such as $G_N$ described above.
 Accordingly, we can expect a similar impossibility result to hold in the truth
-discovery setting between Coherence and any analogue of RIIA.
+discovery setting between \coherence{} and any analogue of RIIA.
 
 \paragraph{PageRank.} PageRank~\cite{page_pagerank_1999} is a well-known
 algorithm for ranking web pages based on the hyperlink structure of the web,
@@ -2484,7 +2494,7 @@ this context.
 It was possible to adapt many axioms from social choice theory and related
 areas. In particular, the \emph{Transitivity} axiom studied in the context of
 ranking systems~\cite{tennenholtz2004,altman2008} took on new life in the form
-of Coherence, which we consider a core axiom for TD operators.
+of \coherence{}, which we consider a core axiom for TD operators.
 We proceeded to establish the differences between our setting and classical
 social choice by considering independence axioms. This led to an impossibility
 result and an axiomatic characterisation of the baseline \voting{} method.
