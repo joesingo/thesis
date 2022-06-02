@@ -391,36 +391,36 @@ formulas are valid
 \end{proposition}
 
 We comment on each property before giving the proof.
-(\labelcref{kr_item_replacement_equivalents_e_s}) states syntax-irrelevance
+\cref{kr_item_replacement_equivalents_e_s} states syntax-irrelevance
 properties.
 %
-(\labelcref{kr_item_e_symmetric}) says that expertise is symmetric with respect to
+\cref{kr_item_e_symmetric} says that expertise is symmetric with respect to
 negation, and closed under conjunctions. Intuitively, symmetry means that $i$
 is an expert on $\phi$ if they know \emph{whether or not} $\phi$ holds.
 %
-(\labelcref{kr_item_exp_on_all_variables}) says that expertise on each
+\cref{kr_item_exp_on_all_variables} says that expertise on each
 propositional variable in $\phi$ is sufficient for expertise on $\phi$ itself.
 %
-(\labelcref{kr_item_e_and_s_implies_phi}) says that, in the presence of expertise,
+\cref{kr_item_e_and_s_implies_phi} says that, in the presence of expertise,
 soundness of $\phi$ is sufficient for $\phi$ to in fact be true.
 %
-(\labelcref{kr_item_sound_neg_pair}) says that if both $\phi$ and $\neg\phi$ are
+\cref{kr_item_sound_neg_pair} says that if both $\phi$ and $\neg\phi$ are
 true up to the expertise of $i$, then $i$ cannot have expertise on $\phi$.
 %
-Finally, (\labelcref{kr_item_star_exp}) says that the reliable source $\ast$ has
+Finally, \cref{kr_item_star_exp} says that the reliable source $\ast$ has
 expertise on \emph{all} formulas, and thus $\phi$ is sound for $\ast$ iff it is
 true.
 
 \begin{proof}\leavevmode
-\begin{itemize}
-    \item[\labelcref{kr_item_replacement_equivalents_e_s}.]
+\begin{enumerate}
+    \item
         If $\phi \equiv \psi$ then $\propmods{\phi} = \propmods{\psi}$; since
         the semantics for $\S_i\phi$ and $\E_i\phi$ only refer to
         $\propmods{\phi}$ (and likewise for $\psi$), we have that $\S_i\phi
         \liff \S_i\psi$ and $\E_i\phi \liff \E_i\psi$
         are valid.
 
-    \item[\labelcref{kr_item_e_symmetric}.]
+    \item
         For the first validity, suppose $W, c \models \E_i\phi$. Then
         $\propmods{\phi} = \Pi_i[\phi]$. We show $W, c \models \E_i\neg\phi$.
         Indeed, take $v \in \Pi_i[\neg\phi]$. Then there is $v' \in
@@ -438,7 +438,7 @@ true.
         We have shown that $\E_i\phi \limplies \E_i\neg\phi$ is valid. For
         the converse note that, by symmetry, $\E_i\neg\phi \limplies
         \E_i\neg\neg\phi$ is valid; since $\E_i\neg\neg\phi$ is equivalent to
-        $\E_i\phi$ by (\labelcref{kr_item_replacement_equivalents_e_s}) we get
+        $\E_i\phi$ by \cref{kr_item_replacement_equivalents_e_s} we get
         $\E_i\phi \liff \E_i\neg\phi$.
 
         For the second validity, suppose $W, c \models \E_i\phi \land
@@ -457,7 +457,7 @@ true.
         \]
         which shows $W, c \models \E_i(\phi \land \psi)$.
 
-    \item[\labelcref{kr_item_exp_on_all_variables}.]
+    \item
         %
         Let $\phi$ be a propositional formula, and let $p_1, \ldots, p_k$ be
         the variables appearing in $\phi$. Let $\widehat{\lprop} \subseteq
@@ -466,39 +466,39 @@ true.
         \widehat{\lprop}$ with $\phi \equiv \psi$.
 
         Suppose $W, c \models \E_i{p_1} \land \cdots \land \E_i{p_k}$. By this
-        assumption and the properties in (\labelcref{kr_item_e_symmetric}),
+        assumption and the properties in \cref{kr_item_e_symmetric},
         one can show by induction that $W, c \models \E_i{\theta}$ for all
         $\theta \in \widehat{\lprop}$. In particular, $W, c \models \E_i\psi$.
         Since $\phi \equiv \psi$, we get $W, c \models \E_i\phi$.
 
-    \item[\labelcref{kr_item_e_and_s_implies_phi}.]
+    \item
         %
         Suppose $W, c \models \E_i\phi \land \S_i\phi$. Then $v_c \in
         \Pi_i[\phi] = \propmods{\phi}$, so $W, c \models \phi$. Hence
         $\E_i\phi \land \S_i\phi \limplies \phi$ is valid. Similarly,
         $\S_i\phi \land \neg\phi \limplies \neg \E_i\phi$ is valid.
 
-    \item[\labelcref{kr_item_sound_neg_pair}.]
+    \item
         %
         Suppose $W, c \models \S_i\phi \land \S_i\neg\phi$, and, for
         contradiction, $W, c \models \E_i\phi$. On the one hand we have $W, c
         \models \E_i\phi \land \S_i\phi$, so
-        (\labelcref{kr_item_e_and_s_implies_phi}) gives $W, c \models \phi$. On
+        \cref{kr_item_e_and_s_implies_phi} gives $W, c \models \phi$. On
         the other hand, $W, c \models \E_i\phi$ gives $W, c \models
-        \E_i\neg\phi$ by (\labelcref{kr_item_e_symmetric}), so $W, c \models
+        \E_i\neg\phi$ by \cref{kr_item_e_symmetric}, so $W, c \models
         \E_i\neg\phi \land \S_i\neg\phi$; by
-        (\labelcref{kr_item_e_and_s_implies_phi}) again we have $W, c \models
+        \cref{kr_item_e_and_s_implies_phi} again we have $W, c \models
         \neg\phi$. But then $W, c \models \phi \land \neg\phi$ --
         contradiction.
 
-    \item[\labelcref{kr_item_star_exp}.]
+    \item
         %
         Since the distinguished source $\ast$ has the unit partition $\Pi_\ast$
         in any world $W$, we have $\Pi_\ast[\phi] = \propmods{\phi}$, so $W, c
         \models \E_\ast\phi$. Similarly, $W, c \models \S_i\phi$ iff $v_c \in
         \Pi_\ast[\phi] = \propmods{\phi}$ iff $W, c \models \phi$.
 
-\end{itemize}
+\end{enumerate}
 \end{proof}
 
 \paragraph{Case-Indexed Collections.}
@@ -527,9 +527,9 @@ for the collection $\{\cn_c(G)\}_{c \in \C}$.
     \land q)\}$, $\Gamma_{c_2} = \{\E_i{p}\}$ and $\Gamma_{c_3} = \{\E_i{q}\}$.
     Then, since expertise holds independently of case, any model $W$ of $G$ has
     $W, c_1 \models \E_i{p} \land \E_i{q}$. By \cref{kr_prop_validities} part
-    (\labelcref{kr_item_exp_on_all_variables}), $W, c_1 \models \E_i(p \land q)$.
+    \cref{kr_item_exp_on_all_variables}, $W, c_1 \models \E_i(p \land q)$.
     Since $W$ satisfies $\Gamma_{c_1}$ in case $c_1$, \cref{kr_prop_validities}
-    part (\labelcref{kr_item_e_and_s_implies_phi}) gives $W, c_1 \models p \land
+    part \cref{kr_item_e_and_s_implies_phi} gives $W, c_1 \models p \land
     q$. Since $W$ was an arbitrary model of $G$, we have $p \land q \in
     \cn_{c_1}(G)$, i.e. $p \land q$ is a $c_1$-consequence of $G$.
     %
@@ -783,7 +783,7 @@ we are not in the degenerate case where $\ast$ gives inconsistent reports.
 \soundness{} says we \emph{know} that all reports are sound in their respective
 cases. This formalises our assumption that sources are \emph{honest}, i.e. that
 false reports only arise due to lack of expertise. By \cref{kr_prop_validities}
-part (\labelcref{kr_item_e_and_s_implies_phi}) it also implies \emph{experts are
+part \cref{kr_item_e_and_s_implies_phi} it also implies \emph{experts are
 always right}: if a source has expertise on their report then it must be true.
 %
 While \soundness{} places a lower bound on knowledge, \kbound{} places an upper
@@ -944,27 +944,27 @@ belief in expertise) and \emph{belief/knowledge}.
               K^\rho_c$. Since $\neg\psi \in \cnprop(\phi)$ and $\phi \in
               K^\rho_c$, \closure{} gives $\neg\psi \in K^\rho_c$. Recalling
               from \cref{kr_prop_validities} part
-              (\labelcref{kr_item_e_and_s_implies_phi}) that $\S_i\psi \land \neg
+              \cref{kr_item_e_and_s_implies_phi} that $\S_i\psi \land \neg
               \psi \limplies \neg \E_i\psi$, \closure{} gives $\neg
               \E_i\psi \in K^\rho_c$, as desired.
 
           \item Suppose $\tuple{i, c, \phi} \in \sigma$ and $\E_i\phi \in
                 B^\sigma_c$. By \soundness{} and \containment{}, $\S_i\phi \in
                 B^\sigma_c$. From \cref{kr_prop_validities} part
-                (\labelcref{kr_item_e_and_s_implies_phi}) again we have $\E_i\phi
+                \cref{kr_item_e_and_s_implies_phi} again we have $\E_i\phi
                 \land \S_i\phi \limplies \phi$. By \closure{}, $\phi \in
                 B^\sigma_c$.
 
     \end{enumerate}
 \end{proof}
 
-(\labelcref{kr_item_knowledge_trust_link}) expresses how knowledge can negatively
+\cref{kr_item_knowledge_trust_link} expresses how knowledge can negatively
 affect trust: we should distrust sources who make reports we know to be false.
-(\labelcref{kr_item_trust_belief_link}) expresses how trust affects belief: we
+\cref{kr_item_trust_belief_link} expresses how trust affects belief: we
 should believe reports from trusted sources.
 It can also be seen as a form of \emph{success} for ordinary sources, and
 implies AGM success when $i = \ast$ (by \cref{kr_prop_validities} part
-(\labelcref{kr_item_star_exp}) and \closure{}). We illustrate the basic postulates
+\cref{kr_item_star_exp} and \closure{}). We illustrate the basic postulates
 by formalising the introductory hospital example.
 
 \begin{example}
@@ -982,11 +982,11 @@ by formalising the introductory hospital example.
     \]
     What do we know on the basis of this sequence, assuming the basic
     postulates? First note that by \soundness{}, \cref{kr_prop_validities}
-    part (\labelcref{kr_item_star_exp}) and \closure{}, the report from $\ast$ gives $x
+    part \cref{kr_item_star_exp} and \closure{}, the report from $\ast$ gives $x
     \in K^\sigma_{c_1}$, i.e. reliable reports are known. \soundness{} also
     gives $\S_a{x} \land \S_b{\neg x} \in K^\sigma_{c_2}$. Combined with
-    \cref{kr_prop_validities} parts (\labelcref{kr_item_e_symmetric}),
-    (\labelcref{kr_item_e_and_s_implies_phi}) and \closure{}, this yields
+    \cref{kr_prop_validities} parts \cref{kr_item_e_symmetric},
+    \cref{kr_item_e_and_s_implies_phi} and \closure{}, this yields
     $\neg(\E_a{x} \land \E_b{x}) \in K^\sigma_c$ for all $c$, formalising the
     intuitive idea that Drs.\ A and B cannot both be experts on X, since they
     give conflicting reports.
@@ -1005,7 +1005,7 @@ by formalising the introductory hospital example.
     B^\sigma_c$).  Combined with $\neg \E_a{x} \in K^\sigma_c$, \closure{} and
     \containment{}, we get $\E_b{x} \in B^\sigma_{c_2}$. Symmetry of expertise
     together with \cref{kr_prop_basic_postulates_consequences} part
-    (\labelcref{kr_item_trust_belief_link}) then gives $\neg x \in
+    \cref{kr_item_trust_belief_link} then gives $\neg x \in
     B^\sigma_{c_2}$, i.e. we trust Dr.\ B in the example and believe patient 2
     does not suffer from condition X.
 
@@ -1632,7 +1632,7 @@ inequalities, i.e. $\le$ such that
 
         For the right-to-left inclusion, take $W \in \min_{\le}{\X_\sigma}$.
         Then for any $W' \in \X_\sigma$ we have $W \le W'$. In particular, $W'
-        \not< W$. By property \labelcref{kr_item_strict_ineq_preserved} of $\le$,
+        \not< W$. By property \cref{kr_item_strict_ineq_preserved} of $\le$,
         we have $W' \not<_0 W$. Since $W'$ was an arbitrary member of
         $\X_\sigma$ and $W \in \X_\sigma$, the conditions of
         \cref{kr_claim_minimal_subset_y} are satisfied, and we get $W \in
@@ -1970,7 +1970,7 @@ conditioning operator.\footnotemark{}
      sequence, the fact that $i$ reports both $p$ and $q$ in case $d$ leads to
      $\E_i{p} \land \E_i{q} \in B^\sigma_c$. This gives $\E_i(p \limplies q)
      \in B^\sigma_c$ by \cref{kr_prop_validities} part
-     (\labelcref{kr_item_exp_on_all_variables}), so we can make use of the report
+     \cref{kr_item_exp_on_all_variables}, so we can make use of the report
      from $i$ in case $c$: we have $\proppart{B^\sigma_c} = \cnprop(p \land
      q)$.
      %
@@ -2355,7 +2355,7 @@ $\sigma \mapsto \X_\sigma$ (together with some basic postulates) is enough.
     On the other hand, \soundness{} together with $\tuple{i, c, \phi} \in \rho$
     and $W' \in \X_\rho$ means $W', c \models \S_i\phi$. Hence $W', c \models
     \E_i\phi \land \S_i\phi$. From \cref{kr_prop_validities}
-    part (\labelcref{kr_item_e_and_s_implies_phi}), we get $W', c \models \phi$.
+    part \cref{kr_item_e_and_s_implies_phi}, we get $W', c \models \phi$.
 
     We have shown that $\phi$ holds in case $c$ at an arbitrary world in
     $\Y_\rho$. Hence $\phi \in B^\rho_c$, as required.
@@ -2451,17 +2451,17 @@ write $\pi(W)$ for the world with $v^{\pi(W)}_c = v^W_c$ and $\Pi^{\pi(W)}_i =
         \item \label{kr_item_conditioning_impossibility_last} \strongcondsucc{}
     \end{enumerate}
     However, any proper subset of
-    (\labelcref{kr_item_conditioning_impossibility_first}) -
-    (\labelcref{kr_item_conditioning_impossibility_last}) is satisfiable.
+    \cref{kr_item_conditioning_impossibility_first} -
+    \cref{kr_item_conditioning_impossibility_last} is satisfiable.
 \end{proposition}
 
-(\labelcref{kr_item_conditioning_impossibility_first}) says that before any
+\cref{kr_item_conditioning_impossibility_first} says that before any
 reports are received, we only know tautologies. As remarked earlier, this is
 not an \emph{essential} property, but is reasonable when no prior knowledge is
-available. (\labelcref{kr_item_anonymity}) is an anonymity postulate: it says that
+available. \cref{kr_item_anonymity} is an anonymity postulate: it says that
 permuting the ``names" of sources does not affect the plausibility of a world,
 and is a desirable property in light of
-(\labelcref{kr_item_conditioning_impossibility_first}). \refinement{}, introduced
+\cref{kr_item_conditioning_impossibility_first}. \refinement{}, introduced
 in \cref{kr_sec_conditioning_operators}, says that worlds in which all sources
 have more expertise are preferred.
 
@@ -2520,13 +2520,13 @@ have more expertise are preferred.
             It is easily observed that $\pi(W_1)$ is partition-equivalent to
             $W_2$. By reflexivity of partition refinement, $\pi(W_1) \preceq
             W_2$ and $W_2 \preceq \pi(W_1)$. By \refinement{}, we get $\pi(W_1)
-            \simeq W_2$. By property (\labelcref{kr_item_anonymity}), $W_1 \simeq
+            \simeq W_2$. By property \cref{kr_item_anonymity}, $W_1 \simeq
             \pi(W_1)$. By transitivity of ${\simeq}$ we get $W_1 \simeq W_2$ as
             desired.
         \end{proof}
 
     Now, from the basic postulates, property
-    (\labelcref{kr_item_conditioning_impossibility_first}) and
+    \cref{kr_item_conditioning_impossibility_first} and
     \cref{kr_prop_prior_knowledge} we have $K^\sigma = \cn(G^\sigma_\snd)$. By
     elementariness and \cref{kr_lemma_model_based_elementary}, we get
     $\X_\sigma = \mods(K^\sigma) = \mods(G^\sigma_\snd)$. It is easily checked
@@ -3034,7 +3034,7 @@ The characterisation is as follows.
     \notin \Gamma^{\sigma, H}_c$. Since $\tuple{i, \phi} \in \sigma \rs c$,
     this means there is $d \in H$ such that $\tuple{i, \phi} \in \sigma \rs d$.
     Hence $v \in M_d$ gives $v \in F_\sigma(i, \phi)$. This shows the inclusion
-    in \labelcref{kr_eqn_hbnd_inclusion}, and we are done.
+    in \cref{kr_eqn_hbnd_inclusion}, and we are done.
 
     ``if": Suppose a model-based operator satisfies \hboundedness{}. Let
     $\sigma$ be a $\ast$-consistent sequence. As before, write $M_c$ for
@@ -3082,7 +3082,7 @@ The characterisation is as follows.
     \notin H$. On the other, $v \in M_d$ gives $d \in H$ directly by the
     definition of $H$: contradiction. This shows $v \in \propmods{\phi}$. Since
     $\phi$ was arbitrary, we have $v \in \propmods{\Gamma^{\sigma, H}_c}$. By
-    \labelcref{kr_eqn_hbnd_application} we get $v \in M_c$, and the proof is
+    \cref{kr_eqn_hbnd_application} we get $v \in M_c$, and the proof is
     complete.
 
 \end{proof}

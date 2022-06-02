@@ -320,24 +320,24 @@ We further illustrate the semantics by listing some valid formulas.
 
 \begin{proof}
 
-    Let $M = (X, P, V)$ be a model and $x \in X$. \refitem{exp_item_truths_sound} and
-    \refitem{exp_item_e_global} are clear. For \refitem{exp_item_weakening}, suppose $M, x
+    Let $M = (X, P, V)$ be a model and $x \in X$. \cref{exp_item_truths_sound} and
+    \cref{exp_item_e_global} are clear. For \cref{exp_item_weakening}, suppose $M, x
     \models \A(\phi \limplies \psi)$. Then $\|\phi\|_M \subseteq \|\psi\|_M$.
     Further, suppose $M, x \models \S\phi \land \E\psi$. Then $\|\phi\|_M
     \subseteq \|\psi\|_M \in P$; taking $A = \|\psi\|_M$ in the definition of
     the semantics for $\S$, we get by $M, x \models \S\phi$ that $x \in
-    \|\psi\|_M$, i.e. $M, x \models \psi$. Finally, \refitem{exp_item_e_and_s}
-    follows from \refitem{exp_item_e_global} and \refitem{exp_item_weakening} by taking
+    \|\psi\|_M$, i.e. $M, x \models \psi$. Finally, \cref{exp_item_e_and_s}
+    follows from \cref{exp_item_e_global} and \cref{exp_item_weakening} by taking
     $\psi = \phi$.
 \end{proof}
 
-Here \refitem{exp_item_truths_sound} says that all truths are sound.
-\refitem{exp_item_e_global} says that expertise is global. \refitem{exp_item_weakening} says
+Here \cref{exp_item_truths_sound} says that all truths are sound.
+\cref{exp_item_e_global} says that expertise is global. \cref{exp_item_weakening} says
 that if the source has expertise on $\psi$, and $\psi$ is logically weaker than
 some sound formula $\phi$, then $\psi$ is in fact true. This formalises the
 idea that if $\phi$ is true \emph{up to lack of expertise}, then weakening
 $\phi$ until expertise holds (i.e. discarding parts of $\phi$ on which the
-source does not have expertise) results in something true. \refitem{exp_item_e_and_s}
+source does not have expertise) results in something true. \cref{exp_item_e_and_s}
 says that if the source has expertise on $\phi$, then whenever $\phi$ is sound
 it is also true.
 
@@ -467,8 +467,8 @@ level of frames.
 
 The question of whether closure under (arbitrary) unions can be expressed in
 the language is still open. By \cref{exp_prop_frame_conditions}
-\refitem{exp_item_frame_condition_intersections} and \cref{exp_prop_validities}
-\refitem{exp_item_e_and_s}, the language fragment $\cLSA$ containing only the $\S$
+\cref{exp_item_frame_condition_intersections} and \cref{exp_prop_validities}
+\cref{exp_item_e_and_s}, the language fragment $\cLSA$ containing only the $\S$
 and $\A$ modalities is equally expressive as the full language $\cL$ with
 respect to $\Mint$, since $\E\phi$ is equivalent to $\A(\S\phi \limplies \phi)$
 in such models. In general $\cLSA$ is strictly less expressive, since $\cLSA$
@@ -818,11 +818,11 @@ respect to a relation $R$ if $xRy$ and $y \in A$ implies $x \in A$.
               It is easily seen that $P$ is closed under unions and
               intersections. We need to show that $R_P = R$.
               %
-              By \refitem{exp_item_rp_ref_and_tr}, $R_P$ is reflexive and
+              By \cref{exp_item_rp_ref_and_tr}, $R_P$ is reflexive and
               transitive.  By \cref{exp_lemma_same_dc_sets_implies_equality}, it is
               sufficient to show that $R_P$ and $R$ share the same downwards
               closed sets.  Indeed, for any $A \subseteq X$ we get by
-              \refitem{exp_item_rp_dc_property} and the definition of $P$ that
+              \cref{exp_item_rp_dc_property} and the definition of $P$ that
               \[
               \begin{aligned}
                   A \text{ is downwards closed wrt } R_P
@@ -846,12 +846,12 @@ models.
 
 \begin{proof}
 
-    \cref{exp_lemma_p_to_rp_mapping} \refitem{exp_item_rp_ref_and_tr} shows that $f$ is
+    \cref{exp_lemma_p_to_rp_mapping} \cref{exp_item_rp_ref_and_tr} shows that $f$ is
     well-defined, i.e. that $f(M)$ does indeed lie in $\Msfour$ for any
     expertise model $M$. Injectivity follows from \cref{exp_lemma_p_to_rp_mapping}
-    \refitem{exp_item_rp_dc_property}, since $P$ is fully determined by $R_P$ for
+    \cref{exp_item_rp_dc_property}, since $P$ is fully determined by $R_P$ for
     expertise models closed under unions and intersections. Finally,
-    \cref{exp_lemma_p_to_rp_mapping} \refitem{exp_item_rp_surjectivity} shows that $f$
+    \cref{exp_lemma_p_to_rp_mapping} \cref{exp_item_rp_surjectivity} shows that $f$
     is surjective.
 \end{proof}
 
@@ -875,7 +875,7 @@ analogous result holds with S5 taking the place of S4.
     To show $g$ is well-defined, we need to show that $R_P$ is an equivalence
     relation whenever $P$ is closed under intersections and complements.
     Reflexivity and transitivity were already shown in
-    \cref{exp_lemma_p_to_rp_mapping} \refitem{exp_item_rp_ref_and_tr}. We show $R_P$ is
+    \cref{exp_lemma_p_to_rp_mapping} \cref{exp_item_rp_ref_and_tr}. We show $R_P$ is
     symmetric.  Suppose $x{R_P}y$. Let $A \in P$ such that $x \in A$.  Write $B
     = X \setminus A$. Then since $P$ is closed under complements, $B \in P$.
     Since $x{R_P}y$ and $x \notin B$, we cannot have $y \in B$. Thus $y \notin
@@ -886,7 +886,7 @@ analogous result holds with S5 taking the place of S4.
     \cref{exp_thm_s4_semantic_link}. For surjectivity, it suffices to show that
     $f^{-1}(M^*)$ is closed under complements when $M^* = (X, R, V) \in
     \Msfive$. Recall, from \cref{exp_lemma_p_to_rp_mapping}
-    \refitem{exp_item_rp_surjectivity}, that $f^{-1}(M^*) = (X, P, V)$, where $A
+    \cref{exp_item_rp_surjectivity}, that $f^{-1}(M^*) = (X, P, V)$, where $A
     \in P$ iff $A$ is downwards closed with respect to $R$. Suppose $A \in P$,
     i.e. $A$ is downwards closed. To show $X \setminus A$ is downwards closed,
     suppose $y \in X \setminus A$ and $xRy$.  By symmetry of $R$, $yRx$. If $x
@@ -938,16 +938,16 @@ that $\phi$ is false.
 \begin{proof}
 
     Note that since $g$ is defined as the restriction of $f$ to $\Mint \cap
-    \Mcompl$, \refeqn{exp_eqn_s4s5_2} follows from \refeqn{exp_eqn_s4s5_1}. We show
-    \refeqn{exp_eqn_s4s5_1} only.
+    \Mcompl$, \cref{exp_eqn_s4s5_2} follows from \cref{exp_eqn_s4s5_1}. We show
+    \cref{exp_eqn_s4s5_1} only.
     %
     Let $M = (X, P, V) \in \Mint \cap \Munions$. Write $f(M) =
     (X, R, V)$. From the definition of $f$ and
-    \cref{exp_lemma_p_to_rp_mapping} \refitem{exp_item_rp_dc_property}, we have
+    \cref{exp_lemma_p_to_rp_mapping} \cref{exp_item_rp_dc_property}, we have
     \[
         A \in P \iff A \text{ is downwards closed wrt R} \qquad(*)
     \]
-    We show \refeqn{exp_eqn_s4s5_1} by induction. The only non-trivial cases are
+    We show \cref{exp_eqn_s4s5_1} by induction. The only non-trivial cases are
     $\E$ and $\S$ formulas.
 
         ($\E$): Suppose $M, x \models \E\phi$. Then $\|\phi\|_M \in P$. By
@@ -1136,11 +1136,11 @@ consistent sets.
 
         \item By propositional logic we have $\thm ((\phi \limplies \psi) \land
               \phi) \limplies \psi$. Hence $\Gamma \entails \psi$; by
-              \refitem{exp_item_mcs_mem_entail} we get $\psi \in \Gamma$.
+              \cref{exp_item_mcs_mem_entail} we get $\psi \in \Gamma$.
 
         \item If $\neg\phi \in \Gamma$ then clearly $\phi \notin \Gamma$, since
               otherwise $\Gamma$ would be inconsistent. If $\phi \notin \Gamma$
-              then $\Gamma \not\entails \phi$ by \refitem{exp_item_mcs_mem_entail}.
+              then $\Gamma \not\entails \phi$ by \cref{exp_item_mcs_mem_entail}.
               Set $\Delta = \Gamma \cup \{\neg\phi\}$. Then $\Delta$ is
               consistent (one can show that assuming $\Delta$ is inconsistent
               leads to $\Gamma \entails \phi$; a contradiction). Again, since
@@ -1149,9 +1149,9 @@ consistent sets.
 
         \item If $\phi \land \psi \in \Gamma$ then both $\Gamma \entails \phi$
               and $\Gamma \entails \psi$, so $\phi, \psi \in \Gamma$ by
-              \refitem{exp_item_mcs_mem_entail}.  Conversely, if $\phi, \psi \in
+              \cref{exp_item_mcs_mem_entail}.  Conversely, if $\phi, \psi \in
               \Gamma$ then $\Gamma \entails \phi \land \psi$, so $\phi \land
-              \psi \in \Gamma$ by \refitem{exp_item_mcs_mem_entail} again.
+              \psi \in \Gamma$ by \cref{exp_item_mcs_mem_entail} again.
 
     \end{enumerate}
 \end{proof}
@@ -1276,7 +1276,7 @@ following.
       consistency $\phi \notin \Gamma$. Hence $\Gamma \in X_\Sigma
       \setminus |\phi|_\Sigma$, and we are done.
 
-    \item Note that by \refitem{exp_item_xsigma_mem} we have
+    \item Note that by \cref{exp_item_xsigma_mem} we have
         \[
         \begin{aligned}
             \A(\phi \limplies \psi) \in \Sigma
@@ -1560,7 +1560,7 @@ $\Mint$.
 \begin{proof}
     For soundness, we only need to check that $\redE$ is sound for $\Mint$. But
     this follows from \cref{exp_prop_frame_conditions}
-    \refitem{exp_item_frame_condition_intersections}.
+    \cref{exp_item_frame_condition_intersections}.
 
     For completeness, we adopt a roughly
     similar approach to the general case. Let consistency, maximal consistency and
@@ -1980,8 +1980,8 @@ $\Mintcompl$.
     $\|\S\phi\|_M = \bigcap\{A \in P \mid \|\phi\|_M \subseteq A\}$ is an
     intersection from $P$, so $\|\S\phi\|_M \in P$. By closure under
     complements, $\|\neg\S\phi\|_M \in P$ too. Hence $M, x \models \S\neg\S\phi
-    \land \E\neg\S\phi$. By \cref{exp_prop_validities} (4), we get $M, x \models
-    \neg\S\phi$.
+    \land \E\neg\S\phi$. By \cref{exp_prop_validities} \cref{exp_item_e_and_s},
+    we get $M, x \models \neg\S\phi$.
 
     The completeness proof goes in exactly the same way as
     \cref{exp_thm_mtop_axiomatisation}. Letting $\sLsfivea$ be the extension of
@@ -2258,7 +2258,7 @@ $
 
     Write $R' = (\bigcup_{j \in J}{R_j})^{\trcls}$. Note that $\Rcommon_J$ is
     reflexive and transitive by \cref{exp_lemma_p_to_rp_mapping}
-    \refitem{exp_item_rp_ref_and_tr}. $R'$ is transitive by its definition as a
+    \cref{exp_item_rp_ref_and_tr}. $R'$ is transitive by its definition as a
     transitive closure, and reflexive since each $R_j$ is (and $J \ne
     \emptyset$).
     %
@@ -2267,7 +2267,7 @@ $
 is downwards closed wrt $\Rcommon_J$ iff it is
 downwards closed wrt $R'$. Since each $P_j$ is closed under
 unions and intersections, so too is $\Pcommon_J$. Using
-\cref{exp_lemma_p_to_rp_mapping} \refitem{exp_item_rp_dc_property}, we have
+\cref{exp_lemma_p_to_rp_mapping} \cref{exp_item_rp_dc_property}, we have
 \[
 \begin{aligned}
    A \text{ downwards closed wrt } \Rcommon_J
@@ -2370,7 +2370,7 @@ The following formulas are valid.
     \end{enumerate}
 \end{proposition}
 \begin{proof}
-    We prove only \refitem{exp_item_common_exp_fp}; the others are straightforward.
+    We prove only \cref{exp_item_common_exp_fp}; the others are straightforward.
     The right implication is valid since $\psi \limplies \S_j\psi$ is, with
     $\psi$ set to $\S_J^\common\phi$ and $j \in J$ arbitrary (recall $J$ is
     non-empty).
@@ -2384,7 +2384,7 @@ The following formulas are valid.
     P_j$, we get $x \in B$.  This shows $M, x \models \S_J^\common\phi$.
 \end{proof}
 
-Validity \refitem{exp_item_common_exp_fp} comes from the
+Validity \cref{exp_item_common_exp_fp} comes from the
 \emph{fixed-point axiom} for common knowledge: $\Kcommon_J\phi \liff
 \Kshared_J(\phi \land \Kcommon_J\phi)$. Our version says
 $\S_J^\common\phi$ is a fixed-point of the function $\theta \mapsto \biglor_{j
@@ -2841,29 +2841,29 @@ x \models \beta$, we need
 $M^{\expinc\beta}, x \models \S\alpha$, so we only need to show
 $M^{\expinc\beta}, x \models \beta$.
 
-    Since $[\expinc\beta]\E\beta$ is valid in $M$, we have
-$M^{\expinc\beta}, x \models \E\beta$. From
-\cref{exp_prop_validities} (3), $M^{\expinc\beta}, x \models
-\A(\alpha \limplies \beta) \limplies (\S\alpha \land \E\beta \limplies
-\beta)$. But from the above claim and $\|\alpha\|_M \subseteq
-\|\beta\|_M$ we have $\|\alpha\|_{M^{\expinc\beta}} \subseteq
-\|\beta\|_{M^{\expinc\beta}}$, i.e. $M^{\expinc\beta}, x \models
-\A(\alpha \limplies \beta)$. Hence $M^{\expinc\beta}, x \models
-\beta$, and we are done.
+Since $[\expinc\beta]\E\beta$ is valid in $M$, we have $M^{\expinc\beta}, x
+\models \E\beta$. From \cref{exp_prop_validities} \cref{exp_item_weakening},
+        $M^{\expinc\beta}, x \models \A(\alpha \limplies \beta) \limplies
+        (\S\alpha \land \E\beta \limplies \beta)$.  But from the above claim
+        and $\|\alpha\|_M \subseteq \|\beta\|_M$ we have
+        $\|\alpha\|_{M^{\expinc\beta}} \subseteq \|\beta\|_{M^{\expinc\beta}}$,
+        i.e. $M^{\expinc\beta}, x \models \A(\alpha \limplies \beta)$. Hence
+        $M^{\expinc\beta}, x \models \beta$, and we are done.
 
-    \item Taking $\beta = \alpha$, this validity follows from (2).
+    \item Taking $\beta = \alpha$, this validity follows from
+        \cref{exp_item_weakening_sndann}.
 
     \end{enumerate}
 \end{proof}
 
-In words, \refitem{exp_item_exp_sndann} says that expertise on a propositional
+In words, \cref{exp_item_exp_sndann} says that expertise on a propositional
 formula $\alpha$ is equivalent to the guarantee that $\alpha$ is true whenever
-it is soundly announced. \refitem{exp_item_weakening_sndann} is essentially a
-reformulation of \cref{exp_prop_validities} \refitem{exp_item_weakening}; it says that
+it is soundly announced. \cref{exp_item_weakening_sndann} is essentially a
+reformulation of \cref{exp_prop_validities} \cref{exp_item_weakening}; it says that
 if $\beta$ is logically weaker than $\alpha$, gaining expertise on $\beta$
 ensures that $\beta$ is at least true after a sound announcement of the
-stronger formula $\alpha$.  \refitem{exp_item_weakening_sndann_eq} is the special
-case of \refitem{exp_item_weakening_sndann} with $\beta = \alpha$, which says that
+stronger formula $\alpha$.  \cref{exp_item_weakening_sndann_eq} is the special
+case of \cref{exp_item_weakening_sndann} with $\beta = \alpha$, which says that
 $\alpha$ is true following a sound announcement after the sources gains
 expertise on $\alpha$.
 

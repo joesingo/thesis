@@ -88,6 +88,13 @@ class TestSuite:
         if "a4paper" not in line:  # exception: options for memoir
             assert "paper" not in line
 
+    @test(line_based=True)
+    def test_labelcref(self, line):
+        """
+        should not use \\labelcref
+        """
+        assert "\\labelcref" not in line
+
 
 if __name__ == "__main__":
     suite = TestSuite()

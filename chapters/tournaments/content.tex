@@ -493,10 +493,10 @@ similarly for $y_b$). These skill levels represent the true capabilities of the
 players in $A$ and $B$ in state $\theta$: $a$ is capable of defeating $b$ if
 and only if $x_a \ge y_b$.
 %
-Note that \labelcref{tourn_eqn_state_condition_a} suggests a simple form of
+Note that \cref{tourn_eqn_state_condition_a} suggests a simple form of
 \emph{explainability}: $a'$ can only be strictly more skilful than $a$ if there
 is some $b \in B$ which \emph{explains} this fact, i.e. some $b$ which $a'$ can
-defeat but $a$ cannot (\labelcref{tourn_eqn_state_condition_b} is analogous for the
+defeat but $a$ cannot (\cref{tourn_eqn_state_condition_b} is analogous for the
 $B$s). These conditions are intuitive if we assume that skill levels are
 relative to the sets $A$ and $B$ currently under consideration (i.e.
 they do not reflect the abilities of players in future matches against new
@@ -559,8 +559,8 @@ also assume that noise occurs independently across all matches.
 Here $P_{\bm{\alpha}}(K \mid \theta)$ is the probability of observing the
 tournament results $K$ when the false positive and negative rates are given by
 $\bm{\alpha}$ and the true state of the world is $\theta$. Note that the
-four cases in \labelcref{tourn_eqn_probdist_random_var_one} and
-\labelcref{tourn_eqn_probdist_random_var_zero} correspond to a false positive, true
+four cases in \cref{tourn_eqn_probdist_random_var_one} and
+\cref{tourn_eqn_probdist_random_var_zero} correspond to a false positive, true
 positive, true negative and false negative respectively. We can now define a
 maximum likelihood operator.
 
@@ -630,8 +630,8 @@ expression for $P_{\bm{\alpha}}(K \mid \theta)$ in terms of $K_\theta$ and $K$.
         \item $b \in B_4$ iff $K_{ab} = 0$ and $x_a \ge y_b$
     \end{itemize}
     Note that this correspond exactly to the four cases in
-    \labelcref{tourn_eqn_probdist_random_var_one} and
-    \labelcref{tourn_eqn_probdist_random_var_zero} which define $p_{ab, K}$; we have
+    \cref{tourn_eqn_probdist_random_var_one} and
+    \cref{tourn_eqn_probdist_random_var_zero} which define $p_{ab, K}$; we have
     \[
         p_{ab,K} = \begin{cases}
             \alpha_+,& b \in B_1 \\
@@ -753,25 +753,27 @@ in this way are exactly those with the chain property.
    $a, a' \in A$ and $b, b' \in B$:
 
    \begin{enumerate}
-       \item $K_\theta(a) \subseteq K_\theta(a')$ iff $x_a \le
-             x_{a'}$
-       \item $K_\theta^{-1}(b) \supseteq K_\theta^{-1}(b')$ iff $y_b
-             \le y_{b'}$.
+       \item\label{tourn_item_ktheta_ordering_a} $K_\theta(a) \subseteq
+           K_\theta(a')$ iff $x_a \le x_{a'}$
+       \item\label{tourn_item_ktheta_ordering_b} $K_\theta^{-1}(b) \supseteq
+           K_\theta^{-1}(b')$ iff $y_b \le y_{b'}$.
    \end{enumerate}
 \end{lemma}
 
 \begin{proof}
 
-    We prove (1); (2) is shown similarly. Let $a, a' \in A$. First suppose $x_a
-    \le x_{a'}$. Let $b \in K_\theta(a)$. Then $y_b \le x_a \le x_{a'}$, so $b
-    \in K_\theta(a')$ also. This shows $K_\theta(a) \subseteq K_\theta(a')$.
+    We prove \cref{tourn_item_ktheta_ordering_a};
+    \cref{tourn_item_ktheta_ordering_b} is shown similarly. Let $a, a' \in A$.
+    First suppose $x_a \le x_{a'}$. Let $b \in K_\theta(a)$. Then $y_b \le x_a
+    \le x_{a'}$, so $b \in K_\theta(a')$ also. This shows $K_\theta(a)
+    \subseteq K_\theta(a')$.
 
     Now suppose $K_\theta(a) \subseteq K_\theta(a')$. For the sake of
-    contradiction, suppose $x_a > x_{a'}$. By \labelcref{tourn_eqn_state_condition_a}
+    contradiction, suppose $x_a > x_{a'}$. By \cref{tourn_eqn_state_condition_a}
     in the definition of a state (\cref{tourn_def_stateworld}), there is $b \in B$
     such that $x_{a'} < y_b \le x_{a}$. But this means $b \in K_\theta(a)
     \setminus K_\theta(a')$, which contradicts $K_\theta(a) \subseteq
-    K_\theta(a')$. Thus (1) is proved.
+    K_\theta(a')$. Thus \cref{tourn_item_ktheta_ordering_a} is proved.
 \end{proof}
 
 \begin{lemma}
@@ -783,7 +785,8 @@ in this way are exactly those with the chain property.
 \end{lemma}
 
 \begin{proof}
-    The ``if'' direction follows from \cref{tourn_result_ktheta_ordering} part (1):
+    The ``if'' direction follows from \cref{tourn_result_ktheta_ordering}
+    \cref{tourn_item_ktheta_ordering_a}:
     if $\theta = \tuple{\bm{x}, \bm{y}}$ and $a, a' \in A$ then
     either $x_a \le x_{a'}$ -- in which case $K_\theta(a)
     \subseteq K_\theta(a')$ -- or $x_{a'} < x_a$ -- in
@@ -820,26 +823,26 @@ in this way are exactly those with the chain property.
     i.e. $K_{ab} = 1$. This completes the claim that $K = K_\theta$.
 
     It only remains to show that $\theta$ satisfies conditions
-    \labelcref{tourn_eqn_state_condition_a} and \labelcref{tourn_eqn_state_condition_b} of
-    \cref{tourn_def_stateworld}. For \labelcref{tourn_eqn_state_condition_a}, suppose $x_a
+    \cref{tourn_eqn_state_condition_a} and \cref{tourn_eqn_state_condition_b} of
+    \cref{tourn_def_stateworld}. For \cref{tourn_eqn_state_condition_a}, suppose $x_a
     < x_{a'}$. Then $K(a) \subset K(a')$, i.e there is $b \in K(a') \setminus
     K(a) = K_\theta(a') \setminus K_\theta(a)$. But $b \in K_\theta(a')$ gives
     $y_b \le x_{a'}$, and $b \not\in K_\theta(a)$ gives $x_a < y_b$; this shows
-    that \labelcref{tourn_eqn_state_condition_a} holds.
+    that \cref{tourn_eqn_state_condition_a} holds.
 
-    For \labelcref{tourn_eqn_state_condition_b}, suppose $y_b < y_{b'}$. Clearly
+    For \cref{tourn_eqn_state_condition_b}, suppose $y_b < y_{b'}$. Clearly
     $K^{-1}(b) \ne \emptyset$ (otherwise $y_b = 1 + |A|$ is maximal). Thus
     there is $a \in K^{-1}(b)$ such that $y_b = x_a$. This of course means $x_a
     < y_{b'}$; in particular we have $y_b \le x_a < y_{b'}$ as required for
-    \labelcref{tourn_eqn_state_condition_b}.
+    \cref{tourn_eqn_state_condition_b}.
 
     We have shown that $K = K_\theta$ and that $\theta \in \Theta_{m,n}$, and the
     proof is complete.
 \end{proof}
 
 Note that the proof of \Cref{tourn_result_ktheta_ordering} relies crucially on
-\labelcref{tourn_eqn_state_condition_a} and
-\labelcref{tourn_eqn_state_condition_b} in the definition of a state. Combining
+\cref{tourn_eqn_state_condition_a} and
+\cref{tourn_eqn_state_condition_b} in the definition of a state. Combining
 all the results so far we obtain our first main result: the maximum likelihood
 operators for $\bm{\alpha} = \tuple{\beta,\beta}$ are exactly the chain-minimal
 operators.
@@ -1245,7 +1248,7 @@ need a preliminary result.
     Fix an $m \times n$ tournament $K$.
 
     \begin{itemize}
-    \item[\labelcref{tourn_item_dual_lemma_nle}.]
+    \item
     Note that for any $b \in B$, we have $K^{-1}(b) = A \setminus \dual{K}(b)$.
     Indeed, for any $a \in A = A_K = B_{\dual{K}}$,
     \begin{align*}
@@ -1265,11 +1268,11 @@ need a preliminary result.
     \end{align*}
     so ${\bnle_K} = {\anle_{\dual{K}}}$.
 
-    \item[\labelcref{tourn_item_dual_lemma_minch}.]
+    \item
     %
-    `only if": Suppose $K' \in \minch{K}$. First we show that $\dual{K'}$ has
+    ``only if": Suppose $K' \in \minch{K}$. First we show that $\dual{K'}$ has
     the chain property. It is sufficient to show that ${\bnle_{K'}}$ is a total
-    preorder,\footnotemark{} since part (\labelcref{tourn_item_dual_lemma_nle})
+    preorder,\footnotemark{} since part \cref{tourn_item_dual_lemma_nle}
     then implies ${\anle_{\dual{K'}}}$ is a total preorder and $\dual{K'}$ has
     the chain property by definition.
 
@@ -1308,7 +1311,7 @@ need a preliminary result.
     \times m$ tournament with the chain property, which shows $\dual{K'} \in
     \minch{\dual{K}}$ as required.
 
-    `if": Suppose $\dual{K'} \in \minch{\dual{K}}$. By the `only if' statement
+    ``if": Suppose $\dual{K'} \in \minch{\dual{K}}$. By the `only if' statement
     above, we have $\dual{\dual{K'}} \in \minch{\dual{\dual{K}}}$. But
     $\dual{\dual{K}} = K$ and $\dual{\dual{K'}} = K'$, so $K' \in \minch{K}$ as
     required.
@@ -1350,7 +1353,7 @@ We can now find an operator with both \chainmin{} and \dualaxiom{}.
     First we claim $\alpha'(K) \in \minch{K}$ for all $K$. Indeed, if $K \in T$
     then $\alpha'(K) = \alpha(K) \in \minch{K}$ by the assumption on $\alpha$.
     Otherwise, $\alpha(\dual{K}) \in \minch{\dual{K}}$, so
-    \Cref{tourn_result_chainmin_dual_lemma} part (\labelcref{tourn_item_dual_lemma_minch})
+    \Cref{tourn_result_chainmin_dual_lemma} part \cref{tourn_item_dual_lemma_minch}
     implies $\alpha'(K) = \dual{\alpha(\dual{K})} \in \minch{\dual{\dual{K}}} =
     \minch{K}$.
 
@@ -1366,7 +1369,7 @@ We can now find an operator with both \chainmin{} and \dualaxiom{}.
     ({\anle_{\alpha'(K)}}, {\bnle_{\alpha'(K)}})$. Since $\alpha'(K) \in
     \minch{K}$ for all $K$, $\phi'$ satisfies \chainmin{}. Moreover,
     using \Cref{tourn_result_chainmin_dual_lemma} part
-    (\labelcref{tourn_item_dual_lemma_nle}) and the fact that $\dual{\alpha'(K)} =
+    \cref{tourn_item_dual_lemma_nle} and the fact that $\dual{\alpha'(K)} =
     \alpha'(\dual{K})$, for any tournament $K$ and $b, b' \in B$ we have
     %
     \begin{align*}
@@ -1589,7 +1592,7 @@ for the upper- and lower-sets of $x$ respectively.
 
     The case $i=0$ is vacuously true, and we may take $K_0$ to be an arbitrary
     member of $\minch{K}$. For the inductive step, suppose
-    \labelcref{tourn_eqn_mon_lemma_induction} holds for some $0 \le i < m$. If
+    \cref{tourn_eqn_mon_lemma_induction} holds for some $0 \le i < m$. If
     $U(a_{i+1}, {\anlt_K}) = \emptyset$ then we may set $K_{i+1} = K_i$, so
     assume that $U(a_{i+1}, {\anlt_K})$ is non-empty. Take some $\hat{a} \in
     \min(U(a_{i+1}, {\anlt_K}), {\anle_{K_i}})$. Then $\hat{a}$ has (one of)
@@ -1597,8 +1600,8 @@ for the upper- and lower-sets of $x$ respectively.
     larger neighbourhood than $a_{i+1}$ in $K$.
 
     If $K_i(a_{i+1}) \subseteq K_i(\hat{a})$ then we claim
-    \labelcref{tourn_eqn_mon_lemma_induction} holds with $K_{i+1} = K_i$. Indeed, for
-    $j < i + 1$ the inclusion in \labelcref{tourn_eqn_mon_lemma_induction} holds
+    \cref{tourn_eqn_mon_lemma_induction} holds with $K_{i+1} = K_i$. Indeed, for
+    $j < i + 1$ the inclusion in \cref{tourn_eqn_mon_lemma_induction} holds
     since it does for $K_i$. For $j = i+1$, let $a \in U(a_{i+1}, {\anlt_K})$.
     The definition of $\hat{a}$ implies $K_i(a) \not\subset K_i(\hat{a})$;
     since $K_i$ has the chain property this means $K_i(\hat{a}) \subseteq
@@ -1612,7 +1615,7 @@ for the upper- and lower-sets of $x$ respectively.
     $K(a_{i+1}) \subset K(\hat{a})$, we may apply
     \Cref{tourn_result_chainmin_mon_swapping}. Set $K_{i+1} =
     \swap{K_i}{a_{i+1}}{\hat{a}} \in \minch{K}$. The inclusion in
-    \labelcref{tourn_eqn_mon_lemma_induction} is easy to show for $j=i+1$: if $a \in
+    \cref{tourn_eqn_mon_lemma_induction} is easy to show for $j=i+1$: if $a \in
     U(a_{i+1}, {\anlt_K})$ then either $a = \hat{a}$ -- in which case
     $K_{i+1}(a_{i+1}) \subset K_{i+1}(a)$ by construction -- or $a \ne \hat{a}$
     and $K_{i+1}(a_{i+1}) = K_i(\hat{a}) \subseteq K_i(a) = K_{i+1}(a)$. In
@@ -1627,7 +1630,7 @@ for the upper- and lower-sets of $x$ respectively.
     $K_{i+1}(a_j) \subseteq K_{i+1}(a)$. We consider cases.
 
     \textbf{Case 1:} $a = \hat{a}$. Using the fact that
-    \labelcref{tourn_eqn_mon_lemma_induction} holds for $K_i$ we have
+    \cref{tourn_eqn_mon_lemma_induction} holds for $K_i$ we have
     \[
         K_{i+1}(a_j)
         = K_i(a_j)
@@ -2256,7 +2259,7 @@ its symmetric part.
 
     Finally, since $(K')^{-1}(b) = M_j$ for $b \in Y_j$ and $M_1 \supset \cdots
     \supset M_t$, an argument almost identical to
-    \labelcref{tourn_eqn_ale_k_phi_iff_anle_kprime} shows that ${\ble_K^\phi} =
+    \cref{tourn_eqn_ale_k_phi_iff_anle_kprime} shows that ${\ble_K^\phi} =
     {\bnle_{K'}}$.
 
     We have shown that $\phi(K) = ({\anle_{K'}}, {\bnle_{K'}})$ and that $K'$
@@ -2344,7 +2347,7 @@ with $A_i = B_i = \emptyset$. Since $A_{i + 1} \subseteq A_i$ and $B_{i + 1}
 \begin{proof}
 
     Suppose $i \ge 0$ and $A_i \ne \emptyset$. Then properties
-    \labelcref{tourn_item_f_sel_1} and \labelcref{tourn_item_f_sel_2} for $f$ in
+    \cref{tourn_item_f_sel_1} and \cref{tourn_item_f_sel_2} for $f$ in
     \Cref{tourn_def_selectionfunction} imply that $\emptyset \subset f(K, A_i, B_i)
     \subseteq A_i$, and consequently $A_{i+1} = A_i \setminus f(K, A_i, B_i)
     \subset A_i$.
@@ -2405,14 +2408,14 @@ selection functions $f$ and $g$.
     It follows from \Cref{tourn_result_chain_def_ranks_characterisation} that $\phi(K)$
     is chain-definable if and only if $|j - j'| \le 1$.  If $j = j'$ this is
     clear. Suppose $j < j'$.  Then $A_j = \emptyset$ and $B_j \ne \emptyset$.
-    By property \labelcref{tourn_item_g_sel_3} for $g$ in
+    By property \cref{tourn_item_g_sel_3} for $g$ in
     \Cref{tourn_def_selectionfunction}, we have $g(K, A_j, B_j) = g(K, \emptyset,
     B_j) = B_j$. But this means $B_{j+1} = B_j \setminus g(K, A_j, B_j) = B_j
     \setminus B_j = \emptyset$.  Consequently $j' = j+1$, and $|j - j'| = |-1|
     = 1$
 
     If instead $j > j'$, then a similar argument using property
-    \labelcref{tourn_item_f_sel_3} for $f$ in \Cref{tourn_def_selectionfunction} shows
+    \cref{tourn_item_f_sel_3} for $f$ in \Cref{tourn_def_selectionfunction} shows
     that $j = j' + 1$, and we have $|j - j'| = |1| = 1$.
 
     Hence $|j - j'| \le 1$ in all cases, and $\phi(K)$ is chain-definable as
@@ -2477,7 +2480,7 @@ selection functions $f$ and $g$.
     ${\ale_K^\phi}$ we have $\bigcup_{j=1}^{t-0} = X_1 \cup \cdots \cup X_t = A
     = A_0$ (and similar for $B$).
 
-    Now suppose \labelcref{tourn_eqn_ai_bi_unions} holds for some $0 \le i < t$. We
+    Now suppose \cref{tourn_eqn_ai_bi_unions} holds for some $0 \le i < t$. We
     will show that $f(K, A_i, B_i) = X_{t-i}$ by considering three possible
     cases, at least one of which must hold.
 
@@ -2525,7 +2528,7 @@ selection functions $f$ and $g$.
     \end{align*}
     as required. By almost identical arguments we can show that $g(K, A_i, B_i)
     = Y_{t-i}$, and thus $B_{i+1} = \bigcup_{j=1}^{t-(i+1)}{Y_j}$ also. By
-    induction, \labelcref{tourn_eqn_ai_bi_unions} holds for all $0 \le i \le t$.
+    induction, \cref{tourn_eqn_ai_bi_unions} holds for all $0 \le i \le t$.
 
     It remains to show that $a \ale_K^\phi a'$ iff $a \ale_K^{\intop{f,g}} a'$
     and that $b \ble_K^\phi b'$ iff $b \ble_K^{\intop{f,g}} b'$.
@@ -2884,7 +2887,7 @@ $\intop{f, g}$ to satisfy various axioms.
     since $\sigma$ is a bijection. The fact that $B_0' = \pi(B_0)$ is shown
     similarly.
 
-    Suppose that \labelcref{tourn_eqn_interleaving_lemma_anon} holds for some $i \ge
+    Suppose that \cref{tourn_eqn_interleaving_lemma_anon} holds for some $i \ge
     0$. Then applying our assumption on $f$:
     \begin{align*}
         A_{i+1}'
@@ -2897,7 +2900,7 @@ $\intop{f, g}$ to satisfy various axioms.
     (note that $\sigma(X) \setminus \sigma(Y) = \sigma(X \setminus Y)$ holds
     for any sets $X, Y$ due to injectivity of $\sigma$). Using the assumption
     on $g$ we can show that $B_{i+1}' = \pi(B_{i+1})$ in a similar manner.
-    Therefore, by induction, \labelcref{tourn_eqn_interleaving_lemma_anon} holds for
+    Therefore, by induction, \cref{tourn_eqn_interleaving_lemma_anon} holds for
     all $i \ge 0$. This means that for any $a \in A$ we have
     \[
         \sigma(a) \in A_i'
@@ -2975,7 +2978,7 @@ For the specific operator $\phicardint$,
     B \to B$ be bijective mappings. Write $K' = \pi(\sigma(K))$. We will show
     that the conditions on $f$ and $g$ in
     \Cref{tourn_result_interleaving_suffconditions} part
-    (\labelcref{tourn_item_int_lemma_anon}) are satisfied.
+    \cref{tourn_item_int_lemma_anon} are satisfied.
 
     Let $A' \subseteq A$ and $B' \subseteq B$. We have
     \begin{align*}
@@ -2998,7 +3001,7 @@ For the specific operator $\phicardint$,
     as required. The result for $g$ follows by a near-identical argument. Thus
     $\phicardint$ satisfies \anon{} by
     \Cref{tourn_result_interleaving_suffconditions} part
-    (\labelcref{tourn_item_int_lemma_anon}).
+    \cref{tourn_item_int_lemma_anon}.
 
     \dualaxiom{}. Fix a tournament $K$ and let $A' \subseteq A$, $B'
     \subseteq B$. Note that for $b \in B'$ we have
@@ -3017,7 +3020,7 @@ For the specific operator $\phicardint$,
         &= f(\dual{K}, B', A')
     \end{align*}
     and, by \Cref{tourn_result_interleaving_suffconditions} part
-    (\labelcref{tourn_item_int_lemma_dual}), $\phicardint$ satisfies
+    \cref{tourn_item_int_lemma_dual}, $\phicardint$ satisfies
     \dualaxiom{}.
 
     \mon{}. Once again, we use
@@ -3032,7 +3035,7 @@ For the specific operator $\phicardint$,
     |K(a') \cap B'|$.  Consequently $|K(a) \cap B'| = |K(a') \cap B'|$, and so
     $a' \in f(K, A', B')$. This shows the property required by
     \Cref{tourn_result_interleaving_suffconditions} part
-    (\labelcref{tourn_item_int_lemma_mon}) is satisfied, and thus $\phicardint$
+    \cref{tourn_item_int_lemma_mon} is satisfied, and thus $\phicardint$
     satisfies \mon{}.
 
     \posresp{}. We have show that $\phicardint$ satisfies
@@ -3179,7 +3182,7 @@ be equal.
     Write $A_i = A'_i = \{a_1, \ldots, a_{m'}\}$ and $B_i = B'_i =
     \{b_1, \ldots, b_{n'}\}$, with $a_p < a_{p+1}$ and $b_q < b_{q+1}$. Let
     $K^-$ be the associated sub-matrix, as in the statement of \smi{}.
-    From property \labelcref{tourn_item_f_sel_1} from
+    From property \cref{tourn_item_f_sel_1} from
     \Cref{tourn_def_selectionfunction} for $f$ and \smi{}, we have
     \begin{align}
         \label{tourn_eqn_smi_maximal_ranks_equal_f}
@@ -3197,7 +3200,7 @@ be equal.
     \end{align*}
     where our assumption on the maximal ranks for $\phi$ and $\phi'$ is
     employed in the second step. Consulting
-    \labelcref{tourn_eqn_smi_maximal_ranks_equal_f} we see $f(K, A_i, B_i) =
+    \cref{tourn_eqn_smi_maximal_ranks_equal_f} we see $f(K, A_i, B_i) =
     f'(K, A'_i, B'_i)$. An identical argument shows $g(K, A_i, B_i) = g'(K,
     A'_i, B'_i)$. Together with the induction hypothesis, we get
     \[
@@ -3302,21 +3305,21 @@ following we show it is \emph{equivalent} to \smi{}, when taken with
             q \in B^-_i \iff b_q \in B_{i + 1}.
         \end{split}
     \end{equation}
-    We prove \labelcref{tourn_eqn_smi_rr_induction} by induction on $i$. Take
+    We prove \cref{tourn_eqn_smi_rr_induction} by induction on $i$. Take
     $i = 0$. By definition, $A^-_0 = A_{K^-} = [m']$, so $p \in A^-_0$ always
     holds. Recall that $\{a_1, \ldots, a_{m'}\} = A \setminus \max(A,
     {\ale_K^\phi})$. It is easily seen that $\max(A, {\ale_K^\phi}) = f(K, A_0,
     B_0)$, so in fact $\{a_1, \ldots, a_{m'}\} = A_1$. Hence $a_p \in A_1$
     always holds. The argument for the $B$s is identical. This proves
-    \labelcref{tourn_eqn_smi_rr_induction} for $i = 0$.
+    \cref{tourn_eqn_smi_rr_induction} for $i = 0$.
 
-    For the inductive step, suppose \labelcref{tourn_eqn_smi_rr_induction}
+    For the inductive step, suppose \cref{tourn_eqn_smi_rr_induction}
     holds for some $i \ge 0$. We consider cases. First, suppose $A^-_i =
     \emptyset$. Then $A^-_{i + 1} \subseteq A^-_i$ means $A^-_{i + 1} =
     \emptyset$. On the other hand the inductive hypothesis gives $A_{i + 1} =
     \emptyset$, so we get $A_{i + 2} = \emptyset$. In particular, the first
-    part of \labelcref{tourn_eqn_smi_rr_induction} holds for $i + 1$. For the
-    second part, using property \labelcref{tourn_item_g_sel_3} from
+    part of \cref{tourn_eqn_smi_rr_induction} holds for $i + 1$. For the
+    second part, using property \cref{tourn_item_g_sel_3} from
     \cref{tourn_def_selectionfunction} for the selection function $g$ we find
     \[
         B^-_{i + 1}
@@ -3326,7 +3329,7 @@ following we show it is \emph{equivalent} to \smi{}, when taken with
     \]
     By the inductive hypothesis again we have $A_{i + 1} = \emptyset$, so the
     same line of reasoning gives $B_{i + 1} = \emptyset$. Thus
-    \labelcref{tourn_eqn_smi_rr_induction} holds. The case $B^-_i = \emptyset$
+    \cref{tourn_eqn_smi_rr_induction} holds. The case $B^-_i = \emptyset$
     is identical, using properties of $f$ instead of $g$.
 
     Now suppose both $A^-_i$ and $B^-_i$ are non-empty. Recall $A^-_i \subseteq
@@ -3371,7 +3374,7 @@ following we show it is \emph{equivalent} to \smi{}, when taken with
     \end{align*}
     An identical argument shows $q \in B^-{i + 1} \iff b_q \in B_{i + 2}$. By
     induction, this
-    completes the proof of \labelcref{tourn_eqn_smi_rr_induction}.
+    completes the proof of \cref{tourn_eqn_smi_rr_induction}.
 
     Finally, for any $p \in [m']$ we get
     \begin{align*}
@@ -3381,7 +3384,7 @@ following we show it is \emph{equivalent} to \smi{}, when taken with
         &= \max\{i - 1\mid a_p \in A_i\} \\
         &= -1 + r_K(a_p),
     \end{align*}
-    where we use \labelcref{tourn_eqn_smi_rr_induction} and the fact that $a_p
+    where we use \cref{tourn_eqn_smi_rr_induction} and the fact that $a_p
     \in A_1$. Since the additive constant of $-1$ does not affect the ranking,
     we see that the ranking of $[m']$ in $\ale_{K^-}^\phi$ corresponds exactly
     to that of $\{a_1, \ldots, a_{m'}\}$ in $\ale_K^\phi$, as required for

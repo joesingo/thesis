@@ -23,11 +23,19 @@
 % style for referencing axioms in the text
 \newcommand{\axiomref}[1]{\textbf{#1}}
 
+% inline list
+\newlist{inlinelist}{enumerate*}{1}
+\setlist[inlinelist]{label=(\roman*)}
+
+% cleveref formats for equations and items
+\crefformat{equation}{(#2#1#3)}
+\Crefformat{equation}{(#2#1#3)}
+\crefformat{enumi}{(#2#1#3)}
+\Crefformat{enumi}{(#2#1#3)}
+\crefformat{inlinelisti}{#2#1#3}
+\Crefformat{inlinelisti}{#2#1#3}
+
 % cleveref cannot deduce the plural form for the "claim" environment, so give
 % it explicity
 \crefname{claim}{Claim}{Claims}
 \Crefname{claim}{Claim}{Claims}
-
-% inline list
-\newlist{inlinelist}{enumerate*}{1}
-\setlist[inlinelist]{label=(\roman*)}
