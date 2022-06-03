@@ -37,8 +37,6 @@
 ## Bipartite tournaments
 
 - Truth discovery reference in the introduction is no longer be appropriate
-- Consider using different notation for operators: currently we use φ which
-  clashes with the logic part
 
 ## Tests
 
