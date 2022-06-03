@@ -22,8 +22,6 @@
 
 - Punctuation at the end of display math
 
-- Standardise table formatting
-
 - Standardise \paragraph vs \subsection etc divisions across chapters
 
 - Check if `\textcite` is really what I want
@@ -39,8 +37,6 @@
 ## Bipartite tournaments
 
 - Truth discovery reference in the introduction is no longer be appropriate
-- There is a commented out table showing axiom satisfaction for the different
-  operators. Maybe uncomment it and show it in the text
 - Consider using different notation for operators: currently we use φ which
   clashes with the logic part
 
