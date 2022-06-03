@@ -22,10 +22,6 @@
 
 - Punctuation at the end of display math
 
-- Standardise chapter outlines
-
-- Standardise "conclusion", "summary" section names
-
 - Standardise table formatting
 
 - Standardise \paragraph vs \subsection etc divisions across chapters
