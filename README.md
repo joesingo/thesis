@@ -30,9 +30,6 @@
 
 - Standardise \paragraph vs \subsection etc divisions across chapters
 
-- List proofs: in KR chapter we have references back to items, but not in
-  expertise chapter
-
 - Check if `\textcite` is really what I want
 
 - Duplicate references in bibliography
