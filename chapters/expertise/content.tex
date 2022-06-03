@@ -953,7 +953,8 @@ that $\phi$ is false.
     We show \cref{exp_eqn_s4s5_1} by induction. The only non-trivial cases are
     $\E$ and $\S$ formulas.
 
-        ($\E$): Suppose $M, x \models \E\phi$. Then $\|\phi\|_M \in P$. By
+    \begin{itemize}
+        \item $\E$: Suppose $M, x \models \E\phi$. Then $\|\phi\|_M \in P$. By
               the induction hypothesis and $(*)$, this means
               $\|t(\phi)\|_{f(M)}$ is downwards closed with respect to $R$. Now
               take $y \in X$ such that $f(M), y \models \neg t(\phi)$. Then $y
@@ -974,7 +975,7 @@ that $\phi$ is false.
               that $\|\phi\|_M$ is downwards closed, and by $(*)$ we have
               $\|\phi\|_M \in P$.  Hence $M, x \models \E\phi$.
 
-        ($\S$): We show both directions by contraposition. Suppose $M, x
+        \item $\S$: We show both directions by contraposition. Suppose $M, x
               \not\models \S\phi$. Then there is $A \in P$ such that
               $\|\phi\|_M \subseteq A$ and $x \notin A$. Since $A$ is downwards
               closed (by $(*)$), this means $xRy$ implies $y \notin A$ and
@@ -994,6 +995,7 @@ that $\phi$ is false.
               \notin A$, since for all $z$ with $xRz$ we have $f(M), z \models
               \neg t(\phi)$, so $z \notin \|t(\phi)\|_{f(M)} = \|\phi\|_M$.
               Hence $M, x \not\models \S\phi$.
+    \end{itemize}
 \end{proof}
 
 Taken together, the results of this section show that, when considering
@@ -1391,7 +1393,8 @@ We have a version of the truth lemma for the model $\widehat{M}_\Sigma =
     We treat the cases of $\E$ and $\S$
     formulas.
 
-    ($\E$): First suppose $\E\phi \in \Gamma$. By
+    \begin{itemize}
+        \item $\E$: First suppose $\E\phi \in \Gamma$. By
     \cref{exp_cor_xsigma_agree_on_ae}, $\E\phi \in \Sigma$. Hence $|\phi|_\Sigma
     \times \R \in \widehat{P}_\Sigma^0$. By the induction hypothesis,
     $\|\phi\|_{\widehat{M}_\Sigma} \in \widehat{P}_\Sigma^0$. Hence
@@ -1408,7 +1411,7 @@ We have a version of the truth lemma for the model $\widehat{M}_\Sigma =
     \in \Gamma$ and $\A(\phi \liff \psi) \in \Gamma$ too. By $\reE$ we get
     $\E\phi \in \Gamma$ as required.
 
-    ($\S$): First suppose $\S\phi \in \Gamma$. Take $A \in \widehat{P}_\Sigma$
+    \item $\S$: First suppose $\S\phi \in \Gamma$. Take $A \in \widehat{P}_\Sigma$
     such that $\|\phi\|_{\widehat{M}_\Sigma} \subseteq A$. By the induction
     hypothesis, $|\phi|_\Sigma \times \R \subseteq A$. There are two cases:
     either $A \in \widehat{P}_\Sigma^0$ or $A \in \widehat{P}_\Sigma^1$.
@@ -1426,7 +1429,7 @@ We have a version of the truth lemma for the model $\widehat{M}_\Sigma =
     If $A \in \widehat{P}_\Sigma^1$, $A$ is S-closed by definition.  Hence
     $|\S\phi|_\Sigma \times \R \subseteq A$. Since $\S\phi \in \Gamma$ we get
     $(\Gamma, t) \in A$ as required.
-
+    %
     In either case we have $(\Gamma, t) \in A$. This shows $\widehat{M}_\Sigma,
     (\Gamma, t) \models \S\phi$.
 
@@ -1508,6 +1511,7 @@ We have a version of the truth lemma for the model $\widehat{M}_\Sigma =
 
     This completes the proof that $A \in \widehat{P}_\Sigma^1$.  Thus
     $\widehat{M}_\Sigma, (\Gamma, t) \not\models \S\phi$, and we are done.
+    \end{itemize}
 \end{proof}
 
 \begin{theorem}
@@ -1606,7 +1610,8 @@ $\Mint$.
     the general case (\cref{exp_lemma_truth_lemma}). The only interesting cases are
     therefore for $\E\phi$ and $\S\phi$ formulas:
 
-    ($\E$): First suppose $\E\phi \in \Gamma$. We claim $|\phi|_\Sigma$ is
+    \begin{itemize}
+    \item $\E$: First suppose $\E\phi \in \Gamma$. We claim $|\phi|_\Sigma$ is
     S-closed. This will give $\|\phi\|_{M_\Sigma} \in P_\Sigma$ by the
     induction hypothesis and definition of $P_\Sigma$, and therefore $M_\Sigma,
     \Gamma \models \E\phi$.
@@ -1629,7 +1634,7 @@ $\Mint$.
     $\E\phi \in \Sigma$. Since $\Gamma \in X_\Sigma$, we get
     $\E\phi \in \Gamma$ as required.
 
-    ($\S$): Suppose $\S\phi \in \Gamma$. Take any $A \in P_\Sigma$
+    \item $\S$: Suppose $\S\phi \in \Gamma$. Take any $A \in P_\Sigma$
     such that $\|\phi\|_{M_\Sigma} \subseteq A$. By the induction
     hypothesis, $|\phi|_\Sigma \subseteq A$. By S-closure of $A$,
     $|\S\phi|_\Sigma \subseteq A$. Hence $\Gamma \in
@@ -1652,6 +1657,7 @@ $\Mint$.
     $\Gamma$. Moreover, $\|\phi\|_{M_\Sigma} \subseteq
     |\S\phi|_\Sigma$ by the induction hypothesis and $\Tsoundness$.
     Hence $M_\Sigma, \Gamma \not\models \S\phi$.
+    \end{itemize}
 
     Strong completeness now follows. If $\Gamma \not\entails_{\sLint} \phi$, then
     $\Gamma \cup \{\neg\phi\}$ is consistent, so by Lindenbaum's Lemma
@@ -1918,7 +1924,6 @@ u(\A\phi)$, so we are done.
         \item $\modpon$: Similarly, this clear from $\modpon$ for
 $\sLtop$ and the fact that $u(\phi \limplies \psi) =
 u(\phi) \limplies u(\psi)$.
-
         \end{itemize}
     \end{proof}
 
