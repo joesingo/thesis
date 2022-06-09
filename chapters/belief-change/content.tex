@@ -742,6 +742,7 @@ $(G^\sigma_\snd)_c = \{\S_i\phi \mid \tuple{i, c, \phi} \in \sigma\}$, i.e.
 the collection of soundness statements corresponding to the reports in
 $\sigma$.
 
+\begin{axiomlist}
 \begin{axiom}[\closure{}]
     $B^\sigma = \cn(B^\sigma)$ and  $K^\sigma = \cn(K^\sigma)$
 \end{axiom}
@@ -770,6 +771,7 @@ $\sigma$.
     \concat \tuple{i, c, \psi}}$ and $K^{\sigma \concat \tuple{i, c, \phi}} =
     K^{\sigma \concat \tuple{i, c, \psi}}$
 \end{axiom}
+\end{axiomlist}
 
 \closure{} says that the belief and knowledge collections are closed under
 logical consequence. In light of earlier remarks,
@@ -880,8 +882,8 @@ $K^\rho$.
     $K^{\sigma \concat \rho} = \cn(K^\sigma \sqcup K^\rho)$
 \end{axiom}
 
-\kconj{} reflects the idea that one should be cautious when it comes to
-knowledge: a formula should only be accepted as known if it won't be given up
+This postulate reflects the idea that one should be cautious when it comes to
+knowledge, a formula should only be accepted as known if it won't be given up
 in light of new information.
 
 \begin{proposition}
@@ -1275,6 +1277,7 @@ property of \textcite{kraus1990nonmonotonic}.
 \footnotetext{ Note that while the result is similar, our framework is not an
 instance of theirs.  }
 
+\begin{axiomlist}
 \begin{axiom}[\duprem{}]
     If $\rho_1 = \sigma \concat \tuple{i, c, \phi}$ and $\rho_2 = \rho_1
     \concat \tuple{i, c, \phi}$ then $B^{\rho_1} = B^{\rho_2}$ and
@@ -1293,6 +1296,7 @@ instance of theirs.  }
     \sqcup B^{\sigma_0}$ is consistent, then $K^{\sigma_0} \sqcup B^{\sigma_n}$
     is consistent
 \end{axiom}
+\end{axiomlist}
 
 \incvac{} is so-named since it is analogous to the combination of
 \emph{Inclusion} and \emph{Vacuity} from AGM revision, if one informally views
@@ -2292,15 +2296,16 @@ basic postulates.
 However, there are weaker modifications of \axiomref{Success} which may be
 more appropriate. We consider two such postulates.
 
+\begin{axiomlist}
 \begin{axiom}[\condsucc{}]
     If $\E_i\phi \in B^\sigma_c$ and $\neg\phi \notin B^\sigma_c$, then $\phi
     \in B^{\sigma \concat \tuple{i, c, \phi}}_c$
 \end{axiom}
-
 \begin{axiom}[\strongcondsucc{}]
     If $\neg(\E_i\phi \land \phi) \notin B^\sigma_c$, then $\phi \in B^{\sigma
     \concat \tuple{i, c, \phi}}_c$
 \end{axiom}
+\end{axiomlist}
 
 \condsucc{} says that if $i$ is deemed an expert on $\phi$, which is consistent
 with current beliefs, then $\phi$ is accepted after $i$ reports it. That is,

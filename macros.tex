@@ -13,12 +13,20 @@
 \theoremstyle{plain}\newtheorem{definition}{Definition}[section]
 \theoremstyle{plain}\newtheorem{claim}{Claim}[section]
 \theoremstyle{plain}\newtheorem{corollary}{Corollary}[section]
-% \theoremstyle{plain}\newtheorem{axiom}{Axiom}[section]
 
 % Environment for axiom definition
-% See https://tex.stackexchange.com/a/417959 or `texdoc amsthm` for arguments
-\newtheoremstyle{axiomstyle}{}{}{\slshape}{}{\bfseries}{}{ }{$\diamond$ \thmnote{ #3 }}
-\theoremstyle{axiomstyle} \newtheorem*{axiom}{}
+\newcommand{\axiomenvsep}{3mm}
+\newcommand{\axiomenvmargin}{2.5em}
+\newenvironment{axiom}[1][Axiom]%
+    {\vspace{\axiomenvsep}\begin{adjustwidth}{\axiomenvmargin}{\axiomenvmargin}{#1}.}
+    {\end{adjustwidth}\vspace{\axiomenvsep}}
+
+% when defining several axioms in a row, we only want extra vertical space
+% before the first and after the last. define a new environment which
+% temporarily sets the spacing to 0
+\newenvironment{axiomlist}%
+    {\vspace{\axiomenvsep}\begingroup\renewcommand{\axiomenvsep}{0em}}
+    {\endgroup\vspace{\axiomenvsep}}
 
 % style for referencing axioms in the text
 \newcommand{\axiomref}[1]{\textbf{#1}}

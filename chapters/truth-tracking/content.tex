@@ -1039,17 +1039,17 @@ $\sigma^k$ denote the $k$-fold repetition of $\sigma$.
 %
 Consider the following properties which may hold of a learning method $L$.
 
+\begin{axiomlist}
 \begin{axiom}[\equivalence{}]
     If $\sigma \equiv \delta$ then $L(\sigma) = L(\delta)$.
 \end{axiom}
-
 \begin{axiom}[\repetition{}]
     $L(\sigma^k) = L(\sigma)$.
 \end{axiom}
-
 \begin{axiom}[\soundness{}]
     $L(\sigma) \subseteq \Xsnd_\sigma$.
 \end{axiom}
+\end{axiomlist}
 
 \equivalence{} says that $L$ should not care about the syntactic form of the
 input. \repetition{} says that beliefs should not change if each
