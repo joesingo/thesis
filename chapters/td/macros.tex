@@ -3,10 +3,15 @@
 \renewcommand{\O}{\mathbb{O}}
 \newcommand{\V}{\mathbb{V}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\N}{\mathcal{N}}
 
 % network notation
 \newcommand{\src}{\operatorname{src}}
+\newcommand{\antisrc}{\operatorname{antisrc}}
 \newcommand{\claims}{\operatorname{cl}}
+\newcommand{\obj}{\operatorname{obj}}
+\newcommand{\conflict}{\operatorname{conflict}}
 
 % rankings
 \newcommand{\sle}{\sqsubseteq}
@@ -15,8 +20,16 @@
 \newcommand{\cle}{\preceq}
 \newcommand{\clt}{\prec}
 \newcommand{\ceq}{\approx}
+\newcommand{\rankequiv}{\sim}
+\newcommand{\witprec}[4]{{#1}:{#2} \xrightarrow{#4} {#3}}
 
 % TD operators
 \newcommand{\voting}{T^{\operatorname{vote}}}
 \newcommand{\wvoting}[1]{T^{#1}}
 \newcommand{\sums}{T^{\operatorname{sums}}}
+\newcommand{\truthfinder}{T^{\operatorname{tf}}}
+
+% axioms
+\newcommand{\claimcoherence}{\axiomref{Claim-coherence}}
+\newcommand{\sourcecoherence}{\axiomref{Source-coherence}}
+\newcommand{\anticoherence}{\axiomref{Anti-coherence}}

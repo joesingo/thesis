@@ -16,6 +16,7 @@
 \end{figure}
 
 \section{Preliminaries}
+\label{td_new_sec_preliminaries}
 
 In this section we give the basic definitions which form our formal framework.
 Intuitively, a truth discovery problem consists of a number of \emph{sources}
@@ -32,6 +33,7 @@ representing the possible sources, objects and values. The input to the truth
 discovery problem is a \emph{network}, defined as follows.
 
 \begin{definition}
+    \label{td_new_def_network}
     A \emph{truth discovery network} is a tuple $(S, O, D, N)$, where
     \begin{itemize}
         \item $S \subseteq \S$ is a finite set of \emph{sources}.
@@ -50,6 +52,8 @@ discovery problem is a \emph{network}, defined as follows.
     \end{enumerate}
 \end{definition}
 
+The set of all networks is denoted by $\N$.
+%
 Note that while $\S$, $\O$ and $\V$ are infinite, each network is finite. The
 set $N$ is the core data associated with the network: we interpret $(s, o, v)
 \in N$ as source $s$ claiming that $v$ is the true value for object $o$.
@@ -57,19 +61,19 @@ Constraint \cref{td_new_item_val_in_domain} says that all claimed values are in
 the domain of the relevant object. Constraint
 \cref{td_new_item_sources_self_consistent} is is a basic consistency notion: a
 source cannot provide distinct values for a single object. That is, a source
-provides \emph{at most one value} per object. Thus, while sources may be in
+provides \emph{at most one value} per object.  Thus, while sources may be in
 conflict with \emph{other sources}, they are not in conflict with themselves.
 This is a simplifying assumption, and is not universal in the literature; e.g.
 \todo{find references}. Nevertheless, we argue the truth discovery problem is
 still rich enough when conflicts only arise between distinct sources.
 
 A \emph{claim} is a pair $c = (o, v)$, where $o \in O$ and $v \in D_o$. We
-write $C$ for the set of claims in a network. With slight abuse of notation, we
-write $(s, c)$ for the report $(s, o, v)$. Then $N$ can also be viewed as a
-subset of $S \times C$, i.e. a relation between sources and claims. In fact, we
-will take this claim-centric view in the remainder of the paper, with objects
-and values only playing a role insofar as they tell us which claims are in
-conflict with one another.
+write $\obj(c) = o$ in this case, and let $C$ denote the set of all claims.
+With slight abuse of notation, we write $(s, c)$ for the report $(s, o, v)$.
+Then $N$ can also be viewed as a subset of $S \times C$, i.e. a relation
+between sources and claims. In fact, we will take this claim-centric view in
+the remainder of the paper, with objects and values only playing a role insofar
+as they tell us which claims are in conflict with one another.
 
 \begin{example}
     The network illustrated in \cref{td_new_fig_intro_example} is given by $S =
@@ -85,17 +89,32 @@ conflict with one another.
 \end{example}
 
 We will abuse notation by denoting a network by its data component $N$, with
-$S, O$ and $D$ left implicit.
+$S, O$, $D$ and $C$ left implicit.
 %
 The following notation is convenient to
-extract the sources associated with a claim and vice versa: for $c \in C$ and
+extract information about various components of a network. For $c \in C$ and
 $s \in S$, write
 \begin{align*}
     \src_N(c) &= \{s \in S \mid (s, c) \in N\},\\
     \claims_N(c) &= \{c \in C \mid (s, c) \in N\}.
 \end{align*}
+The set of sources making a claim on object $o$ is
+\[
+    \src_N(o) = \bigcup\{\src_N(c) \mid c \in C, \obj(c) = o\}.
+\]
+The set of claims in conflict with a given claim $c = (o, v)$, i.e.  claims for
+$o$ with a value other than $v$, is denoted by
+\[
+    \conflict_N(c) = \{(o, v') \mid v' \in D_o \setminus \{v\}\}.
+\]
+The ``antisources" of $c$ are then defined to be the sources for claims
+conflicting with $c$:
+\[
+    \antisrc_N(c) = \bigcup\{\src_N(d) \mid d \in \conflict_N(c)\}.
+\]
 
-With the input defined, we come to the output of the truth discovery problem.
+With the input defined, we now come to the output of the truth discovery
+problem.
 The primary goal is to produce as assessment of the trustworthiness of the
 sources, and the \emph{true values} for the objects. Approaches differ
 regarding values: some truth discovery methods output only a single value for
@@ -150,14 +169,31 @@ the strict parts by $\slt_N^T$ and $\clt_N^T$ respectively, and the symmetric
 parts by $\seq_N^T$ and $\ceq_N^T$. We omit the sub- and super-scripts when
 $N$ and $T$ are clear from context.
 
-\section{Example Operators}
+Given that our axioms will only refer to the rankings produced by operators,
+two operators yielding exactly the same rankings -- possibly with different
+scores -- appear the same with respect to axiomatic analysis. We say operators
+$T$ and $T'$ are \emph{ranking equivalent}, denoted $T \rankequiv T'$, if for
+all networks $N$ we have ${\sle_N^T} = {\sle_N^{T'}}$ and ${\cle_N^T} =
+{\cle_N^{T'}}$.
 
-Our framework is general enough to capture several methods from the truth
-discovery literature. In this section we provide two concrete examples: a
-baseline voting method and its generalisation to weighted voting, and
-Sums~\cite{pasternack2010}. \todo{Can we define some more?} We go on to define
-the class of \emph{recursive operators} -- of which Sums is an instance --
-which contains many more examples from the literature.
+In \cref{td_new_sec_example_operators} we will introduce operators defined as
+the limit of an iterative procedure. To allow for possible non-convergence we
+also consider \emph{partial operators}, which assign a mapping $T_N: S \cup C
+\to \R$ for only a subset $\N(T) \subseteq \N$ of networks.
+
+\section{Example Operators}
+\label{td_new_sec_example_operators}
+
+In this section we capture several example operators from the literature in our
+framework: a baseline \emph{voting} and method its generalisation to
+\emph{weighted} voting, \emph{Sums}~\cite{pasternack2010},
+\emph{TruthFinder}~\cite{yin2008} and \emph{CRH}~\cite{li2016}. As is the case
+with many methods in the literature, the latter three methods operate
+iteratively: starting with an initial estimate, scores are repeatedly updated
+according to some procedure until convergence. Typically the update procedure
+is recursive, with source scores being updated on the basis of the current
+claims scores, and vice versa.  To simplify the definition and analysis of such
+methods, we will introduce the class of \emph{recursive operators}.
 
 \subsection{Voting}
 
@@ -206,8 +242,9 @@ follows.
 Note that a weighting is essentially just half of a truth discovery operator,
 where we only output scores for sources. This is completed to an operator
 $\wvoting{w}$ by letting the score for a claim be the sum of the weights of its
-sources. ``Untrustworthy" sources are those with $w_N(s) < 0$, since reports
-from such sources \emph{decrease} the credibility of a claim.
+sources. Note that we allow the possibility of ``untrustworthy" sources with
+$w_N(s) < 0$. Reports from such sources \emph{decrease} the credibility of a
+claim.
 
 \begin{example}
     \label{td_new_ex_weighted_voting}
@@ -234,43 +271,79 @@ from such sources \emph{decrease} the credibility of a claim.
     association with source $t$, who is more trustworthy than $s$.
 \end{example}
 
-\subsection{Sums}
+As we will see in \todo{section reference}, some operators do not correspond
+exactly to a weighting $w$, but give rise to the same rankings. Let us say an
+operator $T$ is \emph{weightable} if there exists a weighting $w$ such that $T
+\rankequiv \wvoting{w}$. Given that weighted voting expresses a clear
+relationship between source and claim scores, this notion will greatly simplify
+axiomatic analysis in \todo{section reference}.
 
-Sums~\cite{pasternack2010} is a simple and well-known operator adapted from
-the \emph{Hubs and Authorities}~\cite{kleinberg1999} algorithm for ranking web
-pages. The algorithm operates iteratively and recursively, assigning each
-source and claim a sequences of scores, with the final score taken as the
-limit of the sequence.
+\subsection{Recursive Operators}
 
-The premise is to extend the linear sum of weighted voting to both claim and
-source scores: we iteratively update the score of each source as the sum of the
-scores of its claims, and update the score of each claim as the sum of the
-scores of its sources. To prevent scores from growing without bound, they are
-normalised at each iteration by dividing by the maximum score (for sources and
-facts separately).
+To capture the mutual dependence between trust in sources and belief in claims,
+truth discovery methods generally involve recursive
+computation~\cite{pasternack2010,yin2008,yang_probabilistic_2019,du2019,zhang2018,li2016,galland2010,zhi2015}.
+Claim scores are updated on the basis of currently estimated source scores,
+before claim scores are updated on the basis of the new sources scores. If this
+process converges, the limiting scores should be a fixed-point of the update
+procedure, reflecting the desired mutual dependence. To formalise this idea, we
+define recursive operators.
 
 \begin{definition}
-    $\sums$ is the operator defined by $\sums_N(z) = \lim_{n \to
-    \infty}{T_N^n(z)}$, for $z \in S \cup C$, where $T_N^0 \equiv
-    \frac{1}{2}$, and
+    A \emph{recursive scheme} is a tuple $(\T, T^0, U)$, where
+    \begin{itemize}
+        \item $\T$ is a set of operators.
+        \item $T^0 \in \T$ is the \emph{initial operator}.
+        \item $U: \T \to \T$ is the \emph{update function}.
+    \end{itemize}
+    A recursive scheme \emph{converges} on a network $N$ if for all $z
+    \in S \cup C$, the limit $\lim_{n \to \infty}{U^n(T^0)_N(z)}$ exists. The
+    \emph{limit} of a recursive scheme is the partial operator $T^*$ defined on
+    the networks $N$ on which the scheme converges, given by $T^*_N(z) =
+    \lim_{n \to \infty}{U^n(T^0)_N(z)}$.
+\end{definition}
+
+The main component of interest here is the update function $U$, which describes
+how the scores of one iteration are transformed to obtain scores for the next.
+The domain of operators $\T$ is used for technical reasons; for example, some
+operators need to exclude the trivial operator in which scores are identically
+zero in order for $U$ to be well-defined. We will analyse convergence and
+fixed-point properties -- i.e. whether $U(T^*) = T^*$ -- in
+\cref{td_new_sec_convergence_fixed_points}. For now, we introduce examples of
+recursive operators from the literature.
+
+\paragraph{Sums.}
+
+Sums~\cite{pasternack2010} is a simple and well-known operator adapted from the
+\emph{Hubs and Authorities}~\cite{kleinberg1999} algorithm for ranking web
+pages. The premise is to extend the linear sum of weighted voting to both claim
+and source scores: we update the score of each source as the sum of the scores
+of its claims, and update the score of each claim as the sum of the scores of
+its sources. To prevent scores from growing without bound, they are normalised
+at each iteration by dividing by the maximum score (for sources and facts
+separately).
+
+\begin{definition}
+    \emph{Sums} is the recursive scheme $(\T, T^0, U)$, where $\T$ is the set
+    of all operators, $T^0_N \equiv 1 / 2$, and $U(T) = T'$, with
     \begin{align*}
-        T_N^{n+1}(s) &=
+        T'_N(s) &=
             \frac{1}{Z_S}
             \sum_{c \in \claims_N(s)}{
-                T_N^n(c)
-            }
+                T_N(c)
+            },
         \\
-        T_N^{n+1}(c) &=
+        T'_N(c) &=
             \frac{1}{Z_C}
             \sum_{s \in \src_N(c)}{
-                T_N^{n+1}(s)
+                T'_N(s)
             }.
     \end{align*}
     where $
         Z_S = \max_{t \in S}{
             \left|
                 \sum_{c \in \claims_N(t)}{
-                    T_N^n(c)
+                    T_N(c)
                 }
             \right|
         }
@@ -278,25 +351,357 @@ facts separately).
         Z_C = \max_{d \in C}{
             \left|
                 \sum_{s \in \src_N(d)}{
-                    T_N^{n+1}(s)
+                    T'_N(s)
                 }
             \right|
         }
-    $ are normalisation factors.
+    $ are normalisation factors (and we set $T'_N \equiv 0$ if either $Z_S$ or
+    $Z_C$ are 0). We write $\sums$ for the associated limit operator.
 \end{definition}
 
-Returning again to the network $N$ from \cref{td_new_fig_intro_example}, one
-can show $\sums_N(s) = 0$, $\sums_N(t) = 1$ and $\sums_N(u) = \sums_N(v) =
-\sqrt{2} / 2 \approx 0.7071$, giving a source ranking $s \slt u \seq v \slt t$.
-For claims, we have $\sums_N(c) = \sums_N(e) = 0$, $\sums_N(d) = \sqrt{2} - 1
-\approx 0.4142$ and $T_N(f) = 1$, giving a claim ranking $c \ceq e \clt d \clt
-e$. Note that the claim ranking is identical to that of
+Taking the network $N$ from \cref{td_new_fig_intro_example}, one can show that
+$\sums_N(s) = 0$, $\sums_N(t) = 1$ and $\sums_N(u) = \sums_N(v) = \sqrt{2} / 2
+\approx 0.7071$, giving a source ranking $s \slt u \seq v \slt t$.  For claims,
+we have $\sums_N(c) = \sums_N(e) = 0$, $\sums_N(d) = \sqrt{2} - 1 \approx
+0.4142$ and $T_N(f) = 1$, giving a claim ranking $c \ceq e \clt d \clt f$. Note
+that the claim ranking is identical to that of
 \cref{td_new_ex_weighted_voting}. For sources, we see that $t$ moves strictly
 upwards in the ranking compared to \cref{td_new_ex_weighted_voting}.
 Intuitively, this is because source $t$ claims a superset of the claims of $u$
 and $v$, so receives more weight from its claims at each iteration.
 
-\subsection{Recursive Operators}
+\paragraph{TruthFinder.} TruthFinder~\cite{yin2008} is a pseudo-probabilistic
+method, and was defined in the first paper to introduce (and coin the phrase)
+truth discovery. It is formulated in a setting more general than ours: the
+authors suppose claims may \emph{support} each other, as well as conflict, and
+that support of conflict may occur to varying degrees. Formally, each pair of
+claims $c, c'$ has an ``implication" value $\operatorname{imp}(c \to c') \in
+[-1, 1]$, where a negative value implies confidence in $c$ should decrease
+confidence in $c'$, and a positive value implies confidence in $c$ should
+\emph{increase} confidence in $c'$. In contrast, our framework assumes claims
+for the same object are mutually exclusive, so that all implications are
+negative. To express TruthFinder in our framework, we take
+$\operatorname{imp}(c \to c')$ to be $-\lambda$ if $c$ and $c'$ have the same
+object and $0$ otherwise, for some fixed parameter $0 \le \lambda \le 1$.
+
+\begin{definition}
+    Given parameters $0 \le \rho, \lambda \le 1$, and $0 < \gamma < 1$,
+    \emph{TruthFinder} is the recursive scheme $(\T, T^0, U)$, where $\T$ is
+    the set of operators with $0 < T_N(s) < 1$ for all $N$ and $s \in S$ with
+    $\claims_N(s) \ne \emptyset$, $T^0 \equiv 0.9$, and $U(T) = T'$, with
+    \begin{align}
+        \label{td_new_eqn_truth_finder_claim_update}
+        T'_N(c) &= \left[
+            1 +
+            \frac{
+                \prod_{s \in \src_N(c)}{(1 - T_N(s))^\gamma}
+            }{
+                \prod_{t \in \antisrc_N(c)}{(1 - T_N(t))^{\gamma\rho\lambda}}
+            }
+        \right]^{-1}, \\
+        T'_N(s) &= \sum_{c \in \claims_N(s)}{
+            \frac{T'_N(c)}{|\claims_N(s)|}
+        }.
+    \end{align}
+    We write $\truthfinder$ for the associated limit operator.
+\end{definition}
+
+We refer the reader to the original TruthFinder paper~\cite{yin2008} for the
+interpretation of $\rho$ and $\gamma$. As described above, $\lambda$ controls
+the amount to which conflicting claims play a role in the evaluation of a given
+claim. Of special interest is the case $\lambda = 0$, in which the denominator
+in \cref{td_new_eqn_truth_finder_claim_update} is $1$. Note that in
+\cref{td_new_eqn_truth_finder_claim_update} we have unfolded the definitions of
+\textcite{yin2008} in order to obtain a single expression of $T'_N(c)$ in terms
+of the $T_N(s)$.
+
+Let us return again to the network in \cref{td_new_fig_intro_example}. We take
+parameters $\rho = 0.5$ and $\gamma = 0.3$ (as per the experimental setup of
+\textcite{yin2008}) and $\lambda = 0.5$. Assuming that TruthFinder does indeed
+converge on this network -- as it appears to do empirically -- we have
+$\truthfinder_N(s) \approx 0.5067$, $\truthfinder_n(t) \approx 0.6590$ and
+$\truthfinder_N(u) = \truthfinder_N(v) = 0.7510$, which gives the ranking $s
+\slt t \slt u \seq v$ on the sources. We have $\truthfinder_N(c) \approx
+0.5328$, $\truthfinder_N(d) \approx 0.5670$, $\truthfinder_N(e) \approx 0.4807$
+and $\truthfinder_N(f) \approx 0.7510$, which gives the ranking $e \clt c \clt
+d \clt f$ on the claims. Note that the source ranking coincides with that of
+\cref{td_new_ex_weighted_voting}, and the claim ranking refines that of
+\cref{td_new_ex_weighted_voting} and Sums by ranking $e$ \emph{strictly} worse
+than $c$. Intuitively, this occurs because $e$ has more sources reporting the
+conflicting claim (namely, $f$) than $c$ does. If we instead take $\lambda =
+0$, so that sources for conflicting claims are not considered, then the ranking
+reverts to $c \ceq e \clt d \clt f$.
+
+\paragraph{CRH.} Standing for ``Conflict Resolution on Heterogeneous Data", CRH
+is an optimisation-based framework for truth discovery~\cite{li2016}. It is
+again set in a more general framework, in which a metric $d_o$ is available to
+measure the distance between values in $D_o$, for each object $o$. The
+optimisation problem jointly chooses weights for each source and a value for
+each object, such that the weighted sum of $d_o$-distances from each source's
+claim on $o$ is minimised.
+
+To express CRH in our framework we use the ``probabilistic" encoding of
+categorical variables as described in \cite[\sectionsymbol{2.4.1}]{li2016},
+where each categorical value is represented as a one-hot vector.
+
+\begin{definition}
+    \emph{CRH} is the recursive scheme $(\T, T^0, U)$, where $\T$ is
+    \todo{what?}, $T^0$ is given by
+    \[
+        T^0_N(s) = 0, \qquad
+        T^0_N(c) = \frac{|\src_N(c)|}{|src_N(\obj(c))|},
+    \]
+    and $U(T) = T'$, where
+    \begin{align*}
+        \alpha_s &= \sum_{c \in \claims_N(s)}{
+            \left(
+                (T_N(c) - 1)^2
+                +
+                \sum_{d \in \conflict_N(c)}{
+                    T_N(d)^2
+                }
+            \right)
+        }, \\
+        T'_N(s) &= -\log\frac{\alpha_s}{\sum_{t \in S}{\alpha_t}}, \\
+        T'_N(c) &=
+            \frac{\sum_{s \in \src_N(c)}{T'_N(s)}}{\sum_{t \in S}{T'_N(t)}}.
+    \end{align*}
+\end{definition}
+
+\todo{Finish writing, example.}
+
+\todo{Table of rankings of each example on the intro network.}
+
+\section{The Axioms}
+
+Having laid out the formal framework, we now introduce axioms for truth
+discovery. Such axioms are formal properties an operator may satisfy, which
+encode intuitively desirable behaviour. Many of our axioms are adaptations of
+axioms for various problem in social choice theory (e.g. from
+voting~\cite{zwicker2016voting} and ranking systems~\cite{altman2008}), in
+which the axiomatic method has seen great success. We also consider standard
+social choice axioms which are \emph{not} desirable for truth discovery, to
+highlight the differences with classical problems such as voting. We will later
+revisit the example operators of the previous section to see to what extend our
+axioms hold in practise.
+
+\subsection{Coherence}
+
+The guiding principle of truth discovery is that claims backed by trustworthy
+sources should be believed, and sources making believable claims are
+trustworthy. All truth discovery methods aim to implement this principle to
+some extent, and the examples of \cref{td_new_sec_example_operators} illustrate
+several different approaches.
+
+We aim to formulate this principle axiomatically as a \emph{coherency} property
+relating the source ranking $\sle$ and the claim ranking $\cle$: sources making
+higher $\cle$-ranked claims should rank highly in $\sle$, and vice versa. To do
+so we adapt the idea behind the \emph{Transitivity} axiom of
+\textcite{altman2008} for ranking systems.
+
+Now, a difficulty arises when considering how to compare the claims of two
+sources. For a simple example, suppose sources have either \emph{low},
+\emph{medium} or \emph{high} trustworthiness. How should we rank a claim $c$
+with one \emph{medium} sources versus a claim $d$ with a \emph{low} and a
+\emph{high} source? In some situations we may want to prioritise the number of
+claims, so that $d$ is preferred. In others we may want to avoid trusting
+\emph{low} sources as much as possible, so that $c$ is preferred. The third
+option of ranking $c$ and $d$ equally believable is also reasonable.
+
+To avoid these ambiguous cases, we focus on scenarios where there is an
+``obvious" ordering between two sets of claims (or sources). For example,
+consider the network depicted in \cref{td_new_fig_coherence_intro}. Suppose an
+operator gives a source ranking $s \slt u \slt t \slt v$. Note that claims $c$
+and $d$ have the same number of sources. Moreover, we can pair up these sources
+one-to-one such that the source for $c$ is less trustworthy than the
+corresponding source for $d$: we have $s \slt u$ and $t \slt v$. On aggregate,
+we may reasonably say that $\src_N(c)$ is less trustworthy (with respect to
+$\sle$) than $\src_N(d)$. We should therefore have $c \clt d$; any operator
+violating this has failed to realise the dependence between source
+trustworthiness and claim believability. Similarly, this reasoning can be
+applied to the set of claims from two sources.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.25]{coherence_intro}
+    \caption{
+        Network illustrating \axiomref{Coherence}.
+    }
+    \label{td_new_fig_coherence_intro}
+\end{figure}
+
+This will form the basis of our first set of axioms. First, we formalise the
+above idea of a one-to-one correspondence respecting a ranking.
+
+\begin{definition}
+    If $\le$ is a relation on a set $X$ and $A, B \subseteq X$, then $A$
+    \emph{precedes $B$ pairwise} with respect to $\le$ if
+    \begin{equation}
+        \label{td_new_eqn_pwo}
+        \exists f: A \to B \text{ bijective s.t. }
+        \forall x \in A:\ x \le f(x).
+    \end{equation}
+    Say $A$ \emph{strictly precedes $B$} if $A$ precedes $B$ but $B$ does not
+    precede $A$.
+\end{definition}
+
+If $f$ satisfies the condition in \cref{td_new_eqn_pwo}, we say $f$
+\emph{witnesses} the fact that $A$ precedes $B$, and write
+$\witprec{f}{A}{B}{\le}$.  Note that if $\le$ is a preorder on $X$, the
+``precedes pairwise" relation is a preorder on $2^X$.  Indeed, it is reflexive
+(by considering the identity map $A \to A$, for each $A \subseteq X$) and
+transitive (if $\witprec{f}{A}{B}{\le}$ and $\witprec{g}{B}{C}{\le}$, then
+$\witprec{g \circ f}{A}{C}{\le}$). The strict pairwise order associated has a
+natural interpretation, as we now prove: there must exists some $x$ in
+\cref{td_new_eqn_pwo} for which the comparison is strict.
+
+\begin{proposition}
+    \label{td_new_prop_pwo_strict_part}
+    Suppose $X$ is finite and $\le$ is a total preorder on $X$. Then $A$
+    strictly precedes $B$ pairwise with respect to $\le$ if and only if there
+    is $\witprec{f}{A}{B}{\le}$ such that there is some $x_0 \in A$ with $x_0 <
+    f(x_0)$.
+\end{proposition}
+
+We need a  preliminary lemma.
+
+\begin{lemma}
+    \label{td_new_lemma_pwo_strict_helper}
+    Suppose $\le$ is a total preorder on a finite set $X$ and $f: X \to X$ is
+    an injective mapping such that $x \le f(x)$ for all $x \in X$. Then $x
+    \approx f(x)$ for all $x$.
+\end{lemma}
+
+\begin{proof}
+    Take $x \in X$. Consider the sequence of iterates $(f^n(x))_{n \ge 1}$.
+    Since this is an infinite sequence taking values in a finite set, there
+    must be some point at which the sequence repeats, i.e. there are $n, k \ge
+    1$ such that $f^n(x) = f^{n + k}(x)$. Then $f(f^{n - 1}(x)) = f(f^{n + k -
+    1}(x))$, so injectivity gives $f^{n - 1}(x) = f^{n + k - 1}(x)$. Repeating
+    this argument, we find $x = f^0(x) = f^k(x)$. By hypothesis, $f(x) \le
+    f^k(x)$, i.e.  $f(x) \le x$. Since $x \le f(x)$ also, this gives $x \approx
+    f(x)$ as required.
+\end{proof}
+
+\begin{proof}[Proof of \cref{td_new_prop_pwo_strict_part}]
+    ``if": Clearly $A$ precedes $B$. Suppose for contradiction that this is not
+    strict. Then there is some $\witprec{g}{B}{A}{\le}$. Note that $g \circ f$
+    is a bijection $A \to A$, and for all $x \in X$ we have $x \le f(x) \le
+    g(f(x))$. By \cref{td_new_lemma_pwo_strict_helper}, $x \approx g(f(x))$. In
+    particular, we have $f(x_0) \le g(f(x_0)) \approx x_0$, but this
+    contradicts $x_0 < f(x_0)$.
+
+    ``only if": Suppose $A$ strictly precedes $B$. Then there is some
+    $\witprec{f}{A}{B}{\le}$. Note that $f^{-1}$ is a bijection $B \to A$.
+    Since $B$ does not precede $A$, there must be some $y_0 \in B$ such that
+    $y_0 \not\le f^{-1}(y_0)$. By totality of $\le$, we get $f^{-1}(y_0) <
+    y_0$. Taking $x_0 = f^{-1}(y_0)$, we are done.
+\end{proof}
+
+We are now ready to state our first two axioms.
+
+\begin{axiomlist}
+\begin{axiom}[\claimcoherence{}]
+    If $\src_N(c)$ strictly precedes $\src_N(c')$ pairwise with respect to
+    $\sle_N^T$, then $c \clt_N^T c'$.
+\end{axiom}
+\begin{axiom}[\sourcecoherence{}]
+    If $\claims_N(s)$ strictly precedes $\claims_N(s')$ pairwise with respect to
+    $\cle_N^T$, then $s \slt_N^T s'$.
+\end{axiom}
+\end{axiomlist}
+
+In words, \claimcoherence{} says that whenever we can pair up the sources for
+$c$ and $c'$ can be paired up so that each source for $c$ is less trustworthy
+than the corresponding source for $c'$ (and \emph{strictly} less, for at least
+one pair of sources), then $c$ is strictly less believable than $c'$. Likewise,
+\sourcecoherence{} says that if the claims of $s$ and $s'$ can be paired up
+with the claims for $s$ less believable than the claims for $s'$, then $s$ is
+strictly less trustworthy than $s'$.
+
+\begin{example}
+    \label{td_new_ex_coherence_ilustration}
+    Consider the network $N$ from \cref{td_new_fig_intro_example} again, and
+    consider Sums. Recall that $\sums$ gives the source ranking $s \slt u \seq
+    v \slt t$, and claim ranking $c \ceq e \clt d \clt f$.
+
+    Note that $\src_N(c) = \{s\}$ and $\src_N(d) = \{t\}$. Since $s \slt t$, we
+    have that $\{s\}$ strictly precedes $\{t\}$ with respect to $\sle$.
+    \claimcoherence{} therefore requires that $c \clt d$. Indeed, this does
+    hold.
+
+    For \sourcecoherence{}, note that $\claims_N(s) = \{c, e\}$ and
+    $\claims_N(t) = \{d, f\}$. Since $c \clt d$ and $e \clt f$, we see that
+    $\claims_N(s)$ strictly precedes $\claims_N(t)$ with respect to $\cle$.
+    Accordingly, \sourcecoherence{} requires $s \slt t$, which does hold.
+
+    So, $\sums$ satisfies both coherence properties for this specific network.
+    We will analyse $\sums$ and the other example in general in \todo{section
+    reference}.
+\end{example}
+
+The reader may wonder why we only consider the \emph{strict} pairwise relation
+in \claimcoherence{} (and \sourcecoherence{}). An alternative axiom might
+require that $c \cle c'$ whenever $\src_N(s)$ precedes $\src_N(s')$ with
+respect to $\sle$ (not necessarily strictly). However, this property implies
+that $c \ceq c'$ whenever $\src_N(c) = \src_N(c')$. We have already seen an
+example operator where this does not hold: TruthFinder ranks $e \clt c$ in the
+network $N$ from \cref{td_new_fig_intro_example}, but $\src_N(c) = \src_N(e) =
+\{s\}$. Intuitively, $c$ and $d$ are ``tied" when it come to the quality of
+their own sources, but there are fewer sources \emph{disagreeing} with $c$ (the
+``antisources") than $e$. Stating our coherence properties in the strict form
+permits an operator to consider antisources in cases where there is no clear
+comparison on the basis of sources alone. \todo{What about justification for
+the strict form of \sourcecoherence{}? Symmetry will already require equal
+ranking for sources with the same claims.}
+
+This discussion leads to a new interpretation of mutual-dependence principle of
+truth discovery: claims refuted by trustworthy sources should \emph{not} be
+believed. We formulate this as an axiom.
+
+\begin{axiom}[\anticoherence{}]
+    If $\antisrc_N(c)$ strictly precedes $\antisrc_N(c')$ pairwise with respect
+    to $\sle_N^T$, then $c' \clt_N^T c$.
+\end{axiom}
+
+Recall that $\antisrc_N(c)$ are the sources making some claim which conflicts
+with $c$. Thus, \anticoherence{} says that if the antisources for $c'$ are more
+trustworthy than those of $c$, then $c$ is strictly more believable than $c'$.
+While both \claimcoherence{} and \anticoherence{} are reasonable in isolation,
+there is an inherent tension between them: \claimcoherence{} looks at the
+sources supporting a claim, whereas \anticoherence{} looks at sources refuting
+a claim. We explore this tension in \todo{section reference}, where we provide
+an impossibility result showing that both cannot hold at the same, alongside
+some other reasonable properties.
+
+\section{Convergence and Fixed-points for Recursive Operators}
+\label{td_new_sec_convergence_fixed_points}
+
+\todo{Write}
+
+% Evaluating the limit operator $T^*$ may require numerical computation if a
+% closed-form expression is not available. Nevertheless, properties of $T^*$ may
+% be easily analysed if $T^*$ is a fixed-point of $U$, i.e. if $U(T^*) = T^*$. A
+% sufficient condition for this to hold is for the mapping $T_N \mapsto U(T)_N$
+% to be continuous with respect to the \emph{uniform norm} $\|T_N\|_\infty =
+% \max_{z \in S \cup C}{|T_N(z)|}$, for each $N$.
+
+% \begin{proposition}
+%     Let $(\T, T^0, U)$ be a recursive scheme with limit $T^*$. Suppose that for
+%     each $N$ for which the scheme converges, we have
+%     \[
+%     \begin{split}
+%         &\forall T \in \T, \forall \epsilon > 0,
+%         \exists \delta > 0 \text{ s.t. }
+%         \forall T' \in \T: \\
+%         &\quad
+%         \|T_N - T'_N\|_\infty < \delta
+%         \implies \|U(T)_N - U(T')_N\|_\infty < \epsilon.
+%     \end{split}
+%     \]
+%     Then $U(T^*) = T^*$.
+% \end{proposition}
+
 
 %-----------------------------------------------------------------------------%
 
