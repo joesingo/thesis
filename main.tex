@@ -16,6 +16,7 @@
 \usepackage[inline]{enumitem}
 \usepackage{subcaption}
 \usepackage{booktabs}
+\usepackage{listofitems}
 
 % line spacing
 % \OnehalfSpacing
@@ -42,7 +43,10 @@
 }
 
 % graphics path
-\graphicspath{ {./chapters/truthdiscovery/images/}{./chapters/td/images/}}
+\graphicspath{ {./chapters/truthdiscovery/images/} }
+
+% tikz setup
+\usetikzlibrary{decorations.pathreplacing}
 
 % bibliography
 \addbibresource{references.bib}

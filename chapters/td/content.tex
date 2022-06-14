@@ -3,13 +3,25 @@
 \todo{Introduction}
 
 \begin{figure}
-\centering
-\includegraphics[scale=0.5]{intro_example_new}
-\caption{
-    \todo{Caption, Tikzify, natural language version, present claims as $c: o =
-    v$, bipartite graph with objects just indicated}
-}
-\label{td_new_fig_intro_example}
+    \centering
+    \begin{tikzpicture}[thick]
+        \LARGE
+        \networkinit{s,t,u,v}{c,d,e,f}
+        \object{o_1}{c}{d};
+        \object{o_2}{e}{f};
+        \report{s}{c};
+        \report{s}{e};
+        \report{t}{d};
+        \report{t}{f};
+        \report{u}{f};
+        \report{v}{f};
+    \end{tikzpicture}
+    \caption{
+        \todo{Illustrative example of a truth discovery problem, with sources
+        $s, t, u, v$, objects $o_1$ with associated claims $c$ and $d$, and
+        $o_2$ with claims $e$ and $f$.}
+    }
+    \label{td_new_fig_intro_example}
 \end{figure}
 
 \section{Preliminaries}
@@ -529,9 +541,18 @@ applied to the set of claims from two sources.
 
 \begin{figure}
     \centering
-    \includegraphics[scale=0.5]{coherence_intro}
+    \begin{tikzpicture}[thick]
+        \LARGE
+        \networkinit{s,t,u,v}{c,d}
+        \object{o}{c}{d};
+        \report{s}{c};
+        \report{t}{c};
+        \report{u}{d};
+        \report{v}{d};
+    \end{tikzpicture}
+
     \caption{
-        Network illustrating \axiomref{Coherence}.
+        A network illustrating \claimcoherence{}.
     }
     \label{td_new_fig_coherence_intro}
 \end{figure}
@@ -725,12 +746,23 @@ The symmetry axiom says an operator should not distinguish isomorphic networks.
 \end{axiom}
 
 \begin{figure}
-\centering
-\includegraphics[scale=0.5]{symmetry_example}
-\caption{
-    A network isomorphic to the one shown in \cref{td_new_fig_intro_example}.
-}
-\label{td_new_fig_symmetry_example}
+    \centering
+    \begin{tikzpicture}[thick]
+        \LARGE
+        \networkinit{s,t,u,v}{c,d,e,f}
+        \object{o_1}{c}{d};
+        \object{o_2}{e}{f};
+        \report{s}{c};
+        \report{t}{c};
+        \report{t}{e};
+        \report{u}{d};
+        \report{u}{f};
+        \report{v}{c};
+    \end{tikzpicture}
+    \caption{
+        A network isomorphic to the one shown in \cref{td_new_fig_intro_example}.
+    }
+    \label{td_new_fig_symmetry_example}
 \end{figure}
 
 We illustrate \symmetry{} with an example.
@@ -824,16 +856,34 @@ we show it implies voting-like behaviour and obtain an impossibility result.
 
 \paragraph{A structural property.}
 
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[thick]
+        \LARGE
+        \networkinit{s,t,u,v}{c,d,e,f}
+        \object{o_1}{c}{d};
+        \object{o_2}{e}{f};
+        \report{s}{c};
+        \report{t}{c};
+        \report{u}{e};
+        \report{v}{f};
+    \end{tikzpicture}
+    \caption{
+        A network illustrating \disjointindependence{}.
+    }
+    \label{td_new_fig_disjointindep_example}
+\end{figure}
+
 The problem with \classicalindependence{} is that it ignores the indirect ways
 in which claims interact in a network; for example, by referring to the same
 object or having common sources. Our next axiom accounts for such interactions
 by considering networks with \emph{disjoint sub-networks}, such as the one
-shown in \todo{figure}. Intuitively, while the sources and claims within a
-sub-network may interact in complex ways, the fact that the sub-networks have
-no sources or objects in common means there is no interaction \emph{between}
-them. Accordingly, we should have that the ranking for one does not depend on
-the other. We formalise this by considering unions of \emph{disjoint
-networks}.\footnotemark{}
+shown in \cref{td_new_fig_disjointindep_example}. Intuitively, while the
+sources and claims within a sub-network may interact in complex ways, the fact
+that the sub-networks have no sources or objects in common means there is no
+interaction \emph{between} them. Accordingly, we should have that the ranking
+for one does not depend on the other. We formalise this by considering unions
+of \emph{disjoint networks}.\footnotemark{}
 
 \footnotetext{
     Note that it is possible to define the disjoint union of an arbitrary
@@ -860,8 +910,6 @@ by the addition of a disjoint network.
     $s \sle_N^T t$ iff $s \sle_{N \sqcup N'}^T t$ and $c \cle_N^T d$ iff $c
     \cle_{N \sqcup N'}^T d$.
 \end{axiom}
-
-\todo{explanation on example.}
 
 \todo{if bothered, explain graph-theoretic interpretation in terms of connected
 components.}

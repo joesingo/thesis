@@ -44,3 +44,36 @@
 % misc
 \newcommand\restrict[2]{#1|_{#2}}
 \newcommand\identity{\operatorname{id}}
+
+% tikz styles and macros
+\tikzset{
+    objectgrouping/.style={
+        decorate,decoration={brace,raise=10pt,amplitude=6pt}
+    }
+}
+\tikzset{
+    objectlabel/.style={
+        pos=0.5,right=15pt
+    }
+}
+\newcommand{\networkinit}[2]{
+    \readlist \sources {#1}
+    \readlist \claims {#2}
+    \def \height {max(\sourceslen, \claimslen)}
+    \foreachitem \s \in \sources{
+        \def \offset {(\height -  \sourceslen) / 2}
+        \def \y {\offset + \sourceslen * ((\scnt - 1) / (\sourceslen - 1))}
+        \node (\s) at (0, -{(\y)}) {$\s$};
+    }
+    \foreachitem \c \in \claims{
+        \def \offset {(\height -  \claimslen) / 2}
+        \def \y {\offset + \claimslen * ((\ccnt - 1) / (\claimslen - 1))}
+        \node (\c) at (3, -{(\y)}) {$\c$};
+    }
+}
+\newcommand{\report}[2]{
+    \draw[-] (#1.east) -- (#2.west);
+}
+\newcommand{\object}[3]{
+    \draw[objectgrouping] (#2.center) -- (#3.center) node[objectlabel] {$#1$};
+}
