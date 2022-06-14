@@ -774,6 +774,7 @@ exactly the same role in $N$. \symmetry{} implies that $u \seq v$, and in fact
 this holds more generally.
 
 \begin{proposition}
+    \label{td_new_prop_automorphism}
     If $F$ is an automorphism on $N$ and $T$ satisfies \symmetry{}, then $s
     \seq_N^T F(s)$ and $c \ceq_N^T F(c)$, for all $s \in S$ and $c \in C$.
 \end{proposition}
@@ -799,6 +800,14 @@ this holds more generally.
     Since $\sle_N^T$ is total these cases are exhaustive, and we are done.
 
 \end{proof}
+
+\cref{td_new_prop_automorphism} is useful for showing certain sources and
+claims must rank equally. For example, take the network $N$ from
+\cref{td_new_fig_coherence_intro}. Intuitively this network displays internal
+symmetry within the sources for each claim and between the claims themselves.
+Indeed, the functions $F = (st)(uv)$ and $G = (su)(tv)(cd)$ are automorphisms.
+By \cref{td_new_prop_automorphism}, any operator $T$ satisfying \symmetry{}
+must output flat rankings $s \seq t \seq u \seq v$ and $c \ceq d$.
 
 \subsection{Independence}
 
