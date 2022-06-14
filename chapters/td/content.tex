@@ -28,17 +28,18 @@ work. Note that while this restriction is made in some approaches in the
 literature \todo{citations}, in general truth discovery methods also handle
 continuous values \todo{citations}.
 
-Formally, the input to the truth discovery problem is a \emph{network}, defined
-as follows.
+To formalise this, let $\S$, $\O$ and $\V$ be infinite, disjoint sets,
+representing the possible sources, objects and values. The input to the truth
+discovery problem is a \emph{network}, defined as follows.
 
 \begin{definition}
     \label{td_new_def_network}
     A \emph{truth discovery network} is a tuple $N = (S, O, D, R)$, where
     \begin{itemize}
-        \item $S$ is a finite set of \emph{sources}.
-        \item $O$ is a finite set of \emph{objects}.
+        \item $S \subseteq \S$ is a finite set of \emph{sources}.
+        \item $O \subseteq \O$ is a finite set of \emph{objects}.
         \item $D = \{D_o\}_{o \in O}$ are the \emph{domains} of the objects,
-              where each $D_o$ is a finite set of values. We write
+              where each $D_o \subseteq \V$ is a finite set of values. We write
               $V = \bigcup_{o \in O}{D_o}$.
         \item $R \subseteq S \times O \times V$ is a set of \emph{reports}.
     \end{itemize}
@@ -51,7 +52,8 @@ as follows.
     \end{enumerate}
 \end{definition}
 
-The set $R$ is the core data associated with the network: we interpret $(s, o, v)
+Note that while $\S$, $\O$ and $\V$ are infinite, each network is finite. The
+set $R$ is the core data associated with the network: we interpret $(s, o, v)
 \in R$ as source $s$ claiming that $v$ is the true value for object $o$.
 Constraint \cref{td_new_item_val_in_domain} says that all claimed values are in
 the domain of the relevant object. Constraint
