@@ -608,7 +608,7 @@ We need a  preliminary lemma.
     1$ such that $f^n(x) = f^{n + k}(x)$. Then $f(f^{n - 1}(x)) = f(f^{n + k -
     1}(x))$, so injectivity gives $f^{n - 1}(x) = f^{n + k - 1}(x)$. Repeating
     this argument, we find $x = f^0(x) = f^k(x)$. By hypothesis, $f(x) \le
-    f^k(x)$, i.e.  $f(x) \le x$. Since $x \le f(x)$ also, this gives $x \approx
+    f^k(x)$, i.e. $f(x) \le x$. Since $x \le f(x)$ also, this gives $x \approx
     f(x)$ as required.
 \end{proof}
 
@@ -680,28 +680,13 @@ network $N$ from \cref{td_new_fig_intro_example}, but $\src_N(c) = \src_N(e) =
 their own sources, but there are fewer sources \emph{disagreeing} with $c$ (the
 ``antisources") than $e$. Stating our coherence properties in the strict form
 permits an operator to consider antisources in cases where there is no clear
-comparison on the basis of sources alone. \todo{What about justification for
-the strict form of \sourcecoherence{}? Symmetry will already require equal
-ranking for sources with the same claims.}
+comparison on the basis of sources alone.
 
-This discussion leads to a new interpretation of mutual-dependence principle of
-truth discovery: claims refuted by trustworthy sources should \emph{not} be
-believed. We formulate this as an axiom.
-
-\begin{axiom}[\anticoherence{}]
-    If $\antisrc_N(c)$ strictly precedes $\antisrc_N(c')$ pairwise with respect
-    to $\sle_N^T$, then $c' \clt_N^T c$.
-\end{axiom}
-
-Recall that $\antisrc_N(c)$ are the sources making some claim which conflicts
-with $c$. Thus, \anticoherence{} says that if the antisources for $c'$ are more
-trustworthy than those of $c$, then $c$ is strictly more believable than $c'$.
-While both \claimcoherence{} and \anticoherence{} are reasonable in isolation,
-there is an inherent tension between them: \claimcoherence{} looks at the
-sources supporting a claim, whereas \anticoherence{} looks at sources refuting
-a claim. We explore this tension in \todo{section reference}, where we provide
-an impossibility result showing that both cannot hold at the same, alongside
-some other reasonable properties.
+Having said this, an operator with \claimcoherence{} is limited in the extend
+to which it can take antisources into account when ranking claims. We formulate
+an antisource version of coherence in \cref{td_new_sec_conflicting_claims}, and
+show in \cref{td_new_sec_consequences_and_impossibilities} that it is
+incompatible with \claimcoherence{}, when taken with some other basic axioms.
 
 \todo{Limitation: we can only compare sources/claims with the same number of
 claims/sources. Signpost if we end up improving this later by considering extra
@@ -946,6 +931,31 @@ a network if $s$ already makes a claim for $\obj(c)$ in $N$.
         %         \text{ then } c \cle_N^T d
     \end{align*}
 \end{definition}
+
+\subsection{Conflicting claims}
+\label{td_new_sec_conflicting_claims}
+
+% This discussion leads to a new interpretation of mutual-dependence principle of
+% truth discovery: claims refuted by trustworthy sources should \emph{not} be
+% believed. We formulate this as an axiom.
+
+\begin{axiom}[\anticoherence{}]
+    If $\antisrc_N(c)$ strictly precedes $\antisrc_N(c')$ pairwise with respect
+    to $\sle_N^T$, then $c' \clt_N^T c$.
+\end{axiom}
+
+% Recall that $\antisrc_N(c)$ are the sources making some claim which conflicts
+% with $c$. Thus, \anticoherence{} says that if the antisources for $c'$ are more
+% trustworthy than those of $c$, then $c$ is strictly more believable than $c'$.
+% While both \claimcoherence{} and \anticoherence{} are reasonable in isolation,
+% there is an inherent tension between them: \claimcoherence{} looks at the
+% sources supporting a claim, whereas \anticoherence{} looks at sources refuting
+% a claim. We explore this tension in \todo{section reference}, where we provide
+% an impossibility result showing that both cannot hold at the same, alongside
+% some other reasonable properties.
+
+\section{Consequences and Impossibilities}
+\label{td_new_sec_consequences_and_impossibilities}
 
 \section{Convergence and Fixed-points for Recursive Operators}
 \label{td_new_sec_convergence_fixed_points}
