@@ -784,25 +784,32 @@ this holds more generally.
 \subsection{Independence}
 
 Another common class of axioms in social choice theory are \emph{independence}
-axioms. Such axioms require that some aspect of the output is independent of
-irrelevant parts of the input. The original example is Arrow's
-\emph{Independence of Irrelevant Alternatives} in voting
-theory~\cite{arrow1952}, which says the ranking of candidates $A$ and $B$
-should depend only on the individual rankings of $A$ and $B$, not on any
-``irrelevant" alternative $C$. Closer to our setting, independence in judgement
-aggregation says that the collective acceptance of a report $\phi$ does not
-depend on how the individuals accept some other report
-$\psi$~\cite{endriss2016ja}.
+axioms, which require that some aspect of the output is independent of
+``irrelevant" parts of the input. We introduce three such axioms: an adaptation
+of independence in classical social choice theory, a structural independence
+property concerning unions of disjoint networks, and a property concerning the
+marginal effects of one set of sources over another.
 
-Adapted to the truth discovery setting, a classical independence axiom would
-require the ranking of claims $c$ and $d$ to depend only on the sources
-reporting $c$ and $d$; not on the sources for other claims, for instance. Such
-an axiom is clearly \emph{undesirable} for truth discovery. Indeed, consider
-again the network $N$ from \cref{td_new_fig_intro_example}. As we have argued
-informally, claim $c$ is intuitively weaker than $d$ precisely because of how
-their sources interact with other claims in the network. Nevertheless, we state
-this axiom as a point of comparison with classical social choice problems such
-as voting.
+\paragraph{Classical independence.}
+
+Arrow's \emph{Independence of Irrelevant Alternatives} in voting
+theory~\cite{arrow1952} is the original independence axiom in classical social
+choice theory. Roughly speaking, it says that the ranking of candidates $A$ and
+$B$ should depend only on the individual rankings of $A$ and $B$, not on any
+``irrelevant" alternative $C$. It has been adapted to several settings in which
+the axiomatic method has been applied; perhaps closest to our setting is
+judgment aggregation, where independence requires the collective acceptance of
+a report $\phi$ does not depend on how the individuals accept or reject some
+other report $\psi$~\cite{endriss2016ja}.
+
+This can be easily re-stated in our framework: the ranking of claims $c$ and
+$d$ should depend only on the sources reporting $c$ and $d$, not on the sources
+for other claims. However, this axiom is clearly \emph{undesirable} for truth
+discovery. Indeed, consider again the network $N$ from
+\cref{td_new_fig_intro_example}. As we have argued informally, claim $c$ is
+intuitively weaker than $d$ because how of their respective sources interact
+with other claims in the network. Nevertheless, we state this axiom as a point
+of comparison with classical social choice problems such as voting.
 
 \begin{axiom}[\classicalindependence{}]
     If $\src_N(c) = \src_{N'}(d)$ and $\src_N(d) = \src_{N'}(d)$, then $c
@@ -815,14 +822,18 @@ same relative ranking in both networks. The undesirability of
 we show it implies voting-like behaviour and obtain an impossibility result.
 \todo{check we actually do this.}
 
-If \classicalindependence{} is too strong, what is an appropriate independence
-notion? Note that in \cref{td_new_fig_intro_example}, all claims are
-``reachable" from each other via common sources or objects. In this sense, all
-parts of the network play a role in the ranking of any pair of sources or
-claims. In contrast, the network in \todo{fig} consists of two disjoint
-sub-networks which do not interact. Intuitively, the top part of the network
-should not affect the rankings in the bottom and vice versa. We formalise this
-idea via unions of disjoint networks.\footnotemark{}
+\paragraph{A structural property.}
+
+The problem with \classicalindependence{} is that it ignores the indirect ways
+in which claims interact in a network; for example, by referring to the same
+object or having common sources. Our next axiom accounts for such interactions
+by considering networks with \emph{disjoint sub-networks}, such as the one
+shown in \todo{figure}. Intuitively, while the sources and claims within a
+sub-network may interact in complex ways, the fact that the sub-networks have
+no sources or objects in common means there is no interaction \emph{between}
+them. Accordingly, we should have that the ranking for one does not depend on
+the other. We formalise this by considering unions of \emph{disjoint
+networks}.\footnotemark{}
 
 \footnotetext{
     Note that it is possible to define the disjoint union of an arbitrary
@@ -841,8 +852,8 @@ idea via unions of disjoint networks.\footnotemark{}
 Note that if $N$ and $N'$ are disjoint, it follows that $C \cap C' = \emptyset$
 also.
 %
-The following independence axiom says that the ranking of sources and claims is
-unaffected by the addition of a disjoint network.
+The following axiom says that the ranking of sources and claims is unaffected
+by the addition of a disjoint network.
 
 \begin{axiom}[\disjointindependence{}]
     If $N$ and $N'$ are disjoint, $s, t \in S$, and $c, d \in C$, then
@@ -855,11 +866,7 @@ unaffected by the addition of a disjoint network.
 \todo{if bothered, explain graph-theoretic interpretation in terms of connected
 components.}
 
-% \disjointindependence{} also has a graph-theoretic interpretation. To any
-% network $N$ we can associate a graph over nodes $S \cup C \cup O$ with edges
-% from sources to their claims and from claims to their associated objects. The
-% \emph{connected components} of this graph correspond to disjoint networks, and
-% $N$ is the union of these networks.
+\paragraph{Marginal independence.}
 
 \todo{intro}
 
