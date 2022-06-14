@@ -30,6 +30,11 @@
 
 - Shared notation between KR and NMR papers
 
+- Possible mathematical prerequisites
+    * preorders, total preorders, strict parts, max/min
+    * 2^X for powerset, Y^X for functions, | for restrictions
+    * cycle notation for permutations
+
 ## TD
 
 - Tikz-ify the figures

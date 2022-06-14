@@ -4,13 +4,10 @@
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.25]{intro_example}
+\includegraphics[scale=0.5]{intro_example_new}
 \caption{
-    Illustrative example of a dataset to which truth discovery can be applied
-    with data sources $\{s, t, u, v\}$, facts $\{f, g, h, i\}$ and objects
-    $\{o, p\}$
-    \todo{Tikzify, natural language version, present claims as $c: o = v$,
-    bipartite graph with objects just indicated}
+    \todo{Caption, Tikzify, natural language version, present claims as $c: o =
+    v$, bipartite graph with objects just indicated}
 }
 \label{td_new_fig_intro_example}
 \end{figure}
@@ -31,18 +28,17 @@ work. Note that while this restriction is made in some approaches in the
 literature \todo{citations}, in general truth discovery methods also handle
 continuous values \todo{citations}.
 
-To formalise this, let $\S$, $\O$ and $\V$ be infinite, disjoint sets,
-representing the possible sources, objects and values. The input to the truth
-discovery problem is a \emph{network}, defined as follows.
+Formally, the input to the truth discovery problem is a \emph{network}, defined
+as follows.
 
 \begin{definition}
     \label{td_new_def_network}
     A \emph{truth discovery network} is a tuple $N = (S, O, D, R)$, where
     \begin{itemize}
-        \item $S \subseteq \S$ is a finite set of \emph{sources}.
-        \item $O \subseteq \O$ is a finite set of \emph{objects}.
+        \item $S$ is a finite set of \emph{sources}.
+        \item $O$ is a finite set of \emph{objects}.
         \item $D = \{D_o\}_{o \in O}$ are the \emph{domains} of the objects,
-              where each $D_o \subseteq \V$ is a finite set of values. We write
+              where each $D_o$ is a finite set of values. We write
               $V = \bigcup_{o \in O}{D_o}$.
         \item $R \subseteq S \times O \times V$ is a set of \emph{reports}.
     \end{itemize}
@@ -55,8 +51,7 @@ discovery problem is a \emph{network}, defined as follows.
     \end{enumerate}
 \end{definition}
 
-Note that while $\S$, $\O$ and $\V$ are infinite, each network is finite. The
-set $R$ is the core data associated with the network: we interpret $(s, o, v)
+The set $R$ is the core data associated with the network: we interpret $(s, o, v)
 \in R$ as source $s$ claiming that $v$ is the true value for object $o$.
 Constraint \cref{td_new_item_val_in_domain} says that all claimed values are in
 the domain of the relevant object. Constraint
@@ -532,7 +527,7 @@ applied to the set of claims from two sources.
 
 \begin{figure}
     \centering
-    \includegraphics[scale=0.25]{coherence_intro}
+    \includegraphics[scale=0.5]{coherence_intro}
     \caption{
         Network illustrating \axiomref{Coherence}.
     }
@@ -682,6 +677,231 @@ sources supporting a claim, whereas \anticoherence{} looks at sources refuting
 a claim. We explore this tension in \todo{section reference}, where we provide
 an impossibility result showing that both cannot hold at the same, alongside
 some other reasonable properties.
+
+\todo{Limitation: we can only compare sources/claims with the same number of
+claims/sources. Signpost if we end up improving this later by considering extra
+trustworthy sources/claims.}
+
+\subsection{Symmetry}
+
+A standard class of axioms in social choice theory are \emph{symmetry
+properties}. In voting, for example, symmetry with respect to voters says that
+a voting rule should not care about the ``names" of the voters: if voters $i$
+and $j$ swap their ballots, the election result remains the same (this is
+called \emph{anonymity} in the literature). Similarly, symmetry with respect to
+candidates says that if we re-label candidates, the outcome remains the same up
+to re-labelling (this is called \emph{neutrality}). In general, symmetry
+requires that the output of some process depends only on \emph{structural}
+features of the input, not the specific ``names" of the entities involved.
+
+For truth discovery, we can consider symmetry with respect to sources, objects
+and claims. The central concept is an \emph{isomorphism} between networks.
+
+\begin{definition}
+    An \emph{isomorphism} between networks $N$ and $N'$ is mapping $F: S \cup O
+    \cup C \to S' \cup O' \cup C'$ such that
+    \begin{enumerate}
+        \item $\restrict{F}{S}$, $\restrict{F}{O}$ and $\restrict{F}{C}$ are
+              bijections $S \to S'$, $O \to O'$ and $C \to C'$, respectively.
+        \item For all $s \in S$ and $c \in C$: $(s, c) \in R$ iff $(F(s), F(c))
+              \in R'$.
+        \item For all $c \in C$, $\obj(F(c)) = F(\obj(c))$.
+    \end{enumerate}
+\end{definition}
+
+That is, $F$ is a one-to-one correspondence between the sources, objects and
+claims of $N$ and their $N'$ counterparts, which respects the structure of the
+network. One can easily check that we also have $F(\src_N(c)) =
+\src_{N'}(F(c))$ and $F(\claims_N(s)) = \claims_{N'}(F(s))$.
+%
+The symmetry axiom says an operator should not distinguish isomorphic networks.
+
+\begin{axiom}[\symmetry{}]
+    If $F$ is an isomorphism between $N$ and $N'$, then
+    $s \sle_N^T s'$ iff $F(s) \sle_{N'}^T F(s')$ and $c \cle_N^T c'$ iff $F(c)
+    \cle_{N'}^T F(c')$.
+\end{axiom}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{symmetry_example}
+\caption{
+    A network isomorphic to the one shown in \cref{td_new_fig_intro_example}.
+}
+\label{td_new_fig_symmetry_example}
+\end{figure}
+
+We illustrate \symmetry{} with an example.
+
+\begin{example}
+    Consider the network $N$ from \cref{td_new_fig_intro_example} and $N'$ from
+    \cref{td_new_fig_symmetry_example}, where we take the sources, objects and
+    domains to be the same in both networks. Then $N$ and $N'$ are isomorphic
+    via the mapping $F$ expressed in cycle notation as $(suv)(cf)(de)(o_1o_2)$.
+    For example, $s$ plays the same role in $N$ as $u$ in $N'$, $c$ plays the
+    same role in $N$ as $f$ in $N'$, the role of objects $o_1$ and $o_2$ are
+    swapped, etc. \symmetry{} requires that the source and claim rankings in
+    $N'$ are already determined by the rankings of $N$.  For example, if the
+    source ranking in $N$ is $s \slt_N u \seq_N v \slt_N t$, we must have $u
+    \slt_{N'} v \seq_{N'} s \slt_{N'} t$.
+\end{example}
+
+An \emph{automorphism} is an isomorphism $F$ from a network $N$ to itself. For
+example, $F$ which swaps $u$ and $v$ in $N$ from
+\cref{td_new_fig_intro_example} is an automorphism, since $u$ and $v$ play
+exactly the same role in $N$. \symmetry{} implies that $u \seq v$, and in fact
+this holds more generally.
+
+\begin{proposition}
+    If $F$ is an automorphism on $N$ and $T$ satisfies \symmetry{}, then $s
+    \seq_N^T F(s)$ and $c \ceq_N^T F(c)$, for all $s \in S$ and $c \in C$.
+\end{proposition}
+
+\begin{proof}
+    We show $s \seq_N^T F(s)$ for all sources $s$; the result for claims is
+    similar.
+    %
+    Take $s \in S$. Since $S$ is finite and $F$ restricts to a bijection $S \to
+    S$, an argument identical to the one in the proof of
+    \cref{td_new_lemma_pwo_strict_helper} shows there is some $k \ge 1$ such
+    that $s = F^k(s)$.
+
+    First suppose $s \sle_N^T F(s)$. By \symmetry{} we may apply $F$ to both
+    sides; doing so repeatedly yields $F^n(s) \sle_N^T F^{n+1}(s)$ for all $n
+    \ge 1$. By transitivity of $\sle_N^T$, we get $F(s) \sle_N^T F^n(s)$.
+    Taking $n = k$ gives $F(s) \sle_N^T F^k(s) = s$, so $s \seq_N^T F(s)$.
+
+    Now suppose $F(s) \sle_N^T s$. By an identical argument, $F^n(s) \sle_N^T
+    F(s)$ for all $n \ge 1$; taking $n = k$ gives $s \sle_N^T F(s)$, so $s
+    \seq_N^T F(s)$ again.
+
+    Since $\sle_N^T$ is total these cases are exhaustive, and we are done.
+
+\end{proof}
+
+\subsection{Independence}
+
+Another common class of axioms in social choice theory are \emph{independence}
+axioms. Such axioms require that some aspect of the output is independent of
+irrelevant parts of the input. The original example is Arrow's
+\emph{Independence of Irrelevant Alternatives} in voting
+theory~\cite{arrow1952}, which says the ranking of candidates $A$ and $B$
+should depend only on the individual rankings of $A$ and $B$, not on any
+``irrelevant" alternative $C$. Closer to our setting, independence in judgement
+aggregation says that the collective acceptance of a report $\phi$ does not
+depend on how the individuals accept some other report
+$\psi$~\cite{endriss2016ja}.
+
+Adapted to the truth discovery setting, a classical independence axiom would
+require the ranking of claims $c$ and $d$ to depend only on the sources
+reporting $c$ and $d$; not on the sources for other claims, for instance. Such
+an axiom is clearly \emph{undesirable} for truth discovery. Indeed, consider
+again the network $N$ from \cref{td_new_fig_intro_example}. As we have argued
+informally, claim $c$ is intuitively weaker than $d$ precisely because of how
+their sources interact with other claims in the network. Nevertheless, we state
+this axiom as a point of comparison with classical social choice problems such
+as voting.
+
+\begin{axiom}[\classicalindependence{}]
+    If $\src_N(c) = \src_{N'}(d)$ and $\src_N(d) = \src_{N'}(d)$, then $c
+    \cle_N^T d$ iff $c \cle_{N'}^T d$.
+\end{axiom}
+
+That is, if $c$ and $d$ have the same sources in $N$ and $N'$, they have the
+same relative ranking in both networks. The undesirability of
+\classicalindependence{} will be formalised in \todo{section reference}, where
+we show it implies voting-like behaviour and obtain an impossibility result.
+\todo{check we actually do this.}
+
+If \classicalindependence{} is too strong, what is an appropriate independence
+notion? Note that in \cref{td_new_fig_intro_example}, all claims are
+``reachable" from each other via common sources or objects. In this sense, all
+parts of the network play a role in the ranking of any pair of sources or
+claims. In contrast, the network in \todo{fig} consists of two disjoint
+sub-networks which do not interact. Intuitively, the top part of the network
+should not affect the rankings in the bottom and vice versa. We formalise this
+idea via unions of disjoint networks.\footnotemark{}
+
+\footnotetext{
+    Note that it is possible to define the disjoint union of an arbitrary
+    collection of (not necessarily disjoint) networks in a manner similar to
+    the disjoint union of a collection of sets $\bigsqcup_{i \in I}{X_i}$, but
+    we do not need this generality here.
+}
+
+\begin{definition}
+    Networks $N$ and $N'$ are \emph{disjoint} if $S \cap S' = \emptyset$ and $O
+    \cap O' = \emptyset$. For $N, N'$ disjoint, their \emph{union} is the
+    network $N \sqcup N' = (S \cup S', O \cup O', \hat{D}, R \cup R')$, where
+    $\hat{D}_o = D_o$ for $o \in O$, and $\hat{D}_o = D'_o$ for $o \in O'$.
+\end{definition}
+
+Note that if $N$ and $N'$ are disjoint, it follows that $C \cap C' = \emptyset$
+also.
+%
+The following independence axiom says that the ranking of sources and claims is
+unaffected by the addition of a disjoint network.
+
+\begin{axiom}[\disjointindependence{}]
+    If $N$ and $N'$ are disjoint, $s, t \in S$, and $c, d \in C$, then
+    $s \sle_N^T t$ iff $s \sle_{N \sqcup N'}^T t$ and $c \cle_N^T d$ iff $c
+    \cle_{N \sqcup N'}^T d$.
+\end{axiom}
+
+\todo{explanation on example.}
+
+\todo{if bothered, explain graph-theoretic interpretation in terms of connected
+components.}
+
+% \disjointindependence{} also has a graph-theoretic interpretation. To any
+% network $N$ we can associate a graph over nodes $S \cup C \cup O$ with edges
+% from sources to their claims and from claims to their associated objects. The
+% \emph{connected components} of this graph correspond to disjoint networks, and
+% $N$ is the union of these networks.
+
+\todo{intro}
+
+\begin{axiom}[\marginalindependence{}]
+    If $\src_N(c) = X \cup Y$, $\src_N(d) = X \cup Z$, $\src_N(c') = X' \cup
+    Y$ and $\src_N(d') = X' \cup Z$, then $c \cle_N^T d$ iff $c' \cle_N^T d'$.
+\end{axiom}
+
+\subsection{Monotonicity}
+
+For $s \in S$ and $c \in C$, let $N \cup (s, c)$ denote the network $(S, O, D,
+R')$, where $R' = R \cup \{(s, c)\}$. Note that $N \cup (s, c)$ may fail to be
+a network if $s$ already makes a claim for $\obj(c)$ in $N$.
+
+\begin{axiom}[\naiveposresp{}]
+    Suppose $s \notin \src_N(\obj(c))$. Then for all $d \in C \setminus \{c\}$,
+    $d \cle_N^T c$ implies $d \clt_{N + (s, c)}^T c$.
+\end{axiom}
+
+% \begin{axiom}[\singleobjectposresp{}]
+%     Suppose there is $o \in O$ such that $\src_N(o') = \emptyset$ for all $o'
+%     \ne o$. Then for all $s, c$ and $d \ne c$, $c \cle_N^T d$ implies $c
+%     \clt_{N + (S, c)}^T d$.
+% \end{axiom}
+
+\begin{axiom}[\freshposresp{}]
+    Suppose $\claims_N(s) = \emptyset$. Then for all $c \in C$ and $d \in C
+    \setminus \{c\}$, $d \cle_N^T c$ implies $d \clt_{N + (s, c)}^T c$.
+\end{axiom}
+
+\begin{definition}
+    Given a network $N$ and operator $T$, we define relations $\mrelex$ and
+    $\mrelfa$ on $2^S$ by
+    \begin{align*}
+        Y \mrelex Y &\text{ iff }
+            \exists X \subseteq S, c, d \in C \text{ s.t. }
+                \src_N(c) = X \cup Y, \src_N(d) = X \cup Z \\ &\qquad \text{ and }
+                c \cle_N^T d \\
+        % Y \mrelfa Y &\text{ iff }
+        %     \forall X \subseteq S, c, d \in C, \text{ if }
+        %         \src_N(c) = X \cup Y \text{ and } \src_N(d) = X \cup Z
+        %         \text{ then } c \cle_N^T d
+    \end{align*}
+\end{definition}
 
 \section{Convergence and Fixed-points for Recursive Operators}
 \label{td_new_sec_convergence_fixed_points}
