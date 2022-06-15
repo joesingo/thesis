@@ -1,10 +1,13 @@
+import os.path
 import sys
 import re
 from pathlib import Path
 import inspect
-import functools
 
 TEST_MARKER = "is_a_test_function"
+EXCLUDE_DIRS = [
+    "venv"
+]
 
 
 class test:
@@ -35,7 +38,14 @@ class TestSuite:
         self.content = {
             str(path): [line.strip() for line in path.read_text().split("\n")]
             for path in here.glob("./**/*.tex")
+            if not self.should_exclude(path)
         }
+
+    def should_exclude(self, path):
+        for ex in EXCLUDE_DIRS:
+            if os.path.commonpath([ex, path]) == ex:
+                return True
+        return False
 
     def run_all(self):
         tests = inspect.getmembers(self,
@@ -85,7 +95,8 @@ class TestSuite:
         """
         should not mention 'paper'
         """
-        if "a4paper" not in line:  # exception: options for memoir
+        # hacky exceptions...
+        if "a4paper" not in line and "original TruthFinder paper" not in line:
             assert "paper" not in line
 
     @test(line_based=True)
