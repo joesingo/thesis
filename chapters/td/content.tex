@@ -120,6 +120,10 @@ The set of sources making a claim on object $o$ is
 \[
     \src_N(o) = \bigcup\{\src_N(c) \mid c \in C, \obj(c) = o\}.
 \]
+The claims associated with $o$ are
+\[
+    \claims_N(o) = \{c \in C \mid \obj(c) = o\}.
+\]
 The set of claims in conflict with a given claim $c = (o, v)$, i.e.  claims for
 $o$ with a value other than $v$, is denoted by
 \[
@@ -130,6 +134,8 @@ conflicting with $c$:
 \[
     \antisrc_N(c) = \bigcup\{\src_N(d) \mid d \in \conflict_N(c)\}.
 \]
+Note that property \cref{td_new_item_sources_self_consistent} in the definition
+of a network ensures $\src_N(c) \cap \antisrc_N(c) = \emptyset$.
 
 \paragraph{Output.}
 
@@ -502,7 +508,7 @@ voting~\cite{zwicker2016voting} and ranking systems~\cite{altman2008}), in
 which the axiomatic method has seen great success. We also consider standard
 social choice axioms which are \emph{not} desirable for truth discovery, to
 highlight the differences with classical problems such as voting. We will later
-revisit the example operators of the previous section to see to what extend our
+revisit the example operators of the previous section to see to what extent our
 axioms hold in practise.
 
 \subsection{Coherence}
@@ -809,6 +815,288 @@ Indeed, the functions $F = (st)(uv)$ and $G = (su)(tv)(cd)$ are automorphisms.
 By \cref{td_new_prop_automorphism}, any operator $T$ satisfying \symmetry{}
 must output flat rankings $s \seq t \seq u \seq v$ and $c \ceq d$.
 
+\subsection{Monotonicity}
+
+Given that voting is not a viable truth discovery method, the believability of
+a claim $c$ should not increase monotonically with $|\src_N(c)|$. Moreover, it
+should not increase with the \emph{set} of sources $\src_N(c)$, ordered by set
+inclusion: $\src_N(c) \subseteq \src_N(d)$ should not in general imply $c \cle
+d$. Indeed, consider an adversarial source $t$ deliberately making false
+claims, and suppose $\src_N(c) = \{s\}$ and $\src_N(d) = \{s, t\}$. Then
+$\src_N(c) \subseteq \src_N(d)$, but the extra support from $t$ should actually
+\emph{decrease} the believability of $d$ -- since $t$ only provides false
+claims -- not increase it.
+
+Nevertheless, there is a sense in which, all else being equal, a claim with
+more sources is more believable. The above examples show that some subtlety is
+needed in formulating this as a general principle, and that trust should be
+taken into account in doing so.
+
+In this section we consider monotonicity properties of two kinds: monotonicity
+\emph{within} a network, and monotonicity \emph{between} networks as more
+reports are added. We start with the latter by adapting the idea of
+\emph{positive responsiveness} from social choice theory.
+
+\paragraph{Responsiveness.}
+
+In the context of voting, positive responsiveness requires that if
+a voter switches their vote from candidate $B$ to a winning candidate $A$, then
+$A$ becomes the unique winner~\cite{zwicker2016voting}.
+%
+A naive version of positive responsiveness for truth discovery says that if we
+change a network $N$ by adding a new report $(s, c)$ -- possibly removing
+reports from $s$ conflicting with $c$ -- then $c$ should move strictly up in
+the claim ranking. Clearly this neglects to consider the trustworthiness of
+$s$, and is thus an undesirable property (e.g. consider $s$ adversarial as
+described above). Our first monotonicity axiom weakens this naive property by
+only considering ``fresh" sources $s$ not providing any reports in the original
+network $N$. Intuitively, we have no reason to believe such sources are
+untrustworthy, and they should therefore have a positive effect when making a
+claim.
+%
+In what follows, when $\claims_N(s) = \emptyset$ we write $\addclaim{N}{s}{c}$
+for the network $(S, O, D, R \cup \{(s, c)\})$.
+
+\begin{axiom}[\freshposresp{}]
+    Suppose $\claims_N(s) = \emptyset$. Then for all $c \in C$ and $d \in C
+    \setminus \{c\}$, $d \cle_N^T c$ implies $d \clt_{\addclaim{N}{s}{c}}^T c$.
+\end{axiom}
+
+That is, if $c$ was already at least as believable as $d$, then a fresh report
+makes $c$ \emph{strictly} more believable in the new network.
+%
+What about the effects of a fresh report for $c$ on source trustworthiness?
+According to the mutual dependence between the source and claim rankings --
+captured in a static network via the coherence properties -- sources already
+claiming $c$ should become more trusted, whereas those claiming a conflicting
+claim $d$ should become less trusted.
+
+\begin{axiom}[\sourceposresp{}]
+    Suppose $s \in \antisrc_N(c)$, $t \in \src_N(c)$, and $\claims_N(u) =
+    \emptyset$. Then $s \sle_N^T t$ implies $s \slt_{\addclaim{N}{u}{c}}^T t$.
+\end{axiom}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[thick]
+        \LARGE
+        \networkinit{s,t,u,v}{c,d,e,f}
+        \object{o_1}{c}{d};
+        \object{o_2}{e}{f};
+        \report{s}{c};
+        \report{s}{e};
+        \report{t}{d};
+        \report{t}{f};
+        \report[dashed]{u}{f};
+        \report[densely dashed]{v}{f};
+    \end{tikzpicture}
+    \caption{
+        Networks $N_0$ (solid edges only), $N_1 = \addclaim{N_0}{u}{f}$ and
+        $N_2 = \addclaim{N_1}{v}{f}$ illustrating \freshposresp{} and
+        \sourceposresp{}.
+    }
+    \label{td_new_fig_sourceposresp_example}
+\end{figure}
+
+Note that \sourceposresp{} does not say anything about the ranking of the fresh
+source $u$. We consider another example.
+
+\begin{example}
+    \label{td_new_ex_posresps}
+    \cref{td_new_fig_sourceposresp_example} illustrates \freshposresp{} and
+    \sourceposresp{}. Let $N_0$ denote the network including only the solid
+    edges, $N_1 = \addclaim{N_0}{u}{f}$, and $N_2 = \addclaim{N_1}{v}{f}$. Note
+    that $N_2$ is our running-example network from
+    \cref{td_new_fig_intro_example}.
+    %
+    Assuming \symmetry{}, everything is tied in $N_0$: we have $s \seq_{N_0} t$
+    and $c \ceq_{N_0} d \ceq_{N_0} \ceq_{N_0} e \ceq_{N_0} f$. Since $N_1$ is
+    the result of adding the report $(u, f)$ and $u$ makes no claims in $N_0$,
+    \freshposresp{} gives $e \clt_{N_1} f$. Since $s \in \src_{N_0}(e)
+    \subseteq \antisrc_{N_0}(f)$ and $t \in \src_{N_0}(f)$, \sourceposresp{}
+    gives $s \slt_{N_1} t$. Going from $N_1$ to $N_2$ we can repeat exactly the
+    same arguments to find $e \clt_{N_2} f$ and $s \slt_{N_2} t$.
+
+    Bringing \claimcoherence{} in too, $s \slt_{N_2} t$ gives $c \clt_{N_2} d$.
+    Thus, \claimcoherence{}, \symmetry{}, \freshposresp{} and \sourceposresp{}
+    are enough to capture our intuitions about this network as described in the
+    introduction \todo{check intro.}
+\end{example}
+
+In the special case where a network contains reports only for a single object,
+the responsiveness properties and \symmetry{} actually force an operator to
+rank claims by voting, and to rank sources by the vote count of their claims.
+Note that each source provides at most one report in this case, by condition
+\cref{td_new_item_sources_self_consistent} in the definition of a network.
+Consequently there is little structure in such networks, as we cannot look at
+how sources interact over multiple objects to determine trustworthiness. We
+therefore argue that voting is reasonable behaviour in this special case.
+
+\begin{proposition}
+    \label{td_new_prop_symm_fpr_single_object_voting}
+    Suppose there is $o \in O$ such that $\src_N(o') = \emptyset$ for all $o
+    \ne o'$. Then
+    \begin{enumerate}
+        \item\label{td_new_item_prop_symm_fpr_single_object_voting_claims}
+        If $T$ satisfies \symmetry{} and \freshposresp{}, then for all $c, d
+            \in \claims_N(o)$:
+        \[
+            c \cle_N^T d \iff |\src_N(c)| \le |\src_N(d)|.
+        \]
+        \item\label{td_new_item_prop_symm_fpr_single_object_voting_sources}
+        If $T$ satisfies \symmetry{} and \sourceposresp{}, then for all $s, t
+            \in S$ with $\claims_N(s), \claims_N(t) \ne \emptyset$,
+        \[
+            s \sle_N^T t
+            \iff
+            |\src_N(c_s)| \le |\src_N(c_t)|,
+        \]
+        where $c_s$ and $c_t$ are the unique claims reported by $s$ and $t$
+        respectively.
+    \end{enumerate}
+\end{proposition}
+
+While \cref{td_new_prop_symm_fpr_single_object_voting} only addresses a
+somewhat trivial case, it will turn out to be useful in axiomatically
+characterising voting in \todo{section reference}. We need a preliminary
+result.
+
+\begin{lemma}
+    \label{td_new_lemma_symm_equal_sources_one_claim}
+    Suppose $|\src_N(c)| = |\src_N(d)|$, $\obj(c) = \obj(d)$, and for all $s
+    \in \src_N(c) \cup \src_N(d)$, $|\claims_N(s)| = 1$. Then for any operator
+    $T$ satisfying \symmetry{}, $c \ceq_N^T d$.
+\end{lemma}
+
+\begin{proof}
+    Without loss of generality, assume $c \ne d$. Since $\obj(c) = \obj(d)$, we
+    have $c \in \conflict_N(d)$ and thus $\src_N(c) \cap \src_N(d) =
+    \emptyset$. Since $|\src_N(c)| = |\src_N(d)|$ there exists a bijection
+    $\hat{\phi}: \src_N(c) \to \src_N(d)$. We extend this to a bijection $\phi:
+    S \to S$ by
+    \[
+        \phi(s) = \begin{cases}
+            \hat{\phi}(s),& s \in \src_N(c) \\
+            \hat{\phi}^{-1}(s),& s \in \src_N(d) \\
+            s,& \text{ otherwise}.
+        \end{cases}
+    \]
+    Now let $F: S \cup C \cup O \to S \cup C \cup O$ be defined by
+    $\restrict{F}{S} = \phi$, $\restrict{F}{C} = (cd)$ and $\restrict{f}{O} =
+    \identity$. That is, $F$ permutes sources according to $\phi$, swaps claims
+    $c$ and $d$, and leaves objects as they are. Since $F(c) = d$, to show $c
+    \ceq_N^T d$ it is sufficient by \cref{td_new_prop_automorphism} to show
+    that $F$ is an automorphism on $N$.
+
+    It is easily seen that the restrictions of $F$ to $S$, $C$ and $O$
+    respectively, are bijective. Moreover, we have $\obj(F(e)) = F(\obj(e))$
+    for all claims $e$ since $F(o) = o$ and $\obj(c) = \obj(d)$. It remains to
+    show that $(s, e) \in R$ iff $(F(s), F(e)) \in R$.
+
+    For the left-to-right direction, suppose $(s, e) \in R$. First suppose $s
+    \in \src_N(c)$. Then $F(s) = \hat{\phi}(s) \in \src_N(d)$, so $(F(s), d)
+    \in R$. By assumption we have $|\claims_N(s)| = 1$, so in fact $c$ is the
+    unique claim reported by $s$. Thus $e = c$. Consequently
+    \[
+        (F(s), F(e)) = (F(s), d) \in R
+    \]
+    as required. The case for $s \in \src_N(d)$ follows by a near-identical
+    argument. Finally, if $s \notin \src_N(c) \cup \src_N(d)$ then $F(s) = s$
+    and $e \notin \{c, d\}$, so $F(e) = e$. Thus $(F(s), F(e)) = (s, e) \in R$.
+
+    For the right-to-left direction, suppose $(F(s), F(e)) \in R$. Applying the
+    argument above we have $(F^2(s), F^2(e)) \in R$ also. But note that $F
+    = F^{-1}$, so $F^2 = \identity$. Hence $(s, e) \in R$, as required.
+    %
+    This completes the proof.
+\end{proof}
+
+\begin{proof}[Proof of \cref{td_new_prop_symm_fpr_single_object_voting}]
+    We prove \cref{td_new_item_prop_symm_fpr_single_object_voting_claims} only,
+    since \cref{td_new_item_prop_symm_fpr_single_object_voting_sources} can be
+    shown using essentially the same argument with \sourceposresp{} taking the
+    place of \freshposresp{}.
+
+    Suppose $T$ satisfies \symmetry{} and \freshposresp{}, and take $N$ as
+    stated in \cref{td_new_prop_symm_fpr_single_object_voting}. It is
+    sufficient to show that, for all $c, d \in \claims_N(o)$,
+    \begin{align}
+        \label{td_new_eqn_src_le_implies_cle}
+        |\src_N(c)| \le |\src_N(d)| &\implies c \cle_N^T d \\
+        \label{td_new_eqn_src_lt_implies_clt}
+        |\src_N(c)| < |\src_N(d)| &\implies c \clt_N^T d.
+    \end{align}
+    First we show \cref{td_new_eqn_src_le_implies_cle}. Suppose $|\src_N(c)|
+    \le |\src_N(d)|$. Assume without loss of generality that $c \ne d$. Write
+    $k = |\src_N(d)| - |\src_N(c)| \ge 0$. Let $X = \{s_1, \ldots, s_k\}$ be an
+    arbitrary subset of $\src_N(d)$ of size $k$. Let $N_0$ denote the network
+    in which all claims from sources in $X$ are removed. Note that since $N$
+    does not contain reports for objects other than $o$, by the consistency
+    property \cref{td_new_item_sources_self_consistent} in
+    \cref{td_new_def_network} we have that sources in $X$ \emph{only} report
+    $d$.  We construct networks $N_1, \ldots, N_k$ in which these claims are
+    added back in: for $0 \le i
+    \le k - 1$, set
+    \[
+        N_{i + 1} = \addclaim{N_i}{s_{i + 1}}{d}.
+    \]
+    Then $N_k$ is just the original network $N$. Note that $\claims_{N_i}(s_j)
+    = \emptyset$ for $j > i$. Next we show by induction that for all $0 \le i
+    \le k$,
+    \begin{equation}
+        \label{td_new_eqn_inductive_property}
+        c \cle_{N_i}^T d, \text{ and if } i > 0 \text{ then }
+        c \clt_{N_i}^T d.
+    \end{equation}
+
+    For the base case $i = 0$, note that since only reports for $d$ were
+    removed in constructing $N_0$, we have $\src_{N_0}(c) = \src_N(c)$.
+    Consequently,
+    \[
+        |\src_{N_0}(d)|
+        = |\src_N(d) \setminus X|
+        = |\src_N(d)| - k
+        = |\src_N(c)|
+        = |\src_{N_0}(c)|.
+    \]
+    Note also that $\obj(c) = \obj(d)$ -- since by assumption $c, d \in
+    \claims_N(o)$ -- and for $s \in \src_{N_0}(c) \cup \src_{N_0}(d)$ we have
+    $|\claims_{N_0}(s)| = 1$ since $N_0$ also only contains reports for $o$.
+    The hypothesis of \cref{td_new_lemma_symm_equal_sources_one_claim} are
+    satisfied, so we have $c \ceq_{N_0}^T d$. In particular, $c \cle_{N_0}^T d$
+    as required.
+
+    Now for the inductive step, suppose \cref{td_new_eqn_inductive_property}
+    holds for $i$. Since $\claims_{N_i}(s_{i + 1}) = \emptyset$,
+    \freshposresp{} and the inductive hypothesis give $c \clt_{N_{i + 1}}^T d$,
+    as required.
+
+    Finally, \cref{td_new_eqn_src_le_implies_cle} follows by taking $i = k$ in
+    \cref{td_new_eqn_inductive_property}, recalling that $N = N_k$. Moreover,
+    \cref{td_new_eqn_src_lt_implies_clt} follows by exactly the same argument,
+    noting that when $|\src_N(c)| < |\src_N(d)|$ we have $k > 0$, so $c
+    \clt_{N_k}^T d$ by \cref{td_new_eqn_inductive_property} again.
+\end{proof}
+
+\paragraph{Trust-based monotonicity.}
+
+\todo{write}
+
+% \begin{definition}
+%     Given a network $N$ and operator $T$, we define relations $\mrelex$ and
+%     $\mrelfa$ on $2^S$ by
+%     \begin{align*}
+%         Y \mrelex Y &\text{ iff }
+%             \exists X \subseteq S, c, d \in C \text{ s.t. }
+%                 \src_N(c) = X \cup Y, \src_N(d) = X \cup Z \\ &\qquad \text{ and }
+%                 c \cle_N^T d \\
+%         % Y \mrelfa Y &\text{ iff }
+%         %     \forall X \subseteq S, c, d \in C, \text{ if }
+%         %         \src_N(c) = X \cup Y \text{ and } \src_N(d) = X \cup Z
+%         %         \text{ then } c \cle_N^T d
+%     \end{align*}
+% \end{definition}
+
 \subsection{Independence}
 
 Another common class of axioms in social choice theory are \emph{independence}
@@ -903,43 +1191,6 @@ by the addition of a disjoint network.
 
 \todo{if bothered, explain graph-theoretic interpretation in terms of connected
 components.}
-
-\subsection{Monotonicity}
-
-For $s \in S$ and $c \in C$, let $N \cup (s, c)$ denote the network $(S, O, D,
-R')$, where $R' = R \cup \{(s, c)\}$. Note that $N \cup (s, c)$ may fail to be
-a network if $s$ already makes a claim for $\obj(c)$ in $N$.
-
-\begin{axiom}[\naiveposresp{}]
-    Suppose $s \notin \src_N(\obj(c))$. Then for all $d \in C \setminus \{c\}$,
-    $d \cle_N^T c$ implies $d \clt_{N + (s, c)}^T c$.
-\end{axiom}
-
-% \begin{axiom}[\singleobjectposresp{}]
-%     Suppose there is $o \in O$ such that $\src_N(o') = \emptyset$ for all $o'
-%     \ne o$. Then for all $s, c$ and $d \ne c$, $c \cle_N^T d$ implies $c
-%     \clt_{N + (S, c)}^T d$.
-% \end{axiom}
-
-\begin{axiom}[\freshposresp{}]
-    Suppose $\claims_N(s) = \emptyset$. Then for all $c \in C$ and $d \in C
-    \setminus \{c\}$, $d \cle_N^T c$ implies $d \clt_{N + (s, c)}^T c$.
-\end{axiom}
-
-\begin{definition}
-    Given a network $N$ and operator $T$, we define relations $\mrelex$ and
-    $\mrelfa$ on $2^S$ by
-    \begin{align*}
-        Y \mrelex Y &\text{ iff }
-            \exists X \subseteq S, c, d \in C \text{ s.t. }
-                \src_N(c) = X \cup Y, \src_N(d) = X \cup Z \\ &\qquad \text{ and }
-                c \cle_N^T d \\
-        % Y \mrelfa Y &\text{ iff }
-        %     \forall X \subseteq S, c, d \in C, \text{ if }
-        %         \src_N(c) = X \cup Y \text{ and } \src_N(d) = X \cup Z
-        %         \text{ then } c \cle_N^T d
-    \end{align*}
-\end{definition}
 
 \subsection{Conflicting claims}
 \label{td_new_sec_conflicting_claims}

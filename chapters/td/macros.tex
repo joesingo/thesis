@@ -11,6 +11,7 @@
 \newcommand{\claims}{\operatorname{cl}}
 \newcommand{\obj}{\operatorname{obj}}
 \newcommand{\conflict}{\operatorname{conflict}}
+\newcommand{\addclaim}[3]{{#1} + ({#2}, {#3})}
 
 % rankings
 \newcommand{\sle}{\sqsubseteq}
@@ -37,8 +38,8 @@
 \newcommand{\symmetry}{\axiomref{Symmetry}}
 \newcommand{\classicalindependence}{\axiomref{Classical-independence}}
 \newcommand{\disjointindependence}{\axiomref{Disjoint-independence}}
-\newcommand{\naiveposresp}{\axiomref{Naive-pos-resp}}
 \newcommand{\freshposresp}{\axiomref{Fresh-pos-resp}}
+\newcommand{\sourceposresp}{\axiomref{Source-pos-resp}}
 
 % misc
 \newcommand\restrict[2]{#1|_{#2}}
@@ -70,8 +71,8 @@
         \node (\c) at (3, -{(\y)}) {$\c$};
     }
 }
-\newcommand{\report}[2]{
-    \draw[-] (#1.east) -- (#2.west);
+\newcommand{\report}[3][]{% optional arg is extra params to \draw (e.g. dashed)
+    \draw[-,#1] (#2.east) -- (#3.west);
 }
 \newcommand{\object}[3]{
     \draw[objectgrouping] (#2.center) -- (#3.center) node[objectlabel] {$#1$};
