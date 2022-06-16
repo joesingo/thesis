@@ -108,6 +108,20 @@ they tell us which claims are in conflict with one another.
     % \]
 \end{example}
 
+A special case of our framework is the ``binary" case in which the domain of
+each object consists of two values $D_o = \{\mathsf{true}, \mathsf{false}\}$.
+In this case we can think of each object as a propositional variable. This
+brings us close to the setting studied in \emph{judgment
+aggregation}~\cite{endriss2016ja} and, specifically (since sources do not
+necessarily provide a claim for to each object) to the setting of \emph{binary
+aggregation with abstentions}~\cite{christoffbinary,dokow}. An important
+difference, however, is that for simplicity we do not assume any
+\emph{constraints} on the possible configurations of true claims across
+objects. That is, any combination of truth values is feasible. In judgment
+aggregation such an assumption has the effect of neutralising the impossibility
+results that arise in that domain (see e.g.,~\cite{christoffbinary}). We shall
+see later that that is not the case in our setting.
+
 \paragraph{Notation.}
 
 We introduce some notation to extract information about a network. For $c \in
@@ -906,7 +920,7 @@ source $u$. We consider another example.
     \cref{td_new_fig_sourceposresp_example} illustrates \freshposresp{} and
     \sourceposresp{}. Let $N_0$ denote the network including only the solid
     edges, $N_1 = \addclaim{N_0}{u}{f}$, and $N_2 = \addclaim{N_1}{v}{f}$. Note
-    that $N_2$ is our running-example network from
+    that $N_2$ is our running example network from
     \cref{td_new_fig_intro_example}.
     %
     Assuming \symmetry{}, everything is tied in $N_0$: we have $s \seq_{N_0} t$
@@ -957,9 +971,12 @@ therefore argue that voting is reasonable behaviour in this special case.
 \end{proposition}
 
 While \cref{td_new_prop_symm_fpr_single_object_voting} only addresses a
-somewhat trivial case, it will turn out to be useful in axiomatically
-characterising voting in \todo{section reference}. We need a preliminary
-result.
+somewhat trivial case, it will turn out to be useful in axiomatically c
+haracterising voting in \todo{section reference}. It can be seen as one of the
+many generalisations of \emph{May's Theorem}~\cite{may1952set}, which
+characterises the majority voting rule in two-candidate elections.
+%
+To prove it, we need a preliminary result.
 
 \begin{lemma}
     \label{td_new_lemma_symm_equal_sources_one_claim}
@@ -1127,12 +1144,93 @@ of comparison with classical social choice problems such as voting.
 
 That is, if $c$ and $d$ have the same sources in $N$ and $N'$, they have the
 same relative ranking in both networks. The undesirability of
-\classicalindependence{} will be formalised in \todo{section reference}, where
-we show it implies voting-like behaviour and obtain an impossibility result.
-\todo{check we actually do this.}
+\classicalindependence{} can be formalised axiomatically: together with our
+earlier axioms, it implies voting-like behaviour within the claims for each
+object.\footnotemark{} Note that for the special case of binary networks,
+similar results have been shown in the literature on binary aggregation with
+abstentions~\cite{christoffbinary}.
 
-\todo{Example needed? If so, come up with another network where $c$ and $d$
-have the same sources as in \cref{td_new_fig_intro_example}.}
+\footnotetext{
+    We give a further axiom which implies voting behaviour for claims of
+    \emph{different} objects in \todo{section reference}.
+}
+
+\begin{proposition}
+    \label{td_new_prop_symm_fpr_ci_voting}
+    Suppose $T$ satisfies \symmetry{}, \freshposresp{} and
+    \classicalindependence{}. Then for all $o \in O$ and $c, d \in
+    \claims_N(o)$,
+    \[
+        c \cle_N^T d \iff |\src_N(c)| \le |\src_N(d)|.
+    \]
+\end{proposition}
+
+\begin{proof}
+    Take $c, d \in \claims_N(o)$. Let the network $N'$ have the same sources,
+    objects and domains as $N$, but with reports $R' = R \cap (S \times \{c,
+    d\})$. That is, $N'$ discards all reports for claims other than $c$ and
+    $d$. Then we have $\src_{N'}(c) = \src_N(c)$, $\src_{N'}(d) = \src_N(d)$,
+    and $\src_{N'}(e) = \emptyset$ for all $e \notin \{c, d\}$. By
+    \classicalindependence{}, $c \cle_N^T d$ iff $c \cle_{N'}^T d$.
+
+    Now, note that since $c, d \in \claims_N(o)$, for $o' \ne o$ and $e \in
+    \claims_N(o')$ we have $e \notin \{c, d\}$, so $\src_N(e) = \emptyset$.
+    Hence $\src_N(o') = \emptyset$ for such $o'$. Since $T$ satisfies
+    \symmetry{} and \freshposresp{}, we may apply
+    \cref{td_new_prop_symm_fpr_single_object_voting}
+    \cref{td_new_item_prop_symm_fpr_single_object_voting_claims} to find $c
+    \cle_{N'}^T d$ iff $|\src_{N'}(c)| \le |\src_{N'}(d)|$. But $|\src_{N'}(c)|
+    = |\src_N(c)|$, and likewise for $d$. Consequently
+    \[
+        c \cle_N^T d
+        \iff c \cle_{N'}^T d
+        \iff |\src_{N'}(c)| \le |\src_{N'}(d)|
+        \iff |\src_{N}(c)| \le |\src_{N}(d)|
+    \]
+    as desired.
+\end{proof}
+
+While this result appears similar to
+\cref{td_new_prop_symm_fpr_single_object_voting}, the crucial difference is
+that we no longer restrict to the case sources only report on a single object,
+where voting is justified. This is the (overly strong) role
+\classicalindependence{} plays: it allows the complexity of a multi-object
+network to be reduced to a single-object network, where the ranking
+trivialises.
+
+Recalling from \cref{td_new_ex_posresps} that \claimcoherence{}, \symmetry{},
+\freshposresp{} and \sourceposresp{} are enough to ensure $c \clt d$ in our
+running example network from \cref{td_new_fig_intro_example} (whereas
+per-object voting gives $c \ceq d$), we obtain an impossibility result with
+\classicalindependence{}. In fact we obtain \emph{two} impossibility results,
+since \sourceposresp{} can also be replaced with \sourcecoherence{}.
+
+\begin{theorem}
+    The following axioms cannot hold simultaneously:
+    \begin{enumerate}
+        \item \claimcoherence{}, \symmetry{}, \freshposresp, \sourceposresp{}
+            and \classicalindependence{}.
+        \item \claimcoherence{}, \symmetry{}, \freshposresp, \sourcecoherence{}
+            and \classicalindependence{}.
+    \end{enumerate}
+\end{theorem}
+
+\todo{Figure out if these impossibilities are minimal.}
+
+\begin{proof}\leavevmode
+    \begin{enumerate}
+        \item The impossibility of these axioms holding together follows from
+              \cref{td_new_ex_posresps} and
+              \cref{td_new_prop_symm_fpr_ci_voting}, as described above.
+
+          \item Let $N$ be as shown in \cref{td_new_fig_intro_example}. Suppose
+                some operator $T$ satisfies the stated axioms. From
+                \cref{td_new_prop_symm_fpr_ci_voting} we get $c \ceq_N^T d$ and
+                $e \clt_N^T f$. Considering sources $s$ and $t$,
+                \sourcecoherence{} gives $s \slt_N^T t$. But now
+                \claimcoherence{} gives $c \clt_N^T d$: contradiction.
+    \end{enumerate}
+\end{proof}
 
 \begin{figure}
     \centering
