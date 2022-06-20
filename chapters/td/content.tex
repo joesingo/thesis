@@ -705,7 +705,7 @@ comparison on the basis of sources alone.
 Having said this, an operator with \claimcoherence{} is limited in the extent
 to which it can take antisources into account. We formulate
 an antisource version of coherence in \cref{td_new_sec_conflicting_claims}, and
-show in \cref{td_new_sec_consequences_and_impossibilities} that it is
+show in \cref{td_new_sec_conflicting_claims} that it is
 incompatible with \claimcoherence{}, when taken with some other basic axioms.
 
 \todo{Limitation: we can only compare sources/claims with the same number of
@@ -971,10 +971,12 @@ therefore argue that voting is reasonable behaviour in this special case.
 \end{proposition}
 
 While \cref{td_new_prop_symm_fpr_single_object_voting} only addresses a
-somewhat trivial case, it will turn out to be useful in axiomatically c
-haracterising voting in \todo{section reference}. It can be seen as one of the
-many generalisations of \emph{May's Theorem}~\cite{may1952set}, which
-characterises the majority voting rule in two-candidate elections.
+somewhat trivial case, it will turn out to be useful in characterising voting
+behaviour more generally in
+\cref{td_new_sec_independence,td_new_sec_a_characterisation_of_voting}. It can
+be seen as one of the many generalisations of \emph{May's
+Theorem}~\cite{may1952set}, which characterises the majority voting rule in
+two-candidate elections.
 %
 To prove it, we need a preliminary result.
 
@@ -1097,7 +1099,13 @@ To prove it, we need a preliminary result.
 
 \paragraph{Trust-based monotonicity.}
 
-\todo{write}
+Suppose $\src_N(c) = X$ and $\src_N(d) = X \cup Y$, for disjoint sets of
+sources $X$ and $Y$. The relative ranking of $c$ and $d$ depends on how we
+perceive $Y$: if $Y$ is ``trustworthy" then $d$ gains credibility from the
+extra suppose of $Y$, whereas is $Y$ is ``untrustworthy" this extra support has
+the opposite effect.
+
+\todo{Write up actual postulates.}
 
 % \begin{definition}
 %     Given a network $N$ and operator $T$, we define relations $\mrelex$ and
@@ -1115,6 +1123,7 @@ To prove it, we need a preliminary result.
 % \end{definition}
 
 \subsection{Independence}
+\label{td_new_sec_independence}
 
 Another common class of axioms in social choice theory are \emph{independence}
 axioms, which require that some aspect of the output is independent of
@@ -1152,7 +1161,8 @@ abstentions~\cite{christoffbinary}.
 
 \footnotetext{
     We give a further axiom which implies voting behaviour for claims of
-    \emph{different} objects in \todo{section reference}.
+    \emph{different} objects -- and leads to a complete characterisation of
+    voting -- in \cref{td_new_sec_a_characterisation_of_voting}.
 }
 
 \begin{proposition}
@@ -1287,11 +1297,13 @@ by the addition of a disjoint network.
     \cle_{N \sqcup N'}^T d$.
 \end{axiom}
 
-\todo{if bothered, explain graph-theoretic interpretation in terms of connected
+\todo{If bothered, explain graph-theoretic interpretation in terms of connected
 components.}
 
 \subsection{Conflicting claims}
 \label{td_new_sec_conflicting_claims}
+
+\todo{Prose.}
 
 % This discussion leads to a new interpretation of mutual-dependence principle of
 % truth discovery: claims refuted by trustworthy sources should \emph{not} be
@@ -1312,13 +1324,56 @@ components.}
 % an impossibility result showing that both cannot hold at the same, alongside
 % some other reasonable properties.
 
-\section{Consequences and Impossibilities}
-\label{td_new_sec_consequences_and_impossibilities}
+\begin{axiom}[\conflictcoherence{}]
+    If $\conflict_N(c)$ strictly precedes $\conflict_N(c')$ pairwise with
+    respect to $\cle_N^T$, then $c' \clt_N^T c$.
+\end{axiom}
+
+\begin{theorem}
+    \label{td_new_thm_conflict_impossibilities}
+    The following axioms cannot hold simultaneously.
+    \begin{enumerate}
+        \item \symmetry{}, \freshposresp{}, \conflictcoherence{},
+            \sourcecoherence, \claimcoherence{}.
+        \item \symmetry{}, \sourceposresp{}, \claimcoherence{},
+            \anticoherence{}.
+    \end{enumerate}
+\end{theorem}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[thick]
+        \LARGE
+        \networkinit{s,t,u,s',t'}{c,d,e,f,c',d'}
+        \object{o}{c}{d}
+        \object{p}{e}{f}
+        \object{o'}{c'}{d'}
+        \report{s}{c}
+        \report{s}{e}
+        \report{t}{d}
+        \report{t}{e}
+        \report[dashed]{u}{f}
+        \report{s'}{f}
+        \report{s'}{c'}
+        \report{t'}{f}
+        \report{t'}{d'}
+    \end{tikzpicture}
+    \caption{
+        Network used to illustrate the impossibility results of
+        \cref{td_new_thm_conflict_impossibilities}.
+    }
+    \label{td_new_fig_conflict_impossibilities}
+\end{figure}
+
+\begin{proof}
+    \todo{Write up.}
+\end{proof}
+
+\section{A Characterisation of Voting}
+\label{td_new_sec_a_characterisation_of_voting}
 
 \section{Convergence and Fixed-points for Recursive Operators}
 \label{td_new_sec_convergence_fixed_points}
-
-\todo{Write}
 
 % Evaluating the limit operator $T^*$ may require numerical computation if a
 % closed-form expression is not available. Nevertheless, properties of $T^*$ may
@@ -1343,6 +1398,13 @@ components.}
 %     Then $U(T^*) = T^*$.
 % \end{proposition}
 
+\section{Satisfaction of the Axioms}
+
+\subsection{Modifying Sums}
+
+\section{Related Work}
+
+\section{Conclusion}
 
 %-----------------------------------------------------------------------------%
 
