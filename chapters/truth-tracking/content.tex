@@ -13,12 +13,12 @@ sources themselves.
 The general problem of truth-tracking has been studied in various forms across
 many domains. Perhaps the oldest approach goes back to \textcite{condorcet}, whose
 celebrated \emph{Jury Theorem} states that a majority vote on a yes/no issue
-will yield the ``correct" answer with probability approaching 1 as the number
+will yield the ``correct'' answer with probability approaching 1 as the number
 of voters tends to infinity, provided that each voter is more reliable than
 random choice. This result has since been generalised in many
 directions~\textcite{grofman1983thirteen}. More widely, \emph{epistemic social
 choice}~\cite{elkind2016rationalizations} studies aggregation methods (e.g.
-voting rules) from the point of finding the ``correct" result with high
+voting rules) from the point of finding the ``correct'' result with high
 probability, where individual votes are seen as noisy approximations. Of
 particular relevance to our work is truth-tracking in \emph{judgement
 aggregation} in social
@@ -140,7 +140,7 @@ In this section we recall the logical framework of
 Let $\propvars$ be a finite set of propositional variables, and let $\Lprop$
 denote the propositional language generated from $\propvars$. We use $\Lprop$
 to model the domain underlying the truth-tracking problem; it describes the
-``ontic" facts of the world, irrespective of the expertise of the sources.
+``ontic'' facts of the world, irrespective of the expertise of the sources.
 Formulas in $\Lprop$ will be denoted by lower-case Greek letters ($\phi$,
 $\psi$, etc).
 
@@ -158,8 +158,8 @@ by the following grammar:
 for $\phi \in \Lprop$ and $i \in \srcs$. Formulas in $\L$ will be denoted by
 upper-case Greek letters ($\Phi$, $\Psi$ etc). Other logical connectives
 ($\lor$, $\limplies$, $\liff$) are introduced as abbreviations. We read
-$\E_i\phi$ as ``$i$ has expertise on $\phi$", and $\S_i\phi$ as ``$\phi$ is
-sound for $i$". Note that we restrict the expertise and soundness formulas to
+$\E_i\phi$ as ``$i$ has expertise on $\phi$'', and $\S_i\phi$ as ``$\phi$ is
+sound for $i$''. Note that we restrict the expertise and soundness formulas to
 propositional arguments, and do not considered iterated formulas such as
 $\E_i\S_j\phi$.
 
@@ -172,7 +172,7 @@ the distinctions between states the source is able to make: valuations in the
 same cell in $\Pi_i$ are indistinguishable to $i$, whereas $i$ is able to tell
 apart valuations in different cells. We say $i$ has expertise on $\phi$ iff $i$
 can distinguish all $\phi$ states from $\neg\phi$ states, and $\phi$ is sound
-for $i$ if the ``actual" state is indistinguishable from some $\phi$ state.
+for $i$ if the ``actual'' state is indistinguishable from some $\phi$ state.
 Note that these notions are closely linked to \emph{S5 knowledge} from
 epistemic logic; see
 \cite{singleton_booth_22_preprint,singleton2021logic} for further discussion.
@@ -196,7 +196,7 @@ consider the expertise of sources to be fixed across all cases.
 A \emph{world} is a pair $W = \tuple{\{v_c\}_{c \in \css},
 \{\Pi_i\}_{i \in \srcs}}$, where
 \begin{itemize}
-    \item $v_c \in \vals$ is the ``actual" valuation for case $c$;
+    \item $v_c \in \vals$ is the ``actual'' valuation for case $c$;
     \item $\Pi_i \subseteq 2^\vals$ is a partition representing the
           expertise of $i$.
 \end{itemize}
@@ -269,7 +269,7 @@ from~\cite{Baltag_2016,baltag_tt_2019}, which finds its roots in
 formal learning theory. In this framework, a learning method receives
 increasing initial segments of an infinite sequence -- called a \emph{stream}
 -- which enumerates all (and only) the true propositions observable at the
-``actual" world. Truth-tracking requires the method to eventually find
+``actual'' world. Truth-tracking requires the method to eventually find
 the actual world (or some property thereof), given \emph{any} stream.
 
 As mentioned in the introduction, in our setting we cannot assume the sources
@@ -284,7 +284,7 @@ source may report both $\phi$ and $\neg\phi$ for the same case.
 
 \footnotetext{
     Alternatively, we can consider statements of the form ``$\phi$ is sound for
-    $i$ in case $c$" as a higher-order ``proposition"; a stream then enumerates
+    $i$ in case $c$'' as a higher-order ``proposition''; a stream then enumerates
     all true propositions of this kind.
 }
 
@@ -307,7 +307,7 @@ for the finite initial segment of $\rho$ of length $n$.
 \begin{example}
     \label{ex_stream}
     Consider $W$ from \cref{fig_example_world} and case $\patientA{}$. From the
-    point of view of $\dr{}$'s expertise, the ``actual" world could be $pq$,
+    point of view of $\dr{}$'s expertise, the ``actual'' world could be $pq$,
     $\bar{p}q$, $p\bar{q}$. Consequently, in a stream for $W$, $\dr{}$ will
     report $p$, $\neg p$, $q$, $\neg q$, $p \lor q$, and so on. A report that
     $\dr{}$ will \emph{not} give is $\neg (p \lor q)$, since $\dr{}$ has
@@ -332,7 +332,7 @@ cell $Q[W]$ -- the correct answer at $W$.
               $\Phi$, respectively $\neg\Phi$, in case $c$. Intuitively, this
               question asks whether $\Phi$ is true or false in case $c$.
         \item The finest question $Q_\bot = \{\{W\} \mid W \in \worlds\}$ asks:
-              what is the ``actual" world?
+              what is the ``actual'' world?
         \item More generally, for any set $X$ and function $f: \worlds \to X$,
               the equivalence relation given by $W \simeq_f W'$ iff $f(W) =
               f(W')$ defines a question $Q_f$.
@@ -372,11 +372,11 @@ in terms of eliminating incorrect worlds.
 \end{proposition}
 
 \begin{proof}
-    ``if": Taking $n = \max\{n_{W'} \mid W' \notin Q[W]\}$, which exists
+    ``if'': Taking $n = \max\{n_{W'} \mid W' \notin Q[W]\}$, which exists
     since $\worlds$ is finite, $L(\rho[m]) \subseteq Q[W]$ for $m \ge
     n$.
 
-    ``only if": Taking $n$ from the definition of $L$ solving $Q$, we may
+    ``only if'': Taking $n$ from the definition of $L$ solving $Q$, we may
     simply take $n_{W'} = n$ for all $W' \notin Q[W]$.
 \end{proof}
 
@@ -384,7 +384,7 @@ in terms of eliminating incorrect worlds.
 \label{sec_characterising_solvable_questions}
 
 In this section we explore solvability of questions, finding that there is a
-unique ``hardest" question which subsumes all solvable questions. We show this
+unique ``hardest'' question which subsumes all solvable questions. We show this
 is itself solvable, and thus obtain a precise characterisation of solvability.
 
 Questions are partially ordered by partition refinement: $Q \refines Q'$ iff
@@ -430,13 +430,13 @@ respectively.\footnotemark{}
 \end{lemma}
 
 \begin{proof}
-    ``if": Suppose $W, c \models \S_i\phi$. Then $v^W_c \in \Pi^W_i[\phi]$, so
+    ``if'': Suppose $W, c \models \S_i\phi$. Then $v^W_c \in \Pi^W_i[\phi]$, so
     there is $u \in \propmods{\phi}$ such that $v^W_c \in \Pi^W_i[u]$.
     Consequently $u \in \Pi^W_i[v^W_c] \subseteq \Pi^{W'}_i[v^{W'}_c]$, which
     means $v^{W'}_c \in \Pi^{W'}_i[u] \subseteq \Pi^{W'}_i[\phi]$. Hence $W', c
     \models \S_i\phi$. This shows $W \specleq W'$.
 
-    ``only if": Let $u \in \Pi^W_i[v^W_c]$. Let $\phi$ be any formula with
+    ``only if'': Let $u \in \Pi^W_i[v^W_c]$. Let $\phi$ be any formula with
     $\propmods{\phi} = \{u\}$. Then $W, c \models \S_i\phi$, so $W \specleq W'$
     gives $W', c \models \S_i\phi$, i.e. $v^{W'}_c \in \Pi^{W'}_i[u]$, so $u
     \in \Pi^{W'}_i[v^{W'}_c]$. Hence $\Pi^W_i[v^W_c] \subseteq
@@ -444,7 +444,7 @@ respectively.\footnotemark{}
 \end{proof}
 
 Note that $\Pi_i[v_c]$ is the set of valuations indistinguishable from the
-``actual" valuation in case $c$, for source $i$. In light of
+``actual'' valuation in case $c$, for source $i$. In light of
 \cref{lemma_spec_active_cell}, we can interpret $W \specleq W'$ as saying that
 all sources are \emph{more knowledgeable} in each case $c$ in world $W$ than in
 $W'$. However, $W \specleq W'$ does not say anything about the partition cells
@@ -562,7 +562,7 @@ we make the following definition.
     \begin{enumerate}
         \item The question $Q_{\phi, c}$, for any propositional formula $\phi
               \in \Lprop$, is solvable if and only if either $\phi$ is a
-              tautology or a contradiction. To see the ``only if" part,
+              tautology or a contradiction. To see the ``only if'' part,
               consider the contrapositive. For any contingent formula $\phi$,
               take worlds $W_1, W_2$ where no source has any expertise (i.e.
               $\Pi^{W_k}_i = \{\vals\}$) but where $v^{W_1}_c \propmodels
@@ -588,7 +588,7 @@ we make the following definition.
 Solving a question $Q$ has a \emph{global} character: we must find the correct
 answer $Q[W]$ starting from \emph{any} world $W$. As we saw in
 \cref{ex_questions_revisited}, this rules out the possibility of solving many
-interesting questions due to the presence of ``abnormal" worlds (e.g. those in
+interesting questions due to the presence of ``abnormal'' worlds (e.g. those in
 which no sources have any expertise). In this section we take a more
 fine-grained approach by looking \emph{locally}: given some \emph{particular}
 world $W$, what can we learn about $W$ via truth-tracking methods?
@@ -613,7 +613,7 @@ $S$ decides $\Phi$.
 
 We start by considering when $Q^*[W]$ decides a propositional formula $\phi$ in
 case $c$, i.e. when truth-tracking methods are guaranteed to successfully
-determine whether or not $\phi$ holds in the ``actual" world. This leads to a
+determine whether or not $\phi$ holds in the ``actual'' world. This leads to a
 precise characterisation of when $Q^*[W]$ contains a \emph{unique} valuation in
 case $c$, so that $v^W_c$ can be found exactly.
 
@@ -715,12 +715,12 @@ The remainder of this section proves
 \end{lemma}
 
 \begin{proof}
-    ``$\subseteq$": Suppose $u \in \vals^{Q^*[W]}_c$. Then there is $W' \speceq
+    ``$\subseteq$'': Suppose $u \in \vals^{Q^*[W]}_c$. Then there is $W' \speceq
     W$ such that $u = v^{W'}_c$. Let $i \in \srcs$. Then $u \in
     \Pi^{W'}_i[v^{W'}_c] = \Pi^W_i[v^W_c]$ by
     \cref{prop_speceq_equivalent_conditions}, as required.
 
-    ``$\supseteq$": Suppose $u \in \bigcap_{i \in \srcs}{\Pi^W_i[v^W_c]}$. Let
+    ``$\supseteq$'': Suppose $u \in \bigcap_{i \in \srcs}{\Pi^W_i[v^W_c]}$. Let
     $W'$ be the world obtained from $W$ by setting the $c$-valuation to $u$,
     keeping partitions and other valuations the same. We need to show $W'
     \speceq W$. We do so via \cref{prop_speceq_equivalent_conditions}, by
@@ -733,7 +733,7 @@ The remainder of this section proves
 \end{proof}
 
 \begin{proof}[Proof of \cref{thm_decide_phi}]
-    ``if": Take $W' \in Q^*[W]$. Note that since $W, c \models \Gamma$ and $W,
+    ``if'': Take $W' \in Q^*[W]$. Note that since $W, c \models \Gamma$ and $W,
     c \models \E_\srcs\Gamma$, we may apply \cref{lemma_phi_and_ephi} to each
     formula in $\Gamma$ in turn to find $W', c \models \Gamma$. Now, if $W, c
     \models \phi$ then we must have $\Gamma \propmodels \phi$, so $W', c
@@ -742,7 +742,7 @@ The remainder of this section proves
     c \models \phi$ if and only if $W, c \models \phi$. Since $W' \in Q^*[W]$
     was arbitrary, $Q^*[W]$ decides $\phi$ in case $c$.
 
-    ``only if": Suppose $Q^*[W]$ decides $\phi$ in case $c$. For each $i \in
+    ``only if'': Suppose $Q^*[W]$ decides $\phi$ in case $c$. For each $i \in
     \srcs$, take some $\psi_i \in \Lprop$ such that $\propmods{\psi_i} =
     \Pi^W_i[v^W_c]$. Then $W \models \E_i\psi_i$. Set $\Gamma = \{\psi_i\}_{i
     \in \srcs}$. Clearly $W, c \models \Gamma$ and $W \models \E_\srcs\Gamma$.
@@ -804,7 +804,7 @@ agree with $\Pi^W_i$ at each valuation $v^W_c$.
 
 \begin{proof}
 
-    ``if": Suppose $\{\Pi^W_i[v^W_c]\}_{c \in \css} \subseteq \Pi$. Let $W'$ be
+    ``if'': Suppose $\{\Pi^W_i[v^W_c]\}_{c \in \css} \subseteq \Pi$. Let $W'$ be
     obtained from $W$ by setting $i$'s partition to $\Pi$, keeping valuations
     and other source partitions the same. We claim $W' \speceq W$. Indeed, take
     any $j \in \srcs$ and $c \in \css$. If $j \ne i$ then $\Pi^{W'}_j =
@@ -816,7 +816,7 @@ agree with $\Pi^W_i$ at each valuation $v^W_c$.
     \cref{prop_speceq_equivalent_conditions},
     $W' \speceq W$. Hence $\Pi \in \parts^{Q^*[W]}_i$.
 
-    ``only if": This is clear from \cref{prop_speceq_equivalent_conditions}.
+    ``only if'': This is clear from \cref{prop_speceq_equivalent_conditions}.
 \end{proof}
 
 \begin{figure}
@@ -845,7 +845,7 @@ agree with $\Pi^W_i$ at each valuation $v^W_c$.
 $v^W_c$ cover the whole space of valuations $\vals$, or just omit a single
 valuation, then $i$'s partition is uniquely defined in $Q^*[W]$. That is,
 truth-tracking methods can determine the full extent of $i$'s expertise if the
-``actual" world is $W$. Indeed, we have the following analogue of
+``actual'' world is $W$. Indeed, we have the following analogue of
 \cref{thm_qstar_unique_cval_conditions} for partitions.
 
 \begin{theorem}
@@ -918,7 +918,7 @@ The remainder of this section proves
 
 \begin{proof}
 
-    ``if": First suppose \cref{item_phi_sub_r} holds. Take $W' \in Q^*[W]$.
+    ``if'': First suppose \cref{item_phi_sub_r} holds. Take $W' \in Q^*[W]$.
     From $\propmods{\phi} \subseteq R$, $W \speceq W'$ and
     \cref{lemma_u_expansion_equal} we get $\Pi^W_i[\phi] = \Pi^{W'}_i[\phi]$.
     Consequently, $W' \models \E_i\phi$ iff $W \models \E_i\phi$. Since $W'$
@@ -937,7 +937,7 @@ The remainder of this section proves
     contained in the same cell in $\Pi^{W'}_i$. Hence $W' \models
     \neg\E_i\phi$.
 
-    ``only if": We show the contrapositive. Suppose none of
+    ``only if'': We show the contrapositive. Suppose none of
     \cref{item_phi_sub_r}, \cref{item_negphi_sub_r}, \cref{item_r_boundary}
     hold. Then there is $u \in \propmods{\phi} \setminus R$ and $v \in
     \propmods{\neg\phi} \setminus R$. Let us define two worlds $W_1$, $W_2$
@@ -1245,13 +1245,13 @@ postulate for learning methods, but easier to work with.
 
 \begin{proof}
 
-    ``if": Suppose $T_\sigma, c \not\models \S_i\phi$. Then there is $W \in
+    ``if'': Suppose $T_\sigma, c \not\models \S_i\phi$. Then there is $W \in
     T_\sigma$ such that $W, c \not\models \S_i\phi$. By our assumption and
     \cref{lemma_tsigma_qstar}, $L(\sigma) \subseteq T_\sigma = Q^*[W]$. Thus
     every world in $L(\sigma)$ agrees with $W$ on soundness statements, so
     $L(\sigma), c \models \neg\S_i\phi$.
 
-    ``only if": Suppose there is some $W \in T_\sigma$, and take $W' \in
+    ``only if'': Suppose there is some $W \in T_\sigma$, and take $W' \in
     L(\sigma)$. We need to show $W' \in T_\sigma$; by
     \cref{lemma_tsigma_qstar}, this is equivalent to $W \speceq W'$.
     %
@@ -1272,7 +1272,7 @@ Finally, we prove the characterisation of truth-tracking.
 \begin{proof}[Proof of \cref{thm_tt_characterisation}]
     Suppose $L$ satisfies \equivalence{}, \repetition{} and \soundness{}.
 
-    ``if": Suppose \credulity{} holds. We show $L$
+    ``if'': Suppose \credulity{} holds. We show $L$
     solves $Q^*$. Take any world $W$ and stream $\rho$ for $W$.  By
     \cref{lemma_stream_to_pseudostream}, there is $n$ such that $W \in
     T_{\rho[m]}$ for all $m \ge n$. By \cref{lemma_tsigma_qstar}, $T_{\rho[m]}
@@ -1281,7 +1281,7 @@ Finally, we prove the characterisation of truth-tracking.
     \cref{lemma_equivalent_tt_property}, we get $L(\rho[m]) \subseteq
     T_{\rho[m]} = Q^*[W]$.
 
-    ``only if": Suppose $L$ solves $Q^*$. We show
+    ``only if'': Suppose $L$ solves $Q^*$. We show
     \credulity{} via
     \cref{lemma_equivalent_tt_property}. Suppose there is some $W \in
     T_\sigma$, and write $N = |\sigma| > 0$. By
@@ -1394,7 +1394,7 @@ $W$ than in $W'$, and there is at least one source and case for which this
 holds strictly. If we aim to trust sources as much as possible, we might impose
 $W < W'$ here; then $W'$ is strictly less plausible and will be ruled out in
 favour of $W$.  This yields a sufficient condition for truth-tracking, but to
-obtain a necessary condition we need to allow a ``surrogate" world $W'' \speceq
+obtain a necessary condition we need to allow a ``surrogate'' world $W'' \speceq
 W$ to take the place of $W$.
 
 \begin{proof}[Proof of \cref{thm_conditioning_tt_characterisation}]
@@ -1404,7 +1404,7 @@ W$ to take the place of $W$.
     \cref{eq_conditioning_tt_characterisation} holds if and only if $L(\sigma)
     \subseteq T_\sigma$, whenever $T_\sigma \ne \emptyset$.
 
-    ``if": Suppose $W \speclt W'$. Let $\sigma$ be some pseudo-stream for $W$,
+    ``if'': Suppose $W \speclt W'$. Let $\sigma$ be some pseudo-stream for $W$,
     so that $W \in T_\sigma$.\footnotemark{} Note that since $W \in T_\sigma
     \subseteq \Xsnd_\sigma$ and $W \speclt W'$, we have $W' \in \Xsnd_\sigma$
     also. By assumption, $L(\sigma) \subseteq T_\sigma = Q^*[W]$. Since $W
@@ -1419,7 +1419,7 @@ W$ to take the place of $W$.
         \cref{lemma_stream_to_pseudostream} to obtain a pseudo-stream.
     }
 
-    ``only if": Suppose there is some $W \in T_\sigma$, and let $W' \in
+    ``only if'': Suppose there is some $W \in T_\sigma$, and let $W' \in
     L(\sigma)$. We need to show $W' \in T_\sigma = Q^*[W]$, i.e. $W \speceq
     W'$. Since $W' \in L(\sigma) \subseteq \Xsnd_\sigma$,
     \cref{lemma_tsigma_qstar} gives $W \specleq W'$. Suppose for contradiction

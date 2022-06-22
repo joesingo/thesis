@@ -25,7 +25,7 @@ of~\textcite{singleton2021logic}. The two core notions of the framework are
 \emph{expertise} and \emph{soundness of information}. Intuitively, a source has
 expertise on $\phi$ if they are able to correctly refute $\phi$ in any
 situation where it is false.\footnotemark{} Thus, our notion of expertise
-\emph{does not depend on the ``actual" state of affairs}, but only on the
+\emph{does not depend on the ``actual'' state of affairs}, but only on the
 source's epistemic state.
 
 \footnotetext{
@@ -38,7 +38,7 @@ lack of expertise}: if $\phi$ is logically weakened to a proposition $\psi$ on
 which the source has expertise, then $\psi$ must be true. That is, the
 consequences of $\phi$ on which the source has expertise are true.
 %
-This formalises the idea of ``filtering out" parts of a statement within a
+This formalises the idea of ``filtering out'' parts of a statement within a
 source's expertise. For example, suppose $\phi = p \land q$, and the source has
 expertise on $p$ but not $q$. Supposing $p$ is true but $q$ is false, $\phi$ is
 false. However, if we discard information by ignoring $q$ (on which the source
@@ -59,7 +59,7 @@ Beyond the individual expertise of a single source, one can also consider the
 composed of ministers and officials. While it would be unreasonable to expect
 each individual to have expertise on all areas of policy, one hopes that there
 is sufficient broadness of expertise among the government so that this is the
-case \emph{collectively} (i.e. if expertise is ``pooled together"). Such
+case \emph{collectively} (i.e. if expertise is ``pooled together''). Such
 collective expertise may even go beyond the sum of its parts: if $A$ is an
 expert on policy area $X$ and $B$ is an expert on how $X$ affects some other
 area $Y$, then together $A$ and $B$ will have expertise on $Y$.
@@ -143,9 +143,9 @@ source, and is defined by the following grammar:
 \]
 for $p \in \Prop$. We read $\E\phi$ as ``the source has expertise on
 $\phi$, and $\S\phi$ has ``$\phi$ is sound for the source to
-report". We include the universal modality $\A$~\cite{goranko_1992}
+report''. We include the universal modality $\A$~\cite{goranko_1992}
 for technical convenience; $\A\phi$ is read as ``$\phi$ holds in all
-states".  Other logical connectives ($\lor$, $\limplies$,
+states''.  Other logical connectives ($\lor$, $\limplies$,
 $\liff$) and constants ($\top$, $\bot$) are introduced as
 abbreviations.
 
@@ -167,7 +167,7 @@ On the semantic side, we use the notion of an \emph{expertise model}.
 The sets in $P$ are termed \emph{expertise sets}, and represent the
 propositions on which the source has expertise. Given the earlier informal
 description of expertise as refutation, we interpret $A \in P$ as saying
-that whenever the ``actual" state is outside $A$, the source knows so.
+that whenever the ``actual'' state is outside $A$, the source knows so.
 
 For an expertise model $M = (X, P, V)$, the satisfaction relation between
 states $x \in X$ and formulas $\phi \in \cL$ is defined recursively
@@ -216,7 +216,7 @@ We will turn to these closure properties in \cref{exp_sec_closure_properties}.} 
 iff $\|\phi\|_M$ is closed, and $\S\phi$ holds at $x$ iff $x$ lies in the
 \emph{closure} of $\|\phi\|_M$.\footnotemark{} In this case we can view the
 closure operation as \emph{expanding} the set $\|\phi\|_M$ along the lines of
-the source's expertise; $\phi$ is sound if the ``actual" state $x$ is included
+the source's expertise; $\phi$ is sound if the ``actual'' state $x$ is included
 in this expansion.
 %
 Finally, the clause for the universal modality $\A$ states that $\A\phi$ holds
@@ -255,8 +255,8 @@ iff $\phi$ holds at all states $y \in X$.
     region. We see that while $M, ipd \not\models p \land \neg d$, all
     expertise sets containing the dashed region also contain $ipd$, so $M, ipd
     \models \S(p \land \neg d)$. That is, the economist's report is false but
-    sound if the ``actual" state of the world were $ipd$. This act of
-    ``expanding" $\|p \land \neg d\|$ until we reach an expertise set
+    sound if the ``actual'' state of the world were $ipd$. This act of
+    ``expanding'' $\|p \land \neg d\|$ until we reach an expertise set
     corresponds to ignoring the parts of the report on which the economist has
     no expertise, as in \cref{exp_ex_economist_motivation}.
 
@@ -427,7 +427,7 @@ level of frames.
 
     We prove only the first claim; the others are straightforward.
 
-    ``if": We show the contrapositive. Suppose $F$ is not closed under
+    ``if'': We show the contrapositive. Suppose $F$ is not closed under
     intersections. Then there is a collection $\{A_i\}_{i \in I} \subseteq P$
     such that $B := \bigcap_{i \in I}A_i \notin P$. Let $p$ be an arbitrary
     atomic proposition, and define a valuation $V$ by $V(p) = B$ and $V(q) =
@@ -451,7 +451,7 @@ level of frames.
     and thus $M, x \models \A(\S p \limplies p)$. Hence $F
     \not\models \A(\S p \limplies p) \limplies \E p$.
 
-    ``only if": Suppose $F$ is closed under intersections. Let $M$
+    ``only if'': Suppose $F$ is closed under intersections. Let $M$
     be a model based on $F$ and take $x \in X$. Let $\phi
     \in \cL$. Suppose $M, x \models \A(\S\phi \limplies \phi)$. Then
     $\|\S\phi\|_M \subseteq \|\phi\|_M$. But since $\models \phi
@@ -493,7 +493,7 @@ cannot distinguish between a model and its closure under intersections.
     propositions, propositional connectives and $\A$ are straightforward. We
     treat only the case for $\S$.
     %
-    The ``if" direction is clear using
+    The ``if'' direction is clear using
     the induction hypothesis and the fact that $P \subseteq P'$. Suppose $M, x
     \models \S\phi$. Take $A = \bigcap_{i \in I}{A_i} \in P'$, where each $A_i$
     is in $P$, such that $\|\phi\|_{M'} \subseteq A$. By the induction
@@ -528,7 +528,7 @@ $\hat{\S}\phi := \neg\S\neg\phi$:
 
 \begin{proof}
 
-    ``if": We show the contrapositive. Suppose $F$ is closed under
+    ``if'': We show the contrapositive. Suppose $F$ is closed under
     intersections but not finite unions, so that there are $B_1, B_2
     \in P$ with $B_1 \cup B_2 \notin P$. Set
     \[
@@ -576,7 +576,7 @@ $\hat{\S}\phi := \neg\S\neg\phi$:
     \hat{\S}\psi$. Since $M$ is a model based on $F$, we are
     done.
 
-    ``only if": Suppose $F$ is closed under intersections and finite
+    ``only if'': Suppose $F$ is closed under intersections and finite
     unions. Let $M$ be a model based on $F$ and $x$ a state
     in $M$. Suppose $M, x \models \hat\S(\phi \limplies \psi)$
     and $M, x \models \hat\S\phi$. Then $M, x \not\models
@@ -631,7 +631,7 @@ as for expertise models, and
     \forall y \in X: xRy \implies M^*, y \models \phi.
 \]
 As is standard, $R$ is interpreted as an \emph{epistemic accessibility relation}:
-$xRy$ means that the sources considers $y$ possible if the ``actual"
+$xRy$ means that the sources considers $y$ possible if the ``actual''
 state of the world is $x$. We will be interested in the logics of S4 and
 S5, which are axiomatised by \textbf{KT4} and \textbf{KT5}, respectively:
 
@@ -1017,9 +1017,9 @@ models $\M$, and show how adding more axioms captures the closure conditions of
 
 Let $\sL$ be the extension of propositional logic generated by the axioms and
 inference rules shown in \cref{exp_tab_axioms_general_case}. Note that we treat
-$\A$ as a ``box" and $\S$ as a ``diamond" modality. Some of the axioms were
+$\A$ as a ``box'' and $\S$ as a ``diamond'' modality. Some of the axioms were
 already seen in \cref{exp_prop_validities}; new ones include ``replacement of
-equivalents" for expertise $\reE$, \textbf{4} for $\S$ $\foursoundness$,
+equivalents'' for expertise $\reE$, \textbf{4} for $\S$ $\foursoundness$,
 and $\weakeningS$, which says that if $\psi$ is logically weaker than $\phi$
 then the same holds for $\S\psi$ and $\S\phi$. First, $\sL$ is sound.
 
@@ -1083,7 +1083,7 @@ semantics. Roughly speaking, we find there is an obvious choice of $P$ to
 ensure the truth lemma for $\E\phi$ formulas, but that this may be too small
 for $\S\phi$ to be refuted when $\S\phi \notin \Gamma$ (recall that $M, x
 \not\models \S\phi$ iff \emph{there exists} some $A \in P$ such that
-$\|\phi\|_M \subseteq A$ and $x \notin A$). We therefore ``enlargen" the set of
+$\|\phi\|_M \subseteq A$ and $x \notin A$). We therefore ``enlargen'' the set of
 states so we can add new expertise sets $A$ -- without affecting the truth
 value of expertise formulas -- to obtain the truth lemma for soundness
 formulas.
@@ -1346,7 +1346,7 @@ following.
     converse holds by symmetry.
 \end{proof}
 
-We are ready to define the ``canonical" model (for each $\Sigma$). Set
+We are ready to define the ``canonical'' model (for each $\Sigma$). Set
 $\widehat{X}_\Sigma = X_\Sigma \times \R$. This is the step described
 informally above: we enlargen $X_\Sigma$ by considering uncountably many copies
 of each point (any uncountable set would do in place of $\R$). The valuation is
@@ -1688,7 +1688,7 @@ bridge axiom linking $\hat\S$ and $\A$:
 Let $\sLtop$ be the extension
 of $\sLint$ by $\Ksoundness$ and $\inc$. Note that $\sLtop$ contains the
 \textbf{KT4} axioms for $\hat\S$ (recalling that $\Tsoundness$ and
-$\foursoundness$ are the ``diamond" versions of \textbf{T} and \textbf{4}).
+$\foursoundness$ are the ``diamond'' versions of \textbf{T} and \textbf{4}).
 Since \textbf{KT4} together with the bridge axiom $\inc$ is complete for the
 class of relational models $\Msfour$, we can exploit
 \cref{exp_thm_s4s5_translation} to obtain completeness of $\sLtop$ with respect to
@@ -1776,7 +1776,7 @@ Let $\phi \in \cL$. Then $\entails_{\sLtop}
 
 By induction on $\cL$ formulas. The cases of atomic
 propositions and propositional connectives are straightforward. For
-the other cases, first note that the ``replacement of equivalents"
+the other cases, first note that the ``replacement of equivalents''
 rule is derivable in $\sL$ (and thus in $\sLtop$) for
 $\S$, $\E$ and $\A$:
 \[
@@ -1967,7 +1967,7 @@ Just as the connection between S4 and $\Mint \cap \Munions$ allowed us
 to obtain a complete axiomatisation of $\Mtop$, we can axiomatise $\Mint \cap
 \Mcompl$ by considering S5. For brevity, write $\Mintcompl = \Mint
 \cap \Mcompl$. Let $\sLintcompl$ be the extension of $\sLtop$
-with the \textbf{5} axiom for $\hat\S$, which we present in the ``diamond"
+with the \textbf{5} axiom for $\hat\S$, which we present in the ``diamond''
 form:
 \[
     \S\neg\S\phi \limplies \neg\S\phi
@@ -2061,8 +2061,8 @@ each agent in $J$ knows $\phi$. Thus we have
 $\Kshared_J\phi \equiv \bigland_{j \in J}\K_j\phi$.
 
     \footnotetext{In \textcite{fagin2003reasoning}, shared knowledge is denoted
-        $\mathsf{E}_J\phi$ for ``everybody knows $\phi$". We opt to use the
-        term ``shared" knowledge to avoid conflict with our notation for
+        $\mathsf{E}_J\phi$ for ``everybody knows $\phi$''. We opt to use the
+        term ``shared'' knowledge to avoid conflict with our notation for
         expertise.}
 
     \item $\Kcommon_J\phi$ (common knowledge): write $\K_J^1\phi$ for
@@ -2075,7 +2075,7 @@ $\Kshared_J\phi$, and for $n \in \N$ write $\K_J^{n +
     Here $\K_J^1\phi$ says that everyone in $J$ knows $\phi$,
 $\K_J^2\phi$ says that everybody in $J$ knows that everybody in
 $J$ knows $\phi$, and so on. There is common knowledge of
-$\phi$ among $J$ if this nesting of ``everybody knows" holds for
+$\phi$ among $J$ if this nesting of ``everybody knows'' holds for
 any order $n$.
 
     \end{itemize}
@@ -2141,11 +2141,11 @@ For any multi-source expertise model $M$ and $J \subseteq \J$ non-empty,
 \end{proposition}
 
 \begin{proof}
-    ``$\subseteq$": Suppose $x{\Rdist_J}y$. Let $j \in J$.  We need to show
+    ``$\subseteq$'': Suppose $x{\Rdist_J}y$. Let $j \in J$.  We need to show
     $x{R_j}y$. Take any $A \in P_j$ such that $y \in A$. Then $A \in \Pdist_J$,
     so $x{\Rdist_J}y$ gives $x \in A$. Hence $x{R_j}y$.
 
-    ``$\supseteq$": Suppose $(x, y) \in \bigcap_{j \in J}{R_j}$, i.e. $x{R_j}y$
+    ``$\supseteq$'': Suppose $(x, y) \in \bigcap_{j \in J}{R_j}$, i.e. $x{R_j}y$
     for all $j \in J$. Set
     \[
         P' = \{A \in \Pdist_J \mid y \in A \implies x \in A\}
@@ -2350,7 +2350,7 @@ notions of expertise and soundness.
     Bringing back $\econ$, the grand coalition $\J$ have distributed expertise
     on the original report $p \land \neg d$ from
     \cref{exp_ex_economist_motivation}. Consequently, the report is no longer sound
-    at ``actual" state $idp$: all sources together have sufficient expertise to
+    at ``actual'' state $idp$: all sources together have sufficient expertise to
     know it is false.
 
 \end{example}
@@ -2512,7 +2512,7 @@ $\|\phi\|_M$ to $P$ and closing under intersections.
 
 Syntactically, we introduce formulas of the form $[\expinc\phi]\psi$,
 which are to be read as ``$\psi$ holds after the source gains expertise on
-$\phi$". The truth condition for $[\expinc\phi]\psi$ in a model
+$\phi$''. The truth condition for $[\expinc\phi]\psi$ in a model
 $M$ is defined in terms of $M^{\expinc\phi}$:
 \[
 M, x \models [\expinc\phi]\psi
@@ -2539,7 +2539,7 @@ V)$ with
 Then, with $\phi = p \lor (q \land \neg\S p)$ we have $M, 1 \not\models
 [\expinc\phi]\E\phi$.\footnotemark{} This counterexample is reminiscent of
 \emph{Moore sentences} as formalised in Dynamic Epistemic Logic; e.g. an agent
-cannot know $p \land \neg\K p$ (``$p$ is true but I do not know it") after this
+cannot know $p \land \neg\K p$ (``$p$ is true but I do not know it'') after this
 is truthfully announced \cite{baltag2008qualitative}.
 
 \footnotetext{In detail, we have $\|\phi\|_M = \{1, 2\}$, so
@@ -2593,7 +2593,7 @@ The cases for atomic propositions, propositional connectives and
 $\A$ are straightforward. We show the reduction axiom for
 $\S$. Let $M = (X, P, V)$ be a model and $x \in X$.
 
-``$\limplies$": Suppose $M, x \models [\expinc\phi]\S\psi$.
+``$\limplies$'': Suppose $M, x \models [\expinc\phi]\S\psi$.
 Then $M^{\expinc\phi}, x \models \S\psi$. Hence
 \[
 x \in
@@ -2614,7 +2614,7 @@ $\|\psi\|_{M^{\expinc\phi}} \subseteq \|\phi\|_M$. Since
 $\|\phi\|_M \in P^{\expinc\phi}$, we get $x \in \|\phi\|_M$
 from $(*)$, i.e. $M, x \models \phi$ as required.
 
-``$\limpliedby$": Suppose $M, x \models \S[\expinc\phi]\psi$
+``$\limpliedby$'': Suppose $M, x \models \S[\expinc\phi]\psi$
 and $M, x \models \A([\expinc\phi]\psi \limplies \phi) \limplies
 \phi$. Take $A \in P^{\expinc\phi}$ such that
 $\|\psi\|_{M^{\expinc\phi}} \subseteq A$. Then
@@ -2647,7 +2647,7 @@ $M^{\expinc\phi}$ to be closed under intersections.
 In logics of public announcement \cite{plaza2007logics,van_Ditmarsch_2008},
 the dynamic operator $[!\phi]$ represents a \emph{public} and \emph{truthful}
 announcement of $\phi$; the formula $[!\phi]\psi$ is read as ``after
-$\phi$ is announced, $\psi$ holds". Such an announcement changes
+$\phi$ is announced, $\psi$ holds''. Such an announcement changes
 the information available in a model: after the announcement, all
 $\neg\phi$ states are eliminated.
 
@@ -2710,7 +2710,7 @@ announcement of $\S\phi$.
     The updated model $M^{\sndann(p \land \neg d)}$ therefore consists only of
     the bottom half of $M$ as shown in \cref{exp_fig_economist_example}. We see
     that $M, idp \models [\sndann(p \land \neg d)]d$ -- showing that even
-    propositional announcements can ``fail" due to lack of expertise -- and $M
+    propositional announcements can ``fail'' due to lack of expertise -- and $M
     \models [\sndann(p \land \neg d)]\A p$ -- showing that the parts of the
     report on which the sources does have expertise are \emph{always} true
     after their announcement.
@@ -2911,7 +2911,7 @@ Finally, there is scope to study the interaction between interaction between
 expertise and \emph{trust}, which has been extensively studied from a logical
 perspective~\cite{booth_trust_2018,Liau_2003,lorini2014trust,herzig2010logic}.
 Intuitively, source $i$ should trust $j$ on $\phi$ if $i$ believes that $j$ has
-expertise on $\phi$. ``Belief in expertise" in this manner is not particularly
+expertise on $\phi$. ``Belief in expertise'' in this manner is not particularly
 meaningful in the current framework, since $\E_j\phi$ either holds everywhere
 or nowhere. Future work could extend the semantics to allow the expertise
 collection $P_j$ to vary between states, so as to model one source's

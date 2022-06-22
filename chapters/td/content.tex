@@ -108,7 +108,7 @@ they tell us which claims are in conflict with one another.
     % \]
 \end{example}
 
-A special case of our framework is the ``binary" case in which the domain of
+A special case of our framework is the ``binary'' case in which the domain of
 each object consists of two values $D_o = \{\mathsf{true}, \mathsf{false}\}$.
 In this case we can think of each object as a propositional variable. This
 brings us close to the setting studied in \emph{judgment
@@ -143,7 +143,7 @@ $o$ with a value other than $v$, is denoted by
 \[
     \conflict_N(c) = \{(o, v') \mid v' \in D_o \setminus \{v\}\}.
 \]
-The ``antisources" of $c$ are then defined to be the sources for claims
+The ``antisources'' of $c$ are then defined to be the sources for claims
 conflicting with $c$:
 \[
     \antisrc_N(c) = \bigcup\{\src_N(d) \mid d \in \conflict_N(c)\}.
@@ -185,7 +185,7 @@ defined in terms of numeric scores, but the axioms will only refer to ordinal
 properties. This approach is summarised succinctly by \textcite{altman2008},
 who write of ranking systems: ``We feel that the numeric approach is more
 suitable for defining and executing ranking systems, while the global ordinal
-approach is more suitable for axiomatic classification."
+approach is more suitable for axiomatic classification.''
 
 An \emph{operator} maps each network to score and claim scores.
 
@@ -239,7 +239,7 @@ methods, we will introduce the class of \emph{recursive operators}.
 
 It is common in the literature to evaluate truth discovery methods against a
 non-trust-aware method, such as a simple voting procedure.\footnotemark{} Here
-we consider each source to ``vote" for their claims, and claims are ranked
+we consider each source to ``vote'' for their claims, and claims are ranked
 according to the number of votes received, i.e. by $|\src_N(c)|$. While this
 ignores the trust aspect of truth discovery entirely, this method will be
 useful for us as an axiomatic baseline. For example, axioms which aim to
@@ -282,7 +282,7 @@ follows.
 Note that a weighting is essentially just half of a truth discovery operator,
 where we only output scores for sources. This is completed to an operator
 $\wvoting{w}$ by letting the score for a claim be the sum of the weights of its
-sources. Note that we allow the possibility of ``untrustworthy" sources with
+sources. Note that we allow the possibility of ``untrustworthy'' sources with
 $w_N(s) < 0$. Reports from such sources \emph{decrease} the credibility of a
 claim.
 
@@ -415,7 +415,7 @@ method, and was defined in the first work to introduce (and coin the phrase)
 truth discovery. It is formulated in a setting more general than ours: the
 authors suppose claims may \emph{support} each other, as well as conflict, and
 that support of conflict may occur to varying degrees. Formally, each pair of
-claims $c, c'$ has an ``implication" value $\operatorname{imp}(c \to c') \in
+claims $c, c'$ has an ``implication'' value $\operatorname{imp}(c \to c') \in
 [-1, 1]$, where a negative value implies confidence in $c$ should decrease
 confidence in $c'$, and a positive value implies confidence in $c$ should
 \emph{increase} confidence in $c'$. In contrast, our framework assumes claims
@@ -472,7 +472,7 @@ conflicting claim (namely, $f$) than $c$ does. If we instead take $\lambda =
 0$, so that sources for conflicting claims are not considered, then the ranking
 reverts to $c \ceq e \clt d \clt f$.
 
-\paragraph{CRH.} Standing for ``Conflict Resolution on Heterogeneous Data", CRH
+\paragraph{CRH.} Standing for ``Conflict Resolution on Heterogeneous Data'', CRH
 is an optimisation-based framework for truth discovery~\cite{li2016}. It is
 again set in a more general framework, in which a metric $d_o$ is available to
 measure the distance between values in $D_o$, for each object $o$. The
@@ -480,7 +480,7 @@ optimisation problem jointly chooses weights for each source and a value for
 each object, such that the weighted sum of $d_o$-distances from each source's
 claim on $o$ is minimised.
 
-To express CRH in our framework we use the ``probabilistic" encoding of
+To express CRH in our framework we use the ``probabilistic'' encoding of
 categorical variables as described in \cite[\sectionsymbol{2.4.1}]{li2016},
 where each categorical value is represented as a one-hot vector.
 
@@ -549,7 +549,7 @@ claims, so that $d$ is preferred. In others we may want to avoid trusting
 option of ranking $c$ and $d$ equally believable is also reasonable.
 
 To avoid these ambiguous cases, we focus on scenarios where there is an
-``obvious" ordering between two sets of claims (or sources). For example,
+``obvious'' ordering between two sets of claims (or sources). For example,
 consider the network depicted in \cref{td_new_fig_coherence_intro}. Suppose an
 operator gives a source ranking $s \slt u \slt t \slt v$. Note that claims $c$
 and $d$ have the same number of sources. Moreover, we can pair up these sources
@@ -597,7 +597,7 @@ above idea of a one-to-one correspondence respecting a ranking.
 If $f$ satisfies the condition in \cref{td_new_eqn_pwo}, we say $f$
 \emph{witnesses} the fact that $A$ precedes $B$, and write
 $\witprec{f}{A}{B}{\le}$.  Note that if $\le$ is a preorder on $X$, the
-``precedes pairwise" relation is a preorder on $2^X$.  Indeed, it is reflexive
+``precedes pairwise'' relation is a preorder on $2^X$.  Indeed, it is reflexive
 (by considering the identity map $A \to A$, for each $A \subseteq X$) and
 transitive (if $\witprec{f}{A}{B}{\le}$ and $\witprec{g}{B}{C}{\le}$, then
 $\witprec{g \circ f}{A}{C}{\le}$). The strict pairwise order associated has a
@@ -633,14 +633,14 @@ We need a  preliminary lemma.
 \end{proof}
 
 \begin{proof}[Proof of \cref{td_new_prop_pwo_strict_part}]
-    ``if": Clearly $A$ precedes $B$. Suppose for contradiction that this is not
+    ``if'': Clearly $A$ precedes $B$. Suppose for contradiction that this is not
     strict. Then there is some $\witprec{g}{B}{A}{\le}$. Note that $g \circ f$
     is a bijection $A \to A$, and for all $x \in X$ we have $x \le f(x) \le
     g(f(x))$. By \cref{td_new_lemma_pwo_strict_helper}, $x \approx g(f(x))$. In
     particular, we have $f(x_0) \le g(f(x_0)) \approx x_0$, but this
     contradicts $x_0 < f(x_0)$.
 
-    ``only if": Suppose $A$ strictly precedes $B$. Then there is some
+    ``only if'': Suppose $A$ strictly precedes $B$. Then there is some
     $\witprec{f}{A}{B}{\le}$. Note that $f^{-1}$ is a bijection $B \to A$.
     Since $B$ does not precede $A$, there must be some $y_0 \in B$ such that
     $y_0 \not\le f^{-1}(y_0)$. By totality of $\le$, we get $f^{-1}(y_0) <
@@ -696,9 +696,9 @@ respect to $\sle$ (not necessarily strictly). However, this property implies
 that $c \ceq c'$ whenever $\src_N(c) = \src_N(c')$. We have already seen an
 example operator where this does not hold: TruthFinder ranks $e \clt c$ in the
 network $N$ from \cref{td_new_fig_intro_example}, but $\src_N(c) = \src_N(e) =
-\{s\}$. Intuitively, $c$ and $d$ are ``tied" when it come to the quality of
+\{s\}$. Intuitively, $c$ and $d$ are ``tied'' when it come to the quality of
 their own sources, but there are fewer sources \emph{disagreeing} with $c$ (the
-``antisources") than $e$. Stating our coherence properties in the strict form
+``antisources'') than $e$. Stating our coherence properties in the strict form
 permits an operator to consider antisources in cases where there is no clear
 comparison on the basis of sources alone.
 
@@ -716,13 +716,13 @@ trustworthy sources/claims.}
 
 A standard class of axioms in social choice theory are \emph{symmetry
 properties}. In voting, for example, symmetry with respect to voters says that
-a voting rule should not care about the ``names" of the voters: if voters $i$
+a voting rule should not care about the ``names'' of the voters: if voters $i$
 and $j$ swap their ballots, the election result remains the same (this is
 called \emph{anonymity} in the literature). Similarly, symmetry with respect to
 candidates says that if we re-label candidates, the outcome remains the same up
 to re-labelling (this is called \emph{neutrality}). In general, symmetry
 requires that the output of some process depends only on \emph{structural}
-features of the input, not the specific ``names" of the entities involved.
+features of the input, not the specific ``names'' of the entities involved.
 
 For truth discovery, we can consider symmetry with respect to sources, objects
 and claims. The central concept is an \emph{isomorphism} between networks.
@@ -863,7 +863,7 @@ reports from $s$ conflicting with $c$ -- then $c$ should move strictly up in
 the claim ranking. Clearly this neglects to consider the trustworthiness of
 $s$, and is thus an undesirable property (e.g. consider $s$ adversarial as
 described above). Our first monotonicity axiom weakens this naive property by
-only considering ``fresh" sources $s$ not providing any reports in the original
+only considering ``fresh'' sources $s$ not providing any reports in the original
 network $N$. Intuitively, we have no reason to believe such sources are
 untrustworthy, and they should therefore have a positive effect when making a
 claim.
@@ -1108,8 +1108,8 @@ To prove it, we need a preliminary result.
 
 Suppose $\src_N(c) = X$ and $\src_N(d) = X \cup Y$, for disjoint sets of
 sources $X$ and $Y$. The relative ranking of $c$ and $d$ depends on how we
-perceive $Y$: if $Y$ is ``trustworthy" then $d$ gains credibility from the
-extra suppose of $Y$, whereas is $Y$ is ``untrustworthy" this extra support has
+perceive $Y$: if $Y$ is ``trustworthy'' then $d$ gains credibility from the
+extra suppose of $Y$, whereas is $Y$ is ``untrustworthy'' this extra support has
 the opposite effect.
 
 \todo{Write up actual postulates.}
@@ -1134,11 +1134,11 @@ the opposite effect.
 
 Another common class of axioms in social choice theory are \emph{independence}
 axioms, which require that some aspect of the output is independent of
-``irrelevant" parts of the input. The original example is Arrow's
+``irrelevant'' parts of the input. The original example is Arrow's
 \emph{Independence of Irrelevant Alternatives} (IIA) in voting
 theory~\cite{arrow1952}, which says, roughly speaking, that the ranking of
 candidates $A$ and $B$ should depend only on the individual rankings of $A$ and
-$B$, not on any ``irrelevant" alternative $C$. It has been adapted to several
+$B$, not on any ``irrelevant'' alternative $C$. It has been adapted to several
 settings in which the axiomatic method has been applied. Perhaps closest to our
 setting is judgment aggregation, where independence requires the collective
 acceptance of a report $\phi$ does not depend on how the individuals accept or
@@ -1469,7 +1469,7 @@ results.
 
 %     - Express this via *Coherence*.
 
-%     - Notation: if ≤ is a tpo on a set X, let ≤_pw be the "pairwise" preorder
+%     - Notation: if ≤ is a tpo on a set X, let ≤_pw be the ''pairwise'' preorder
 %       on 2^X defined by
 %         A ≤_pw B iff ∃f : A -> B bijective st for all x ∈ A, x ≤ f(x)
 

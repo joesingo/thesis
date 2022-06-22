@@ -106,6 +106,13 @@ class TestSuite:
         """
         assert "\\labelcref" not in line
 
+    @test(line_based=True)
+    def test_no_double_quotes(self, line):
+        """
+        should not use double quotes
+        """
+        assert '"' not in line
+
 
 if __name__ == "__main__":
     suite = TestSuite()

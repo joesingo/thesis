@@ -53,7 +53,7 @@ trustworthiness changes.\footnotemark{}
 
 To unify the trust and belief aspects, we enrich a propositional language with
 \emph{expertise statements} $\E_i\phi$, read as ``source $i$ has expertise on
-$\phi$". The output of our belief change problem is then a collection of belief
+$\phi$''. The output of our belief change problem is then a collection of belief
 and knowledge sets in the extended language, describing what we \emph{know} and
 \emph{believe} about the expertise of the sources and the state of the world in
 each instance. For example, we should \emph{know} reports from the reliable
@@ -70,9 +70,9 @@ use \emph{soundness formulas} $\S_i\phi$, which intuitively say that $\phi$ is
 true \emph{up the expertise of} $i$. For example, if $i$ has expertise on $p$
 but not $q$, then the conjunction $p \land q$ is sound for $i$ whenever $p$
 holds, since we can effectively ignore $q$. Formally,
-$\phi$ is sound for $i$ if the ``actual" state of the world is
+$\phi$ is sound for $i$ if the ``actual'' state of the world is
 indistinguishable from a $\phi$ valuation. Note that expertise does not depend
-on the ``actual" state, whereas soundness does. This provides a crucial link
+on the ``actual'' state, whereas soundness does. This provides a crucial link
 between expertise and truthfulness of information.
 
 We then make the assumption that \emph{sources only report sound propositions}.
@@ -99,10 +99,10 @@ may label multiple images, or a weather forecaster may give predictions for
 different locations. Each report in the input to the
 problem then refers to a specific case. Via these cases and the presence of the
 completely reliable source, we are able to model scenarios where some ``ground
-truth" is available, listing how often sources have been correct/incorrect on a
+truth'' is available, listing how often sources have been correct/incorrect on a
 proposition (e.g. the \emph{report histories} of
 \textcite{hunter_building_21}). We can also generalise this scenario, e.g. by
-having only partial information about ``previous" cases.
+having only partial information about ``previous'' cases.
 
 Throughout the chapter we make the assumption that \emph{expertise is fixed
 across cases}: the expertise of a source does not depend on the particular
@@ -158,7 +158,7 @@ time).
 %each source has an \emph{indistinguishibility equivalence relation} over
 %possible states of the world. A source is an expert on a proposition $\phi$
 %exactly when there is no $\phi$ state which is indistinguishable from a
-%$\neg\phi$ state.\footnotemark{} Expertise is thus ``topic dependent", in that
+%$\neg\phi$ state.\footnotemark{} Expertise is thus ``topic dependent'', in that
 %a source may be an expert in some areas but not others.
 
 %\footnotetext{
@@ -269,9 +269,9 @@ $\propmods{\phi}$. A \emph{world} $W = \tuple{\{v_c\}_{c \in \C}, \{\Pi_i\}_{i
 \in \srcs}}$ is a possible complete specification of the environment we find
 ourselves in:
 \begin{itemize}
-    \item $v_c \in \vals$ is the ``true" valuation at case $c \in \C$;
+    \item $v_c \in \vals$ is the ``true'' valuation at case $c \in \C$;
     \item $\Pi_i$ is a partition of $\vals$ for each $i \in \srcs$, representing
-          the ``true" expertise of source $i$; and
+          the ``true'' expertise of source $i$; and
     \item $\Pi_\ast$ is the unit partition $\{\{v\} \mid v \in \vals\}$.
 \end{itemize}
 Let $\W$ denote the set of all worlds.  Note that the partition corresponding
@@ -602,7 +602,7 @@ combinations of partition-equivalent worlds.
 \end{proposition}
 
 \begin{proof}
-    ``if": Suppose the stated condition holds for $S \subseteq \W$. Form a
+    ``if'': Suppose the stated condition holds for $S \subseteq \W$. Form a
     collection $G = \{\Gamma_c\}_{c \in \C}$ by setting $\Gamma_c = \{\Phi \in
     \lext \mid S \subseteq \mod_c(\Phi)\}$. Clearly $S \subseteq \mod(G)$. For the
     reverse inclusion, suppose $W \in \mod(G)$. For any set of valuations $U
@@ -646,7 +646,7 @@ combinations of partition-equivalent worlds.
     Repeatedly applying the closure condition assumed to hold for $S$, we see
     that $W \in S$ as required.
 
-    ``only if": Suppose $S$ is elementary, i.e. $S = \mod(G)$ for some
+    ``only if'': Suppose $S$ is elementary, i.e. $S = \mod(G)$ for some
     collection $G = \{\Gamma_c\}_{c \in \C}$, and let $W, W_1, W_2$ be as in
     the statement of the \lcnamecref{kr_prop_elementary_characterisation}. Take $c
     \in \C$ and $\Phi \in \Gamma_c$. We will show $W, c \models \Phi$. By assumption,
@@ -831,8 +831,8 @@ fully determined once $K^\emptyset$ is chosen.
 \begin{proof}
     \leavevmode
     \begin{enumerate}
-        \item The ``$\sqsubseteq$" inclusion is just \kbound{}.
-              For the ``$\sqsupseteq$" inclusion, note that $G^\sigma_\snd
+        \item The ``$\sqsubseteq$'' inclusion is just \kbound{}.
+              For the ``$\sqsupseteq$'' inclusion, note that $G^\sigma_\snd
               \sqsubseteq K^\sigma$ by \soundness{}, and $K^\emptyset
               \sqsubseteq K^\sigma$ by \priorext{}. Hence
               \[
@@ -849,12 +849,12 @@ fully determined once $K^\emptyset$ is chosen.
               \]
               where we use \closure{} in the final step.
 
-          \item ``if": Suppose $K^\sigma = \cn(G^\sigma_\snd)$ for all
+          \item ``if'': Suppose $K^\sigma = \cn(G^\sigma_\snd)$ for all
                 $\sigma$. Taking $\sigma = \emptyset$ we obtain
                 \[
                     K^\sigma = \cn(G^\emptyset_\snd) = \cn(\emptyset).
                 \]
-                ``only if": Suppose $K^\emptyset = \cn(\emptyset)$. Take any
+                ``only if'': Suppose $K^\emptyset = \cn(\emptyset)$. Take any
                 sequence $\sigma$. By \kbound{},
                 \[
                     K^\sigma
@@ -1000,7 +1000,7 @@ by formalising the introductory hospital example.
     \closure{}. So in fact Dr.\ A is known to be a non-expert on X.
 
     What about beliefs? The basic postulates do not require beliefs to go
-    beyond knowledge, so we cannot say much in general. An ``optimistic"
+    beyond knowledge, so we cannot say much in general. An ``optimistic''
     operator, however, may opt to believe that sources are experts unless we
     know otherwise, and thus maximise the information that can be (defeasibly)
     inferred from the sequence (in the next section we will introduce
@@ -1053,7 +1053,7 @@ is model-based.
     For ease of notation in what follows, write $\mods_c(\Phi) = \{W \in \W
     \mid W, c \models \Phi\}$.
 
-``if": Suppose an operator $\sigma \mapsto \tuple{B^\sigma, K^\sigma}$ is
+``if'': Suppose an operator $\sigma \mapsto \tuple{B^\sigma, K^\sigma}$ is
 model-based. For \closure{}, we need to show that $B^\sigma_c \supseteq
 \cn_c(B^\sigma)$ and $K^\sigma_c \supseteq \cn_c(K^\sigma)$, for each $c$. Take
 any $\Phi \in \cn_c(B^\sigma)$. Then $\mods(B^\sigma) \subseteq \mods_c(\Phi)$.
@@ -1069,7 +1069,7 @@ K^\sigma_c$ then $W, c \models \Phi$ for all $W \in \X_\sigma$, and in
 particular this holds for all $W \in \Y_\sigma$. Hence $\Phi \in B^\sigma_c$,
 so $K^\sigma \sqsubseteq B^\sigma$.
 
-``only if": Suppose an operator satisfies \closure{} and
+``only if'': Suppose an operator satisfies \closure{} and
 \containment{}. For any $\sigma$, set
 \[
     \X_\sigma = \mods(K^\sigma)
@@ -1346,8 +1346,8 @@ First, we need a preliminary result.
 \end{lemma}
 
 \begin{proof}
-We prove the result for $\X_\sigma$ and $K^\sigma$ only. The ``only if"
-direction is clear from the definition of an elementary set. For the ``if"
+We prove the result for $\X_\sigma$ and $K^\sigma$ only. The ``only if''
+direction is clear from the definition of an elementary set. For the ``if''
 direction, suppose $\X_\sigma$ is elementary, i.e. $\X_\sigma = \mod(G)$ for
 some collection $G$. Since $\Phi \in K^\sigma_c$ iff $\X_\sigma \subseteq
 \mod_c(\Phi)$, we have $K^\sigma_c = \cn_c(G)$, i.e. $K^\sigma = \cn(G)$.
@@ -1373,7 +1373,7 @@ Take some operator $\sigma \mapsto \tuple{B^\sigma, K^\sigma}$ satisfying
 \closure{}, \containment{}, \kconj{} and
 \equivpost{}.
 
-``if": Suppose the operator in question additionally satisfies
+``if'': Suppose the operator in question additionally satisfies
 \rearr{}, \duprem{}, \condcons{},
 \incvac{} and \acyc{}. For any $\sigma$, set
 %
@@ -1648,7 +1648,7 @@ inequalities, i.e. $\le$ such that
 This shows that our operator is an elementary conditioning operator as
 required.
 
-``only if": Now  suppose the operator is an elementary conditioning operator.
+``only if'': Now  suppose the operator is an elementary conditioning operator.
 i.e. there is a total preorder $\le$ on $\W$ and a mapping $\sigma \mapsto
 \tuple{\X_\sigma, \Y_\sigma}$ such that for each $\sigma$, $\Y_\sigma =
 \min_{\le}{X_\sigma}$, $\X_\sigma$ and $\Y_\sigma$ are elementary, and
@@ -1828,7 +1828,7 @@ world $W_2 \in \X_\sigma$ with $W_2, d \models \E_i{p} \land \neg \E_j{p} \land
 p$ (i.e. $W_2$ sides with source $i$). Appealing to symmetry, one may argue
 that neither world is \emph{a priori} more plausible than the other, so any
 fixed plausibility order should have $W_1 \simeq W_2$. If these worlds
-are maximally plausible (e.g. if taking the ``optimistic" view outlined in
+are maximally plausible (e.g. if taking the ``optimistic'' view outlined in
 \cref{kr_ex_hospital_ex_formalised}), conditioning gives $p \notin B^\sigma_d$ and
 $\neg p \notin B^\sigma_d$.
 %
@@ -1928,7 +1928,7 @@ The set of possible worlds $\X_\sigma$ is the same as for the earlier
 operators.
 All worlds are \emph{a priori} equiplausible according to
 $r_0$. The disagreement score $d$ is defined as the number of propositional
-valuations in the ``excess" of $\Pi^W_i[\phi]$ which are not models of
+valuations in the ``excess'' of $\Pi^W_i[\phi]$ which are not models of
 $\phi$, i.e. the number of $\neg\phi$ valuations which are indistinguishable
 from some $\phi$ valuation.
 %
@@ -2042,7 +2042,7 @@ worlds whose $c$ valuation is $v$.
 \end{lemma}
 
 \begin{proof}
-    ``$\implies$": We show the contrapositive. Suppose $\Y_\sigma \cap \W_{c\
+    ``$\implies$'': We show the contrapositive. Suppose $\Y_\sigma \cap \W_{c\
     :\ v} = \emptyset$. Let $\psi$ be any propositional formula such that
     $\propmods{\psi} = \vals \setminus \{v\}$. Now for any $W \in \Y_\sigma$,
     we have $W \notin \W_{c\ :\  v}$, i.e. $v^W_c \ne v$. Hence $v^W_c \in
@@ -2051,7 +2051,7 @@ worlds whose $c$ valuation is $v$.
     propositional formula, so $\psi \in \proppart{B^\sigma_c}$. Since $v \notin
     \propmods{\psi}$, we have $v \notin \propmods{\proppart{B^\sigma_c}}$.
 
-    ``$\impliedby$": Suppose there is some $W \in \Y_\sigma \cap \W_{c\ :\
+    ``$\impliedby$'': Suppose there is some $W \in \Y_\sigma \cap \W_{c\ :\
     v}$. Let $\phi \in \proppart{B^\sigma_c}$. Then, in particular, $\phi \in
     B^\sigma_c$, so $W, c \models \phi$ by $W \in \Y_\sigma$ and the definition
     of the model-based belief set. That is, $v = v^W_c \in \propmods{\phi}$.
@@ -2115,7 +2115,7 @@ We have a sufficient condition for \agm{} for score-based operators.
         \end{claim}
         \begin{proof}
 
-            ``$\subseteq$": let $v \in \propmods{\proppart{B^\sigma_c}}$. By
+            ``$\subseteq$'': let $v \in \propmods{\proppart{B^\sigma_c}}$. By
             \cref{kr_lemma_model_based_models_of_proppart}, there is some $W \in
             \Y_\sigma \cap \W_{c\ :\  v}$. Since $W \in \X_\sigma$ too, by
             definition of $k$ we have $k(v) \le r_\sigma(W) < \infty$. Now let
@@ -2128,7 +2128,7 @@ We have a sufficient condition for \agm{} for score-based operators.
             \]
             i.e. $v \preceq v'$. Hence $v$ is $\preceq$-minimal.
 
-            ``$\supseteq$": let $v \in \min_{\preceq}\vals$. Since $K^\sigma$
+            ``$\supseteq$'': let $v \in \min_{\preceq}\vals$. Since $K^\sigma$
             is consistent, there is some $\hat{W} \in \X_\sigma$.  Writing
             $\hat{v} = v^{\hat{W}}_c$, we have $\hat{W} \in \X_\sigma \cap
             \W_{c\ :\ \hat{v}}$, so $v \preceq \hat{v}$ implies
@@ -2164,7 +2164,7 @@ We have a sufficient condition for \agm{} for score-based operators.
             \min\nolimits_{\preceq}{\propmods{\phi}}$.
         \end{claim}
         \begin{proof}
-            ``$\subseteq$": let $v \in \propmods{\proppart{B^\rho_c}}$.  By
+            ``$\subseteq$'': let $v \in \propmods{\proppart{B^\rho_c}}$.  By
             \cref{kr_lemma_model_based_models_of_proppart} again, there is some $W
             \in \Y_\rho \cap \W_{c\ :\  v}$. Since $\tuple{\ast, c, \phi} \in
             \rho$ and $d(W, \tuple{\ast, c, \phi}) \le r_\rho(W) < \infty$, we
@@ -2202,7 +2202,7 @@ We have a sufficient condition for \agm{} for score-based operators.
             and $v \preceq v'$ as required.
 
 
-            ``$\supseteq$": let $v \in \min_{\preceq}{\propmods{\phi}}$. Since
+            ``$\supseteq$'': let $v \in \min_{\preceq}{\propmods{\phi}}$. Since
             $\neg\phi \notin K^\sigma_c$, there is some $\hat{W} \in \X_\sigma$
             such that $\hat{W}, c \models \phi$. Writing $\hat{v} =
             v^{\hat{W}}_c$, we have $\hat{v} \in \propmods{\phi}$. Hence $v
@@ -2466,7 +2466,7 @@ write $\pi(W)$ for the world with $v^{\pi(W)}_c = v^W_c$ and $\Pi^{\pi(W)}_i =
 reports are received, we only know tautologies. As remarked earlier, this is
 not an \emph{essential} property, but is reasonable when no prior knowledge is
 available. \cref{kr_item_anonymity} is an anonymity postulate: it says that
-permuting the ``names" of sources does not affect the plausibility of a world,
+permuting the ``names'' of sources does not affect the plausibility of a world,
 and is a desirable property in light of
 \cref{kr_item_conditioning_impossibility_first}. \refinement{}, introduced
 in \cref{kr_sec_conditioning_operators}, says that worlds in which all sources
@@ -2609,7 +2609,7 @@ it is received as an additional report. But what can we say about propositional
 beliefs when taking into account the \emph{whole sequence} $\sigma$? To
 investigate this we introduce an analogue of \emph{selective revision}
 \cite{ferme1999selective}, in which propositional beliefs are
-formed by ``selecting" part of each input report (intuitively, some part
+formed by ``selecting'' part of each input report (intuitively, some part
 consistent with the source's expertise). In what follows, write $\sigma \rs c =
 \{\tuple{i, \phi} \mid \tuple{i, c, \phi} \in \sigma\}$ for the $c$-reports in
 $\sigma$.
@@ -2661,7 +2661,7 @@ have the following characterisation.
 \end{theorem}
 
 \begin{proof}
-    ``if": Suppose a model-based operator satisfies \boundedness{}. Take any
+    ``if'': Suppose a model-based operator satisfies \boundedness{}. Take any
     $\ast$-consistent $\sigma$. For $c \in \C$, set
     \[
         M_c = \propmods{\proppart{B^\sigma_c}}.
@@ -2684,8 +2684,8 @@ have the following characterisation.
             F_\sigma(i, c, \phi)
         }.
     \]
-    The ``$\subseteq$" inclusion is clear since, by definition, $F_\sigma(i, c,
-    \phi) \supseteq M_c$. For the ``$\supseteq$" inclusion, suppose for
+    The ``$\subseteq$'' inclusion is clear since, by definition, $F_\sigma(i, c,
+    \phi) \supseteq M_c$. For the ``$\supseteq$'' inclusion, suppose for
     contradiction that there is some $v \in \bigcap_{\tuple{i, \phi} \in \sigma
     \rs c}{F_\sigma(i, c, \phi)}$ with $v \notin M_c$.
 
@@ -2718,7 +2718,7 @@ have the following characterisation.
     \]
     as required for selectivity.
 
-    ``only if": Suppose a model-based operator is selective according to some
+    ``only if'': Suppose a model-based operator is selective according to some
     selection scheme $f$. Take any $\ast$-consistent $\sigma$ and $c \in \C$.
     Write
     \[
@@ -2837,7 +2837,7 @@ We first state some preliminary results.
     Take an elementary conditioning operator with the basic postulates
     and $K^\emptyset = \cn(\emptyset)$.
 
-    ``if":  Suppose the stated property holds. Since all conditioning operators
+    ``if'':  Suppose the stated property holds. Since all conditioning operators
     are model-based, by \cref{kr_thm_selectivity_characterisation} it suffices to
     show \boundedness{}. To that end, let $\sigma$ be $\ast$-consistent and
     take $c \in \C$. We need $\proppart{B^\sigma_c} \subseteq
@@ -2873,7 +2873,7 @@ We first state some preliminary results.
     \cref{kr_lemma_model_based_models_of_proppart} that $v \in
     \propmods{\proppart{B^\sigma_c}}$, as required.
 
-    ``only if": Suppose our operator is selective, i.e. satisfies
+    ``only if'': Suppose our operator is selective, i.e. satisfies
     \boundedness{}. To show the desired property holds, take any $W$, $c$ and
     $v$. Enumerate $\C \setminus \{c\}$ as $\{d_1, \ldots, d_N\}$. By
     \cref{kr_lemma_local_refinement_sequence}, for each $1 \le n \le N$ there is a
@@ -3008,7 +3008,7 @@ The characterisation is as follows.
 
 \begin{proof}
 
-    ``only if": Suppose a model-based operator is selective
+    ``only if'': Suppose a model-based operator is selective
     according to some case-independent scheme $f$. Take any $\ast$-consistent
     $\sigma$, $H \subseteq \C$ and $c \in \C$. For any case $d$, write $M_d =
     \propmods{\proppart{B^\sigma_d}}$. Note that with $c_0$ an
@@ -3043,7 +3043,7 @@ The characterisation is as follows.
     Hence $v \in M_d$ gives $v \in F_\sigma(i, \phi)$. This shows the inclusion
     in \cref{kr_eqn_hbnd_inclusion}, and we are done.
 
-    ``if": Suppose a model-based operator satisfies \hboundedness{}. Let
+    ``if'': Suppose a model-based operator satisfies \hboundedness{}. Let
     $\sigma$ be a $\ast$-consistent sequence. As before, write $M_c$ for
     $\propmods{\proppart{B^\sigma_c}}$. For $i \in \srcs$ and $c \in \C$,
     write
@@ -3138,7 +3138,7 @@ therefore have $f_\sigma(i, c, p) \equiv f_\sigma(j, c, p) \equiv \top$.
 Consequently, EC-selectivity would imply $\proppart{B^\sigma_c} =
 \cnprop(\top)$. This is a very conservative stance: while there is total
 consensus for $p$ in case $c$, $p$ cannot be believed due to disagreement
-elsewhere. This also conflicts with the ``optimistic" attitude described in
+elsewhere. This also conflicts with the ``optimistic'' attitude described in
 \cref{kr_ex_hospital_ex_formalised}. According to that view we should have
 $\E_i{p}
 \lor \E_j{p} \in B^\sigma_c$, but this implies $p \in B^\sigma_c$ by
@@ -3251,14 +3251,14 @@ desirable.
 Our notions of expertise and soundness are related to \emph{S5
 knowledge} from epistemic logic~\cite{handbook_epistemic}. In such
 logics, an agent \emph{knows} $\phi$ at a state $x$ if $\phi$ holds at all
-states $y$ ``accessible" from $x$. Knowledge is thus determined by an
+states $y$ ``accessible'' from $x$. Knowledge is thus determined by an
 \emph{epistemic accessibility relation}, which describes the distinctions
 between states the agent can make. The logic of S5 arises when this relation is an
 equivalence relation (or equivalently, a partition).
 
 Our previous work~\cite{singleton2021logic} -- in which expertise and soundness
 were introduced in a modal logic framework -- showed that ``expertise
-models" are in 1-to-1 correspondence with S5 models, such that $\E{\phi}$
+models'' are in 1-to-1 correspondence with S5 models, such that $\E{\phi}$
 holds iff $\A(\phi \limplies \K\phi)$ holds in the S5 model, where $\A$ is the
 universal modality. By symmetry of expertise, we can also replace $\phi$ with
 its negation. Thus, expertise has a precise epistemic interpretation: it is the
