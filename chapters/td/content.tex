@@ -877,13 +877,20 @@ for the network $(S, O, D, R \cup \{(s, c)\})$.
 \end{axiom}
 
 That is, if $c$ was already at least as believable as $d$, then a fresh report
-makes $c$ \emph{strictly} more believable in the new network.
+makes $c$ \emph{strictly} more believable in the new network.\footnotemark{}
 %
 What about the effects of a fresh report for $c$ on source trustworthiness?
 According to the mutual dependence between the source and claim rankings --
 captured in a static network via the coherence properties -- sources already
 claiming $c$ should become more trusted, whereas those claiming a conflicting
 claim $d$ should become less trusted.
+
+\footnotetext{
+    Note that $N$ and $\addclaim{N}{s}{c}$ share the same set of objects $O$
+    and domains $D$, so the set of possible claims in both networks are the
+    same. Consequently we are justified in treating $c$ and $d$ as claims in
+    both networks.
+}
 
 \begin{axiom}[\sourceposresp{}]
     Suppose $s \in \antisrc_N(c)$, $t \in \src_N(c)$, and $\claims_N(u) =
@@ -1329,14 +1336,17 @@ components.}
     respect to $\cle_N^T$, then $c' \clt_N^T c$.
 \end{axiom}
 
+Taking \symmetry{} and \claimcoherence{}, we obtain three impossibility
+results.
+
 \begin{theorem}
     \label{td_new_thm_conflict_impossibilities}
-    The following axioms cannot hold simultaneously.
+    Suppose an operator satisfies \symmetry{} and \claimcoherence{}. Then the
+    following axioms cannot hold simultaneously.
     \begin{enumerate}
-        \item \symmetry{}, \freshposresp{}, \conflictcoherence{},
-            \sourcecoherence, \claimcoherence{}.
-        \item \symmetry{}, \sourceposresp{}, \claimcoherence{},
-            \anticoherence{}.
+        \item \freshposresp{}, \sourcecoherence{} and \conflictcoherence{},
+        \item \sourceposresp{} and \conflictcoherence{}.
+        \item \sourceposresp{} and \anticoherence{}.
     \end{enumerate}
 \end{theorem}
 
