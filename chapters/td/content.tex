@@ -1223,12 +1223,11 @@ per-object voting gives $c \ceq d$), we obtain an impossibility result with
 since \sourceposresp{} can also be replaced with \sourcecoherence{}.
 
 \begin{theorem}
-    The following axioms cannot hold simultaneously:
+    Suppose and operator satisfies \symmetry{}, \claimcoherence{} and
+    \freshposresp{}. Then the following axioms cannot hold simultaneously.
     \begin{enumerate}
-        \item \claimcoherence{}, \symmetry{}, \freshposresp, \sourceposresp{}
-            and \classicalindependence{}.
-        \item \claimcoherence{}, \symmetry{}, \freshposresp, \sourcecoherence{}
-            and \classicalindependence{}.
+        \item \sourceposresp{} and \classicalindependence{}.
+        \item \sourcecoherence{} and \classicalindependence{}.
     \end{enumerate}
 \end{theorem}
 
@@ -1376,7 +1375,58 @@ results.
 \end{figure}
 
 \begin{proof}
-    \todo{Write up.}
+    Suppose $T$ satisfies \symmetry{} and \claimcoherence{}.
+    Throughout the proof, let $N_0$ denote the network shown in
+    \cref{td_new_fig_conflict_impossibilities} excluding the dashed edge, and
+    let $N_1 = \addclaim{N}{u}{f}$ denote the network including the dashed
+    edge. We first note some consequences of the axioms in both networks. In
+    $N_0$, the mapping $(s\ s')(t\ t')(c\ c')(d\ d')(o\ o')(e\ f)$ is an
+    automorphism, so we have $s \seq_{N_0}^T s'$ and $e \ceq_{N_0}^T f$. Note
+    that $\src_{N_0}(u) = \emptyset$, $s \in \antisrc{N_0}(f)$ and $s' \in
+    \src_{N_0}(f)$. If $T$ additionally satisfies \freshposresp{}, we get $e
+    \clt_{N_1}^T f$. If $T$ instead satisfies \sourceposresp{}, we get $s
+    \slt_{N_1}^T s'$.
+
+    Considering $N_1$ alone, the mapping $(s\ t)(s'\ t')(c\ d)(c'\ d')$ is an
+    automorphism, so \symmetry{} gives $c \ceq_{N_1}^T d$ and $c' \ceq_{N_1}^T
+    d'$.
+
+    \begin{enumerate}
+
+        \item Suppose $T$ also satisfies \freshposresp{}, \sourcecoherence{}
+              and \conflictcoherence{}. First we claim $c \ceq_{N_1}^T c'$.
+              Indeed, suppose not. If $c' \clt_{N_1}^T c$, we may note that
+              $\conflict_{N_1}(d) = \{c\}$ and $\conflict_{N_1}(d') = \{c'\}$,
+              and apply \conflictcoherence{} to get $d \clt_{N_1}^T d'$. But by
+              \symmetry{} as above, we have $c \ceq_{N_1}^T d$ and $c'
+              \ceq_{N_1}^T d'$. Consequently $c \ceq_{N_1}^T d \clt_{N_1}^T d'
+              \ceq_{N_1}^T c'$, i.e. $c \clt_{N_1}^T c'$. Clearly this
+              contradicts $c' \clt_{N_1}^T c$. If $c \clt_{N_1}^T c'$ we obtain
+              a contradiction by an identical argument. Hence $c \ceq_{N_1}^T
+              c'$.
+
+              Now, by \freshposresp{} and \symmetry{} as noted above, we have
+              $e \clt_{N_1}^T f$. \sourcecoherence{} for $s$ and $s'$ therefore
+              gives $s \slt_{N_1}^T s'$. But considering $c$ and $c'$,
+              \claimcoherence{} gives $c \clt_{N_1}^T c'$. This contradicts $c
+              \ceq_{N_1}^T c'$, and we are done.
+
+        \item Suppose $T$ additionally satisfies \sourceposresp{} and
+              \conflictcoherence{}. By the same argument as above,
+              \conflictcoherence{} and \symmetry{} together dictate that $c
+              \ceq_{N_1}^T c'$. But by \symmetry{} and \sourceposresp{}, we
+              have $s \slt_{N_1}^T s'$. \claimcoherence{} then implies $c
+              \clt_{N_1}^T c'$: contradiction.
+
+        \item Suppose $T$ additionally satisfies \sourceposresp{} and
+              \anticoherence{}. Again, $s \slt_{N_1}^T s'$. \claimcoherence{}
+              implies $c \clt_{N_1}^T c'$. Since $\antisrc_{N_1}(d) = \{s\}$
+              and $\antisrc_{N_1}(d') = \{s'\}$, \anticoherence{} gives $d'
+              \clt_{N_1}^T d$. But recall that, by \symmetry{}, $c \ceq_{N_1}^T
+              d$ and $c' \ceq_{N_1}^T d'$. Hence $c \clt_{N_1}^T c'
+              \ceq_{N_1}^T d' \clt_{N_1}^T d \ceq_{N_1}^T c$, i.e. $c
+              \clt_{N_1}^T c$: contradiction.
+    \end{enumerate}
 \end{proof}
 
 \section{A Characterisation of Voting}
