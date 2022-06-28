@@ -1309,34 +1309,31 @@ components.}
 \subsection{Conflicting claims}
 \label{td_new_sec_conflicting_claims}
 
-\todo{Prose.}
+Our axioms so far have not made use of the conflict relation between claims.
+Intuitively, distinct claims $c, c'$ for the same object $o$ cannot both be
+true, so belief in $c$ should come at the expense of belief in $c'$. Similarly,
+if the antisources of $c$ -- that is, the sources who report claims conflicting
+with $c$ -- are seen as less trustworthy than the antisources of $c'$, then the
+attack on $c$ is less damaging than that of $c'$, so $c$ should be more
+believable than $c'$. Note that these are again coherence principles, which
+constrain how the claim ranking $\cle$ coheres with both the source ranking
+$\sle$ and the conflict relation. We formulate them as axioms.
 
-% This discussion leads to a new interpretation of mutual-dependence principle of
-% truth discovery: claims refuted by trustworthy sources should \emph{not} be
-% believed. We formulate this as an axiom.
-
-\begin{axiom}[\anticoherence{}]
-    If $\antisrc_N(c)$ strictly precedes $\antisrc_N(c')$ pairwise with respect
-    to $\sle_N^T$, then $c' \clt_N^T c$.
-\end{axiom}
-
-% Recall that $\antisrc_N(c)$ are the sources making some claim which conflicts
-% with $c$. Thus, \anticoherence{} says that if the antisources for $c'$ are more
-% trustworthy than those of $c$, then $c$ is strictly more believable than $c'$.
-% While both \claimcoherence{} and \anticoherence{} are reasonable in isolation,
-% there is an inherent tension between them: \claimcoherence{} looks at the
-% sources supporting a claim, whereas \anticoherence{} looks at sources refuting
-% a claim. We explore this tension in \todo{section reference}, where we provide
-% an impossibility result showing that both cannot hold at the same, alongside
-% some other reasonable properties.
-
+\begin{axiomlist}
 \begin{axiom}[\conflictcoherence{}]
     If $\conflict_N(c)$ strictly precedes $\conflict_N(c')$ pairwise with
     respect to $\cle_N^T$, then $c' \clt_N^T c$.
 \end{axiom}
+\begin{axiom}[\anticoherence{}]
+    If $\antisrc_N(c)$ strictly precedes $\antisrc_N(c')$ pairwise with respect
+    to $\sle_N^T$, then $c' \clt_N^T c$.
+\end{axiom}
+\end{axiomlist}
 
-Taking \symmetry{} and \claimcoherence{}, we obtain three impossibility
-results.
+While both \conflictcoherence{} and \anticoherence{} appear reasonable in
+isolation, there is an inherent tension between them and our earlier coherence
+axioms. Together with symmetry and responsiveness axioms, we have an
+impossibility result.
 
 \begin{theorem}
     \label{td_new_thm_conflict_impossibilities}
@@ -1386,7 +1383,7 @@ results.
     \src_{N_0}(f)$. If $T$ additionally satisfies \freshposresp{}, we get $e
     \clt_{N_1}^T f$. If $T$ instead satisfies \sourceposresp{}, we get $s
     \slt_{N_1}^T s'$.
-
+    %
     Considering $N_1$ alone, the mapping $(s\ t)(s'\ t')(c\ d)(c'\ d')$ is an
     automorphism, so \symmetry{} gives $c \ceq_{N_1}^T d$ and $c' \ceq_{N_1}^T
     d'$.
@@ -1428,6 +1425,10 @@ results.
               \clt_{N_1}^T c$: contradiction.
     \end{enumerate}
 \end{proof}
+
+Note that all four coherence \emph{can} be satisfied at the same time, e.g. by
+the trivial operator which outputs constant scores $T_N(s) = T_N(c) = 0$. Of
+course, this operator violates both \freshposresp{} and \sourceposresp{}.
 
 \section{A Characterisation of Voting}
 \label{td_new_sec_a_characterisation_of_voting}
