@@ -35,6 +35,9 @@
     * 2^X for powerset, Y^X for functions, | for restrictions
     * cycle notation for permutations
 
+- References:
+    * `van` for Dutch names
+
 ## TD
 
 - Tikz-ify the figures
