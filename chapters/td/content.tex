@@ -236,6 +236,7 @@ claims scores, and vice versa.  To simplify the definition and analysis of such
 methods, we will introduce the class of \emph{recursive operators}.
 
 \subsection{Voting}
+\label{td_new_sec_voting}
 
 It is common in the literature to evaluate truth discovery methods against a
 non-trust-aware method, such as a simple voting procedure.\footnotemark{} Here
@@ -1432,6 +1433,91 @@ course, this operator violates both \freshposresp{} and \sourceposresp{}.
 
 \section{A Characterisation of Voting}
 \label{td_new_sec_a_characterisation_of_voting}
+
+In the previous section we introduced general axioms for truth discovery
+operators. We saw in \cref{td_new_prop_symm_fpr_ci_voting} that \symmetry{},
+\freshposresp{} and \classicalindependence{} force an operator to rank claims
+for the object simply by their number of sources, as in voting from
+\cref{td_new_sec_voting}. In this section we give two further axioms which
+force this ranking even for claims across different objects, and thus
+characterise $\voting{}$ completely. Like \classicalindependence{}, these
+axioms are \emph{not} desirable properties, and are introduced only to capture
+the behaviour of voting. The first axiom simply says that the source ranking is
+flat.
+
+\begin{axiom}[\flatsources{}]
+    For all $s, s' \in S$, $s \seq_N^T s'$.
+\end{axiom}
+
+The second axiom says that object play no role: it is only the relation between
+sources and claims which affects the rankings. That is, claims are treated as
+atomic elements without considering the conflict relation. To define the
+axiom we introduce a notion of ``reducing'' the objects of a network.
+
+\begin{definition}
+    A network $N'$ is an \emph{object reduction} of $N$ if
+    \begin{enumerate}
+        \item $S' = S$.
+        \item There is a bijection $f: C_N \to C_{N'}$ such that $(s, c) \in R$
+              iff $(s, f(c)) \in R'$.
+        \item For al $o \in O'$, $|D'_o| = 1$.
+    \end{enumerate}
+\end{definition}
+
+\begin{figure}
+    \centering
+        \begin{subfigure}{.4\textwidth}
+            \begin{tikzpicture}[thick]
+                \LARGE
+                \networkinit{s,t,u}{c,d,e,f}
+                \object{o}{c}{d}
+                \object{p}{e}{f}
+                \report{s}{c}
+                \report{s}{e}
+                \report{t}{d}
+                \report{u}{f}
+            \end{tikzpicture}
+            \caption{$N$}
+        \end{subfigure}
+        \begin{subfigure}{.4\textwidth}
+            \begin{tikzpicture}[thick]
+                \LARGE
+                \networkinit{s,t,u}{c_1,c_2,c_3,c_4}
+                \objectsingleclaim{o_1}{c_1}
+                \objectsingleclaim{o_2}{c_2}
+                \objectsingleclaim{o_3}{c_3}
+                \objectsingleclaim{o_4}{c_4}
+                \report{s}{c_1}
+                \report{s}{c_3}
+                \report{t}{c_2}
+                \report{u}{c_4}
+            \end{tikzpicture}
+            \caption{$N'$}
+        \end{subfigure}
+    \caption{
+        Illustration of an object reduction of a network.
+    }
+    \label{td_new_fig_object_reduction}
+\end{figure}
+
+\cref{td_new_fig_object_reduction} shows an example of an object reduction.
+Note that the network $N'$ has only a single claim for each object, and the
+structure of the reports -- i.e. the edges shown in
+\cref{td_new_fig_object_reduction} -- is the same in $N$ and $N'$. Going from
+$N$ to $N'$ loses information about which claims conflict with one another, and
+our axioms in \cref{td_new_sec_conflicting_claims} explicitly require that this
+information affects the rankings. Voting does not use this information,
+however, which leads to the following axiom.
+
+\begin{axiom}[\objectirrelevance]
+    If $N'$ is an object reduction of $N$ via $f$, then $c \cle_N^T d$ iff
+    $f(c) \cle_N^T f(d)$.
+\end{axiom}
+
+Note that \objectirrelevance{} is similar in form to \symmetry{}, but rather
+than requiring rankings are invariant under isomorphisms -- which
+preserve the relevant structure of a network -- it requires rankings are
+invariant under object reductions.
 
 \section{Convergence and Fixed-points for Recursive Operators}
 \label{td_new_sec_convergence_fixed_points}

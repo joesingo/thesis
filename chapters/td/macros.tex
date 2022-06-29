@@ -41,6 +41,8 @@
 \newcommand{\sourceposresp}{\axiomref{Source-pos-resp}}
 \newcommand{\anticoherence}{\axiomref{Anti-coherence}}
 \newcommand{\conflictcoherence}{\axiomref{Conflict-coherence}}
+\newcommand{\flatsources}{\axiomref{Flat-sources}}
+\newcommand{\objectirrelevance}{\axiomref{Object-irrelevance}}
 
 % misc
 \newcommand\restrict[2]{#1|_{#2}}
@@ -77,4 +79,9 @@
 }
 \newcommand{\object}[3]{
     \draw[objectgrouping] (#2.center) -- (#3.center) node[objectlabel] {\large $#1$};
+}
+\newcommand{\objectsingleclaim}[2]{
+    \draw[objectgrouping] ($ (#2.center) + (0, 0.3) $)
+        -- ($ (#2.center) + (0, -0.3) $)
+        node[objectlabel] {\large $#1$};
 }
