@@ -1454,10 +1454,11 @@ the conflict relation between claims. To define the axiom we introduce a notion
 of ``reducing'' the objects of a network.
 
 \begin{definition}
-    A network $N'$ is an \emph{object reduction} of $N$ if
+    A network $N'$ is an \emph{object reduction} of $N$ via $f: C_N \to C_{N'}$
+    if
     \begin{enumerate}
         \item $S' = S$.
-        \item There is a bijection $f: C_N \to C_{N'}$ such that $(s, c) \in R$
+        \item $f$ is a bijection $C_N \to C_{N'}$ such that $(s, c) \in R$
               iff $(s, f(c)) \in R'$.
         \item For al $o \in O'$, $|D'_o| = 1$.
     \end{enumerate}
@@ -1501,6 +1502,11 @@ of ``reducing'' the objects of a network.
     \label{td_new_fig_object_reduction}
 \end{figure}
 
+Note that every network $N$ has an object reduction since the set of
+possible objects $\O$ is infinite; we may take $O'$ to be any subset of $\O$ of
+size $|C_N|$, take $D'_o = \{v\}$ for some fixed $v \in \V$, and set $R'$
+accordingly.
+%
 \cref{td_new_fig_object_reduction} shows an example of an object reduction.
 Note that the network $N'$ has only a single claim for each object, and the
 structure of the reports -- i.e. the edges shown in
@@ -1574,7 +1580,7 @@ We can now characterise voting, up to ranking equivalence.
             \report[dashed]{v}{d}
         \end{tikzpicture}
         \caption{
-            $N''$
+            $N''$ (all edges) and $N_0$ (excluding dashed edge)
         }
     \end{subfigure}
     \caption{
@@ -1602,23 +1608,36 @@ We can now characterise voting, up to ranking equivalence.
     here. An illustration of the proof is shown in
     \cref{td_new_fig_voting_characterisation_example}.
 
-    Taking any network $N$ and claims $c, d$, we first remove all reports for
+    Take any network $N$ and claims $c, d$. We first remove all reports for
     other claims to produce $N'$; this preserves rankings by
     \classicalindependence{}. Taking $N''$ to be any object reduction of $N'$,
-    we ensure the claims associated with $c$ and $d$ are for different objects,
-    and rankings are preserved by \objectirrelevance{}. As before, we show
-    $|\src_N(c)| \le |\src_N(d)|$ implies $c \cle_N^T d$ and $|\src_N(c)| <
-    |\src_N(d)|$ implies $c \clt_N^T d$ by induction on $|\src_N(d)| -
-    |\src_N(c)|$. In the base case $|\src_N(c)| = |\src_N(d)|$, the fact that
-    the claims in $N''$ associated with $c$ and $d$ are for different objects
-    crucially ensures we can choose an automorphism on $N''$ which swaps $c$
-    and $d$ (and we swap $\src_N(c) \setminus \src_N(d)$ with $\src_N(d)
-    \setminus \src_N(c)$). \symmetry{} then gives $c \ceq_N^T d$. For the
-    inductive step we apply \freshposresp{} as in the proof of
-    \cref{td_new_prop_symm_fpr_single_object_voting}; the fact that we removed
-    all reports for claims other than $c$ and $d$ in constructing $N'$ ensures
-    the relevant new source is fresh. Finally, this shows $c \cle_N^T d$ iff
-    $|\src_N(c)| \le |\src_N(d)|$.
+    we ensure $c$ and $d$ are the only claims for their respective
+    objects,\footnotemark{} and rankings are again preserved by
+    \objectirrelevance{}. As before, it suffices to show that $|\src_N(c)| \le
+    |\src_N(d)|$ implies $c \cle_N^T d$ and $|\src_N(c)| < |\src_N(d)|$ implies
+    $c \clt_N^T d$, since $c$ and $d$ are arbitrary.
+    %
+    \footnotetext{
+        Strictly speaking, we should define an object reduction $f$ between
+        $N'$ and $N''$, and refer to $f(c)$ and $f(d)$ in $N''$ instead of $c$
+        and $d$. For simplicity we identify $c$ with $f(c)$ and $d$ with $f(d)$
+        in this proof sketch.
+    }
+
+    Write $k = |\src_N(d)| - |\src_N(c)| \ge 0$. Choosing $k$ sources from
+    $\src_N(d) \setminus \src_N(c)$, let $N_0$ be the network obtained from
+    $N''$ in which reports for $d$ from these sources are removed. Note that
+    such sources \emph{only} report $d$, since reports for other claims were
+    removed in the construction of $N'$. Then $|\src_{N_0}(c)| =
+    |\src_{N_0}(d)|$. The fact that $|D''_{\obj(c)}| = |D''_{\obj(d)}| = 1$
+    ensures we are able to choose an automorphism on $N_0$ which swaps $c$ and
+    $d$ (and swaps $\src_{N_0}(c) \setminus \src_{N_0}(d)$ with $\src_{N_0}(d)
+    \setminus \src_{N_0}(c)$). By \symmetry{}, $c \ceq_{N_0}^T d$.
+
+    If $k = 0$ then $N_0 = N''$, and we are done. Otherwise, by repeated
+    applications of \freshposresp{} we may add the removed reports back in to
+    $N_0$ to get $c \clt_{N''}^T d$. Since claim rankings are the same in $N''$
+    as in $N$, this completes the proof.
 \end{proof}
 
 \section{Convergence and Fixed-points for Recursive Operators}
