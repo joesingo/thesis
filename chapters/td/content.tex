@@ -17,9 +17,9 @@
         \report{v}{f};
     \end{tikzpicture}
     \caption{
-        \todo{Illustrative example of a truth discovery problem, with sources
-        $s, t, u, v$, objects $o_1$ with associated claims $c$ and $d$, and
-        $o_2$ with claims $e$ and $f$.}
+        Illustrative example of a truth discovery problem, with sources
+        $s, t, u, v$, object $o_1$ with associated claims $c$ and $d$, and
+        $o_2$ with claims $e$ and $f$.
     }
     \label{td_new_fig_intro_example}
 \end{figure}
@@ -96,31 +96,36 @@ remainder of the chapter, with objects and values only playing a role insofar as
 they tell us which claims are in conflict with one another.
 
 \begin{example}
+    \label{td_new_ex_intro_example_formalised}
     The network illustrated in \cref{td_new_fig_intro_example} is given by $S =
-    \{s, t, u, v\}$, $O = \{o_1, o_2\}$, \todo{write when example is polished}
-    % \[
-    %     N = \{
-    %         (s, c), (s, e),
-    %         (t, d), (t, f),
-    %         (u, f),
-    %         (v, f)
-    %     \}.
-    % \]
+    \{s, t, u, v\}$, $O = \{o_1, o_2\}$ and $D_{o_1} = D_{o_2} =
+    \{\mathsf{true}, \mathsf{false}\}$. We label the claims $c = (o_1,
+    \mathsf{true})$, $d = (o_1, \mathsf{false})$, $e = (o_2, \mathsf{true})$
+    and $f = (o_2, \mathsf{false})$. Then
+    $
+        R = \{
+            (s, c), (s, e),
+            (t, d), (t, f),
+            (u, f),
+            (v, f)
+        \}
+    $.
 \end{example}
 
-A special case of our framework is the ``binary'' case in which the domain of
-each object consists of two values $D_o = \{\mathsf{true}, \mathsf{false}\}$.
-In this case we can think of each object as a propositional variable. This
-brings us close to the setting studied in \emph{judgment
-aggregation}~\cite{endriss2016ja} and, specifically (since sources do not
-necessarily provide a claim for to each object) to the setting of \emph{binary
-aggregation with abstentions}~\cite{christoffbinary,dokow}. An important
-difference, however, is that for simplicity we do not assume any
-\emph{constraints} on the possible configurations of true claims across
-objects. That is, any combination of truth values is feasible. In judgment
-aggregation such an assumption has the effect of neutralising the impossibility
-results that arise in that domain (see e.g.,~\cite{christoffbinary}). We shall
-see later that that is not the case in our setting.
+\cref{td_new_ex_intro_example_formalised} highlights a special case of our
+framework: the ``binary'' case in which the domain of each object consists of
+two values $D_o = \{\mathsf{true}, \mathsf{false}\}$.  In this case we can
+think of each object as a propositional variable. This brings us close to the
+setting studied in \emph{judgment aggregation}~\cite{endriss2016ja} and,
+specifically (since sources do not necessarily provide a claim for to each
+object) to the setting of \emph{binary aggregation with
+abstentions}~\cite{christoffbinary,dokow}. An important difference, however, is
+that for simplicity we do not assume any \emph{constraints} on the possible
+configurations of true claims across objects. That is, any combination of truth
+values is feasible. In judgment aggregation such an assumption has the effect
+of neutralising the impossibility results that arise in that domain (see
+e.g.,~\cite{christoffbinary}). We shall see later that that is not the case in
+our setting.
 
 \paragraph{Notation.}
 
@@ -1639,6 +1644,10 @@ We can now characterise voting, up to ranking equivalence.
     $N_0$ to get $c \clt_{N''}^T d$. Since claim rankings are the same in $N''$
     as in $N$, this completes the proof.
 \end{proof}
+
+\todo{Can we get a characterisation of weighted voting? Or a subclass of
+weighted voting? An easier but still interesting goal might be ``binary
+weighted voting'', where $w_N(s) \in \{0, 1\}$.}
 
 \section{Convergence and Fixed-points for Recursive Operators}
 \label{td_new_sec_convergence_fixed_points}
