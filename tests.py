@@ -62,7 +62,7 @@ class TestSuite:
                     passed = False
         return passed
 
-    @test
+    @test()
     def test_blank_line_before_proof(self, lines):
         """
         should not have a blank line before \\end{proof}
