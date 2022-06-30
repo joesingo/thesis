@@ -37,8 +37,9 @@ and a number of \emph{objects} of interest. Each source provides a number of
 Different sources may give conflicting claims by providing different values for
 the same object. For simplicity, we only consider categorical values in this
 work. Note that while this restriction is made in some approaches in the
-literature \todo{citations}, in general truth discovery methods also handle
-continuous values \todo{citations}.
+literature~\cite{pasternack2010,yin2008,wang_truth_2012,dong_truth_2009,zhang2018},
+in general truth discovery methods also handle continuous
+values~\cite{li2016,xiao2016}.
 
 To formalise this, let $\S$, $\O$ and $\V$ be infinite, disjoint sets,
 representing the possible sources, objects and values. The input to the truth
@@ -69,13 +70,13 @@ set $R$ is the core data associated with the network: we interpret $(s, o, v)
 \in R$ as source $s$ claiming that $v$ is the true value for object $o$.
 Constraint \cref{td_new_item_val_in_domain} says that all claimed values are in
 the domain of the relevant object. Constraint
-\cref{td_new_item_sources_self_consistent} is is a basic consistency requirement:
-a source cannot provide distinct values for a single object. That is, a source
-provides \emph{at most one value} per object.  Thus, while sources may be in
-conflict with \emph{other sources}, they are not in conflict with themselves.
-This is a simplifying assumption, and is not universal in the literature; e.g.
-\todo{find references}. Nevertheless, we argue the truth discovery problem is
-still rich enough when conflicts only arise between distinct sources.
+\cref{td_new_item_sources_self_consistent} is is a basic consistency
+requirement: a source cannot provide distinct values for a single object. That
+is, a source provides \emph{at most one value} per object.  Thus, while sources
+may be in conflict with \emph{other sources}, they are not in conflict with
+themselves.  While this is a simplifying assumption, we argue the truth
+discovery problem is still rich enough when conflicts only arise between
+distinct sources.
 
 When a network $N$ is understood, we often write $S, O, D$ and $R$ to
 implicitly refer to the components of $N$. Any decoration applied to $N$ will
@@ -177,13 +178,15 @@ properties}, which constrain how candidates (for example) compare
 \emph{relative to each other}. In contrast, truth discovery methods universally
 use \emph{numeric values}. This is more convenient for defining and using truth
 discovery methods in practise, and induces a ranking by simply comparing the
-numeric scores. However, numeric scores are often not comparable between
+numeric scores. The magnitude of the differences between scores also gives
+information about \emph{confidence} in distinguishing sources and claims.
+
+However, numeric scores are often not comparable between
 different methods (for example, some methods output probabilities, whereas
 others are interpreted as weights which may take negative values) and in
 general may not carry any semantic meaning at all. This means that meaningful
 axioms for truth discovery should not refer to specific numeric scores, but
-only the ranking they introduce. \todo{caveat: scores give confidence
-estimations.}
+only the ranking they introduce.
 
 We will ultimately take a hybrid approach: our methods and example will be
 defined in terms of numeric scores, but the axioms will only refer to ordinal
@@ -322,7 +325,8 @@ exactly to a weighting $w$, but give rise to the same rankings. Let us say an
 operator $T$ is \emph{weightable} if there exists a weighting $w$ such that $T
 \rankequiv \wvoting{w}$. Given that weighted voting expresses a clear
 relationship between source and claim scores, this notion will greatly simplify
-axiomatic analysis in \todo{section reference}.
+axiomatic analysis in \cref{td_new_sec_satisfaction_of_the_axioms}. \todo{Check
+afterwards.}
 
 \subsection{Recursive Operators}
 
@@ -691,8 +695,8 @@ strictly less trustworthy than $s'$.
     Accordingly, \sourcecoherence{} requires $s \slt t$, which does hold.
 
     So, $\sums$ satisfies both coherence properties for this specific network.
-    We will analyse $\sums$ and the other example in general in \todo{section
-    reference}.
+    We will analyse $\sums$ and the other example in general in
+    \cref{td_new_sec_satisfaction_of_the_axioms}.
 \end{example}
 
 The reader may wonder why we only consider the \emph{strict} pairwise relation
@@ -1676,6 +1680,7 @@ weighted voting'', where $w_N(s) \in \{0, 1\}$.}
 % \end{proposition}
 
 \section{Satisfaction of the Axioms}
+\label{td_new_sec_satisfaction_of_the_axioms}
 
 \subsection{Modifying Sums}
 
