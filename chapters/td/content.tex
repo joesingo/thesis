@@ -484,7 +484,7 @@ reverts to $c \ceq e \clt d \clt f$.
 
 \paragraph{CRH.} Standing for ``Conflict Resolution on Heterogeneous Data'', CRH
 is an optimisation-based framework for truth discovery~\cite{li2016}. It is
-again set in a more general framework, in which a metric $d_o$ is available to
+again set in a more general setting, in which a metric $d_o$ is available to
 measure the distance between values in $D_o$, for each object $o$. The
 optimisation problem jointly chooses weights for each source and a value for
 each object, such that the weighted sum of $d_o$-distances from each source's
@@ -492,35 +492,52 @@ claim on $o$ is minimised.
 
 To express CRH in our framework we use the ``probabilistic'' encoding of
 categorical variables as described in \cite[\sectionsymbol{2.4.1}]{li2016},
-where each categorical value is represented as a one-hot vector.
+where each categorical value is represented as a one-hot vector, and the source
+weight regularisation from \cite[Eq. (4)]{li2016}. We make a minor
+modification, however, by adding a small quantity $\epsilon$ to $\alpha_s$
+defined below; this ensures the argument to the logarithm in $T'_N(s)$ is
+non-zero and simplifies analysis of CRH later on.
 
 \begin{definition}
-    \emph{CRH} is the recursive scheme $(\T, T^0, U)$, where $\T$ is
-    \todo{what?}, $T^0$ is given by
+    Given $\epsilon > 0$, \emph{CRH} is the recursive scheme $(\T, T^0, U)$,
+    where $\T$ is the set of operators with $0 \le T_N(c) \le 1$ for all $N$
+    and $c \in C$,
     \[
         T^0_N(s) = 0, \qquad
-        T^0_N(c) = \frac{|\src_N(c)|}{|src_N(\obj(c))|},
+        T^0_N(c) = \frac{|\src_N(c)|}{|S|}.
     \]
     and $U(T) = T'$, where
     \begin{align*}
-        \alpha_s &= \sum_{c \in \claims_N(s)}{
-            \left(
-                (T_N(c) - 1)^2
-                +
-                \sum_{d \in \conflict_N(c)}{
-                    T_N(d)^2
-                }
-            \right)
-        }, \\
-        T'_N(s) &= -\log\frac{\alpha_s}{\sum_{t \in S}{\alpha_t}}, \\
+        T'_N(s) &= -\log\left(\frac{\alpha_s}{\sum_{t \in S}{\alpha_t}}\right), \\
         T'_N(c) &=
-            \frac{\sum_{s \in \src_N(c)}{T'_N(s)}}{\sum_{t \in S}{T'_N(t)}}.
+            \frac{\sum_{s \in \src_N(c)}{T'_N(s)}}{\sum_{t \in S}{T'_N(t)}},
     \end{align*}
+    with
+    \[
+        \alpha_s = \epsilon + \sum_{c \in \claims_N(s)}{
+            \sum_{d \in \claims_N(\obj(c))}{
+                (T_N(d) - \indicator{d = c})^2
+            }
+        }.
+    \]
+    The limit operator is denoted by $\crh$.
 \end{definition}
 
-\todo{Finish writing, example.}
+Note that in the case where each source provides a report on \emph{all} objects
+-- which is the setting in which CRH was originally introduced -- we have
+$\sum_{c \in \claims_N(o)}{T_N(c)} = 1$. Consequently, $T_N$ gives rise to a
+probability distribution over claims for each object $o$. The term of the sum
+in $\alpha_s$ corresponding to $c$ is the squared Euclidean distance between
+this distribution and the distribution put forward by source $s$, which places
+all the probability mass in their report $c$.
 
-\todo{Table of rankings of each example on the intro network.}
+In the network from \cref{td_new_fig_intro_example} with $\epsilon = 10^{-5}$,
+we have $\crh_N(s) \approx 0.2577$, $\crh_N(t) \approx 1.4827$ and $\crh_N(u) =
+\crh_N(v) \approx 9.3567$, giving the source ranking $s \slt t \slt u \seq v$.
+Note that this is the same ranking on sources as $\truthfinder$ gives. For
+claims, we have $\crh_N(c) = \crh_N(e) \approx 0.0126$, $\crh_N(d) \approx
+0.0725$ and $\crh_N(f) \approx 0.9874$, giving the ranking $c \ceq e \clt d
+\clt f$; this is the same as $\sums$.
 
 \section{The Axioms}
 
