@@ -730,10 +730,10 @@ permits an operator to consider antisources in cases where there is no clear
 comparison on the basis of sources alone.
 
 Having said this, an operator with \claimcoherence{} is limited in the extent
-to which it can take antisources into account. We formulate
-an antisource version of coherence in \cref{td_new_sec_conflicting_claims}, and
-show in \cref{td_new_sec_conflicting_claims} that it is
-incompatible with \claimcoherence{}, when taken with some other basic axioms.
+to which it can take antisources into account. We formulate an antisource
+version of coherence in \cref{td_new_sec_conflicting_claims}, and show in that
+it is incompatible with \claimcoherence{} when taken with some other basic
+axioms.
 
 \todo{Limitation: we can only compare sources/claims with the same number of
 claims/sources. Signpost if we end up improving this later by considering extra
@@ -867,7 +867,7 @@ $\src_N(c) \subseteq \src_N(d)$, but the extra support from $t$ should actually
 \emph{decrease} the believability of $d$ -- since $t$ only provides false
 claims -- not increase it.
 
-Nevertheless, there is a sense in which, all else being equal, a claim with
+Nevertheless, there is a sense in which -- all else being equal -- a claim with
 more sources is more believable. The above examples show that some subtlety is
 needed in formulating this as a general principle, and that trust should be
 taken into account in doing so.
@@ -1132,28 +1132,52 @@ To prove it, we need a preliminary result.
 
 \paragraph{Trust-based monotonicity.}
 
-Suppose $\src_N(c) = X$ and $\src_N(d) = X \cup Y$, for disjoint sets of
-sources $X$ and $Y$. The relative ranking of $c$ and $d$ depends on how we
-perceive $Y$: if $Y$ is ``trustworthy'' then $d$ gains credibility from the
-extra suppose of $Y$, whereas is $Y$ is ``untrustworthy'' this extra support has
-the opposite effect.
+Suppose and $\src_N(d) = \src_N(c) \cup \{s\}$. The relative ranking of $c$ and
+$d$ depends on the marginal effect of $s$: if $s$ is ``trustworthy'' then $d$
+gains credibility from the extra support of $s$, whereas is $s$ is
+``untrustworthy'' this extra support has the opposite effect. Our next axiom
+requires that such marginal effects are compatible with the source
+trustworthiness ranking. First, some terminology is required.
 
-\todo{Write up actual postulates.}
+\begin{definition}
+    Given a network $N$, a source $s \in S$ is \emph{marginally trustworthy}
+    with respect to an operator $T$ if there exist claims $c, d \in C$ such
+    that $\src_N(d) = \src_N(c) \cup \{s\}$ and $c \cle_N^T d$.
+    %
+    Similarly, $s$ is \emph{marginally untrustworthy} if there are $c, d  \in
+    C$ such that $\src_N(d) = \src_N(c) \cup \{s\}$ and $d \cle_N^T c$.
+\end{definition}
 
-% \begin{definition}
-%     Given a network $N$ and operator $T$, we define relations $\mrelex$ and
-%     $\mrelfa$ on $2^S$ by
-%     \begin{align*}
-%         Y \mrelex Y &\text{ iff }
-%             \exists X \subseteq S, c, d \in C \text{ s.t. }
-%                 \src_N(c) = X \cup Y, \src_N(d) = X \cup Z \\ &\qquad \text{ and }
-%                 c \cle_N^T d \\
-%         % Y \mrelfa Y &\text{ iff }
-%         %     \forall X \subseteq S, c, d \in C, \text{ if }
-%         %         \src_N(c) = X \cup Y \text{ and } \src_N(d) = X \cup Z
-%         %         \text{ then } c \cle_N^T d
-%     \end{align*}
-% \end{definition}
+That these properties express something about the trustworthiness of sources
+via the \emph{claim} ranking $\cle_N^T$, akin to how \sourcecoherence{} looks
+at trustworthiness via the claims reported by a source. Note that it is
+possible for a source to be both marginally trustworthy and untrustworthy.
+Naturally, marginally untrustworthy sources should rank lower than marginally
+trustworthy ones.
+
+\begin{axiom}[\marginaltrustworthiness{}]
+    If $s$ is marginally untrustworthy and $t$ is marginally trustworthy, then
+    $s \sle_N^T t$.
+\end{axiom}
+
+Equipped with a notion of marginal trustworthiness, we can also state a
+trust-aware monotonicity axiom for claims.
+
+\begin{axiom}[\trustbasedmon{}]
+    Suppose $\src_N(d) = \src_N(c) \cup Z$. Then
+    \begin{enumerate}
+        \item If each $s \in Z$ is marginally trustworthy, $c \cle_N^T d$.
+        \item If each $s \in Z$ is marginally untrustworthy, $d \cle_N^T c$.
+    \end{enumerate}
+\end{axiom}
+
+Informally, \trustbasedmon{} says that if each $s \in Z$ has a positive (or at
+least, not negative) impact on some claim in $N$, as measured by $\cle_N^T$,
+then the sources in $Z$ acting collectively should also have a positive impact.
+Also note that in the case $Z = \{s\}$, \trustbasedmon{} implies that the
+marginal impact of $s$ is consistent across the network.
+
+\todo{Example of these postulates? Are they interesting?}
 
 \subsection{Independence}
 \label{td_new_sec_independence}
