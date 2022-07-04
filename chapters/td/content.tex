@@ -1697,6 +1697,41 @@ weighted voting'', where $w_N(s) \in \{0, 1\}$.}
 \section{Convergence and Fixed-points for Recursive Operators}
 \label{td_new_sec_convergence_fixed_points}
 
+\begin{notes}
+    Sketch of this section:
+    \begin{itemize}
+        \item For a recursive operator $R$, we might not have a closed-form
+              expression for the limit operator $T^*$.
+        \item But hopefully, the operator converges to a fixed point of $U$, so
+            that $U(T^*) = T^*$.
+        \item This will simplify analysis of recursive operators (e.g. to see
+              which axioms hold).
+        \item Fixing $N$, an operator gives us a function $S_N \cup C_N \to
+              \R$. Let $\F_N$ be the set of such functions.
+        \item Basic compatibility condition for a recursive operator: if $T_N =
+            T'_N$ then $U(T)_N = U(T')_N$.
+        \item This implies that $U$ defines a function $\F_N \to \F_N$ (which
+            we also denote by $U$).
+        \item $\F_N$ is a metric space with the uniform distance
+            \[
+                d(f, g) = \|f - g\|_{\infty}
+                = \max_{z \in S \cup C}{|f(z) - g(z)|}.
+            \]
+        \item Can use results for convergence in metric spaces
+        \item If $R$ converges and $\T$ is closed, then $T^* \in \T$
+            (i.e. the limit is in the domain of the update function)
+        \item Since $S \cup C$ is finite, pointwise convergence (i.e. our
+            definition) implies uniform convergence
+        \item If $U$ is continuous and $R$ converges, then $U(T^*) = T^*$.
+        \item Banach's fixed-point theorem: if $U$ is a contraction mapping,
+              then $U$ is continuous and $R$ converges to a fixed point.
+              Moreover, $T_0$ can be chosen arbitrarily.
+        \item We can try these for each of our example operators.
+        \item Show which operators are weightable, using the fixed-point
+              properties.
+    \end{itemize}
+\end{notes}
+
 % Evaluating the limit operator $T^*$ may require numerical computation if a
 % closed-form expression is not available. Nevertheless, properties of $T^*$ may
 % be easily analysed if $T^*$ is a fixed-point of $U$, i.e. if $U(T^*) = T^*$. A
@@ -1723,7 +1758,18 @@ weighted voting'', where $w_N(s) \in \{0, 1\}$.}
 \section{Satisfaction of the Axioms}
 \label{td_new_sec_satisfaction_of_the_axioms}
 
+\begin{notes}
+    Go through example operators. Possibly give weakened
+    coherence/conflict-coherence axioms satisfied by TruthFinder and CRH, upon
+    showing regular \claimcoherence{} fails.
+\end{notes}
+
 \subsection{Modifying Sums}
+
+\begin{notes}
+    Failure of \disjointindependence{} is bad. Show that Sums converges
+    ordinally, which resolves the issue
+\end{notes}
 
 \section{Related Work}
 
