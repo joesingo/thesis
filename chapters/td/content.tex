@@ -70,7 +70,7 @@ set $R$ is the core data associated with the network: we interpret $(s, o, v)
 \in R$ as source $s$ claiming that $v$ is the true value for object $o$.
 Constraint \cref{td_new_item_val_in_domain} says that all claimed values are in
 the domain of the relevant object. Constraint
-\cref{td_new_item_sources_self_consistent} is is a basic consistency
+\cref{td_new_item_sources_self_consistent} is a basic consistency
 requirement: a source cannot provide distinct values for a single object. That
 is, a source provides \emph{at most one value} per object.  Thus, while sources
 may be in conflict with \emph{other sources}, they are not in conflict with
@@ -85,16 +85,17 @@ sources $\hat{S}$ etc\ldots). If necessary, we write $S_N, O_N, D_N$ and $R_N$
 to make the dependence on $N$ explicit.
 
 A \emph{claim} is a pair $c = (o, v)$, where $o \in O$ and $v \in D_o$. We
-write $\obj(c) = o$ in this case, and let $C$ denote the set of all claims in a
-network $N$, i.e.
+write $\obj(c) = o$ in this case, and let $C$ denote the set of all possible
+claims in a network $N$, i.e.
 \[
     C = \{(o, v) \mid o \in O, v \in D_o\}.
 \]
-With slight abuse of notation, we write $(s, c)$ for the report $(s, o, v)$.
-Then $R$ can be viewed as a subset of $S \times C$, i.e. a relation between
-sources and claims. In fact, we will take this claim-centric view in the
-remainder of the chapter, with objects and values only playing a role insofar as
-they tell us which claims are in conflict with one another.
+Note that not every claim is necessarily reported by some source. With slight
+abuse of notation, we write $(s, c)$ for the report $(s, o, v)$. Then $R$ can
+be viewed as a subset of $S \times C$, i.e. a relation between sources and
+claims. In fact, we will take this claim-centric view in the remainder of the
+chapter, with objects and values only playing a role insofar as they tell us
+which claims are in conflict with one another.
 
 \begin{example}
     \label{td_new_ex_intro_example_formalised}
@@ -118,7 +119,7 @@ framework: the ``binary'' case in which the domain of each object consists of
 two values $D_o = \{\mathsf{true}, \mathsf{false}\}$.  In this case we can
 think of each object as a propositional variable. This brings us close to the
 setting studied in \emph{judgment aggregation}~\cite{endriss2016ja} and,
-specifically (since sources do not necessarily provide a claim for to each
+specifically (since sources do not necessarily provide a claim for each
 object) to the setting of \emph{binary aggregation with
 abstentions}~\cite{christoffbinary,dokow}. An important difference, however, is
 that for simplicity we do not assume any \emph{constraints} on the possible
@@ -134,7 +135,7 @@ We introduce some notation to extract information about a network. For $c \in
 C$ and $s \in S$, write
 \begin{align*}
     \src_N(c) &= \{s \in S \mid (s, c) \in R\},\\
-    \claims_N(c) &= \{c \in C \mid (s, c) \in R\}.
+    \claims_N(s) &= \{c \in C \mid (s, c) \in R\}.
 \end{align*}
 The set of sources making a claim on object $o$ is
 \[
@@ -161,11 +162,11 @@ of a network ensures $\src_N(c) \cap \antisrc_N(c) = \emptyset$.
 
 With the input defined, we now come to the output of the truth discovery
 problem.
-The primary goal is to produce as assessment of the trustworthiness of the
+The primary goal is to produce an assessment of the trustworthiness of the
 sources, and the \emph{true values} for the objects. Approaches differ
 regarding values: some truth discovery methods output only a single value for
 each object~\cite{li2016,ding_finding_2016,yang_continuous_2018}, whereas
-others give as assessment of the believability (or confidence, probability
+others give an assessment of the believability (or confidence, probability
 etc\ldots) of \emph{each claim} $(o,
 v)$~\cite{yin2008,pasternack2010,galland2010,zhi2015,zhang_robust_2016,zhang2018}.
 We opt for the latter, more general, approach.
@@ -233,7 +234,7 @@ also consider \emph{partial operators}, which assign a mapping $T_N: S \cup C
 \label{td_new_sec_example_operators}
 
 In this section we capture several example operators from the literature in our
-framework: a baseline \emph{voting} and method its generalisation to
+framework: a baseline \emph{voting} method and its generalisation to
 \emph{weighted} voting, \emph{Sums}~\cite{pasternack2010},
 \emph{TruthFinder}~\cite{yin2008} and \emph{CRH}~\cite{li2016}. As is the case
 with many methods in the literature, the latter three methods operate
@@ -299,21 +300,22 @@ claim.
     \label{td_new_ex_weighted_voting}
     Set
     \[
-        w_N(s) = \frac{1}{|\claims_N(s)|}{
+        \wagree_N(s) = \frac{1}{|\claims_N(s)|}{
             \sum_{c \in \claims_N(s)}{
                 |\src_N(c)|
             }
         }.
     \]
     Then the weight assigned to a source $s$ is the average number of sources
-    agreeing with the claims of $s$. Taking $N$ from
-    \cref{td_new_fig_intro_example}, we have $w_N(s) = 1$, $w_N(t) = 2$,
-    $w_N(u) = 3$, $w_N(v) = 3$.  Consequently,
+    agreeing with the claims of $s$. We call the corresponding operator
+    \emph{Weighted Agreement}. Taking $N$ from
+    \cref{td_new_fig_intro_example}, we have $\wagree_N(s) = 1$, $\wagree_N(t) = 2$,
+    $\wagree_N(u) = 3$, $\wagree_N(v) = 3$. Consequently,
     \begin{align*}
-        \wvoting{w}_N(c) &= w_N(s) = 1,\\
-        \wvoting{w}_N(d) &= w_N(t) = 2,\\
-        \wvoting{w}_N(e) &= w_N(s) = 1,\\
-        \wvoting{w}_N(f) &= w_N(t) + w_N(u) + w_N(v) = 8,
+        \wvoting{\wagree}_N(c) &= \wagree_N(s) = 1,\\
+        \wvoting{\wagree}_N(d) &= \wagree_N(t) = 2,\\
+        \wvoting{\wagree}_N(e) &= \wagree_N(s) = 1,\\
+        \wvoting{\wagree}_N(f) &= \wagree_N(t) + \wagree_N(u) + \wagree_N(v) = 8,
     \end{align*}
     yielding the rankings $s \slt t \slt u \seq v$ and $c \ceq e \clt d \clt
     f$. Note that claim $d$ fares better here than with $\voting$ due to its
@@ -370,7 +372,7 @@ pages. The premise is to extend the linear sum of weighted voting to both claim
 and source scores: we update the score of each source as the sum of the scores
 of its claims, and update the score of each claim as the sum of the scores of
 its sources. To prevent scores from growing without bound, they are normalised
-at each iteration by dividing by the maximum score (for sources and facts
+at each iteration by dividing by the maximum score (for sources and claims
 separately).
 
 \begin{definition}
@@ -461,9 +463,9 @@ interpretation of $\rho$ and $\gamma$. As described above, $\lambda$ controls
 the amount to which conflicting claims play a role in the evaluation of a given
 claim. Of special interest is the case $\lambda = 0$, in which the denominator
 in \cref{td_new_eqn_truth_finder_claim_update} is $1$. Note that in
-\cref{td_new_eqn_truth_finder_claim_update} we have unfolded the definitions of
-\textcite{yin2008} in order to obtain a single expression of $T'_N(c)$ in terms
-of the $T_N(s)$.
+\cref{td_new_eqn_truth_finder_claim_update} we have unfolded the definitions
+of~\cite{yin2008} in order to obtain a single expression of $T'_N(c)$ in terms
+of the $T_N(s)$, at the expense of interpretability.
 
 Let us return again to the network in \cref{td_new_fig_intro_example}. We take
 parameters $\rho = 0.5$ and $\gamma = 0.3$ (as per the experimental setup of
@@ -480,7 +482,7 @@ d \clt f$ on the claims. Note that the source ranking coincides with that of
 than $c$. Intuitively, this occurs because $e$ has more sources reporting the
 conflicting claim (namely, $f$) than $c$ does. If we instead take $\lambda =
 0$, so that sources for conflicting claims are not considered, then the ranking
-reverts to $c \ceq e \clt d \clt f$.
+reverts to $c \ceq e \clt d \clt f$ (and the source ranking remains the same).
 
 \paragraph{CRH.} Standing for ``Conflict Resolution on Heterogeneous Data'', CRH
 is an optimisation-based framework for truth discovery~\cite{li2016}. It is
@@ -538,6 +540,26 @@ Note that this is the same ranking on sources as $\truthfinder$ gives. For
 claims, we have $\crh_N(c) = \crh_N(e) \approx 0.0126$, $\crh_N(d) \approx
 0.0725$ and $\crh_N(f) \approx 0.9874$, giving the ranking $c \ceq e \clt d
 \clt f$; this is the same as $\sums$.
+
+\cref{td_new_tab_example_outputs} summaries the source and claim rankings for
+each example operator on the network $N$ from \cref{td_new_fig_intro_example}.
+
+\begin{table}
+    \centering
+	\caption{Output rankings of the example operators on the network from
+    \cref{td_new_fig_intro_example}.}
+	\begin{tabular}{lcc}
+    \toprule
+    Voting             & $s \seq t \seq u \seq v$ & $c \ceq d \ceq e \clt f$ \\
+    Weighted Agreement & $s \slt t \slt u \seq v$ & $c \ceq e \clt d \clt f$ \\
+    Sums               & $s \slt u \seq v \slt t$ & $c \ceq e \clt d \clt f$ \\
+    TruthFinder        & $s \slt t \slt u \seq v$ & $e \clt c \clt d \clt f$ \\
+    TruthFinder ($\lambda = 0$) & $s \slt t \slt u \seq v$ & $c \ceq e \clt d \clt f$ \\
+    CRH                & $s \slt t \slt u \seq v$ & $c \ceq e \clt d \clt f$ \\
+    \bottomrule
+	\end{tabular}
+    \label{td_new_tab_example_outputs}
+\end{table}
 
 \section{The Axioms}
 
@@ -628,7 +650,7 @@ $\witprec{f}{A}{B}{\le}$.  Note that if $\le$ is a preorder on $X$, the
 (by considering the identity map $A \to A$, for each $A \subseteq X$) and
 transitive (if $\witprec{f}{A}{B}{\le}$ and $\witprec{g}{B}{C}{\le}$, then
 $\witprec{g \circ f}{A}{C}{\le}$). The strict pairwise order associated has a
-natural interpretation, as we now prove: there must exists some $x$ in
+natural interpretation, as we now prove: there must exist some $x$ in
 \cref{td_new_eqn_pwo} for which the comparison is strict.
 
 \begin{proposition}
@@ -688,7 +710,7 @@ We are now ready to state our first two axioms.
 \end{axiomlist}
 
 In words, \claimcoherence{} says that whenever we can pair up the sources for
-$c$ and $c'$ can be paired up so that each source for $c$ is less trustworthy
+$c$ and $c'$ so that each source for $c$ is less trustworthy
 than the corresponding source for $c'$ (and \emph{strictly} less, for at least
 one pair of sources), then $c$ is strictly less believable than $c'$. Likewise,
 \sourcecoherence{} says that if the claims of $s$ and $s'$ can be paired up
@@ -712,7 +734,7 @@ strictly less trustworthy than $s'$.
     Accordingly, \sourcecoherence{} requires $s \slt t$, which does hold.
 
     So, $\sums$ satisfies both coherence properties for this specific network.
-    We will analyse $\sums$ and the other example in general in
+    We will analyse $\sums$ and the other examples more generally in
     \cref{td_new_sec_satisfaction_of_the_axioms}.
 \end{example}
 
@@ -723,7 +745,7 @@ respect to $\sle$ (not necessarily strictly). However, this property implies
 that $c \ceq c'$ whenever $\src_N(c) = \src_N(c')$. We have already seen an
 example operator where this does not hold: TruthFinder ranks $e \clt c$ in the
 network $N$ from \cref{td_new_fig_intro_example}, but $\src_N(c) = \src_N(e) =
-\{s\}$. Intuitively, $c$ and $d$ are ``tied'' when it come to the quality of
+\{s\}$. Intuitively, $c$ and $e$ are ``tied'' when it come to the quality of
 their own sources, but there are fewer sources \emph{disagreeing} with $c$ (the
 ``antisources'') than $e$. Stating our coherence properties in the strict form
 permits an operator to consider antisources in cases where there is no clear
@@ -731,7 +753,7 @@ comparison on the basis of sources alone.
 
 Having said this, an operator with \claimcoherence{} is limited in the extent
 to which it can take antisources into account. We formulate an antisource
-version of coherence in \cref{td_new_sec_conflicting_claims}, and show in that
+version of coherence in \cref{td_new_sec_conflicting_claims}, and show that
 it is incompatible with \claimcoherence{} when taken with some other basic
 axioms.
 
@@ -741,7 +763,7 @@ trustworthy sources/claims.}
 
 \subsection{Symmetry}
 
-A standard class of axioms in social choice theory are \emph{symmetry
+A standard class of axioms in social choice theory express \emph{symmetry
 properties}. In voting, for example, symmetry with respect to voters says that
 a voting rule should not care about the ``names'' of the voters: if voters $i$
 and $j$ swap their ballots, the election result remains the same (this is
@@ -1132,9 +1154,9 @@ To prove it, we need a preliminary result.
 
 \paragraph{Trust-based monotonicity.}
 
-Suppose and $\src_N(d) = \src_N(c) \cup \{s\}$. The relative ranking of $c$ and
+Suppose $\src_N(d) = \src_N(c) \cup \{s\}$. The relative ranking of $c$ and
 $d$ depends on the marginal effect of $s$: if $s$ is ``trustworthy'' then $d$
-gains credibility from the extra support of $s$, whereas is $s$ is
+gains credibility from the extra support of $s$, whereas $s$ is
 ``untrustworthy'' this extra support has the opposite effect. Our next axiom
 requires that such marginal effects are compatible with the source
 trustworthiness ranking. First, some terminology is required.
@@ -1148,7 +1170,7 @@ trustworthiness ranking. First, some terminology is required.
     C$ such that $\src_N(d) = \src_N(c) \cup \{s\}$ and $d \cle_N^T c$.
 \end{definition}
 
-That these properties express something about the trustworthiness of sources
+These properties express something about the trustworthiness of sources
 via the \emph{claim} ranking $\cle_N^T$, akin to how \sourcecoherence{} looks
 at trustworthiness via the claims reported by a source. Note that it is
 possible for a source to be both marginally trustworthy and untrustworthy.
