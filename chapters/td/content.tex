@@ -342,11 +342,11 @@ procedure, reflecting the desired mutual dependence. To formalise this idea, we
 define recursive operators.
 
 \begin{definition}
-    A \emph{recursive scheme} is a tuple $(\T, T^0, U)$, where
+    A \emph{recursive scheme} is a tuple $(\D, T^0, U)$, where
     \begin{itemize}
-        \item $\T$ is a set of operators.
-        \item $T^0 \in \T$ is the \emph{initial operator}.
-        \item $U: \T \to \T$ is the \emph{update function}.
+        \item $\D$ is a set of operators.
+        \item $T^0 \in \D$ is the \emph{initial operator}.
+        \item $U: \D \to \D$ is the \emph{update function}.
     \end{itemize}
     A recursive scheme \emph{converges} on a network $N$ if for all $z
     \in S \cup C$, the limit $\lim_{n \to \infty}{U^n(T^0)_N(z)}$ exists. The
@@ -357,11 +357,11 @@ define recursive operators.
 
 The main component of interest here is the update function $U$, which describes
 how the scores of one iteration are transformed to obtain scores for the next.
-The domain of operators $\T$ is used for technical reasons; for example, some
+The domain of operators $\D$ is used for technical reasons; for example, some
 operators need to exclude the trivial operator in which scores are identically
 zero in order for $U$ to be well-defined. We will analyse convergence and
 fixed-point properties -- i.e. whether $U(T^*) = T^*$ -- in
-\cref{td_new_sec_convergence_fixed_points}. For now, we introduce examples of
+\cref{td_new_sec_fixed_points_recursive_operators}. For now, we introduce examples of
 recursive operators from the literature.
 
 \paragraph{Sums.}
@@ -376,23 +376,23 @@ at each iteration by dividing by the maximum score (for sources and claims
 separately).
 
 \begin{definition}
-    \emph{Sums} is the recursive scheme $(\T, T^0, U)$, where $\T$ is the set
+    \emph{Sums} is the recursive scheme $(\D, T^0, U)$, where $\D$ is the set
     of all operators, $T^0_N \equiv 1 / 2$, and $U(T) = T'$, with
     \begin{align*}
         T'_N(s) &=
-            \frac{1}{Z_S}
+            \alpha
             \sum_{c \in \claims_N(s)}{
                 T_N(c)
             },
         \\
         T'_N(c) &=
-            \frac{1}{Z_C}
+            \beta
             \sum_{s \in \src_N(c)}{
                 T'_N(s)
             }.
     \end{align*}
     where $
-        Z_S = \max_{t \in S}{
+        \alpha = 1 / \max_{t \in S}{
             \left|
                 \sum_{c \in \claims_N(t)}{
                     T_N(c)
@@ -400,15 +400,15 @@ separately).
             \right|
         }
     $ and $
-        Z_C = \max_{d \in C}{
+        \beta = 1 / \max_{d \in C}{
             \left|
                 \sum_{s \in \src_N(d)}{
                     T'_N(s)
                 }
             \right|
         }
-    $ are normalisation factors (and we set $T'_N \equiv 0$ if either $Z_S$ or
-    $Z_C$ are 0). We write $\sums$ for the associated limit operator.
+    $ are normalisation factors (which we set to 0 if the denominator is 0).
+    Write $\sums$ for the associated limit operator.
 \end{definition}
 
 Taking the network $N$ from \cref{td_new_fig_intro_example}, one can show that
@@ -438,7 +438,7 @@ object and $0$ otherwise, for some fixed parameter $0 \le \lambda \le 1$.
 
 \begin{definition}
     Given parameters $0 \le \rho, \lambda \le 1$, and $0 < \gamma < 1$,
-    \emph{TruthFinder} is the recursive scheme $(\T, T^0, U)$, where $\T$ is
+    \emph{TruthFinder} is the recursive scheme $(\D, T^0, U)$, where $\D$ is
     the set of operators with $0 < T_N(s) < 1$ for all $N$ and $s \in S$ with
     $\claims_N(s) \ne \emptyset$, $T^0 \equiv 0.9$, and $U(T) = T'$, with
     \begin{align}
@@ -501,8 +501,8 @@ defined below; this ensures the argument to the logarithm in $T'_N(s)$ is
 non-zero and simplifies analysis of CRH later on.
 
 \begin{definition}
-    Given $\epsilon > 0$, \emph{CRH} is the recursive scheme $(\T, T^0, U)$,
-    where $\T$ is the set of operators with $0 \le T_N(c) \le 1$ for all $N$
+    Given $\epsilon > 0$, \emph{CRH} is the recursive scheme $(\D, T^0, U)$,
+    where $\D$ is the set of operators with $0 \le T_N(c) \le 1$ for all $N$
     and $c \in C$,
     \[
         T^0_N(s) = 0, \qquad
