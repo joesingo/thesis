@@ -331,6 +331,7 @@ axiomatic analysis in \cref{td_new_sec_satisfaction_of_the_axioms}. \todo{Check
 afterwards.}
 
 \subsection{Recursive Operators}
+\label{td_new_sec_recursive_operators}
 
 To capture the mutual dependence between trust in sources and belief in claims,
 truth discovery methods generally involve recursive
@@ -342,27 +343,32 @@ procedure, reflecting the desired mutual dependence. To formalise this idea, we
 define recursive operators.
 
 \begin{definition}
+    \label{td_new_def_recursive_scheme}
     A \emph{recursive scheme} is a tuple $(\D, T^0, U)$, where
     \begin{itemize}
         \item $\D$ is a set of operators.
         \item $T^0 \in \D$ is the \emph{initial operator}.
         \item $U: \D \to \D$ is the \emph{update function}.
     \end{itemize}
-    A recursive scheme \emph{converges} on a network $N$ if for all $z
-    \in S \cup C$, the limit $\lim_{n \to \infty}{U^n(T^0)_N(z)}$ exists. The
-    \emph{limit} of a recursive scheme is the partial operator $T^*$ defined on
-    the networks $N$ on which the scheme converges, given by $T^*_N(z) =
-    \lim_{n \to \infty}{U^n(T^0)_N(z)}$.
+    A recursive scheme \emph{converges} to an operator $T^*$ if for all
+    networks $N$ and all $z \in S \cup C$, $\lim_{n \to \infty}{U^n(T_0)_N(z)}
+    = T^*_N(z)$. In this case $T^*$ is said to be the \emph{limit} of the
+    scheme.
 \end{definition}
 
 The main component of interest here is the update function $U$, which describes
 how the scores of one iteration are transformed to obtain scores for the next.
 The domain of operators $\D$ is used for technical reasons; for example, some
 operators need to exclude the trivial operator in which scores are identically
-zero in order for $U$ to be well-defined. We will analyse convergence and
-fixed-point properties -- i.e. whether $U(T^*) = T^*$ -- in
-\cref{td_new_sec_fixed_points_recursive_operators}. For now, we introduce examples of
-recursive operators from the literature.
+zero in order for $U$ to be well-defined.
+
+Note that the limit operator $T^*$ is unique, when it exists. We can consider
+any scheme to converge to a \emph{partial} operator $T^*$, defined on the
+networks $N$ such that $\lim_{n \to \infty}{U^n(T_0)_N(z)}$ exists for all $z
+\in S \cup C$. Convergence and fixed-point properties -- i.e.  whether $U(T^*)
+= T^*$ -- will be discussed in
+\cref{td_new_sec_fixed_points_recursive_operators}. For now, we introduce
+examples of recursive operators from the literature.
 
 \paragraph{Sums.}
 
@@ -376,6 +382,7 @@ at each iteration by dividing by the maximum score (for sources and claims
 separately).
 
 \begin{definition}
+    \label{td_new_def_sums}
     \emph{Sums} is the recursive scheme $(\D, T^0, U)$, where $\D$ is the set
     of all operators, $T^0_N \equiv 1 / 2$, and $U(T) = T'$, with
     \begin{align*}
@@ -562,6 +569,7 @@ each example operator on the network $N$ from \cref{td_new_fig_intro_example}.
 \end{table}
 
 \section{The Axioms}
+\label{td_new_sec_axioms}
 
 Having laid out the formal framework, we now introduce axioms for truth
 discovery. Such axioms are formal properties an operator may satisfy, which
@@ -1716,8 +1724,8 @@ We can now characterise voting, up to ranking equivalence.
 weighted voting? An easier but still interesting goal might be ``binary
 weighted voting'', where $w_N(s) \in \{0, 1\}$.}
 
-\section{Convergence and Fixed-points for Recursive Operators}
-\label{td_new_sec_convergence_fixed_points}
+\section{Fixed-points for Recursive Operators}
+\label{td_new_sec_fixed_points_recursive_operators}
 
 \begin{notes}
     Sketch of this section:
@@ -1740,7 +1748,7 @@ weighted voting'', where $w_N(s) \in \{0, 1\}$.}
                 = \max_{z \in S \cup C}{|f(z) - g(z)|}.
             \]
         \item Can use results for convergence in metric spaces
-        \item If $R$ converges and $\T$ is closed, then $T^* \in \T$
+        \item If $R$ converges and $\D$ is closed, then $T^* \in \D$
             (i.e. the limit is in the domain of the update function)
         \item Since $S \cup C$ is finite, pointwise convergence (i.e. our
             definition) implies uniform convergence
@@ -1754,28 +1762,169 @@ weighted voting'', where $w_N(s) \in \{0, 1\}$.}
     \end{itemize}
 \end{notes}
 
-% Evaluating the limit operator $T^*$ may require numerical computation if a
-% closed-form expression is not available. Nevertheless, properties of $T^*$ may
-% be easily analysed if $T^*$ is a fixed-point of $U$, i.e. if $U(T^*) = T^*$. A
-% sufficient condition for this to hold is for the mapping $T_N \mapsto U(T)_N$
-% to be continuous with respect to the \emph{uniform norm} $\|T_N\|_\infty =
-% \max_{z \in S \cup C}{|T_N(z)|}$, for each $N$.
+Having introduced several example operators in
+\cref{td_new_sec_example_operators} and axioms in \cref{td_new_sec_axioms}, it
+is natural to ask which axioms are satisfied by each operator. To aid this
+process, in this section we first collect some results for the limit $T^*$ of a
+recursive scheme $(\D, T_0, U)$ to be a \emph{fixed-point} of $U$, i.e. $U(T^*)
+= T^*$.  This property greatly simplifies analysis of (some of) the axioms,
+especially for recursive operators for which no closed-form expression is
+available for $T^*$. In what follows, when a recursive scheme is understood we
+write $T^n$ for $U^n(T_0)$, i.e. the $n$-th iteration of the scheme,
 
-% \begin{proposition}
-%     Let $(\T, T^0, U)$ be a recursive scheme with limit $T^*$. Suppose that for
-%     each $N$ for which the scheme converges, we have
-%     \[
-%     \begin{split}
-%         &\forall T \in \T, \forall \epsilon > 0,
-%         \exists \delta > 0 \text{ s.t. }
-%         \forall T' \in \T: \\
-%         &\quad
-%         \|T_N - T'_N\|_\infty < \delta
-%         \implies \|U(T)_N - U(T')_N\|_\infty < \epsilon.
-%     \end{split}
-%     \]
-%     Then $U(T^*) = T^*$.
-% \end{proposition}
+The strategy is as follows: we first define a distance metric $d$ on the of
+operators, so that convergence in the sense of
+\cref{td_new_def_recursive_scheme} -- i.e. $T_N^n(z) \to T^*_N(z)$ for all
+networks $N$ and $z \in S_N \cup C_N$ -- coincides with $T^n \to T^*$ in the
+sense of convergence in a metric space -- i.e. $d(T^*, T^n) \to 0$. We may then
+speak of $U: \D \to \D$ being \emph{continuous}, and a basic result from
+topology gives that $T^n \to T^*$ implies $U(T^n) \to U(T^*)$.  Since $U(T^n) =
+T^{n + 1}$ and limits are unique in a metric space, this implies $T^* = U(T^*)$
+as desired.
+
+For simplicity we work with \emph{bounded operators}: $T$ is \emph{bounded} if
+there is $M \ge 0$ such that for all networks $N$ and $z \in S_N \cup C_N$,
+$|T_N(z)| \le M$. Note that this is equivalent to $T$ bounded in the
+conventional sense when viewed as a function $\bigsqcup_N{(S_N \cup C_N)} \to
+\R$. A recursive scheme $(\D, T_0, U)$ is bounded if each operator in $\D$ is.
+Write $\T$ for the set of bounded operators. The limit of a bounded recursive
+scheme is again bounded.
+
+\begin{proposition}
+    If $(\D, T_0, U)$ is bounded and converges to $T^*$, then $T^*$ is
+    bounded.
+\end{proposition}
+
+\begin{proof}
+    \todo{Write.}
+\end{proof}
+
+Now, for sets $X, Y$, the \emph{uniform norm} $\|f\|_\infty = \sup_{x \in
+X}{|f(x)|}$ is a norm on the set of bounded functions $f: X \to Y$, which in
+turn defines a metric $d(f, g) = \|f - g\|_{\infty}$. Applying this to bounded
+operators yields the following metric $d: \T \times \T \to \R$:\footnotemark{}
+\[
+    d(T, T')
+    =
+    \sup_{N}{
+        \max_{z \in S_N \cup C_N}{
+            |T_N(z) - T'_N(z)|
+        }
+    }.
+\]
+
+\footnotetext{
+    Note that the boundedness assumption ensures the supremum is finite.
+}
+
+\begin{proposition}
+    A bounded recursive scheme $(\D, T_0, U)$ converges to $T^*$ if and only if
+    $T^n$ converges to $T^*$ in $(\T, d)$.
+\end{proposition}
+
+\begin{proof}
+    \todo{Write.}
+\end{proof}
+
+For $T^*$ to be a fixed-point of $U$, clearly $T^*$ needs to lie in the domain
+$\D$ of $U$. A sufficient condition is for $\D$ to be \emph{closed} as a subset
+of $\T$, due to the following standard result.
+
+\begin{lemma}
+    Let $(X, d)$ be a metric space. Then $A \subseteq X$ is
+    closed\footnotemark{} if and only if it contains all its limit points, i.e.
+    $x_n \to x^*$ implies $x^* \in A$, for all convergent sequences $(x_n)_{n
+    \in \Nat}$ in $A$.
+\end{lemma}
+
+\footnotetext{
+    A set $A \subseteq X$ is \emph{open} if for all $x \in A$, there is $r > 0$
+    such that $\{x' \in X \mid d(x, x') < r\} \subseteq A$. $A$ is
+    \emph{closed} if its complement $X \setminus A$ is open.
+}
+
+\todo{Citation for proof, or just reproduce it here.}
+
+The following definition of a continuous map between metric spaces is standard.
+
+\begin{definition}
+    A function $f: X \to Y$ between metric spaces $(X, d_X)$, $(Y, d_Y)$ is
+    \emph{continuous} if for all $x \in X$ and $\epsilon > 0$ there is $\delta
+    > 0$ such that for all $x' \in X$,
+    \[
+        d_X(x, x') < \delta \implies d_Y(f(x), f(x')) < \epsilon.
+    \]
+\end{definition}
+
+Fixing a recursive scheme $(\D, T_0, U)$, restricting $d$ to $\D$ gives a
+metric space structure on $\D$, and we may therefore speak of $U: \D \to \D$
+being continuous. By another standard result, we may interchange the
+application of a continuous function with the limit.
+
+\begin{lemma}
+    Let $f: X \to Y$ be continuous and $(x_n)_{n \in \Nat}$ a convergent
+    sequence in $X$. Then $\lim_{n \to \infty}{f(x_n)} = f(\lim_{n \to
+    \infty}{x_n})$.
+\end{lemma}
+
+\todo{Citation for proof, or just reproduce it here.}
+
+Putting things together, we arrive at the following.
+
+\begin{proposition}
+    \label{td_new_prop_recursive_scheme_fp_condition}
+    Let $(\D, T_0, U)$ be a bounded recursive scheme with limit $T^*$. If $\D$
+    is closed and $U$ is continuous, then $U(T^*) = T^*$.
+\end{proposition}
+
+Our aim is to now show that \cref{td_new_prop_recursive_scheme_fp_condition}
+can be applied to each of the example recursive operators from
+\cref{td_new_sec_recursive_operators}. We take each operator in turn.
+
+\paragraph{Sums.}
+
+Let $(\D, T_0, U)$ be as defined for Sums in \cref{td_new_def_sums}.  It will
+prove more convenient to work with the following equivalent expression for $U$.
+
+\begin{lemma}
+    Define $U_1, U_2: \D \to \D$ by
+    \begin{align*}
+        U_1(T)_N(s) &=
+            \sum_{c \in \claims_N(s)}{
+                T_N(c)
+            },
+        \\
+        U_1(T)_N(c) &=
+            \sum_{s \in \src_N(c)}{
+                U_1(T)_N(s)
+            }
+    \end{align*}
+    and
+    \begin{align*}
+        U_1(T)_N(s) &=
+            \alpha T_N(s)
+        \\
+        U_1(T)_N(c) &=
+            \beta T_N(c),
+    \end{align*}
+    where
+    \begin{align*}
+        \alpha &= \begin{cases}
+            \frac{1}{\max_{t \in S_N}{|T_N(t)|}},&
+                \max_{t \in S_N}{|T_N(t)|} \ne 0 \\
+            0,& \text{ otherwise}
+        \end{cases}, \\
+        \beta &= \begin{cases}
+            \frac{1}{\max_{d\in C_N}{|T_N(d)|}},&
+                \max_{d\in C_N}{|T_N(d)|} \ne 0 \\
+            0,& \text{ otherwise}
+        \end{cases}.
+    \end{align*}
+    Then $U = U_2 \circ U_1$.
+\end{lemma}
+
+\paragraph{TruthFinder.} \todo{Write.}
+\paragraph{CRH.} \todo{Write.}
 
 \section{Satisfaction of the Axioms}
 \label{td_new_sec_satisfaction_of_the_axioms}
