@@ -384,7 +384,8 @@ separately).
 \begin{definition}
     \label{td_new_def_sums}
     \emph{Sums} is the recursive scheme $(\D, T^0, U)$, where $\D$ is the set
-    of all operators, $T^0_N \equiv 1 / 2$, and $U(T) = T'$, with
+    of all operators with scores in $[0, 1]$, $T^0_N \equiv 1 / 2$, and $U(T) =
+    T'$, with
     \begin{align*}
         T'_N(s) &=
             \alpha
@@ -1883,45 +1884,49 @@ can be applied to each of the example recursive operators from
 
 \paragraph{Sums.}
 
-Let $(\D, T_0, U)$ be as defined for Sums in \cref{td_new_def_sums}.  It will
-prove more convenient to work with the following equivalent expression for $U$.
+Let $(\D, T_0, U)$ be as defined for Sums in \cref{td_new_def_sums}. Sums is
+clearly bounded by definition of $\D$.
+
+
+
+It will
+prove more convenient to express $U$ as a composition $U_2 \circ U_1$, where
+$U_1$ performs the sum step, and $U_1$ normalises scores by dividing by the
+maximum. In what follows, for a set of numbers $X \subseteq \R$, write
+\[
+    \norm{X} = \begin{cases}
+        \frac{1}{\max_{x \in X}{|x|}},& \max_{x \in X}{|x|} \ne 0 \\
+        0,& \text{ otherwise}.
+    \end{cases}
+\]
 
 \begin{lemma}
-    Define $U_1, U_2: \D \to \D$ by
+    Define $U_1: \D \to \D$ by $U_1(T) = T'$, where
     \begin{align*}
-        U_1(T)_N(s) &=
+        T'_N(s) &=
             \sum_{c \in \claims_N(s)}{
                 T_N(c)
             },
         \\
-        U_1(T)_N(c) &=
+        T'_N(c) &=
             \sum_{s \in \src_N(c)}{
-                U_1(T)_N(s)
+                T'_N(s)
             }
     \end{align*}
-    and
+    and $U_2: \D \to \D$ by $U_2(T) = T'$, where
     \begin{align*}
-        U_1(T)_N(s) &=
-            \alpha T_N(s)
+        T'_N(s) &=
+            \norm{T_N(S)} \cdot T_N(s)
         \\
-        U_1(T)_N(c) &=
-            \beta T_N(c),
-    \end{align*}
-    where
-    \begin{align*}
-        \alpha &= \begin{cases}
-            \frac{1}{\max_{t \in S_N}{|T_N(t)|}},&
-                \max_{t \in S_N}{|T_N(t)|} \ne 0 \\
-            0,& \text{ otherwise}
-        \end{cases}, \\
-        \beta &= \begin{cases}
-            \frac{1}{\max_{d\in C_N}{|T_N(d)|}},&
-                \max_{d\in C_N}{|T_N(d)|} \ne 0 \\
-            0,& \text{ otherwise}
-        \end{cases}.
+        T'_N(c) &=
+            \norm{T_N(C)} \cdot T_N(c).
     \end{align*}
     Then $U = U_2 \circ U_1$.
 \end{lemma}
+
+\begin{proof}
+    \todo{Write.}
+\end{proof}
 
 \paragraph{TruthFinder.} \todo{Write.}
 \paragraph{CRH.} \todo{Write.}
