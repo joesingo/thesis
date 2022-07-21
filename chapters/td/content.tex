@@ -289,20 +289,20 @@ follows.
     \end{align*}
 \end{definition}
 
-Note that a weighting is essentially just half of a truth discovery operator,
-where we only output scores for sources. This is completed to an operator
-$\wvoting{w}$ by letting the score for a claim be the sum of the weights of its
-sources. Note that we allow the possibility of ``untrustworthy'' sources with
-$w_N(s) < 0$. Reports from such sources \emph{decrease} the credibility of a
-claim.
+Note that $\voting$ arises via the weighting $w_N \equiv 1$. Note that a
+weighting is essentially just half of a truth discovery operator, where we only
+output scores for sources. This is completed to an operator $\wvoting{w}$ by
+letting the score for a claim be the sum of the weights of its sources. Note
+also that we allow the possibility of ``untrustworthy'' sources with $w_N(s) <
+0$.  Reports from such sources \emph{decrease} the credibility of a claim.
 
 \begin{example}
     \label{td_new_ex_weighted_voting}
     Set
     \[
-        \wagree_N(s) = \frac{1}{|\claims_N(s)|}{
+        \wagree_N(s) = {
             \sum_{c \in \claims_N(s)}{
-                |\src_N(c)|
+                \frac{|\src_N(c)|}{|\claims_N(s)|}
             }
         }.
     \]
@@ -1173,10 +1173,12 @@ trustworthiness ranking. First, some terminology is required.
 \begin{definition}
     Given a network $N$, a source $s \in S$ is \emph{marginally trustworthy}
     with respect to an operator $T$ if there exist claims $c, d \in C$ such
-    that $\src_N(d) = \src_N(c) \cup \{s\}$ and $c \cle_N^T d$.
+    that $s \notin \src_N(c)$, $\src_N(d) = \src_N(c) \cup \{s\}$ and $c
+    \cle_N^T d$.
     %
     Similarly, $s$ is \emph{marginally untrustworthy} if there are $c, d  \in
-    C$ such that $\src_N(d) = \src_N(c) \cup \{s\}$ and $d \cle_N^T c$.
+    C$ such that $s \notin \src_N(c)$, $\src_N(d) = \src_N(c) \cup \{s\}$ and
+    $d \cle_N^T c$.
 \end{definition}
 
 These properties express something about the trustworthiness of sources
@@ -1195,7 +1197,8 @@ Equipped with a notion of marginal trustworthiness, we can also state a
 trust-aware monotonicity axiom for claims.
 
 \begin{axiom}[\trustbasedmon{}]
-    Suppose $\src_N(d) = \src_N(c) \cup Z$. Then
+    Suppose $\src_N(d) = \src_N(c) \cup Z$, where $\src_N(c) \cap Z =
+    \emptyset$. Then
     \begin{enumerate}
         \item If each $s \in Z$ is marginally trustworthy, $c \cle_N^T d$.
         \item If each $s \in Z$ is marginally untrustworthy, $d \cle_N^T c$.
@@ -1511,11 +1514,10 @@ Note that all four coherence \emph{can} be satisfied at the same time, e.g. by
 the trivial operator which outputs constant scores $T_N(s) = T_N(c) = 0$. Of
 course, this operator violates both \freshposresp{} and \sourceposresp{}.
 
-\section{A Characterisation of Voting}
+\subsection{Axiomatic Characterisation of Voting}
 \label{td_new_sec_a_characterisation_of_voting}
 
-In the previous section we introduced general axioms for truth discovery
-operators. We saw in \cref{td_new_prop_symm_fpr_ci_voting} that \symmetry{},
+Recall from \cref{td_new_prop_symm_fpr_ci_voting} that \symmetry{},
 \freshposresp{} and \classicalindependence{} force an operator to rank claims
 for the object simply by their number of sources, as in voting from
 \cref{td_new_sec_voting}. In this section we give two further axioms which
@@ -1728,211 +1730,374 @@ weighted voting'', where $w_N(s) \in \{0, 1\}$.}
 \section{Fixed-points for Recursive Operators}
 \label{td_new_sec_fixed_points_recursive_operators}
 
-\begin{notes}
-    Sketch of this section:
-    \begin{itemize}
-        \item For a recursive operator $R$, we might not have a closed-form
-              expression for the limit operator $T^*$.
-        \item But hopefully, the operator converges to a fixed point of $U$, so
-            that $U(T^*) = T^*$.
-        \item This will simplify analysis of recursive operators (e.g. to see
-              which axioms hold).
-        \item Fixing $N$, an operator gives us a function $S_N \cup C_N \to
-              \R$. Let $\F_N$ be the set of such functions.
-        \item Basic compatibility condition for a recursive operator: if $T_N =
-            T'_N$ then $U(T)_N = U(T')_N$.
-        \item This implies that $U$ defines a function $\F_N \to \F_N$ (which
-            we also denote by $U$).
-        \item $\F_N$ is a metric space with the uniform distance
-            \[
-                d(f, g) = \|f - g\|_{\infty}
-                = \max_{z \in S \cup C}{|f(z) - g(z)|}.
-            \]
-        \item Can use results for convergence in metric spaces
-        \item If $R$ converges and $\D$ is closed, then $T^* \in \D$
-            (i.e. the limit is in the domain of the update function)
-        \item Since $S \cup C$ is finite, pointwise convergence (i.e. our
-            definition) implies uniform convergence
-        \item If $U$ is continuous and $R$ converges, then $U(T^*) = T^*$.
-        \item Banach's fixed-point theorem: if $U$ is a contraction mapping,
-              then $U$ is continuous and $R$ converges to a fixed point.
-              Moreover, $T_0$ can be chosen arbitrarily.
-        \item We can try these for each of our example operators.
-        \item Show which operators are weightable, using the fixed-point
-              properties.
-    \end{itemize}
-\end{notes}
+% \begin{notes}
+%     Sketch of this section:
+%     \begin{itemize}
+%         \item For a recursive operator $R$, we might not have a closed-form
+%               expression for the limit operator $T^*$.
+%         \item But hopefully, the operator converges to a fixed point of $U$, so
+%             that $U(T^*) = T^*$.
+%         \item This will simplify analysis of recursive operators (e.g. to see
+%               which axioms hold).
+%         \item Fixing $N$, an operator gives us a function $S_N \cup C_N \to
+%               \R$. Let $\F_N$ be the set of such functions.
+%         \item Basic compatibility condition for a recursive operator: if $T_N =
+%             T'_N$ then $U(T)_N = U(T')_N$.
+%         \item This implies that $U$ defines a function $\F_N \to \F_N$ (which
+%             we also denote by $U$).
+%         \item $\F_N$ is a metric space with the uniform distance
+%             \[
+%                 d(f, g) = \|f - g\|_{\infty}
+%                 = \max_{z \in S \cup C}{|f(z) - g(z)|}.
+%             \]
+%         \item Can use results for convergence in metric spaces
+%         \item If $R$ converges and $\D$ is closed, then $T^* \in \D$
+%             (i.e. the limit is in the domain of the update function)
+%         \item Since $S \cup C$ is finite, pointwise convergence (i.e. our
+%             definition) implies uniform convergence
+%         \item If $U$ is continuous and $R$ converges, then $U(T^*) = T^*$.
+%         \item Banach's fixed-point theorem: if $U$ is a contraction mapping,
+%               then $U$ is continuous and $R$ converges to a fixed point.
+%               Moreover, $T_0$ can be chosen arbitrarily.
+%         \item We can try these for each of our example operators.
+%         \item Show which operators are weightable, using the fixed-point
+%               properties.
+%     \end{itemize}
+% \end{notes}
 
-Having introduced several example operators in
-\cref{td_new_sec_example_operators} and axioms in \cref{td_new_sec_axioms}, it
-is natural to ask which axioms are satisfied by each operator. To aid this
-process, in this section we first collect some results for the limit $T^*$ of a
-recursive scheme $(\D, T_0, U)$ to be a \emph{fixed-point} of $U$, i.e. $U(T^*)
-= T^*$.  This property greatly simplifies analysis of (some of) the axioms,
-especially for recursive operators for which no closed-form expression is
-available for $T^*$. In what follows, when a recursive scheme is understood we
-write $T^n$ for $U^n(T_0)$, i.e. the $n$-th iteration of the scheme,
+% Having introduced several example operators in
+% \cref{td_new_sec_example_operators} and axioms in \cref{td_new_sec_axioms}, it
+% is natural to ask which axioms are satisfied by each operator. To aid this
+% process, in this section we first collect some results for the limit $T^*$ of a
+% recursive scheme $(\D, T_0, U)$ to be a \emph{fixed-point} of $U$, i.e. $U(T^*)
+% = T^*$.  This property greatly simplifies analysis of (some of) the axioms,
+% especially for recursive operators for which no closed-form expression is
+% available for $T^*$. In what follows, when a recursive scheme is understood we
+% write $T^n$ for $U^n(T_0)$, i.e. the $n$-th iteration of the scheme,
 
-The strategy is as follows: we first define a distance metric $d$ on the of
-operators, so that convergence in the sense of
-\cref{td_new_def_recursive_scheme} -- i.e. $T_N^n(z) \to T^*_N(z)$ for all
-networks $N$ and $z \in S_N \cup C_N$ -- coincides with $T^n \to T^*$ in the
-sense of convergence in a metric space -- i.e. $d(T^*, T^n) \to 0$. We may then
-speak of $U: \D \to \D$ being \emph{continuous}, and a basic result from
-topology gives that $T^n \to T^*$ implies $U(T^n) \to U(T^*)$.  Since $U(T^n) =
-T^{n + 1}$ and limits are unique in a metric space, this implies $T^* = U(T^*)$
-as desired.
+% The strategy is as follows: we first define a distance metric $d$ on the of
+% operators, so that convergence in the sense of
+% \cref{td_new_def_recursive_scheme} -- i.e. $T_N^n(z) \to T^*_N(z)$ for all
+% networks $N$ and $z \in S_N \cup C_N$ -- coincides with $T^n \to T^*$ in the
+% sense of convergence in a metric space -- i.e. $d(T^*, T^n) \to 0$. We may then
+% speak of $U: \D \to \D$ being \emph{continuous}, and a basic result from
+% topology gives that $T^n \to T^*$ implies $U(T^n) \to U(T^*)$.  Since $U(T^n) =
+% T^{n + 1}$ and limits are unique in a metric space, this implies $T^* = U(T^*)$
+% as desired.
 
-For simplicity we work with \emph{bounded operators}: $T$ is \emph{bounded} if
-there is $M \ge 0$ such that for all networks $N$ and $z \in S_N \cup C_N$,
-$|T_N(z)| \le M$. Note that this is equivalent to $T$ bounded in the
-conventional sense when viewed as a function $\bigsqcup_N{(S_N \cup C_N)} \to
-\R$. A recursive scheme $(\D, T_0, U)$ is bounded if each operator in $\D$ is.
-Write $\T$ for the set of bounded operators. The limit of a bounded recursive
-scheme is again bounded.
+% For simplicity we work with \emph{bounded operators}: $T$ is \emph{bounded} if
+% there is $M \ge 0$ such that for all networks $N$ and $z \in S_N \cup C_N$,
+% $|T_N(z)| \le M$. Note that this is equivalent to $T$ bounded in the
+% conventional sense when viewed as a function $\bigsqcup_N{(S_N \cup C_N)} \to
+% \R$. A recursive scheme $(\D, T_0, U)$ is bounded if each operator in $\D$ is.
+% Write $\T$ for the set of bounded operators. The limit of a bounded recursive
+% scheme is again bounded.
 
-\begin{proposition}
-    If $(\D, T_0, U)$ is bounded and converges to $T^*$, then $T^*$ is
-    bounded.
-\end{proposition}
+% \begin{proposition}
+%     If $(\D, T_0, U)$ is bounded and converges to $T^*$, then $T^*$ is
+%     bounded.
+% \end{proposition}
 
-\begin{proof}
-    \todo{Write.}
-\end{proof}
+% \begin{proof}
+%     \todo{Write.}
+% \end{proof}
 
-Now, for sets $X, Y$, the \emph{uniform norm} $\|f\|_\infty = \sup_{x \in
-X}{|f(x)|}$ is a norm on the set of bounded functions $f: X \to Y$, which in
-turn defines a metric $d(f, g) = \|f - g\|_{\infty}$. Applying this to bounded
-operators yields the following metric $d: \T \times \T \to \R$:\footnotemark{}
-\[
-    d(T, T')
-    =
-    \sup_{N}{
-        \max_{z \in S_N \cup C_N}{
-            |T_N(z) - T'_N(z)|
-        }
-    }.
-\]
+% Now, for sets $X, Y$, the \emph{uniform norm} $\|f\|_\infty = \sup_{x \in
+% X}{|f(x)|}$ is a norm on the set of bounded functions $f: X \to Y$, which in
+% turn defines a metric $d(f, g) = \|f - g\|_{\infty}$. Applying this to bounded
+% operators yields the following metric $d: \T \times \T \to \R$:\footnotemark{}
+% \[
+%     d(T, T')
+%     =
+%     \sup_{N}{
+%         \max_{z \in S_N \cup C_N}{
+%             |T_N(z) - T'_N(z)|
+%         }
+%     }.
+% \]
 
-\footnotetext{
-    Note that the boundedness assumption ensures the supremum is finite.
-}
+% \footnotetext{
+%     Note that the boundedness assumption ensures the supremum is finite.
+% }
 
-\begin{proposition}
-    A bounded recursive scheme $(\D, T_0, U)$ converges to $T^*$ if and only if
-    $T^n$ converges to $T^*$ in $(\T, d)$.
-\end{proposition}
+% \begin{proposition}
+%     A bounded recursive scheme $(\D, T_0, U)$ converges to $T^*$ if and only if
+%     $T^n$ converges to $T^*$ in $(\T, d)$.
+% \end{proposition}
 
-\begin{proof}
-    \todo{Write.}
-\end{proof}
+% \begin{proof}
+%     \todo{Write.}
+% \end{proof}
 
-For $T^*$ to be a fixed-point of $U$, clearly $T^*$ needs to lie in the domain
-$\D$ of $U$. A sufficient condition is for $\D$ to be \emph{closed} as a subset
-of $\T$, due to the following standard result.
+% For $T^*$ to be a fixed-point of $U$, clearly $T^*$ needs to lie in the domain
+% $\D$ of $U$. A sufficient condition is for $\D$ to be \emph{closed} as a subset
+% of $\T$, due to the following standard result.
 
-\begin{lemma}
-    Let $(X, d)$ be a metric space. Then $A \subseteq X$ is
-    closed\footnotemark{} if and only if it contains all its limit points, i.e.
-    $x_n \to x^*$ implies $x^* \in A$, for all convergent sequences $(x_n)_{n
-    \in \Nat}$ in $A$.
-\end{lemma}
+% \begin{lemma}
+%     Let $(X, d)$ be a metric space. Then $A \subseteq X$ is
+%     closed\footnotemark{} if and only if it contains all its limit points, i.e.
+%     $x_n \to x^*$ implies $x^* \in A$, for all convergent sequences $(x_n)_{n
+%     \in \Nat}$ in $A$.
+% \end{lemma}
 
-\footnotetext{
-    A set $A \subseteq X$ is \emph{open} if for all $x \in A$, there is $r > 0$
-    such that $\{x' \in X \mid d(x, x') < r\} \subseteq A$. $A$ is
-    \emph{closed} if its complement $X \setminus A$ is open.
-}
+% \footnotetext{
+%     A set $A \subseteq X$ is \emph{open} if for all $x \in A$, there is $r > 0$
+%     such that $\{x' \in X \mid d(x, x') < r\} \subseteq A$. $A$ is
+%     \emph{closed} if its complement $X \setminus A$ is open.
+% }
 
-\todo{Citation for proof, or just reproduce it here.}
+% \todo{Citation for proof, or just reproduce it here.}
 
-The following definition of a continuous map between metric spaces is standard.
+% The following definition of a continuous map between metric spaces is standard.
 
-\begin{definition}
-    A function $f: X \to Y$ between metric spaces $(X, d_X)$, $(Y, d_Y)$ is
-    \emph{continuous} if for all $x \in X$ and $\epsilon > 0$ there is $\delta
-    > 0$ such that for all $x' \in X$,
-    \[
-        d_X(x, x') < \delta \implies d_Y(f(x), f(x')) < \epsilon.
-    \]
-\end{definition}
+% \begin{definition}
+%     A function $f: X \to Y$ between metric spaces $(X, d_X)$, $(Y, d_Y)$ is
+%     \emph{continuous} if for all $x \in X$ and $\epsilon > 0$ there is $\delta
+%     > 0$ such that for all $x' \in X$,
+%     \[
+%         d_X(x, x') < \delta \implies d_Y(f(x), f(x')) < \epsilon.
+%     \]
+% \end{definition}
 
-Fixing a recursive scheme $(\D, T_0, U)$, restricting $d$ to $\D$ gives a
-metric space structure on $\D$, and we may therefore speak of $U: \D \to \D$
-being continuous. By another standard result, we may interchange the
-application of a continuous function with the limit.
+% Fixing a recursive scheme $(\D, T_0, U)$, restricting $d$ to $\D$ gives a
+% metric space structure on $\D$, and we may therefore speak of $U: \D \to \D$
+% being continuous. By another standard result, we may interchange the
+% application of a continuous function with the limit.
 
-\begin{lemma}
-    Let $f: X \to Y$ be continuous and $(x_n)_{n \in \Nat}$ a convergent
-    sequence in $X$. Then $\lim_{n \to \infty}{f(x_n)} = f(\lim_{n \to
-    \infty}{x_n})$.
-\end{lemma}
+% \begin{lemma}
+%     Let $f: X \to Y$ be continuous and $(x_n)_{n \in \Nat}$ a convergent
+%     sequence in $X$. Then $\lim_{n \to \infty}{f(x_n)} = f(\lim_{n \to
+%     \infty}{x_n})$.
+% \end{lemma}
 
-\todo{Citation for proof, or just reproduce it here.}
+% \todo{Citation for proof, or just reproduce it here.}
 
-Putting things together, we arrive at the following.
+% Putting things together, we arrive at the following.
 
-\begin{proposition}
-    \label{td_new_prop_recursive_scheme_fp_condition}
-    Let $(\D, T_0, U)$ be a bounded recursive scheme with limit $T^*$. If $\D$
-    is closed and $U$ is continuous, then $U(T^*) = T^*$.
-\end{proposition}
+% \begin{proposition}
+%     \label{td_new_prop_recursive_scheme_fp_condition}
+%     Let $(\D, T_0, U)$ be a bounded recursive scheme with limit $T^*$. If $\D$
+%     is closed and $U$ is continuous, then $U(T^*) = T^*$.
+% \end{proposition}
 
-Our aim is to now show that \cref{td_new_prop_recursive_scheme_fp_condition}
-can be applied to each of the example recursive operators from
-\cref{td_new_sec_recursive_operators}. We take each operator in turn.
+% Our aim is to now show that \cref{td_new_prop_recursive_scheme_fp_condition}
+% can be applied to each of the example recursive operators from
+% \cref{td_new_sec_recursive_operators}. We take each operator in turn.
 
-\paragraph{Sums.}
+% \paragraph{Sums.}
 
-Let $(\D, T_0, U)$ be as defined for Sums in \cref{td_new_def_sums}. Sums is
-clearly bounded by definition of $\D$.
+% Let $(\D, T_0, U)$ be as defined for Sums in \cref{td_new_def_sums}. Sums is
+% clearly bounded by definition of $\D$.
 
 
 
-It will
-prove more convenient to express $U$ as a composition $U_2 \circ U_1$, where
-$U_1$ performs the sum step, and $U_1$ normalises scores by dividing by the
-maximum. In what follows, for a set of numbers $X \subseteq \R$, write
-\[
-    \norm{X} = \begin{cases}
-        \frac{1}{\max_{x \in X}{|x|}},& \max_{x \in X}{|x|} \ne 0 \\
-        0,& \text{ otherwise}.
-    \end{cases}
-\]
+% It will
+% prove more convenient to express $U$ as a composition $U_2 \circ U_1$, where
+% $U_1$ performs the sum step, and $U_1$ normalises scores by dividing by the
+% maximum. In what follows, for a set of numbers $X \subseteq \R$, write
+% \[
+%     \norm{X} = \begin{cases}
+%         \frac{1}{\max_{x \in X}{|x|}},& \max_{x \in X}{|x|} \ne 0 \\
+%         0,& \text{ otherwise}.
+%     \end{cases}
+% \]
 
-\begin{lemma}
-    Define $U_1: \D \to \D$ by $U_1(T) = T'$, where
-    \begin{align*}
-        T'_N(s) &=
-            \sum_{c \in \claims_N(s)}{
-                T_N(c)
-            },
-        \\
-        T'_N(c) &=
-            \sum_{s \in \src_N(c)}{
-                T'_N(s)
-            }
-    \end{align*}
-    and $U_2: \D \to \D$ by $U_2(T) = T'$, where
-    \begin{align*}
-        T'_N(s) &=
-            \norm{T_N(S)} \cdot T_N(s)
-        \\
-        T'_N(c) &=
-            \norm{T_N(C)} \cdot T_N(c).
-    \end{align*}
-    Then $U = U_2 \circ U_1$.
-\end{lemma}
+% \begin{lemma}
+%     Define $U_1: \D \to \D$ by $U_1(T) = T'$, where
+%     \begin{align*}
+%         T'_N(s) &=
+%             \sum_{c \in \claims_N(s)}{
+%                 T_N(c)
+%             },
+%         \\
+%         T'_N(c) &=
+%             \sum_{s \in \src_N(c)}{
+%                 T'_N(s)
+%             }
+%     \end{align*}
+%     and $U_2: \D \to \D$ by $U_2(T) = T'$, where
+%     \begin{align*}
+%         T'_N(s) &=
+%             \norm{T_N(S)} \cdot T_N(s)
+%         \\
+%         T'_N(c) &=
+%             \norm{T_N(C)} \cdot T_N(c).
+%     \end{align*}
+%     Then $U = U_2 \circ U_1$.
+% \end{lemma}
 
-\begin{proof}
-    \todo{Write.}
-\end{proof}
+% \begin{proof}
+%     \todo{Write.}
+% \end{proof}
 
-\paragraph{TruthFinder.} \todo{Write.}
-\paragraph{CRH.} \todo{Write.}
+% \paragraph{TruthFinder.} \todo{Write.}
+% \paragraph{CRH.} \todo{Write.}
 
 \section{Satisfaction of the Axioms}
 \label{td_new_sec_satisfaction_of_the_axioms}
+
+In the previous section we introduced several axioms for truth discovery. We
+now turn back to the example operators from
+\cref{td_new_sec_example_operators}, to assess which axioms hold for each
+operator.
+
+\paragraph{Weighted Voting.}
+
+First we consider weighted voting. The following axioms hold for \emph{any}
+choice of weighting $w$.
+
+\begin{lemma}
+    \label{td_new_lemma_wvoting_always_hold}
+    Let $w$ be a weighting. Then $\wvoting{w}$ satisfies \claimcoherence{},
+    \marginaltrustworthiness{} and \trustbasedmon{}.
+\end{lemma}
+
+\begin{proof}
+    \claimcoherence{} follows easily using the definition of weighted
+    voting and \cref{td_new_prop_pwo_strict_part}.
+
+    One can easily show that if $s$ is marginally trustworthy with respect to
+    $\wvoting{w}$ then $w_N(s) \ge 0$, and if $s$ is marginally untrustworthy
+    with respect to $\wvoting{w}$ then $w_N(s) \ge 0$, and
+    \marginaltrustworthiness{} follows.
+
+    Finally, for \trustbasedmon{} suppose $\src_N(d) = \src_N(c) \cup Z$, where
+    $\src_N(c) \cap Z = \emptyset$. Then $\wvoting{w}_N(d) = \wvoting{w}_N(c) +
+    \sum_{s \in Z}{w_N(s)}$. If each $s \in Z$ is marginally trustworthy then
+    each $w_N(s)$ is non-negative, and so too is the sum. Hence
+    $\wvoting{w}_N(d) \ge \wvoting{w}(c)$, so $c \cle_N^{\wvoting{w}} d$. If
+    each $s \in Z$ is marginally untrustworthy then each $w_N(s)$ is
+    non-positive, and similarly we get $d \cle_N^{\wvoting{w}} c$ as required.
+\end{proof}
+
+For the particular choice of $w$ for Weighted Agreement from
+\cref{td_new_ex_weighted_voting}, we have the following.
+
+\begin{theorem}
+    Weighted Agreement satisfies \claimcoherence{}, \symmetry{},
+    \freshposresp{}, \sourceposresp{}, \marginaltrustworthiness{},
+    \trustbasedmon{} and \disjointindependence{}. It does not satisfy
+    \sourcecoherence{}, \classicalindependence{}, \conflictcoherence{} or
+    \anticoherence{}.
+\end{theorem}
+
+\begin{proof}
+    For brevity, let $w$ denote $\wagree$ and $T$ denote $\wvoting{\wagree}$.
+    %
+    \claimcoherence{}, \marginaltrustworthiness{} and \trustbasedmon{} follow
+    from \cref{td_new_lemma_wvoting_always_hold}.
+
+    For \symmetry{}, suppose $F$ is an isomorphism betweens networks $N$ and
+    $N'$. From the definition of an isomorphism we have $(s, c) \in R$ iff
+    $(F(s), F(c)) \in R'$. Consequently $\src_N(c) = \{F^{-1}(s') \mid s' \in
+    \src_{N'}(F(c))\}$ and $\claims_N(s) = \{F^{-1}(c') \mid c' \in
+    \claims_{N'}(F(s))\}$. From this one can show $w_N(s) = w_{N'}(F(s))$,
+    which then implies $T_N(s) = T_{N'}(F(s))$ and $T_N(c) = T_{N'}(F(c))$.
+    \symmetry{} now follows.
+
+    For \freshposresp{} and \sourceposresp{}, we use the following auxiliary
+    result.
+
+    \begin{claim}
+        \label{td_new_claim_wagree_new_report}
+        Suppose $\claims_N(u) = \emptyset$ and let $c$ be a claim. Then for all
+        $s \ne u$ with $\claims_N(s) \ne \emptyset$,
+        \[
+            w_{\addclaim{N}{u}{c}}(s) = w_N(s) +
+            \frac{\indicator{c \in \claims_N(s)}}{|\claims_N(s)|}.
+        \]
+    \end{claim}
+    \begin{proof}
+        First, note that for any claim $d$,
+        \[
+            |\src_{\addclaim{N}{u}{c}}(d)| = |\src_N(d)| + \indicator{c = d},
+        \]
+        and since $s \ne u$ we have $\claims_{\addclaim{N}{u}{c}}(s) =
+        \claims_N(s)$. Consequently
+        \begin{align*}
+            w_{\addclaim{N}{u}{c}}(s)
+            &= \sum_{d \in \claims_{\addclaim{N}{u}{c}}(s)}{
+                \frac{|\src_{\addclaim{N}{u}{c}}(d)|}{|\claims_{\addclaim{N}{u}{c}}(s)|}
+            } \\
+            &= \sum_{d \in \claims_N(s)}{
+                \frac{|\src_N(d)| + \indicator{c = d}}{|\claims_N(s)|}
+            } \\
+            &=
+            \underbrace{
+                \sum_{d \in \claims_N(s)}{
+                    \frac{|\src_N(d)|}{|\claims_N(s)|}
+                }
+            }_{= w_N(s)}
+            + \sum_{d \in \claims_N(s)}{
+                \underbrace{
+                    \frac{\indicator{c = d}}{|\claims_N(s)|}
+                }_{= 0 \text{ unless } c = d}
+            } \\
+            &= w_N(s) + \frac{\indicator{c \in \claims_N(s)}}{|\claims_N(s)|}
+        \end{align*}
+    \end{proof}
+
+    Now, for \freshposresp, suppose $\claims_N(u) = \emptyset$, $c \ne d$ and
+    $d \cle_N^T c$. We need to show $d \clt_{\addclaim{N}{u}{c}}^T c$. Indeed,
+    using \cref{td_new_claim_wagree_new_report} we have
+    \begin{align*}
+        T_{\addclaim{N}{u}{c}}(c) &- T_{\addclaim{N}{u}{c}}(d)
+        = w_{\addclaim{N}{u}{c}}(u)
+        + \sum_{s \in \src_N(c)}{
+            w_{\addclaim{N}{u}{c}}(s)
+        }
+        - \sum_{s \in \src_N(d)}{
+            w_{\addclaim{N}{u}{c}}(s)
+        } \\
+        &= |\src_N(c)| + 1
+        + \sum_{s \in \src_N(c)}{
+            \left(
+                w_N(s)
+                + \frac{1}{|\claims_N(s)|}
+            \right)
+        }
+        - \sum_{s \in \src_N(d)}{
+            \left(
+                w_N(s)
+                + \frac{\indicator{c \in \claims_N(s)}}{|\claims_N(s)|}
+            \right)
+        } \\
+        &= |\src_N(c)| + 1
+        + T_N(c)
+        + \sum_{s \in \src_N(c)}{
+            \frac{1}{|\claims_N(s)|}
+        }
+        - T_N(d)
+        - \sum_{s \in \src_N(c) \cap \src_N(d)}{
+            \frac{1}{|\claims_N(s)|}
+        } \\
+        &= |\src_N(c)| + 1
+        + \underbrace{T_N(c) - T_N(d)}_{\ge 0}
+        + \sum_{s \in \src_N(c) \setminus \src_N(d)}{
+            \frac{1}{|\claims_N(s)|}
+        } \\
+        &\ge 1 \\
+        & > 0.
+    \end{align*}
+    This shows $T_{\addclaim{N}{u}{c}}{c} > T_{\addclaim{N}{u}{c}}(d)$, and
+    thus $d \clt_{\addclaim{N}{u}{c}}^T c$ as required.
+
+    For \sourceposresp{}, suppose $s \in \antisrc_N(c)$, $t \in \src_N(c)$,
+    $\claims_N(u) = \emptyset$ and $s \sle_N^T t$. Then
+    \begin{align*}
+        T_{\addclaim{N}{u}{c}}(t) &- T_{\addclaim{N}{u}{c}}(s)
+        = w_{\addclaim{N}{u}{c}}(t) - w_{\addclaim{N}{u}{c}}(s) \\
+        &= \underbrace{w_N(t) - w_N(s)}_{\ge 0}
+        + \frac{\indicator{c \in \claims_N(t)}}{|\claims_N(t)|}
+        - \underbrace{
+            \frac{\indicator{c \in \claims_N(s)}}{|\claims_N(s)|}
+        }_{= 0} \\
+        &\ge \frac{1}{|\claims_N(t)|} \\
+        &> 0
+    \end{align*}
+    where we use the fact that $s \in \antisrc_N(c)$ means $c \notin
+    \claims_N(s)$. Hence $s \slt_{\addclaim{N}{u}{c}}^T t$.
+\end{proof}
 
 \begin{notes}
     Go through example operators. Possibly give weakened
