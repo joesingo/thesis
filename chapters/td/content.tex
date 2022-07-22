@@ -1307,10 +1307,12 @@ per-object voting gives $c \ceq d$), we obtain an impossibility result with
 since \sourceposresp{} can also be replaced with \sourcecoherence{}.
 
 \begin{theorem}
+    \label{td_new_thm_classical_indep_impossibility}
     Suppose and operator satisfies \symmetry{}, \claimcoherence{} and
     \freshposresp{}. Then the following axioms cannot hold simultaneously.
     \begin{enumerate}
-        \item \sourceposresp{} and \classicalindependence{}.
+        \item \label{td_new_item_classical_indep_impossibility_spr}
+              \sourceposresp{} and \classicalindependence{}.
         \item \sourcecoherence{} and \classicalindependence{}.
     \end{enumerate}
 \end{theorem}
@@ -2097,6 +2099,42 @@ For the particular choice of $w$ for Weighted Agreement from
     \end{align*}
     where we use the fact that $s \in \antisrc_N(c)$ means $c \notin
     \claims_N(s)$. Hence $s \slt_{\addclaim{N}{u}{c}}^T t$.
+
+    Finally, \disjointindependence{} follows easily by noting that for disjoint
+    networks $N$, $N'$ and $s \in S_N$, $c \in C_N$, we have $\claims_{N \sqcup
+    N'}(s) = \claims_N(s)$ and $\src_{N \sqcup N'}(c) = \src_N(c)$.
+
+    \begin{figure}
+        \centering
+            \begin{tikzpicture}[thick]
+                \LARGE
+                \networkinit{t_1,s,s',t_2,t_3,t_4}{c,c',d}
+                \object{o}{c}{c'}
+                \objectsingleclaim{p}{d}
+                \report{t_1}{c}
+                \report{s}{c}
+                \report{s'}{c'}
+                \report{t_2}{c'}
+                \report{t_2}{d}
+                \report{t_3}{d}
+                \report{t_4}{d}
+            \end{tikzpicture}
+        \caption{
+            Counterexample for \sourcecoherence{} for Weighted Agreement.
+        }
+        \label{td_new_fig_weighted_agreement_sourcecoh_counterex}
+    \end{figure}
+
+    To see that \sourcecoherence{} does not hold, let $N$ be the network shown
+    in \cref{td_new_fig_weighted_agreement_sourcecoh_counterex}. One can easily
+    check that $c \clt_N^T c'$ yet $s \seq_N^T s'$.
+
+    \classicalindependence{} cannot hold by the impossibility result
+    \cref{td_new_thm_classical_indep_impossibility}
+    \cref{td_new_item_classical_indep_impossibility_spr}, since \symmetry{},
+    \claimcoherence{}, \freshposresp{} and \sourceposresp{} have already been
+    shown to hold. Similarly, the failure of \conflictcoherence{} and
+    \anticoherence{} follow from \cref{td_new_thm_conflict_impossibilities}.
 \end{proof}
 
 \begin{notes}
