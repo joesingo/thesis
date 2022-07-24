@@ -1941,7 +1941,78 @@ weighted voting'', where $w_N(s) \in \{0, 1\}$.}
 In the previous section we introduced several axioms for truth discovery. We
 now turn back to the example operators from
 \cref{td_new_sec_example_operators}, to assess which axioms hold for each
-operator.
+operator. \cref{td_new_tab_axiom_satisfaction} summarises the results.
+
+\begin{table}
+    \footnotesize
+    \centering
+    \caption{Axiom satisfaction for the example operators.}
+    \def\yes{\checkmark}
+    \def\no{\sffamily{X}}
+    \begin{tabular}{lccccccc}
+
+        &
+        Voting             &
+        WeightedAgg &
+        Sums               &
+        TruthFinder        &
+        TruthFinder ($\lambda = 0$)  &
+        CRH                \\
+
+        \toprule
+
+        \claimcoherence{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \sourcecoherence{} &
+            \no{} &
+            \no{} &
+            \\
+        \symmetry{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \freshposresp{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \sourcecoherence{} &
+            \no{} &
+            \yes{} &
+            \\
+        \marginaltrustworthiness{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \trustbasedmon{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \classicalindependence{} &
+            \yes{} &
+            \no{} &
+            \\
+        \disjointindependence{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \conflictcoherence{} &
+            \no{} &
+            \no{} &
+            \\
+        \anticoherence{} &
+            \no{} &
+            \no{} &
+            \\
+
+        \bottomrule
+
+	\end{tabular}
+    \label{td_new_tab_axiom_satisfaction}
+\end{table}
+
+\todo{Mention Voting axioms. Proofs are similar to Weighted Agreement.}
 
 \paragraph{Weighted Voting.}
 
@@ -2137,11 +2208,174 @@ For the particular choice of $w$ for Weighted Agreement from
     \anticoherence{} follow from \cref{td_new_thm_conflict_impossibilities}.
 \end{proof}
 
-\begin{notes}
-    Go through example operators. Possibly give weakened
-    coherence/conflict-coherence axioms satisfied by TruthFinder and CRH, upon
-    showing regular \claimcoherence{} fails.
-\end{notes}
+\paragraph{Sums.}
+
+To simplify axiomatic analysis of Sums, we first show that $\sums$ is a fixed
+point of the update function $U$ for Sums. In what follows, let $(\D, T^0, U)$
+denote the recursive scheme corresponding to Sums from \cref{td_new_def_sums}.
+Recall that $\sums$ is defined as the limit of this recursive scheme. For
+simplicity we assume $\sums$ converges on all input networks.\footnote{While
+\textcite{pasternack2010} do not consider convergence issues, Sums is an
+adaptation of the \emph{Hubs and Authorities} algorithm for ranking web pages,
+for which \textcite{kleinberg1999} proves convergence.} We also write $T^n =
+U^n(T^0)$ for the $n$-th step of the iteration of Sums.
+
+The following lemma helps to deal with the normalisation factors used in the
+update function for Sums.
+
+\begin{lemma}
+    \label{td_new_lemma_max_lemma}
+    Let $(x^i_n)_{n \in \Nat}$ be convergence sequences in $\R$, for $1
+    \le i \le k$. Then
+    \[
+        \lim_{n \to \infty}{\max_i{|x^i_n|}}
+        = \max_i{|\lim_{n \to \infty}{x^i_n}|}.
+    \]
+\end{lemma}
+
+\begin{proof}
+    Let $\epsilon > 0$. Write $y^i = \lim_{n \to \infty}{x^i_n}$. For each $i$,
+    hence $|x^i_n| \to |y^i|$ -- since the absolute value function $\|\cdot\|$
+    is continuous -- and so there is $n_i \in \Nat$ such that $||x^i_n| -
+    |y^i|| < \epsilon$ for all $n \ge n_i$. Take $m = \max_i{n_i}$. Let $n \ge
+    m$. For any $i$, we have
+    \[
+        |y^i| - \epsilon < |x^i_n| < |y^i| + \epsilon.
+    \]
+    Thus
+    \[
+        |x^i_n|
+        < |y^i| + \epsilon
+        \le \max_j|y^j| + \epsilon.
+    \]
+    Since the maximum is achieved for some $i$, we get
+    \begin{equation}
+        \label{td_new_eqn_max_lemma_1}
+        \max_i|x^i_n| < \max_j|y^j| + \epsilon.
+    \end{equation}
+
+    Now, take $j$ such that $\max_i|y^i| = |y^j|$. Then
+    \begin{equation}
+        \label{td_new_eqn_max_lemma_2}
+        \max_i|x^i_n|
+        \ge |x^j_n|
+        > |y^j| - \epsilon
+        = \max_i|y^i| - \epsilon.
+    \end{equation}
+    Combining \cref{td_new_eqn_max_lemma_1} and \cref{td_new_eqn_max_lemma_2},
+    we get
+    \[
+        |\max_i|x^i_n| - \max_i|y^i|| < \epsilon
+    \]
+    as required.
+\end{proof}
+
+\begin{lemma}
+    $\sums \in \D$, and $U(\sums) = \sums$.
+\end{lemma}
+
+\begin{proof}
+Note
+    that $T_N^n(z) \in [0, 1]$ for all $n$ and $z \in S \cup C$. Consequently
+    $T_N^*(z) = \lim_{n \to \infty}{T^n_N(z)} \in [0, 1]$, since $[0, 1]$ is
+    closed. Hence $\sums \in \D$.
+
+    Take any network $N$. If $N$ contains no reports -- i.e. $R = \emptyset$,
+    then $T^n \equiv 0$ for all $n > 1$. Hence $\sums_N \equiv 0$ and
+    $U(\sums)_N = \sums_N$. Now suppose $N$ contains at least one report $(s_0,
+    c_0)$. It is easily checked that in this case $T_N^n(s_0), T_N^n(c_0) > 0$
+    for all $n$.  Consequently the maximums in the definition of $\alpha$ and
+    $\beta$ in \cref{td_new_def_sums} are non-zero. For any $s \in S$, we
+    therefore have
+    \begin{align}
+        \sums_N(s)
+        &= \lim_{n \to \infty}{T^n_N(s)} \nonumber \\
+        &= \lim_{n \to \infty}{T^{n+1}_N(s)} \nonumber \\
+        &= \lim_{n \to \infty}{
+            \frac{
+                \sum_{c \in \claims_N(s)}{
+                    T^n_N(c)
+                }
+            }{
+                \max_{t \in S}{\left|
+                    \sum_{c \in \claims_N(t)}{
+                        T^n_N(c)
+                    }
+                    \right|
+                }
+            }
+        }
+        \label{td_new_eqn_sums_max_limit}
+    \end{align}
+    We need to show that the denominator in \cref{td_new_eqn_sums_max_limit}
+    converges to a non-zero limit. By the normalisation step for claim scores,
+    for each $n > 1$ there is a claim $c_n$ with $|T^n_N(c_n)| = 1$. Since
+    there are only finitely many claims, this implies we cannot have
+    $\sums_N(c) = 0$ for all $c$, so there is some $c_1$ with $\sums_N(c_1) >
+    0$. Furthermore, $\src_n(c_1) \ne \emptyset$ (otherwise one can easily
+    show $\sums_N(c_1) = 0$). Likewise, there is some $s_1$ such that
+    $\sums_N(s_1) > 0$. Now using the fact that $T^n_N(c) \to \sums_N(c)$ for
+    each $c$ and taking the limit of the sum, \cref{td_new_lemma_max_lemma}
+    gives
+    \[
+        \lim_{n \to \infty}{
+            \max_{t \in S}{\left|
+                \sum_{c \in \claims_N(t)}{
+                    T^n_N(c)
+                }
+                \right|
+            }
+        }
+        =
+        \max_{t \in S}{\left|
+            \sum_{c \in \claims_N(t)}{
+                \sums_N(c)
+            }
+            \right|
+        }
+        \ge \sums_N(c_1)
+        > 0.
+    \]
+    Splitting the limit across the quotient in
+    \cref{td_new_eqn_sums_max_limit}, we find
+    \begin{align*}
+        \sums_N(s)
+        &=
+        \frac{
+            \lim_{n \to \infty}{
+                \sum_{c \in \claims_N(s)}{
+                    T^n_N(c)
+                }
+            }
+        }{
+            \lim_{n \to \infty}{
+                \max_{t \in S}{\left|
+                    \sum_{c \in \claims_N(t)}{
+                        T^n_N(c)
+                    }
+                    \right|
+                }
+            }
+        } \\
+        &=
+        \frac{
+            \sum_{c \in \claims_N(s)}{
+                \sums_N(c)
+            }
+        }{
+            \max_{t \in S}{\left|
+                \sum_{c \in \claims_N(t)}{
+                    \sums_N(c)
+                }
+                \right|
+            }
+        } \\
+        &= U(\sums)_N(s)
+    \end{align*}
+    as required. One can show $\sums_N(c) = U(\sums)_N(c)$ for any claim $c$ by
+    a near-identical argument, and thus $U(\sums)_N = \sums_N$. Since $N$ was
+    arbitrary this shows $U(\sums) = \sums$, and the proof is complete.
+\end{proof}
 
 \subsection{Modifying Sums}
 
