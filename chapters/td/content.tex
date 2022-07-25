@@ -1465,7 +1465,7 @@ impossibility result.
     edge. We first note some consequences of the axioms in both networks. In
     $N_0$, the mapping $(s\ s')(t\ t')(c\ c')(d\ d')(o\ o')(e\ f)$ is an
     automorphism, so we have $s \seq_{N_0}^T s'$ and $e \ceq_{N_0}^T f$. Note
-    that $\src_{N_0}(u) = \emptyset$, $s \in \antisrc{N_0}(f)$ and $s' \in
+    that $\src_{N_0}(u) = \emptyset$, $s \in \antisrc_{N_0}(f)$ and $s' \in
     \src_{N_0}(f)$. If $T$ additionally satisfies \freshposresp{}, we get $e
     \clt_{N_1}^T f$. If $T$ instead satisfies \sourceposresp{}, we get $s
     \slt_{N_1}^T s'$.
@@ -1953,7 +1953,7 @@ operator. \cref{td_new_tab_axiom_satisfaction} summarises the results.
 
         &
         Voting             &
-        WeightedAgg &
+        WeightedAgg        &
         Sums               &
         TruthFinder        &
         TruthFinder ($\lambda = 0$)  &
@@ -1964,44 +1964,55 @@ operator. \cref{td_new_tab_axiom_satisfaction} summarises the results.
         \claimcoherence{} &
             \yes{} &
             \yes{} &
+            \yes{} &
             \\
         \sourcecoherence{} &
             \no{} &
             \no{} &
+            \yes{} &
             \\
         \symmetry{} &
+            \yes{} &
             \yes{} &
             \yes{} &
             \\
         \freshposresp{} &
             \yes{} &
             \yes{} &
+            \no{} &
             \\
-        \sourcecoherence{} &
+        \sourceposresp{} &
             \no{} &
             \yes{} &
+            \no{} &
             \\
         \marginaltrustworthiness{} &
+            \yes{} &
             \yes{} &
             \yes{} &
             \\
         \trustbasedmon{} &
             \yes{} &
             \yes{} &
+            \yes{} &
             \\
         \classicalindependence{} &
             \yes{} &
+            \no{} &
             \no{} &
             \\
         \disjointindependence{} &
             \yes{} &
             \yes{} &
+            \no{} &
             \\
         \conflictcoherence{} &
             \no{} &
             \no{} &
+            \no{} &
             \\
         \anticoherence{} &
+            \no{} &
             \no{} &
             \no{} &
             \\
@@ -2044,6 +2055,7 @@ choice of weighting $w$.
 \end{proof}
 
 \begin{corollary}
+    \label{td_new_cor_weightable_axioms}
     Any weightable operator satisfies \claimcoherence{},
     \marginaltrustworthiness{} and \trustbasedmon{}.
 \end{corollary}
@@ -2224,11 +2236,20 @@ To simplify axiomatic analysis of Sums, we first show that $\sums$ is a fixed
 point of the update function $U$ for Sums. In what follows, let $(\D, T^0, U)$
 denote the recursive scheme corresponding to Sums from \cref{td_new_def_sums}.
 Recall that $\sums$ is defined as the limit of this recursive scheme. For
-simplicity we assume $\sums$ converges on all input networks.\footnote{While
-\textcite{pasternack2010} do not consider convergence issues, Sums is an
-adaptation of the \emph{Hubs and Authorities} algorithm for ranking web pages,
-for which \textcite{kleinberg1999} proves convergence.} We also write $T^n =
-U^n(T^0)$ for the $n$-th step of the iteration of Sums.
+simplicity we assume $\sums$ converges on all input networks.\footnotemark{} We
+also write $T^n = U^n(T^0)$ for the $n$-th step of the iteration of Sums.
+
+\footnotetext{
+    While \textcite{pasternack2010} do not consider convergence, Sums is an
+    adaptation of the \emph{Hubs and Authorities} algorithm, for which
+    \textcite{kleinberg1999} proves convergence: phrased in our terminology, he
+    shows that the vector of source scores converge to a unit eigenvector of
+    the matrix $MM^\text{T}$ corresponding to the largest eigenvector (in
+    absolute value), where $M$ is the $|S| \times |C|$ matrix defined by
+    $M_{sc} = \indicator{s \in \src_N(c)}$. Similarly, claim scores converge to
+    a unit eigenvector of $M^{\text{T}}M$. \todo{possibly signpost that we also
+    take linear algebra approach for unbounded sums?}
+}
 
 The following lemma helps to deal with the normalisation factors used in the
 update function for Sums.
@@ -2389,6 +2410,7 @@ Note
 \end{proof}
 
 \begin{corollary}
+    \label{td_new_cor_sums_weightable}
     $\sums$ is weightable.
 \end{corollary}
 
@@ -2420,6 +2442,127 @@ Note
     \sum_{s \in \src_N(c)}{w_N(s)} = \wvoting{w}_N(c)$. Hence $\sums_N$ and
     $\wvoting{w}_N$ give exactly the same scores for claims, and in particular
     the rankings also coincide.
+\end{proof}
+
+We come to the axioms satisfied by Sums. While it satisfies both
+\claimcoherence{} and \sourcecoherence{}, it is notable that Sums fails both
+monotonicity properties and \disjointindependence{}. In some sense these
+problems are caused by the normalisation step, where source and claim scores
+are divided by their respective maximums. We present a modified version of Sums
+without these deficiencies in \todo{section reference}.
+
+\begin{theorem}
+    Sums satisfies \claimcoherence{}, \sourcecoherence{}, \symmetry{},
+    \marginaltrustworthiness{}, \trustbasedmon{}. It does not satisfy
+    \freshposresp{}, \sourceposresp{}, \classicalindependence{},
+    \disjointindependence{}, \conflictcoherence{} or \anticoherence{}.
+\end{theorem}
+
+\begin{proof}
+    \claimcoherence{}, \marginaltrustworthiness{} and \trustbasedmon{} follow
+    directly from
+    \cref{td_new_cor_weightable_axioms,td_new_cor_sums_weightable}. For
+    \sourcecoherence{}, let $N$ be a network and suppose $\claims_N(s)$ strictly
+    precedes $\claims_N(s')$ with respect to $\cle_N^{\sums}$. Then by
+    \cref{td_new_prop_pwo_strict_part}, there is a bijection $f: \claims_N(s)
+    \to \claims_N(s')$ such that $\sums_N(c) \le \sums_N(f(c))$ for all $c \in
+    \claims_N(s)$, and there is some $c_0$ with $\sums_N(c_0) <
+    \sums_N(f(c_0))$. It follows that $N$ must contain at least one report,
+    since otherwise no strict inequalities hold. For any source $t$,
+    \cref{td_new_lemma_sums_fixedpoint} implies
+    \[
+        \sums_N(t)
+        = \alpha \sum_{c \in \claims_N(t)}{\sums_N(c)},
+    \]
+    where $\alpha = 1 / \max_{t' \in S}{|\sum_{c \in
+    \claims_N(t')}{\sums_N(c)}|} > 0$ is a constant. Using the fact that
+    $f$ maps bijectively from $\claims_N(s)$ to $\claims_N(s')$, we get
+    \begin{align*}
+        \sums_N(s) - \sums_N(s')
+        &= \alpha \left(
+            \sum_{c \in \claims_N(s)}{\sums_N(c)}
+            -
+            \sum_{c' \in \claims_N(s')}{\sums_N(c')}
+        \right) \\
+        &= \alpha \left(
+            \sum_{c \in \claims_N(s)}{\sums_N(c)}
+            -
+            \sum_{c \in \claims_N(s)}{\sums_N(f(c))}
+        \right) \\
+        &= \alpha \sum_{c \in \claims_N(s)}{\left(
+            \sums_N(c) - \sums_N(f(c))
+        \right)}.
+    \end{align*}
+    By assumption $\sums_N(c) - \sums_N(f(c)) \le 0$ for each $c$, and the
+    inequality is strict for $c = c_0$. Hence $\sums_N(s) < \sums_N(s')$, and
+    $s \slt_N^{\sums} s'$ as required.
+
+    Finally, \symmetry{} can be shown in similar way to Weighted Agreement,
+    since Sums is defined only in terms of $\src_N$ and $\claims_N$.
+
+    \begin{figure}
+        \centering
+            \begin{tikzpicture}[thick]
+                \LARGE
+                \networkinit{s,t,u,v,x_1,x_2,x_3,x_4}{c,d,e_1,e_2}
+                \object{o}{c}{d}
+                \objectsingleclaim{p_1}{e_1}
+                \objectsingleclaim{p_2}{e_2}
+                \report{s}{c}
+                \report{t}{c}
+                \report{u}{d}
+                \report[dashed]{v}{d}
+                \report{x_1}{e_1}
+                \report{x_1}{e_2}
+                \report{x_2}{e_1}
+                \report{x_2}{e_2}
+                \report{x_3}{e_1}
+                \report{x_3}{e_2}
+                \report{x_4}{e_1}
+                \report{x_4}{e_2}
+            \end{tikzpicture}
+        \caption{
+            Networks used as counterexamples for Sums axiom failures.
+        }
+        \label{td_new_fig_sums_counterex}
+    \end{figure}
+
+    For the negative axioms, we refer to networks shown in
+    \cref{td_new_fig_sums_counterex}.
+    %
+    For \freshposresp{} and \sourceposresp{}, let $N_0$ denote the network
+    without the dashed report $(v, d)$, so that $\addclaim{N_0}{v}{d}$ is the
+    full network. It can be shown that the rankings are the same under Sums in
+    both networks, with $s \seq t \seq u \seq v \slt x_1 \seq x_2 \seq x_3 \seq
+    x_4$ and $c \ceq d \clt e_1 \ceq e_2$. This violates \freshposresp{}, since
+    $c \cle_{N_0}^{\sums} d$ but $c \not\clt_{\addclaim{N_0}{v}{d}}^{\sums} d$.
+    It also violates \sourceposresp{}, since $s \in \antisrc_{N_0}(d)$, $u \in
+    \src_n(d)$ and $s \sle_{N_0}^{\sums} u$, but $s
+    \not\slt_{\addclaim{N_0}{v}{d}}^{\sums} u$.
+
+    For \classicalindependence{} and \disjointindependence{}, let $N_1$ and
+    $N_2$ denote the upper and lower components of the network in
+    \cref{td_new_fig_sums_counterex}, excluding the dashed report $(v, d)$.
+    Then $N_0 = N_1 \sqcup N_2$. Hence $c \ceq_{N_1 \sqcup N_2}^{\sums} d$.
+    However, it is straightforward to check that in the network $N_1$ alone we
+    have $d \clt_{N_1}^{\sums} c$; this violates \disjointindependence{}.
+    Taking $N_0'$ to be the network obtained from $N_0$ by removing all
+    reports from $x_1,\ldots,x_4$, we have $d \clt_{N_0'}^{\sums} c$ and $c
+    \ceq_{N_0}^{\sums} d$. Since $c$ and $d$ have the same sources in both
+    networks, this violates \classicalindependence{}.
+
+    Finally, for \conflictcoherence{} and \anticoherence{} we can reuse the
+    network $N$ from \cref{td_new_fig_conflict_impossibilities} (including the
+    dashed report). Applying Sums to this network, we have $\sums_N(s) =
+    \sums_N(t) = 0$, $\sums_N(u) = \sqrt{3} - 1 \approx 0.7321$, $\sums_N(s') =
+    \sums_N(t') = 1$ and $\sums_N(c) = \sums_N(d) = \sums_N(e) = 0$,
+    $\sums_N(f) = 1$, $\sums_N(c') = \sums_N(d') = \frac{1}{2}(\sqrt{3} - 1)
+    \approx 0.3660$, yielding rankings $s \seq t \slt u \slt s' \seq t'$ and $c
+    \ceq d \ceq e \clt c' \ceq d' \clt f$. This ranking violates
+    \conflictcoherence{} since $\conflict_N(c) = \{d\}$ strictly precedes
+    $\conflict_N(c') = \{d'\}$ but $c' \not\clt_N^{\sums} c$. It also violates
+    \anticoherence{}, since $\antisrc_N(c) = \{t\}$ strictly precedes
+    $\antisrc_N(c') = \{t'\}$ but $c' \not\clt_N^{\sums} c$.
 \end{proof}
 
 \subsection{Modifying Sums}
