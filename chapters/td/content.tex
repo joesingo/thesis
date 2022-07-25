@@ -2043,6 +2043,16 @@ choice of weighting $w$.
     non-positive, and similarly we get $d \cle_N^{\wvoting{w}} c$ as required.
 \end{proof}
 
+\begin{corollary}
+    Any weightable operator satisfies \claimcoherence{},
+    \marginaltrustworthiness{} and \trustbasedmon{}.
+\end{corollary}
+
+\begin{proof}
+    This follows directly from \cref{td_new_lemma_wvoting_always_hold} since
+    each axiom only refers to ordinal properties of operators.
+\end{proof}
+
 For the particular choice of $w$ for Weighted Agreement from
 \cref{td_new_ex_weighted_voting}, we have the following.
 
@@ -2271,6 +2281,7 @@ update function for Sums.
 \end{proof}
 
 \begin{lemma}
+    \label{td_new_lemma_sums_fixedpoint}
     $\sums \in \D$, and $U(\sums) = \sums$.
 \end{lemma}
 
@@ -2375,6 +2386,40 @@ Note
     as required. One can show $\sums_N(c) = U(\sums)_N(c)$ for any claim $c$ by
     a near-identical argument, and thus $U(\sums)_N = \sums_N$. Since $N$ was
     arbitrary this shows $U(\sums) = \sums$, and the proof is complete.
+\end{proof}
+
+\begin{corollary}
+    $\sums$ is weightable.
+\end{corollary}
+
+\begin{proof}
+    We define a weighting $w$ as follows. If $N$ contains no reports, set $w_N
+    \equiv 0$. Otherwise, set
+    \begin{equation}
+        w_N(s) =
+        \frac{
+            \sums_N(s)
+        }
+        {
+            \max_{c \in C}{\left|
+                \sum_{t \in \src_N(c)}{
+                    \sums_N(t)
+                }
+            \right|}
+        }.
+        \label{td_new_eqn_sums_weightable}
+    \end{equation}
+    We need to show $\sums \rankequiv \wvoting{w}$, i.e. that $\sums$ and
+    $\wvoting{w}$ give the same rankings on all networks $N$. If $N$ contains
+    no reports then both $\sums_N$ and $\wvoting{w}$ are zero, and therefore
+    output the same rankings. Suppose $N$ contains at least one report. Since
+    we just divide by a constant in \cref{td_new_eqn_sums_weightable}, $s
+    \sle_N^{\sums} s'$ iff $s \sle_N^{\wvoting{w}} s'$ for all sources $s$ and
+    $s'$. Using the fact that $\sums = U(\sums)$ from
+    \cref{td_new_lemma_sums_fixedpoint}, it is easily seen that $\sums_N(c) =
+    \sum_{s \in \src_N(c)}{w_N(s)} = \wvoting{w}_N(c)$. Hence $\sums_N$ and
+    $\wvoting{w}_N$ give exactly the same scores for claims, and in particular
+    the rankings also coincide.
 \end{proof}
 
 \subsection{Modifying Sums}
