@@ -509,9 +509,9 @@ defined below; this ensures the argument to the logarithm in $T'_N(s)$ is
 non-zero and simplifies analysis of CRH later on.
 
 \begin{definition}
-    Given $\epsilon > 0$, \emph{CRH} is the recursive scheme $(\D, T^0, U)$,
-    where $\D$ is the set of operators with $0 \le T_N(c) \le 1$ for all $N$
-    and $c \in C$,
+    Given $\epsilon > 0$, \emph{CRH-$\epsilon$} is the recursive scheme $(\D,
+    T^0, U)$, where $\D$ is the set of operators with $0 \le T_N(c) \le 1$ for
+    all $N$ and $c \in C$,
     \[
         T^0_N(s) = 0, \qquad
         T^0_N(c) = \frac{|\src_N(c)|}{|S|}.
@@ -530,7 +530,7 @@ non-zero and simplifies analysis of CRH later on.
             }
         }.
     \]
-    The limit operator is denoted by $\crh$.
+    The limit operator is denoted by $\crh{\epsilon}$.
 \end{definition}
 
 Note that in the case where each source provides a report on \emph{all} objects
@@ -542,12 +542,13 @@ this distribution and the distribution put forward by source $s$, which places
 all the probability mass in their report $c$.
 
 In the network from \cref{td_new_fig_intro_example} with $\epsilon = 10^{-5}$,
-we have $\crh_N(s) \approx 0.2577$, $\crh_N(t) \approx 1.4827$ and $\crh_N(u) =
-\crh_N(v) \approx 9.3567$, giving the source ranking $s \slt t \slt u \seq v$.
-Note that this is the same ranking on sources as $\truthfinder$ gives. For
-claims, we have $\crh_N(c) = \crh_N(e) \approx 0.0126$, $\crh_N(d) \approx
-0.0725$ and $\crh_N(f) \approx 0.9874$, giving the ranking $c \ceq e \clt d
-\clt f$; this is the same as $\sums$.
+we have $\crh{\epsilon}_N(s) \approx 0.2577$, $\crh{\epsilon}_N(t) \approx
+1.4827$ and $\crh{\epsilon}_N(u) = \crh{\epsilon}_N(v) \approx 9.3567$, giving
+the source ranking $s \slt t \slt u \seq v$.  Note that this is the same
+ranking on sources as $\truthfinder$ gives. For claims, we have
+$\crh{\epsilon}_N(c) = \crh{\epsilon}_N(e) \approx 0.0126$,
+$\crh{\epsilon}_N(d) \approx 0.0725$ and $\crh{\epsilon}_N(f) \approx 0.9874$,
+giving the ranking $c \ceq e \clt d \clt f$; this is the same as $\sums$.
 
 \cref{td_new_tab_example_outputs} summaries the source and claim rankings for
 each example operator on the network $N$ from \cref{td_new_fig_intro_example}.
@@ -563,7 +564,7 @@ each example operator on the network $N$ from \cref{td_new_fig_intro_example}.
     Sums               & $s \slt u \seq v \slt t$ & $c \ceq e \clt d \clt f$ \\
     TruthFinder        & $s \slt t \slt u \seq v$ & $e \clt c \clt d \clt f$ \\
     TruthFinder ($\lambda = 0$) & $s \slt t \slt u \seq v$ & $c \ceq e \clt d \clt f$ \\
-    CRH                & $s \slt t \slt u \seq v$ & $c \ceq e \clt d \clt f$ \\
+    CRH-$\epsilon$     & $s \slt t \slt u \seq v$ & $c \ceq e \clt d \clt f$ \\
     \bottomrule
 	\end{tabular}
     \label{td_new_tab_example_outputs}
@@ -1957,7 +1958,7 @@ operator. \cref{td_new_tab_axiom_satisfaction} summarises the results.
         Sums               &
         TruthFinder        &
         TruthFinder ($\lambda = 0$)  &
-        CRH                \\
+        CRH-$\epsilon$     \\
 
         \toprule
 
