@@ -445,7 +445,7 @@ $\operatorname{imp}(c \to c')$ to be $-\lambda$ if $c$ and $c'$ have the same
 object and $0$ otherwise, for some fixed parameter $0 \le \lambda \le 1$.
 
 \begin{definition}
-    Given parameters $0 \le \rho, \lambda \le 1$, and $0 < \gamma < 1$,
+    Given parameters $\rho, \gamma \in (0, 1)$ and $\lambda \in [0, 1]$,
     \emph{TruthFinder} is the recursive scheme $(\D, T^0, U)$, where $\D$ is
     the set of operators with $0 < T_N(s) < 1$ for all $N$ and $s \in S$ with
     $\claims_N(s) \ne \emptyset$, $T^0 \equiv 0.9$, and $U(T) = T'$, with
@@ -2565,6 +2565,107 @@ without these deficiencies in \todo{section reference}.
     \anticoherence{}, since $\antisrc_N(c) = \{t\}$ strictly precedes
     $\antisrc_N(c') = \{t'\}$ but $c' \not\clt_N^{\sums} c$.
 \end{proof}
+
+% \paragraph{TruthFinder.}
+
+% As with Sums, we can greatly simplify axiomatic analysis of TruthFinder by
+% first showing that the limit operator $\truthfinder$ is a fixed point of
+% TruthFinder's update function $U$. We face a slight difficulty here, however,
+% since $\truthfinder$ does not necessarily lie in the domain $\D$ of $U$.
+% Whereas $\D$ consists of the operators $T$ with $0 < T_N(s) < 1$ whenever
+% $\claims_N(s) \ne \emptyset$, it is possible for some sources to have limiting
+% scores of 1. Attempting to plug $\truthfinder$ into $U$ may consequently result
+% in division by zero in \cref{td_new_eqn_truth_finder_claim_update} when
+% $\lambda > 0$.
+
+% We work around this by using the conventions $c / 0 = \infty$, $c / \infty = 0$
+% and $c + \infty = \infty$ for $0 < c < \infty$. In doing so, we extend the
+% update function $U$ of TruthFinder to $\widehat{U}$, defined on the extended
+% domain $\widehat{\D}$ of operators $T$ satisfying $0 \le T_N(s) \le 1$ whenever
+% $\claims_N(s) \ne \emptyset$. Note that the recursive scheme $(\widehat{D},
+% T^0, \widehat{U})$ also converges to $\truthfinder$, since $\widehat{U}$ is
+% equal to $U$ on $\D$.  As before, we write $T^n = \widehat{U}^n(T^0)$ for the
+% $n$-th step of the iteration of TruthFinder, and assume for simplicity that
+% TruthFinder converges on all networks.
+
+% \begin{lemma}
+%     $\truthfinder \in \widehat{D}$, and $\widehat{U}(\truthfinder) = \truthfinder$.
+% \end{lemma}
+
+% \begin{proof}
+%     If $\claims_N(s) \ne \emptyset$ then, since $T^n \in \D$ for all $n \in
+%     \Nat$, we have $T^n_N(s) \in (0, 1)$. Hence $\truthfinder_N(s) = \lim_{n
+%     \to \infty}{T^n_N(s)} \in [0, 1]$, so $\truthfinder \in \widehat{\D}$.
+
+%     Now, take any network $N$. We show $\widehat{U}(\truthfinder)_N(z) =
+%     \truthfinder_N(z)$ for all $z \in S \cup C$, by an argument similar to
+%     the one used in \cref{td_new_lemma_sums_fixedpoint} for Sums. First, take
+%     $c \in C$. We have
+%     \begin{align}
+%         \truthfinder_N(c)
+%         &= \lim_{n \to \infty}{T^{n+1}_N(c)} \nonumber \\
+%         &= \lim_{n \to \infty}{
+%             \left[
+%                 1 +
+%                 \frac{
+%                     \prod_{s \in \src_N(c)}{(1 - T^n_N(s))^\gamma}
+%                 }{
+%                     \prod_{t \in \antisrc_N(c)}{(1 - T^n_N(t))^{\gamma\rho\lambda}}
+%                 }
+%             \right]^{-1}
+%         }
+%         \label{td_new_eqn_truth_finder_fixedpoint_computation}
+%     \end{align}
+%     First suppose that either $\lambda = 0$ or there is no $t \in
+%     \antisrc_N(c)$ with $\truthfinder_N(t) = 1$. Then the denominator in
+%     \cref{td_new_eqn_truth_finder_fixedpoint_computation} has non-zero limit.
+%     Since this expression for $\truthfinder_N(c)$ is a composition of
+%     continuous functions, we may take the limit inside to obtain
+%     \begin{align*}
+%         \truthfinder_N(c)
+%         &=
+%         \left[
+%             1 +
+%             \frac{
+%                 \prod_{s \in \src_N(c)}{(1 - \truthfinder_N(s))^\gamma}
+%             }{
+%                 \prod_{t \in \antisrc_N(c)}{(1 - \truthfinder_N(t))^{\gamma\rho\lambda}}
+%             }
+%         \right]^{-1} \\
+%     &= U(\truthfinder)_N(c) \\
+%     &= \widehat{U}(\truthfinder)_N(c).
+%     \end{align*}
+%     Now suppose $\lambda > 0$ and there is some $t_0 \in \antisrc_N(c)$ with
+%     $\truthfinder_N(t_0) = 1$. Then $(1 - T^n_N(t_0))^{\gamma\rho\lambda} \to
+%     0$ as $n \to \infty$. Hence $\prod_{t \in \antisrc_N(c)}{(1 -
+%     T^n_N(t))^{\gamma\rho\lambda}} \to 0$ also, and since $\prod_{s \in
+%     \src_N(c)}{(1 - T^n_N(s))^\gamma}$ has a finite and positive limit,
+%     \todo{wrong: might be 0 if some $s$ has limit score $1$. We can break out
+%     into another case here, but looks like things are going to get messy.}
+%     \[
+%         \lim_{n \to \infty}{
+%             \frac{
+%                 \prod_{s \in \src_N(c)}{(1 - T^n_N(s))^\gamma}
+%             }{
+%                 \prod_{t \in \antisrc_N(c)}{(1 - T^n_N(t))^{\gamma\rho\lambda}}
+%             }
+%         } = +\infty.
+%     \]
+%     It is easily seen that if $x_n \to \infty$ then $1 / (1 + x_n) \to 0$.
+%     From \cref{td_new_eqn_truth_finder_fixedpoint_computation}, we get
+%     $\truthfinder_N(c) = 0$. On the other hand,
+%     \[
+%         \widehat{U}(\truthfinder)_N(c)
+%         =
+%             \left[
+%                 1 + \frac{\prod_{s \in \src_N(c)}{(1 - \truthfinder_N(s))^\gamma}}{0}
+%             \right]^{-1}
+%         = 0,
+%     \]
+%     so $\truthfinder_N(c) = \widehat{U}(\truthfinder)_N(c)$ as required.
+%     \todo{Correct and finish or ditch.}
+
+% \end{proof}
 
 \subsection{Modifying Sums}
 
