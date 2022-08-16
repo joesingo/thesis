@@ -100,11 +100,10 @@ for its in range(max_its):
     }
     sum_alpha = sum(alpha[s] for s in sources)
     for s in sources:
-        scores[s] = -math.log(alpha[s] / sum_alpha)
+        scores[s] = eps - math.log(alpha[s] / sum_alpha)
     for c in claims:
         scores[c] = sum(scores[s] for s in src[c]) \
                     / sum(scores[t] for t in sources)
-                    # / sum(scores[t] for d in siblings[c] for t in src[d])
 
 for s in sorted(sources):
     print(f"{s}: {scores[s]:.4f}")

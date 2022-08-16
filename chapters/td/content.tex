@@ -504,11 +504,12 @@ To express CRH in our framework we use the ``probabilistic'' encoding of
 categorical variables as described in \cite[\sectionsymbol{2.4.1}]{li2016},
 where each categorical value is represented as a one-hot vector, and the source
 weight regularisation from \cite[Eq. (4)]{li2016}. We make a minor
-modification, however, by adding a small quantity $\epsilon$ to $\alpha_s$
-defined below; this ensures the argument to the logarithm in $T'_N(s)$ is
-non-zero and simplifies analysis of CRH later on.
+modification, however, by adding a small quantity $\epsilon$ to $\alpha_s$ and
+$T'_N(s)$ defined below; this ensures the logarithm in $T'_N(s)$ and the
+division in $T'_N(c)$ is well-defined and simplifies analysis of CRH later on.
 
 \begin{definition}
+    \label{td_new_def_crh}
     Given $\epsilon > 0$, \emph{CRH-$\epsilon$} is the recursive scheme $(\D,
     T^0, U)$, where $\D$ is the set of operators with $0 \le T_N(c) \le 1$ for
     all $N$ and $c \in C$,
@@ -518,7 +519,7 @@ non-zero and simplifies analysis of CRH later on.
     \]
     and $U(T) = T'$, where
     \begin{align*}
-        T'_N(s) &= -\log\left(\frac{\alpha_s}{\sum_{t \in S}{\alpha_t}}\right), \\
+        T'_N(s) &= \epsilon - \log\left(\frac{\alpha_s}{\sum_{t \in S}{\alpha_t}}\right), \\
         T'_N(c) &=
             \frac{\sum_{s \in \src_N(c)}{T'_N(s)}}{\sum_{t \in S}{T'_N(t)}},
     \end{align*}
@@ -530,12 +531,13 @@ non-zero and simplifies analysis of CRH later on.
             }
         }.
     \]
-    The limit operator is denoted by $\crh{\epsilon}$.
+    The limit operator is denoted by $\crh{\epsilon}$.\footnote{In the
+    degenerate case $S = \emptyset$, we set $T_N \equiv 0$.}
 \end{definition}
 
 Note that in the case where each source provides a report on \emph{all} objects
 -- which is the setting in which CRH was originally introduced -- we have
-$\sum_{c \in \claims_N(o)}{T_N(c)} = 1$. Consequently, $T_N$ gives rise to a
+$\sum_{c \in \claims_N(o)}{T'_N(c)} = 1$. Consequently, $T'_N$ gives rise to a
 probability distribution over claims for each object $o$. The term of the sum
 in $\alpha_s$ corresponding to $c$ is the squared Euclidean distance between
 this distribution and the distribution put forward by source $s$, which places
@@ -2666,6 +2668,135 @@ without these deficiencies in \todo{section reference}.
 %     \todo{Correct and finish or ditch.}
 
 % \end{proof}
+
+\paragraph{CRH.}
+
+As with Sums, we can greatly simplify axiomatic analysis of CRH by first
+showing that the limit operator $\crh{\epsilon}$ is a fixed point of the update
+function $U$. Take $\epsilon > 0$, and let $(\D, T^0, U)$ denote the recursive
+scheme of CRH-$\epsilon$ from \cref{td_new_def_crh}. As before, we write $T^n =
+U^n(T^0)$ for the $n$-th step of the iteration, and assume for simplicity that
+CRH-$\epsilon$ converges on all networks.
+
+\begin{lemma}
+    \label{td_new_lemma_crh_fixedpoint}
+    $\crh{\epsilon} \in \D$, and $U(\crh{\epsilon}) = \crh{\epsilon}$.
+\end{lemma}
+
+\begin{proof}
+    First we show $\crh{\epsilon} \in \D$; that is, we have $0 \le
+    \crh{\epsilon}_N(c) \le 1$ for all networks $N$ and claims $c$. First, note
+    that for any operator $T$ and source $s \in S$, we have $U(T)_N(s) > 0$.
+    Consequently $U(T)_N(c) \ge 0$, and
+    \[
+        U(T)_N(c)
+        = \frac{\sum_{s \in \src_N(c)}{U(T)_N(s)}}{\sum_{t \in S}{U(T)_N(t)}}
+        \le \frac{\sum_{s \in S}{U(T)_N(s)}}{\sum_{t \in S}{U(T)_N(t)}}
+        = 1.
+    \]
+    Since $T^n = U(T^{n - 1})$ for $n > 1$, we have $T^n(c) \in [0, 1]$ for all
+    $n > 1$. Consequently $\crh{\epsilon}_N(c) = \lim_{n \to \infty}{T^n_N(c)}
+    \in [0, 1]$ also. Thus $\crh{\epsilon} \in \D$.
+
+    Now, take any network $N$. We aim to show $\crh{\epsilon}_N(z) =
+    U(\crh{\epsilon})_N(z)$ for all $z \in S \cup C$. First take $s \in S$.
+    For any $t \in S$, write
+    \[
+        \alpha^n_t = \epsilon + \sum_{c \in \claims_N(t)}{
+            \sum_{d \in \claims_N(\obj(c))}{
+                (T^n_N(d) - \indicator{d = c})^2
+            }
+        }.
+    \]
+    Then $\lim_{n \to \infty}{\alpha^n_t} = \epsilon + \sum_{c \in
+    \claims_N(t)}{\sum_{d \in \claims_N(\obj(c))}{(\crh{\epsilon}_N(d) -
+    \indicator{d = c})^2}}$. We have
+    \begin{align}
+        \crh{\epsilon}_N(s)
+        &= \lim_{n \to \infty}{T^{n+1}_N(s)} \nonumber \\
+        &= \lim_{n \to \infty}{\left(
+            \epsilon
+            -
+            \log\left(
+                \frac{\alpha^n_s}{\sum_{t \in S}{\alpha^n_t}}
+            \right)
+        \right)}.
+        \label{td_new_eqn_crh_fixpoint_limit}
+    \end{align}
+    Now, since $T^n_N(d) \in [0, 1]$ for all $n \in \Nat$, and clearly
+    $\indicator{d = c} \in [0, 1]$, we have
+    \[
+        \epsilon \le
+        \alpha^n_t
+        = \epsilon + \sum_{c \in \claims_N(t)}{
+            \sum_{d \in \claims_N(\obj(c))}{
+                \underbrace{(T^n_N(d) - \indicator{d = c})^2}_{\le 1}
+            }
+        }
+        \le \epsilon + |C|^2.
+    \]
+    Hence
+    \[
+        \frac{\alpha^n_s}{\sum_{t \in S}{\alpha^n_t}}
+        \ge \frac{\epsilon}{\sum_{t \in S}{(\epsilon + |C|^2)}}
+        = \frac{\epsilon}{|S|(\epsilon + |C|^2)} > 0,
+    \]
+    assuming $S \ne \emptyset$. Since this lower bound is independent of $n$,
+    this implies $\lim_{n \to \infty}{\frac{\alpha^n_s}{\sum_{t \in
+    S}{\alpha^n_t}}} > 0$. By continuity of the logarithm and
+    \cref{td_new_eqn_crh_fixpoint_limit}, we get
+    \[
+        \crh{\epsilon}_N(s)
+        = \epsilon - \log\left(
+            \frac{\lim_{n \to \infty}{\alpha^n_s}}{\sum_{t \in S}{\lim_{n \to
+            \infty}{\alpha^n_t}}}
+        \right)
+        = U(\crh{\epsilon})_N(s)
+    \]
+    as required.
+
+    Now take any $c \in C$. From above we have $\lim_{n \to \infty}{T^n_N(t)} =
+    \crh{\epsilon}_N(t) \ge \epsilon > 0$ for each $t \in S$. By simple
+    manipulation of limits we find
+    \begin{align*}
+        \crh{\epsilon}_N(c)
+        &= \lim_{n \to \infty}{T^n_N(c)} \\
+        &= \lim_{n \to \infty}{
+            \frac{\sum_{s \in \src_N(c)}{T^n_N(s)}}{\sum_{t \in S}{T^n_N(t)}}
+        } \\
+        &= \frac{
+                \sum_{s \in \src_N(c)}{\lim_{n \to \infty}{T^n_N(s)}}
+            }{
+                \sum_{t \in S}{\lim_{n \to \infty}{T^n_N(t)}}
+            } \\
+        &= \frac{
+            \sum_{s \in \src_N(c)}{\crh{\epsilon}_N(s)}
+            }{
+                \sum_{t \in S}{\crh{\epsilon}_N(t)}
+            } \\
+        &= U(\crh{\epsilon})_N(c).
+    \end{align*}
+    This completes the proof.
+\end{proof}
+
+\begin{corollary}
+    $\crh{\epsilon}$ is weightable.
+\end{corollary}
+
+\begin{proof}
+    From \cref{td_new_lemma_crh_fixedpoint} we have
+    \[
+        \crh{\epsilon}_N(c)
+        = \frac{
+            \sum_{s \in \src_N(c)}{\crh{\epsilon}_N(s)}
+        }{
+            \sum_{t \in S}{\crh{\epsilon}_N(t)}
+        }.
+    \]
+    Defining a weighting $w$ by $w_N(s) = \frac{\crh{\epsilon}_N(s)}{\sum_{t
+    \in S}{\crh{\epsilon}_N(t)}}$, it is easily seen that $\crh{\epsilon}
+    \rankequiv \wvoting{w}$.
+\end{proof}
 
 \subsection{Modifying Sums}
 
