@@ -113,6 +113,30 @@ class TestSuite:
         """
         assert '"' not in line
 
+    @test(line_based=True)
+    def test_paragraph_heading_fullstop(self, line):
+        """
+        paragraph headings should end with a full stop.
+        """
+        p = r"\paragraph{"
+        try:
+            idx = line.index(p)
+        except ValueError:
+            return
+        tail = line[(idx + len(p)):]
+        contents = ""
+        brackets = 0
+        for c in tail:
+            if c == "{":
+                brackets += 1
+            elif c == "}":
+                brackets -= 1
+            if brackets < 0:
+                break
+            contents += c
+
+        assert contents.endswith(".")
+
 
 if __name__ == "__main__":
     suite = TestSuite()
