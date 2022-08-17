@@ -111,8 +111,8 @@ and axiomatise several new sub-classes of models with additional axioms.
     the dynamic extension of the logic, and we conclude in
     \cref{exp_sec_conclusion}. Several of the main proofs have also been
     formalised with the Lean theorem
-    prover.\footnote{\url{https://github.com/anonymous-logician/expertise}}
-    \todo{reference appendix instead.}
+    prover.\footnote{\url{https://github.com/anonymous-logician/expertise}.
+    \todo{de-anonymise repo.}}
 \end{chapteroutline}
 
 \section{Expertise and Soundness}
@@ -2720,7 +2720,7 @@ Semantically, the truth condition for $[\sndann\phi]\psi$ is as follows.
 \[
 M, x \models [\sndann\phi]\psi
     \iff
-M, x \models \S\phi \implies M^{\sndann\phi}, x \models \psi.
+(M, x \models \S\phi \implies M^{\sndann\phi}, x \models \psi).
 \]
 Here we have the precondition that $\S\phi$ is true: if $\phi$ is unsound,
 $[\sndann\phi]\psi$ is true for \emph{any} $\psi$. Note that a sound
