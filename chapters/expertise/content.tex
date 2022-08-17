@@ -30,8 +30,7 @@ cognitive science \cite{chi2014nature,ericsson2010expertise}, sociology
 fields. In this work we study the \emph{logical} content of expertise, and its
 relation to truthfulness of information.
 
-Specifically, we generalise the \emph{modal logic} setting
-of~\textcite{singleton2021logic}. The two core notions of the framework are
+Specifically, we develop a \emph{modal logic} framework to model
 \emph{expertise} and \emph{soundness of information}. Intuitively, a source has
 expertise on $\phi$ if they are able to correctly refute $\phi$ in any
 situation where it is false.\footnotemark{} Thus, our notion of expertise
@@ -57,7 +56,7 @@ has no expertise), we obtain the weaker formula $p$, on which the source
 ways to weaken $p \land q$ (this is the case, for instance, if the source does
 not have expertise on any statement strictly stronger than $p$), then $p \land
 q$ is \emph{false} but \emph{sound} for the source to report.
-
+%
 In terms of refutation, $\phi$ is sound if the source cannot refute $\neg\phi$.
 That is, either $\phi$ is in fact true, or the source does not possess
 sufficient expertise to rule out $\phi$.
@@ -94,15 +93,19 @@ knowledge? What are the effects of \emph{announcements}, particularly when
 sources are non-experts? We study the logic of such events via dynamic
 operators in the style of dynamic epistemic logic~\cite{van_Ditmarsch_2008}.
 
-\textbf{Contributions.} On the conceptual side, we extend the modal framework
-of expertise of \textcite{singleton2021logic} to reason about the expertise of
-sources and soundness of information. We generalise this framework by working
-with a more general semantics, introducing collective expertise among
-multiple sources, and considering how expertise may evolve via learning and
-announcements.
+\textbf{Contributions.} On the conceptual side, we develop a modal logic
+framework to reason about the expertise of a source and soundness of
+information. We also study collective expertise among multiple sources, and
+consider how expertise may evolve via learning and announcements. Importantly,
+both singular and collective expertise are shown to connected in a precise
+sense to standard notions from epistemic logic. This formalises the conceptual
+link between expertise and \emph{knowledge}.
 %
-On the technical side we obtain axiomatisations for the more general semantics,
-and axiomatise several new sub-classes of models with additional axioms.
+On the technical side we obtain a sound and complete axiomatisation, and
+axiomatise several sub-classes of models with additional axioms.
+
+\todo{Publication statement. Either a highly extended version of ESSLLI, or
+slightly extended version of Synthese (dynamics).}
 
 \begin{chapteroutline}
     In \cref{exp_sec_expertise_and_soundness} we give a motivating example and
@@ -2910,14 +2913,13 @@ expertise on $\alpha$.
 \label{exp_sec_conclusion}
 
 This chapter presented a simple modal logic framework to reason about the
-expertise of information sources and soundness of information, generalising the
-framework of \textcite{singleton2021logic}. We investigated both conceptual and
-technical issues, establishing several completeness for various classes of
-expertise models. The connection with epistemic logic showed how expertise and
-soundness may be given precise interpretations in terms of knowledge; if
-expertise is closed under intersections and unions this results in S4
-knowledge, and closure under complements strengthens this to S5. Finally, we
-extended the framework to handle multiple sources and studied notions of
+expertise of information sources and soundness of information. We investigated
+both conceptual and technical issues, establishing several completeness for
+various classes of expertise models. The connection with epistemic logic showed
+how expertise and soundness may be given precise interpretations in terms of
+knowledge; if expertise is closed under intersections and unions this results
+in S4 knowledge, and closure under complements strengthens this to S5. Finally,
+we extended the framework to handle multiple sources and studied notions of
 collective expertise.
 
 There are many directions for future work.
