@@ -1515,7 +1515,7 @@ impossibility result.
     \end{enumerate}
 \end{proof}
 
-Note that all four coherence \emph{can} be satisfied at the same time, e.g. by
+Note that all four coherence axioms can be satisfied at the same time, e.g. by
 the trivial operator which outputs constant scores $T_N(s) = T_N(c) = 0$. Of
 course, this operator violates both \freshposresp{} and \sourceposresp{}.
 
@@ -1958,9 +1958,9 @@ operator. \cref{td_new_tab_axiom_satisfaction} summarises the results.
         Voting             &
         WeightedAgg        &
         Sums               &
+        CRH-$\epsilon$     &
         TruthFinder        &
-        TruthFinder ($\lambda = 0$)  &
-        CRH-$\epsilon$     \\
+        TruthFinder ($\lambda = 0$) \\
 
         \toprule
 
@@ -2796,6 +2796,13 @@ CRH-$\epsilon$ converges on all networks.
     \in S}{\crh{\epsilon}_N(t)}}$, it is easily seen that $\crh{\epsilon}
     \rankequiv \wvoting{w}$.
 \end{proof}
+
+\todo{intro to crh axioms}
+
+\begin{theorem}
+    \label{td_new_thm_crh_axioms}
+    Take $\epsilon > 0$.
+\end{theorem}
 
 \subsection{Modifying Sums}
 

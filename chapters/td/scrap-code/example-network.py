@@ -1,6 +1,6 @@
 import math
 
-from truthdiscovery import Dataset, TruthFinder, FixedIterator
+from truthdiscovery import Dataset, TruthFinder, CRH, FixedIterator
 
 t0 = 0.9
 gamma = 0.3
@@ -85,6 +85,11 @@ claims = {"c", "d", "e", "f"}
 #         scores[s] = q / len(claim[s])
 
 # crh
+print("from library:")
+res = CRH(iterator=it).run(mydata)
+print(res.trust)
+print(res.belief)
+
 eps = 1e-5
 scores = {x: 0 for x in set.union(sources, claims)}
 for c in claims:
@@ -105,6 +110,7 @@ for its in range(max_its):
         scores[c] = sum(scores[s] for s in src[c]) \
                     / sum(scores[t] for t in sources)
 
+print("from scrap code")
 for s in sorted(sources):
     print(f"{s}: {scores[s]:.4f}")
 for c in sorted(claims):
