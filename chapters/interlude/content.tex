@@ -1,0 +1,33 @@
+\chapter*{Interlude}
+\addcontentsline{toc}{chapter}{Interlude}
+
+In \cref{chapter_td,chapter_bipartite_tournaments} we studied how to rank
+sources by trustworthiness, broadly speaking, in the context of truth discovery
+and bipartite tournament ranking. However, we had no formal semantics to define
+the \emph{meaning} of trustworthiness, and indeed this meaning varies between
+truth discovery operators and ranking methods. This flexibility was useful for
+our social-choice-style analysis, where rankings are commonly used in this
+manner.
+
+In the remainder of the thesis we take a stricter view on trustworthiness,
+positioning it in relation to \emph{expertise} in a logic-based framework.
+Informally, we trust a source on a topic $X$ if we \emph{believe they are an
+expert} on matters relating to $X$. Once a suitable notion of expertise is
+introduced, the truth discovery problem can be modelled in a similar way to
+\emph{belief revision}~\cite{alchourron1985logic} and \emph{belief
+merging}~\cite{konieczny2002merging} by considering how to form \emph{beliefs}
+on the basis of input reports. Specifically, by considering beliefs both about
+the state of the world and the expertise of the sources, we have analogues of
+both the source and claim rankings from truth discovery.
+
+Beyond it's relation to trustworthiness, expertise is also a topic of interest
+in its own right. The logical properties of expertise -- and its relation to
+the truthfulness of information -- are explored in detail in the next chapter
+using the tools of modal logic. This framework is used as the basis for a
+belief change problem in \cref{chapter_belief_change}, which can be thought of
+as a logical version of truth discovery. Finally, \cref{chapter_truthtracking}
+shifts the focus away from normative properties of aggregation methods -- as
+expressed by axioms in \cref{chapter_td} and postulates in
+\cref{chapter_belief_change} -- towards epistemic properties, by considering
+\emph{truth-tracking}, i.e. how one can find the truth given reports from
+non-expert sources.
