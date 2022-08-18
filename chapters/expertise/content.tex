@@ -2913,43 +2913,62 @@ expertise on $\alpha$.
 \section{Conclusion}
 \label{exp_sec_conclusion}
 
-\paragraph{Summary.}
-This chapter presented a simple modal logic framework to reason about the
-expertise of information sources and soundness of information. We investigated
-both conceptual and technical issues, establishing several completeness for
-various classes of expertise models. The connection with epistemic logic showed
-how expertise and soundness may be given precise interpretations in terms of
-knowledge; if expertise is closed under intersections and unions this results
-in S4 knowledge, and closure under complements strengthens this to S5. Finally,
-we extended the framework to handle multiple sources and studied notions of
-collective expertise.
+\paragraph{Summary.} This chapter presented a simple modal logic framework to
+reason about the expertise of information sources and soundness of information.
+We investigated both conceptual and technical issues, establishing several
+completeness for various classes of expertise models. The connection with
+epistemic logic showed how expertise and soundness may be given precise
+interpretations in terms of knowledge; if expertise is closed under
+intersections and unions this results in S4 knowledge, and closure under
+complements strengthens this to S5. The framework was then extended to handle
+multiple sources, permitting the study of several notions of collective
+expertise. Finally, we considered dynamic operators to model evolving expertise
+and sound announcements.
 
 \paragraph{Limitations and future work.}
 
-There are many directions for future work.
-%
-First, our approach allows one to reason about soundness of information
-only if the extent of a source's expertise is known up-front. In practical
-situations it is more likely that one has to \emph{estimate} a source's
-expertise, e.g. on the basis of previous reports
-\cite{hunter_building_2021,dastani2004inferring}; such approaches could be
-combined with our logical framework in future work.
+On a technical level, some open questions remain. For example, can frames
+closed under arbitrary unions be be expressed in our language, as other closure
+properties were expressed in \cref{exp_prop_frame_conditions}? Similarly, can
+one axiomatise the class of models closed under arbitrary unions, without also
+requiring closure under intersections? One could also consider computational
+properties, such as decidability and the complexity of the satisfiability
+problem.
 
-Expertise is also not static: it may change over time as sources learn and
-acquire new evidence. To model this one could introduce \emph{dynamic expertise
-operators}, as in Dynamic Epistemic Logic. One
-source of inspiration here is \emph{dynamic evidence logics}
-~\cite{van2011dynamic,vanbenthem2014106}, which study how evidence (and
-beliefs formed on the basis of evidence) change over time. Such logics also use
-neighbourhood semantics to interpret evidence modalities, which is technically
-(and possibly conceptually) similar to our semantics for expertise.
+There are also conceptual limitations and areas for future study. Firstly, our
+notion of expertise is absolute: either the source is an expert on $\phi$ or
+they are not. In reality things are more nuanced, and source may have varying
+levels of expertise. Our assumption that expertise is independent of the actual
+state of the world could also be considered too strong, since it forbids any
+possibility of \emph{context-dependent} expertise. As a somewhat contrived
+example, the economist in our running examples may have expertise on $p$ in
+ordinary times, but not if they are suffering from the virus which affects
+cognitive ability.
 
-Finally, there is scope to study the interaction between interaction between
-expertise and \emph{trust}, which has been extensively studied from a logical
-perspective~\cite{booth_trust_2018,Liau_2003,lorini2014trust,herzig2010logic}.
-Intuitively, source $i$ should trust $j$ on $\phi$ if $i$ believes that $j$ has
-expertise on $\phi$. ``Belief in expertise'' in this manner is not particularly
-meaningful in the current framework, since $\E_j\phi$ either holds everywhere
-or nowhere. Future work could extend the semantics to allow the expertise
-collection $P_j$ to vary between states, so as to model one source's
-uncertainty about the expertise of another.
+\paragraph{Outlook.}
+
+Equipped with the notions of expertise and soundness from this chapter, the
+following chapter poses a belief change problem -- in the style of AGM
+revision~\cite{alchourron1985logic} and belief
+merging~\cite{konieczny2002merging} -- in which expertise is not assumed to be
+known upfront, but must be estimated from a sequence of reports. For simplicity
+we dispense with some of the generality of this chapter, by
+\begin{inlinelist}
+    \item considering only finite models whose states are the propositional
+          valuations over a fixed, finite set of variables; and
+    \item assuming expertise collections are closed under both intersections
+          and complements.
+\end{inlinelist}
+By \cref{exp_thm_s5_semantic_link}, such models are in one-to-one
+correspondence with S5 relational models, so that their corresponding binary
+relation $R_P$ is an equivalence relation. Equivalently, each collection $P$
+closed under intersections and complements corresponds to a partition $\Pi_P$
+over the set of states, whose cells are simply the equivalence classes of
+$R_P$. Since one can express the semantic conditions for expertise and
+soundness directly in terms of this partition, in what follows we in fact take
+the partition $\Pi_P$ as primitive instead of the expertise collection $P$.
+Given that the equivalence relation $R_P$ corresponding to $\Pi_P$ can be
+understood as an epistemic accessibility relation (by
+\cref{exp_thm_s4s5_translation}), we can interpret $\Pi_P$ as expressing an
+\emph{indistinguishibility relation} over states: two states lie in the same
+partition cell if the source lacks expertise to distinguish them.
