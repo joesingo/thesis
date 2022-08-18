@@ -5,8 +5,6 @@
 - Probably don't need to keep defining a total preorder throughout
 
 - Consistency with TD and bipartite tournament chapters:
-    - Axiom styling. TD uses uppercase normal text, but tournaments uses bold
-      lowercase
     - Use of sectioning. In both we split axioms up according to theme
       (symmetry, independence, monotonicity) but via subsections in TD and
       paragraph headings in tournaments
@@ -23,8 +21,6 @@
 - Punctuation at the end of display math
 
 - Standardise \paragraph vs \subsection etc divisions across chapters
-
-- Check if `\textcite` is really what I want
 
 - Duplicate references in bibliography
 
