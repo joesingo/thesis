@@ -1,18 +1,31 @@
 \chapter{Belief Change with Non-Expert Sources}
 \label{chapter_belief_change}
 
-% \section{Introduction}
+In the previous chapter we introduced a logical framework to reason about the
+expertise of sources and soundness of information. We now build on this
+framework to study a belief change problem in which expertise is not fixed
+upfront, but is to be estimated on the basis of reports from multiple sources.
+In this way we develop a logic-based analogue of the truth discovery
+aggregation problem, which complements the social-choice-style framework of
+\cref{chapter_td}. Specifically, we identify trustworthiness with \emph{belief
+in expertise}: a source $i$ is deemed trustworthy on $\phi$ if the belief
+change operator includes $\E_i\phi$ in its belief set. By also including
+propositional formulas in belief sets, we are able to express beliefs about the
+actual world, i.e. the aggregation of the reports from sources.
 
-Consider the following belief change scenario in a hospital. We observe the
-results of a blood test of patient 1, confirming condition X. Assuming the test
-is reliable, the AGM paradigm~\cite{alchourron1985logic} tells us how to revise
-our beliefs in light of the new information. Dr.\ A then claims that patient 2
-suffers from the same condition, but Dr.\ B disagrees. Given that doctors
-specialise in different areas and may make mistakes, who should we trust?
+Our point of departure is logic-based belief change in the AGM
+paradigm~\cite{alchourron1985logic}.  To illustrate the problem -- and how it
+differs from existing forms of belief change -- consider the following scenario
+in a hospital. Suppose we observe the results of a blood test of patient 1,
+confirming condition X. Assuming the test is reliable, AGM revision tells us
+how to revise our beliefs in light of the new information. Dr.\ A then claims
+that patient 2 suffers from the same condition, but Dr.\ B disagrees. Given
+that doctors specialise in different areas and may make mistakes, who should we
+trust?
 %
-Since the \axiomref{Success} postulate ($\alpha \in K \ast \alpha$)
-assumes information is reliable, we are outside the realm of AGM revision, and
-must instead apply some form of \emph{non-prioritised}
+Since the \axiomref{Success} postulate ($\alpha \in K \ast \alpha$) assumes
+information is reliable, we are outside the realm of AGM revision, and must
+instead apply some form of \emph{non-prioritised}
 revision~\cite{hansson1999survey}.
 
 Suppose it now emerges that Dr.\ A had earlier claimed patient 1 did \emph{not}
@@ -28,64 +41,57 @@ the basis of these reports we form beliefs both about the expertise of the
 sources and the state of the world in each instance.
 
 By including a distinguished \emph{completely reliable} source (the test
-results in the example) we extend AGM revision. In some respects we also extend
+results in the example) we extend AGM revision. This is also analogous to
+\emph{semi-supervised truth
+discovery}~\cite{yin_supervised_2011,rekatsinas2017slimfast}, in which some
+ground truths are known ahead of time. In some respects we also extend
 approaches to non-prioritised revision (e.g. selective
 revision~\cite{ferme1999selective}, credibility-limited
 revision~\cite{hansson_2001}, and trust-based
 revision~\cite{booth_trust_2018}), which assume information about the
 reliability of sources is known up front. The problem is also related to
-\emph{belief merging}~\cite{konieczny2002merging} which deals
-with combining belief bases from multiple sources; a detailed comparison will
-be given in \cref{kr_sec_relatedwork}.
+\emph{belief merging}~\cite{konieczny2002merging} which deals with combining
+belief bases from multiple sources; a detailed comparison will be given in
+\cref{kr_sec_relatedwork}.
 
-Our work is also connected to trust and belief revision, if one interprets
-trust as \emph{belief in expertise}. As \textcite{yasser_21} note in recent work,
-trust and belief are inexorably linked: we should accept reports from sources
-we believe are trustworthy, and we should trust sources whose reports turn out
-to be reliable. Trust and belief should also be revised in tandem, so that we
-may increase or decrease trust in a source as more reports are received,
-and revoke or reinstate previous reports from a source as its perceived
-trustworthiness changes.\footnotemark{}
+Our work is also connected to trust and belief revision. As
+\textcite{yasser_21} note in recent work, trust and belief are inexorably
+linked: we should accept reports from sources we believe are trustworthy, and
+we should trust sources whose reports turn out to be reliable. Trust and belief
+should also be revised in tandem, so that we may increase or decrease trust in
+a source as more reports are received, and revoke or reinstate previous reports
+from a source as its perceived trustworthiness changes.
 
-\footnotetext{
-    This mutual dependence between trust and belief is also the core
-    idea in \emph{truth discovery}~\cite{li_survey_2016}.
-}
+To unify the trust and belief aspects, we work in (a fragment of) the language
+of expertise and soundness from \cref{chapter_expertise}, including formulas of
+the form $\E_i\phi$, read as ``source $i$ has expertise on $\phi$'', and
+$\S_i\phi$, read as ``$\phi$ is sound for source $i$ to report. The output of
+our belief change problem is then a collection of belief and knowledge sets in
+the language, describing what we \emph{know} and \emph{believe} about the
+expertise of the sources and the state of the world in each instance. For
+example, we should \emph{know} reports from the reliable source are true,
+whereas reports from ordinary sources may only be believed.
 
-To unify the trust and belief aspects, we enrich a propositional language with
-\emph{expertise statements} $\E_i\phi$, read as ``source $i$ has expertise on
-$\phi$''. The output of our belief change problem is then a collection of belief
-and knowledge sets in the extended language, describing what we \emph{know} and
-\emph{believe} about the expertise of the sources and the state of the world in
-each instance. For example, we should \emph{know} reports from the reliable
-source are true, whereas reports from ordinary sources may only be believed.
+We do, however, make some simplifying assumptions compared to the modal
+framework in \cref{chapter_expertise}. Firstly, we only consider only a finite
+set of propositional variables, and identify states of the world with
+propositional valuations. Secondly, we assume expertise is closed under both
+intersections and complements, so that -- by \cref{exp_thm_s5_semantic_link} --
+expertise of a source is fully captured by an equivalence relation; or
+equivalently, a \emph{partition} of the propositional valuations.  In other
+words, each source has a \emph{indistinguishibility relation} over valuations,
+whereby any two valuations in the same partition cell are indistinguishable.
 
-Following recent work on logical approaches to
-expertise~\cite{singleton2021logic,booth_trust_2018}, we formally model
-expertise using a partition of propositional valuations for each source.
-Equivalently, each source has an \emph{indistinguishibility equivalence
-relation} over valuations. A source is an expert on a proposition $\phi$
-exactly when they can distinguish every $\phi$ valuation from every
-$\neg\phi$ valuation.\footnotemark{} As in \textcite{singleton2021logic}, we also
-use \emph{soundness formulas} $\S_i\phi$, which intuitively say that $\phi$ is
-true \emph{up the expertise of} $i$. For example, if $i$ has expertise on $p$
-but not $q$, then the conjunction $p \land q$ is sound for $i$ whenever $p$
-holds, since we can effectively ignore $q$. Formally,
-$\phi$ is sound for $i$ if the ``actual'' state of the world is
-indistinguishable from a $\phi$ valuation. Note that expertise does not depend
-on the ``actual'' state, whereas soundness does. This provides a crucial link
-between expertise and truthfulness of information.
+The semantics of expertise and soundness can be expressed directly in terms of
+partitions; we have that a source is an expert on a proposition $\phi$ exactly
+when they can distinguish every $\phi$ valuation from every $\neg\phi$
+valuation, and $\phi$ is sound for $i$ if the ``actual'' state of the world is
+indistinguishable from a $\phi$ valuation.
 
 We then make the assumption that \emph{sources only report sound propositions}.
 That is, reports are only false due to sources overstepping the bounds of their
-expertise. In particular, we assume sources are honest in their reports,
-and that experts are always right.
-
-\footnotetext{
-    The relationship between this notion of expertise and \emph{S5 epistemic
-    logic} is explored in a modal logic setting in \textcite{singleton2021logic},
-    and we revisit this connection in \cref{kr_sec_relatedwork}.
-}
+expertise. In particular, we assume sources are honest in their reports, and
+that experts are always right.
 
 Note that in our introductory example, the fact that we had a report from Dr.\ A
 on patient 1 (together with reliable information on patient 1) was essential
@@ -111,98 +117,15 @@ instance of the domain we look at. For instance, the expertise of Dr.\ A is the
 same for patient 1 as for patient 2. This is a simplifying assumption, and may
 rule out certain interpretations of the cases (e.g. if cases represent
 different points in time, it would be natural to let expertise evolve over
-time).
+time as per the dynamics of \cref{exp_sec_dynamic_extension}).
 
-%Consider an agent receiving information from multiple sources. In the case of
-%completely reliable sources, the literature on belief
-%revision~\cite{peppas_2008} address
-%how beliefs should be formed (and revised) on the basis of these reports.
-%\emph{Non-prioritised} belief revision/merging~\cite{hansson1999survey} allows
-%one to model unreliable sources by dropping the \axiomref{Success}
-%postulate ($\alpha \in K \ast \alpha$) of the AGM
-%framework~\cite{alchourron1985logic}, so that not all reports must be believed.
-%Such approaches may be guided by additional structure providing a
-%representation of the reliability of sources; for example in selective
-%revision~\cite{ferme1999selective}, credibility-limited
-%revision~\cite{hansson_2001}, and trust-based
-%revision~\cite{booth_trust_2018,hunter_building_21}.
-
-%In this chapter we suppose that no such additional structure is available: the
-%reliability of the sources is unknown \emph{a priori}. Thus, the agent must
-%determine its beliefs both about the credibility of the sources
-%(or, its \emph{trust} in the sources) and about the state of the world.
-%%
-%As \textcite{yasser_21} note in recent work, these two are inexorably linked: we
-%should believe reports from sources we believe are trustworthy, and we should
-%trust sources whose reports are reliable. Trust and belief should also be
-%revised in tandem, so that the agent may increase or decrease trust in a source
-%as more reports are received, and revoke or reinstate previous reports from a
-%source as its perceived trustworthiness changes.\footnote{This kind of mutual
-%dependence between trust and belief is also the core idea in the crowdsourcing
-%problem of \emph{truth discovery}~\cite{li_survey_2016}.}
-
-%Towards formalising the problem, we set out the precise notion of reliability
-%we are interested in. In general, a source may be considered unreliable for a
-%number of reasons: e.g. lack of expertise, dishonesty, or noise in the
-%communication channel. Since unreliable information arises in \emph{different
-%ways} in each situation, desirable properties of belief change operators for
-%one type of unreliability may not be desirable in others. In this chapter we
-%restrict attention to \emph{unreliability as lack of expertise}. That is, we
-%assume false reports only arise due to sources overstepping the bounds of their
-%expertise.\footnote{Here we implicitly assume sources do not have introspection
-%over their own knowledge.} In particular, we assume sources are honest and
-%their reports are received without noise.
-
-%Following recent work on logical approaches to
-%expertise~\cite{singleton2021logic,booth_trust_2018}, we formally model
-%expertise using a partition of the state space for each source. Equivalently,
-%each source has an \emph{indistinguishibility equivalence relation} over
-%possible states of the world. A source is an expert on a proposition $\phi$
-%exactly when there is no $\phi$ state which is indistinguishable from a
-%$\neg\phi$ state.\footnotemark{} Expertise is thus ``topic dependent'', in that
-%a source may be an expert in some areas but not others.
-
-%\footnotetext{
-%    The relationship between this notion of expertise and \emph{S5 epistemic
-%    logic} is explored in a modal logic setting in \cite{singleton2021logic}.
-%}
-
-%This notion of expertise can be represented syntactically by enriching a
-%propositional language with \emph{expertise formulas} $\E_i\phi$, for each
-%source $i$. As in \cite{singleton2021logic}, we also use \emph{soundness
-%formulas} $\S_i\phi$, which intuitively say that $\phi$ is true \emph{up the
-%expertise of} $i$. For example, if $i$ has expertise on $p$ but not $q$, then
-%the conjunction $p \land q$ is sound for $i$ whenever $p$ holds, since we can
-%ignore $q$ (on which $i$ has no expertise).
-%%
-%Assuming that the state of the world is described by the same underlying
-%propositional language, this syntactic representation allows the trust and
-%belief aspects of our problem to be unified: the agent simply maintains a
-%belief set of formulas in the extended language.
-
-%Finally, note that in order to gain a full picture of the partition associated
-%with a source, the agent needs to receive reports at \emph{multiple} states of
-%the world.\footnote{If we instead assumed all reports refer to the world in a
-%single state $v$, we can only hope to find out about the partition of each
-%source around $v$.} To model this we consider multiple \emph{cases}, thought of
-%as independent instantiations of the same domain of interest. For example, a
-%weather forecaster make predictions for different locations, a doctor may
-%diagnose multiple patients, and a crowdsourcing worker may label multiple
-%images. Under the assumption that expertise remains constant across cases,
-%reports in one case may influence beliefs about the world in other cases, even
-%when assuming independence between cases. For example, if a doctor $D$
-%diagnoses patients $A$ and $B$ with condition $C$ and it is later revealed that
-%$A$ does \emph{not} suffer from $C$, an agent may retract the belief that $B$
-%suffers from $C$, even though no new information about $B$ was received.
-
-\paragraph{Contributions.} Our contributions are threefold. First, we develop a
-logical framework for reasoning about the expertise of multiple sources and the
-state of the world in multiple cases. Second, we formulate a belief change
-problem within this framework, which allows us to explore how trust and belief
-should interact and evolve as reports are received from the various sources.
-Finally, we put forward several postulates and two concrete classes of
-operators -- with a representation result for one class -- and analyse these
-operators with respect to the postulates.
+\paragraph{Contributions.} The main contribution of this chapter is the
+formulation of a belief change problem in the setting of the logic of expertise
+developed in the previous chapter. This allows us to explore how belief and
+expertise-based trust should interact and evolve as reports are received from
+the various sources.  We put forward several postulates and two concrete
+classes of operators -- with a representation result for one class -- and
+analyse these operators with respect to the postulates.
 
 \begin{chapteroutline}
     In \cref{kr_sec_framework} we develop the formal framework.
@@ -213,7 +136,6 @@ operators with respect to the postulates.
     report. An analogue of selective revision~\cite{ferme1999selective} is
     presented \cref{kr_sec_selective_change}. \Cref{kr_sec_relatedwork}
     discusses related work, and we conclude in \cref{kr_sec_conclusion}.
-    \todo{mention expertise and selectivity?}
 \end{chapteroutline}
 
 \section{The Framework}
