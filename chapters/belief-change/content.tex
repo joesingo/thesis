@@ -128,7 +128,7 @@ classes of operators -- with a representation result for one class -- and
 analyse these operators with respect to the postulates.
 
 \begin{chapteroutline}
-    In \cref{kr_sec_framework} we develop the formal framework.
+    In \cref{kr_sec_framework} we set out the formal framework.
     \Cref{kr_sec_the_problem} introduces the problem and lists some core
     postulates. We give two constructions and specific example operators in
     \cref{kr_sec_constructions}. \Cref{kr_sec_one_step_postulates} introduces
@@ -143,61 +143,87 @@ analyse these operators with respect to the postulates.
 
 Let $\srcs$ be a finite set of information sources. For convenience, we assume
 there is a \emph{completely reliable} source in $\srcs$, which we denote by
-$\ast$.  For example, we can treat our first-hand observations as if they are
+$\ast$. For example, we can treat our first-hand observations as if they are
 reported by $\ast$. Other sources besides $\ast$ will be termed \emph{ordinary
-sources}.  Let $\C$ be a finite set of \emph{cases}, which we interpret as
+sources}. Let $\C$ be a finite set of \emph{cases}, which we interpret as
 labels for different instances of the problem domain.
 
 \paragraph{Syntax.}
 
-There are two levels to our formal language. To describe properties of the
-world in each case $c \in \C$, we assume a fixed finite set $\propvars$ of propositional
-variables, and let $\lprop$ denote the set of propositional formulas generated
-from $\propvars$ using the usual propositional connectives. We use lower case
-Greek letters ($\phi$, $\psi$ etc) for formulas in $\lprop$. The
-classical logical consequence operator will be denoted by $\cnprop$, and
-$\equiv$ denotes equivalence of propositional formulas.
+In this chapter we work with the fragment of the language from
+\cref{chapter_expertise}, in which expertise and soundness formulas are
+restricted to propositional formulas only\footnotemark{} and the universal
+modality $\mathsf{A}$ is excluded. Concretely, we assume
+a fixed \emph{finite} set $\propvars$ of propositional variables, and let
+$\lprop$ denote the set of propositional formulas generated from $\propvars$
+using the usual propositional connectives. Formulas in $\lprop$ are used to
+describe properties of the world in each case $c \in \C$. We use lower case
+Greek letters ($\phi$, $\psi$ etc) for formulas in $\lprop$. The classical
+logical consequence operator will be denoted by $\cnprop$, and $\equiv$ denotes
+equivalence of propositional formulas.
 
-The extended \emph{language of expertise} $\lext$ additionally describes the
+\footnotetext{
+    While this assumption is made for simplicity's sake, we do not lose much by
+    excluding iterated applications of $\E$ and $\S$, at least for expertise
+    models closed under intersections and complements. Indeed, we have that
+    $\E\phi$ either holds globally in a model or holds nowhere, so
+    $\E\E\phi$ always holds. One can show that $\E\S\psi$ also always holds in
+    such models, by taking $\phi = \S\phi$ in \cref{exp_prop_frame_conditions}
+    \cref{exp_item_frame_condition_intersections} and recalling that $\S\S\psi
+    \limplies \S\psi$ is valid. Similarly, one can show that $\S\S\phi \liff
+    \S\phi$ and $\S\E\phi \liff \E\phi$ in such models.
+}
+
+The extended language of expertise $\lext$ additionally describes the
 expertise of the sources, and is defined by the following grammar:
 \[
-    \Phi ::= \phi \mid
+    \Phi ::= p \mid
              \Phi \land \Phi \mid
              \neg \Phi \mid
              \E_i\phi \mid
              \S_i\phi
              \\
 \]
-where $i\in \srcs$ and $\phi \in \lprop$. We introduce Boolean connectives
-$\lor$, $\limplies$, $\liff$ and $\falsum$ as
-abbreviations. We use upper case Greek letters ($\Phi$, $\Psi$ etc)
-for formulas in $\lext$.
+where $i\in \srcs$, $p \in \propvars$ and $\phi \in \lprop$. We introduce
+Boolean connectives $\lor$, $\limplies$, $\liff$ and $\falsum$ as
+abbreviations. We use upper case Greek letters ($\Phi$, $\Psi$ etc) for
+formulas in $\lext$.
 %
 For $\Gamma \subseteq \lext$, we write $\proppart{\Gamma} = \Gamma \cap
 \lprop$ for the propositional formulas in $\Gamma$.
 
-The intuitive reading of $\E_i\phi$ is {\em source $i$ has expertise on
-$\phi$}, i.e., $i$ is able to correctly identify the truth value of $\phi$ in
-any possible state. The intuitive reading of $\S_i\phi$ is that $\phi$
-\emph{sound} for $i$ to report: that $\phi$ is true up to the
-expertise of $i$. That is, the parts of $\phi$ on which $i$ has expertise are
-true. Note that both operators are restricted to propositional
-formulas, so we will not consider iterated formulas such as $\E_i\S_j\phi$.
+As before, the intuitive reading of $\E_i\phi$ is source $i$ has expertise on
+$\phi$. The intuitive reading of $\S_i\phi$ is that $\phi$ sound for $i$ to
+report: that $\phi$ is true up to the expertise of $i$. That is, the parts of
+$\phi$ on which $i$ has expertise are true. Since both operators are restricted
+to propositional formulas, we will not consider iterated formulas such as
+$\E_i\S_j\phi$.
 
 \paragraph{Semantics.}
 
-Let $\vals$ denote the set of propositional valuations over $\propvars$. For
-each $\phi \in \lprop$, the set of valuations making $\phi$ true is denoted by
-$\propmods{\phi}$. A \emph{world} $W = \tuple{\{v_c\}_{c \in \C}, \{\Pi_i\}_{i
-\in \srcs}}$ is a possible complete specification of the environment we find
-ourselves in:
+The semantics in this chapter are, in essence, a special case of
+\cref{chapter_expertise}. Instead of considering arbitrary sets of possible
+states, as in \cref{exp_def_expertise_model}, we fix states as propositional
+valuations over $\propvars$. Expertise is also assumed to be closed under both
+intersections and complements for all sources.
+%
+At the same time, we generalise slightly by considering the distinguished
+source $\ast$ and multiple cases $c \in \C$. For convenience we also offer a
+different presentation, using \emph{partitions} instead of expertise
+collections to represent expertise.
+
+Formally, let $\vals$ denote the set of propositional valuations over
+$\propvars$. For each $\phi \in \lprop$, the set of valuations making $\phi$
+true is denoted by $\propmods{\phi}$. A \emph{world} $W = \tuple{\{v_c\}_{c \in
+\C}, \{\Pi_i\}_{i \in \srcs}}$ is a possible complete specification of the
+environment we find ourselves in:
 \begin{itemize}
     \item $v_c \in \vals$ is the ``true'' valuation at case $c \in \C$;
     \item $\Pi_i$ is a partition of $\vals$ for each $i \in \srcs$, representing
           the ``true'' expertise of source $i$; and
     \item $\Pi_\ast$ is the unit partition $\{\{v\} \mid v \in \vals\}$.
 \end{itemize}
-Let $\W$ denote the set of all worlds.  Note that the partition corresponding
+Let $\W$ denote the set of all worlds. Note that the partition corresponding
 to the distinguished source $\ast$ is fixed in all worlds as the finest
 possible partition, reflecting the fact that $\ast$ is completely reliable.
 
@@ -213,7 +239,7 @@ collection of several belief sets, describing beliefs about each case $c \in
 semantics for $\lext$ formulas with respect to a world and a case:
 \[
     \begin{array}{lll}
-        &W, c \models \phi &\iff v_c \in \propmods{\phi} \\
+        &W, c \models p &\iff v_c \in \propmods{p} \\
         &W, c \models \E_i\phi &\iff \Pi_i[\phi] = \propmods{\phi} \\
         &W, c \models \S_i\phi &\iff v_c \in \Pi_i[\phi]
     \end{array}
@@ -249,6 +275,62 @@ also has expertise.
 Also note that if $\phi$ is a propositional tautology, $\E_i\phi$ holds for
 every source $i$. Thus, all sources are experts on \emph{something}, even if
 just the tautologies.
+
+The semantics so defined are indeed the same as those of
+\cref{chapter_expertise}, as the following result shows.
+
+\begin{proposition}
+    \label{kr_prop_modal_semantics_link}
+    Let $W$ be a world. Then there is a multi-source expertise model $M = (X,
+    \{P_i\}_{i \in \srcs}, V)$ and $\{x_c\}_{c \in \C} \subseteq X$ such that
+    for all $\Phi \in \lext$ and $c \in \C$,
+    \begin{equation}
+        \label{kr_eqn_modal_semantics_link}
+        W, c \models \Phi \iff M, x_c \models \Phi.
+    \end{equation}
+    Moreover,
+    \begin{inlinelist}
+        \item $X$ is finite;
+        \item each $P_i$ is closed under intersections and complements; and
+        \item using the notation from \cref{exp_def_rp}, $u R_{P_i} v$ iff
+              $\Pi_i[u] = \Pi_i[v]$, i.e. $R_{P_i}$ is the equivalence relation
+              associated with the partition $\Pi_i$.
+    \end{inlinelist}
+\end{proposition}
+
+\begin{proof}
+    Take $X = \vals$ and set $V(p) = \propmods{p}$. For each $i \in \srcs$, set
+    $P_i = \{A \subseteq \vals \mid \Pi_i[A] = A\}.$ For each $c \in \C$,
+    simply let $x_c = v_c$. Then one can easily show that for all $U \subseteq
+    \vals$ and $i \in \srcs$,
+    \begin{equation}
+        \label{kr_eqn_modal_semantics_link_expansion}
+        \Pi_i[U] = \bigcap\{A \in P_i \mid U \subseteq A\}.
+    \end{equation}
+    A simple induction on $\lext$ formulas then shows
+    \cref{kr_eqn_modal_semantics_link}.
+
+    Since $\propvars$ is finite there are only finitely many propositional
+    valuations, and thus $X = \vals$ is finite. It is easily checked that
+    each $P_i$ is closed under intersections and complements using properties
+    of partitions. Finally, we have by
+    \cref{kr_eqn_modal_semantics_link_expansion} and the definition of
+    $R_{P_i}$ that
+    \begin{align*}
+        u R_{P_i} v
+        &\iff \forall A \in P_i: (v \in A \implies u \in A)  \\
+        &\iff u \in \bigcap\{A \in P_i \mid v \in A\} \\
+        &\iff u \in \bigcap\{A \in P_i \mid \{v\} \subseteq A\} \\
+        &\iff u \in \Pi_i[\{v\}] \\
+        &\iff \Pi_i[u] = \Pi_i[v]
+    \end{align*}
+    as required.
+\end{proof}
+
+In other words, a world corresponds to a particular kind of expertise model
+together with a state $x_c$ for each case $c \in \C$. Having shown this
+equivalence, we henceforth deal exclusively with worlds and models instead of
+expertise models and collections. We come to an example.
 
 \begin{example}
     \label{kr_ex_hospital_world}
@@ -286,7 +368,13 @@ just the tautologies.
 \end{example}
 
 Say $\Phi$ is \emph{valid} if $W, c \models \Phi$ for all $W \in \W$ and $c \in \C$.
-For future reference we collect a list of validities.
+For future reference we collect a list of validities.\footnotemark{}
+
+\footnotetext{
+    Note that some of these validities follow from
+    \cref{kr_prop_modal_semantics_link} and the validities in
+    \cref{chapter_expertise}.
+}
 
 \begin{proposition}
 \label{kr_prop_validities}
