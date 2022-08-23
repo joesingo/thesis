@@ -65,7 +65,7 @@ from a source as its perceived trustworthiness changes.
 To unify the trust and belief aspects, we work in (a fragment of) the language
 of expertise and soundness from \cref{chapter_expertise}, including formulas of
 the form $\E_i\phi$, read as ``source $i$ has expertise on $\phi$'', and
-$\S_i\phi$, read as ``$\phi$ is sound for source $i$ to report. The output of
+$\S_i\phi$, read as ``$\phi$ is sound for source $i$ to report''. The output of
 our belief change problem is then a collection of belief and knowledge sets in
 the language, describing what we \emph{know} and \emph{believe} about the
 expertise of the sources and the state of the world in each instance. For
@@ -2025,8 +2025,6 @@ characterised by total preorders over valuations
 \cite{grove1988two,katsuno_1991}, it is no surprise that our order-based
 constructions are consistent with \agm{}.
 
-\todo{flow in what follows.}
-
 \begin{proposition}
     \label{kr_prop_examples_satisfy_agm}
     \varbasedcond{}, \partbasedcond{} and \scorebasedop{}
@@ -2049,7 +2047,7 @@ worlds whose $c$ valuation is $v$.
 \end{lemma}
 
 \begin{proof}
-    ``$\implies$'': We show the contrapositive. Suppose $\Y_\sigma \cap \W_{c\
+    $\implies$: We show the contrapositive. Suppose $\Y_\sigma \cap \W_{c\
     :\ v} = \emptyset$. Let $\psi$ be any propositional formula such that
     $\propmods{\psi} = \vals \setminus \{v\}$. Now for any $W \in \Y_\sigma$,
     we have $W \notin \W_{c\ :\  v}$, i.e. $v^W_c \ne v$. Hence $v^W_c \in
@@ -2058,7 +2056,7 @@ worlds whose $c$ valuation is $v$.
     propositional formula, so $\psi \in \proppart{B^\sigma_c}$. Since $v \notin
     \propmods{\psi}$, we have $v \notin \propmods{\proppart{B^\sigma_c}}$.
 
-    ``$\impliedby$'': Suppose there is some $W \in \Y_\sigma \cap \W_{c\ :\
+    $\impliedby$: Suppose there is some $W \in \Y_\sigma \cap \W_{c\ :\
     v}$. Let $\phi \in \proppart{B^\sigma_c}$. Then, in particular, $\phi \in
     B^\sigma_c$, so $W, c \models \phi$ by $W \in \Y_\sigma$ and the definition
     of the model-based belief set. That is, $v = v^W_c \in \propmods{\phi}$.
@@ -2190,7 +2188,7 @@ We have a sufficient condition for \agm{} for score-based operators.
                 r_\rho(W') = r_\sigma(W') + M < \infty
             \]
             so $W' \in \X_\rho$.
-
+            %
             Recall that $W, c \models \phi$ too, so $d(W, \tuple{\ast, c,
             \phi}) = M$ also. From $W \in \Y_\rho$ and $W' \in \X_\rho$ we get
             \begin{align*}
@@ -2280,7 +2278,7 @@ We can now prove \cref{kr_prop_examples_satisfy_agm}.
     For the conditioning operators \varbasedcond{} and \partbasedcond{}, it is
     easily verified that the condition in \cref{kr_cor_conditioning_agm} holds,
     and thus \agm{} does also.
-
+    %
     For the score-based operator \scorebasedop{}, we may use
     \cref{kr_lemma_score_based_agm_sufficient_conditions} with $M = 0 $.
 \end{proof}
@@ -2319,7 +2317,7 @@ $i$ need not be considered an expert on $\phi$). In other words, we should
 believe reports if there is no reason not to. It is easily shown that
 \closure{} and \strongcondsucc{} implies \condsucc{}.
 %
-We once again revisit our examples. \todo{flow, again.}
+We once again revisit our examples.
 
 \begin{proposition}
     \label{kr_prop_examples_satisfy_condsucc}
@@ -2595,6 +2593,7 @@ have more expertise are preferred.
     and $v_2$ were assumed to be distinct: contradiction.
 
     \todo{Show that any strict subset is satisfiable}
+    \todo{Proposition 23 from online notes}
 \end{proof}
 
 \Cref{kr_prop_strongcondsucc_conditioning_impossibilitity} highlights an important
@@ -2610,11 +2609,20 @@ In the previous section we saw how a single formula $\phi$ may be accepted when
 it is received as an additional report. But what can we say about propositional
 beliefs when taking into account the \emph{whole sequence} $\sigma$? To
 investigate this we introduce an analogue of \emph{selective revision}
-\cite{ferme1999selective}, in which propositional beliefs are
-formed by ``selecting'' part of each input report (intuitively, some part
-consistent with the source's expertise). In what follows, write $\sigma \rs c =
-\{\tuple{i, \phi} \mid \tuple{i, c, \phi} \in \sigma\}$ for the $c$-reports in
-$\sigma$.
+\cite{ferme1999selective}, in which propositional beliefs are formed by
+``selecting'' only a part of each input report (e.g., some part consistent with
+the source's expertise).
+%
+For example, in \cref{kr_ex_conditioning_operator} we saw that when given
+$\sigma = (\tuple{\ast, c, p}, \tuple{i, c, \neg{p} \land q})$, \varbasedcond{}
+outputs propositional beliefs $\proppart{B^\sigma_c} = \cnprop(p \land q)$.
+Intuitively, the report from $\ast$ is taken as-is, whereas the report of
+$\neg{p} \land q$ from $i$ is weakened to just $q$. The resulting formulas are
+combined conjunctively to form the propositional belief set.
+%
+We formalise this idea via \emph{selection schemes}. In what follows, write
+$\sigma \rs c = \{\tuple{i, \phi} \mid \tuple{i, c, \phi} \in \sigma\}$ for the
+$c$-reports in $\sigma$.
 
 \begin{definition}
     \label{kr_def_selectivity}
@@ -2641,9 +2649,9 @@ $\rho$ is obtained by replacing each report $\tuple{i, c, \phi}$ with
 $\tuple{\ast, c, f_\sigma(i, c, \phi)}$.
 
 Selectivity can be characterised by a natural postulate placing an upper bound
-on the propositional part of $B^\sigma_c$. In what follows, let
-$\Gamma^\sigma_c = \{\phi \in \lprop \mid \exists i \in \srcs: \tuple{i, \phi}
-\in \sigma \rs c\}$.
+on the propositional part of $B^\sigma_c$. For any sequence $\sigma$ and case
+$c$, write $\Gamma^\sigma_c = \{\phi \in \lprop \mid \exists i \in \srcs:
+\tuple{i, \phi} \in \sigma \rs c\}$.
 
 \begin{axiom}[\boundedness{}]
     If $\sigma$ is $\ast$-consistent, $\proppart{B^\sigma_c}
@@ -2653,7 +2661,7 @@ $\Gamma^\sigma_c = \{\phi \in \lprop \mid \exists i \in \srcs: \tuple{i, \phi}
 \boundedness{} says that the propositional beliefs in case $c$ should not go
 beyond the consequences of the formulas reported in case $c$. In some sense
 this can be seen as an iterated version of \axiomref{Inclusion} from AGM
-revision, in the case where $\proppart{B^\sigma_c} = \cnprop(\emptyset)$. We
+revision, in the case where $\proppart{B^\emptyset_c} = \cnprop(\emptyset)$. We
 have the following characterisation.
 
 \begin{theorem}
@@ -2674,7 +2682,7 @@ have the following characterisation.
         F_\sigma(i, c, \phi) = \propmods{\phi} \cup M_c.
     \]
     Define a selection function $f_\sigma$ by letting $f_\sigma(i, c, \phi)$ be
-    any formula with $\propmods{f_\sigma(i,c, \phi}) = F_\sigma(i, c, \phi)$.
+    any formula with $\propmods{f_\sigma(i,c, \phi)} = F_\sigma(i, c, \phi)$.
     Since $F_\sigma(i, c, \phi)$ contains the models of $\phi$, clearly
     $f_\sigma(i, c, \phi) \in \cnprop(\phi)$. Therefore $f$ is indeed a
     selection function.
@@ -2744,16 +2752,14 @@ have the following characterisation.
     as required for \boundedness{}.
 \end{proof}
 
-\todo{flow.}
-
-This characterisation in \cref{kr_thm_selectivity_characterisation} allows us to
+The characterisation in \cref{kr_thm_selectivity_characterisation} allows us to
 easily analyse when conditioning and score-based operators are selective. In
 the case of conditioning operators with $K^\emptyset = \cn(\emptyset)$, we in
 fact have a precise characterisation. First, some terminology: say that a world
 $W$ \emph{refines $W'$ at $c$} if for all $i \in \srcs$ we have $\Pi^W_i[v^W_c]
 \subseteq \Pi^{W'}_i[v^{W'}_c]$. Intuitively, this means each source is more
-knowledgable in case $c$ in world $W$ than they are in $W'$. Write $\W_{c\ :\
-v} = \{W \in \W \mid v^W_c = v\}$ for the set of worlds whose $c$ valuation is
+knowledgable in case $c$ in world $W$ than they are in $W'$. Recall that $\W_{c\ :\
+v} = \{W \in \W \mid v^W_c = v\}$ denotes the set of worlds whose $c$ valuation is
 $v$. We have the following.
 
 \begin{proposition}
@@ -2773,7 +2779,8 @@ selective. For the score-based operator \scorebasedop{}, one can show
 function $d$ similar to the property of $\le$ above. Consequently,
 \scorebasedop{} is also selective.
 
-We first state some preliminary results.
+To prove \cref{kr_prop_conditioning_selectivity_characterisation}, we first
+state some preliminary results.
 
 \begin{lemma}
     \label{kr_lemma_local_refinement}
@@ -2782,7 +2789,7 @@ We first state some preliminary results.
     \[
         W, c \models \S_i\phi
         \implies
-        W', c \models \S_i\phi
+        W', c \models \S_i\phi.
     \]
 \end{lemma}
 
@@ -2809,10 +2816,10 @@ We first state some preliminary results.
 \begin{proof}
 
     For a valuation $v \in \vals$, let $\phi(v)$ be a propositional formula
-    such that $\propmods{\phi(v}) = \{v\}$. Take $\sigma$ to be any enumeration
+    such that $\propmods{\phi(v)} = \{v\}$. Take $\sigma$ to be any enumeration
     of reports of the form
     \[
-        \tuple{i, c, \phi(v)}
+        \tuple{i, c, \phi(v)},
     \]
     where $i \in \srcs$ and $v \in \Pi^W_i[v^W_c]$. Note that such a sequence
     exists since there are only finitely many sources and valuations. Clearly
@@ -3072,7 +3079,7 @@ The characterisation is as follows.
     \[
         H = \{d \in \C \mid v \in M_d\}.
     \]
-    Apply \hboundedness{} and taking the models of both sides, we obtain
+    Applying \hboundedness{} and taking the models of both sides, we obtain
     \begin{equation}
         \label{kr_eqn_hbnd_application}
         M_c
@@ -3110,10 +3117,13 @@ property of the selection scheme $f$ can be captured as follows.
     $\sigma \mapsto \tuple{B^\sigma, K^\sigma}$ if for all $\ast$-consistent
     $\sigma$ and $\tuple{i, c, \phi} \in \sigma$,
     \[
-        \E_i{f_\sigma(i, c, \phi)} \in B^\sigma_c
+        \E_i{f_\sigma(i, c, \phi)} \in B^\sigma_c.
     \]
 \end{definition}
 
+That is, $i$ is trusted on the weakened report $f_\sigma(i, c, \phi)$ whenever
+$i$ reports $\phi$ in case $c$ in $\sigma$.
+%
 Say an operator is \emph{EC-selective} if it is selective according to some
 expertise-compatible scheme. While EC-selectivity may appear natural on first
 glance, we argue that it can be overly restrictive when expertise is derived
@@ -3123,12 +3133,11 @@ from the input sequence itself. For example, consider the sequence
         \tuple{i, c, p},
         \tuple{j, c, p},
         \tuple{i, d, p},
-        \tuple{i, d, \neg p}
+        \tuple{j, d, \neg p}
     )
 \]
 By \soundness{} and \closure{}, we cannot have both $\E_i{p}$ and $\E_j{p}$ in
-$B^\sigma_c$. Ideas of symmetry (\todo{check for typos: there is no symmetry in
-the sequence as written}) suggest that neither can we pick one of $i$ or
+$B^\sigma_c$. Ideas of symmetry suggest that neither can we pick one of $i$ or
 $j$ over the other, so that in fact it is reasonable to have neither $\E_i{p}$
 nor $\E_j{p}$ in $B^\sigma_c$. Consequently -- assuming $p$ is the only
 propositional variable -- the only formulas weaker than $p$ on which $i$ and
@@ -3142,22 +3151,30 @@ elsewhere. This also conflicts with the ``optimistic'' attitude described in
 $\E_i{p}
 \lor \E_j{p} \in B^\sigma_c$, but this implies $p \in B^\sigma_c$ by
 \soundness{}, \containment{} and \closure{}.
+%
+This example already shows that \varbasedcond{}, \partbasedcond{} and
+\scorebasedop{} are not EC-selective.
 
-The core issue here is that for $\E_i\phi$ to be believed, $i$ needs to be
-trusted on $\phi$ in \emph{every} maximally plausible world. If these worlds
-look very different -- e.g. $W_1$ trusts $i$ but not $j$, and vice versa in
-$W_2$ --  then EC-selectivity requires reports to be significantly weakened
-before expertise is believed in all worlds.
+The core issue here is that, unlike in ealier work on trust-based selective
+revision, the expertise of sources is part of the operator's output and is thus
+uncertain. In order for $\E_i\phi$ to be believed, $i$ needs to be trusted on
+$\phi$ in \emph{every} maximally plausible world. If there are several such
+worlds with different assessments of expertise -- e.g. if $W_1$ trusts $i$ but
+not $j$, and vice versa in $W_2$ -- then EC-selectivity requires reports to be
+significantly weakened before expertise is believed in \emph{all} worlds.
 
-This discussion also hints that propositional beliefs for EC-selective
-operators are fully determined by the expertise part of $B^\sigma$, together
-with the reports in $\sigma$. If the knowledge $K^\sigma$ is formed according
-to the soundness constraints of $\sigma$ (as in our examples so far), we in
-fact have a characterisation result to this effect. The following
-\lcnamecref{kr_lemma_ec_selective_propmodels}, which may also be of independent
-interest, is required. For a set of worlds $S \subseteq \W$, write $\Pi^S_i =
-\bigjoin_{W \in S}{\Pi^W_i}$ for the join of the $i$-partitions of worlds in
-$S$.
+For model-based operators satifying \soundness{}, this phenomenon can be
+formalised: a report of $\phi$ from source $i$ is expanded by the
+\emph{join}\footnotemark{} of the partitions $\Pi^W_i$, for $W \in \Y_\sigma$.
+As the above example shows, this join may be strictly coarser than any of the
+individual partitions $\Pi^W_i$. Formally, for a set of worlds $S \subseteq
+\W$, write $\Pi^S_i = \bigjoin_{W \in S}{\Pi^W_i}$ for the join of the
+$i$-partitions of worlds in $S$.
+
+\footnotetext{
+    The join of a set of partitions is its least upper bound with respect to
+    the refinement order.
+}
 
 \begin{lemma}
     \label{kr_lemma_ec_selective_propmodels}
@@ -3174,26 +3191,7 @@ $S$.
 
 \todo{Write up from online notes.}
 
-Now write $G^\snd_\sigma$ for the collection with $(G^\snd_\sigma)_c =
-\{\S_i\phi \mid \tuple{i, \phi} \in \sigma \rs c\}$. For any collection $G$,
-write $\exppart{G}$ for the sub-collection of formulas of the form $\E_i\phi$.
-
-\begin{theorem}
-    \label{kr_thm_ec_selectivity_characterisation}
-    Suppose a model-based operator satisfies \consistency{} and $K^\sigma =
-    \cn(G^\snd_\sigma)$ for all $\sigma$. Then it is EC-selective if and only
-    if
-    \[
-        \proppart{B^\sigma_c}
-        =
-        \proppart{\cn_c(K^\sigma \sqcup \exppart{B^\sigma})}
-    \]
-    for all $\ast$-consistent $\sigma$ and $c \in \C$.
-\end{theorem}
-
-\todo{Write up from online notes.}
-
-Finally, note that \cref{kr_lemma_ec_selective_propmodels} immediately implies
+Note that \cref{kr_lemma_ec_selective_propmodels} immediately implies
 selectivity with respect to any scheme $f$ such that $\propmods{f_\sigma(i, c,
 \phi)} = \Pi^{\Y_\sigma}_i[\phi]$. Since the right-hand side does not depend on
 the case $c$, we get the following corollary.
@@ -3203,6 +3201,47 @@ the case $c$, we get the following corollary.
     If a model-based operator is EC-selective and satisfies \soundness{}, then
     it is case-independent-selective.
 \end{corollary}
+
+\cref{kr_lemma_ec_selective_propmodels} also shows that propositional beliefs
+in case $c$ are determined only by the reports in $\sigma \rs c$ together with
+the expertise part of $B^\sigma$, via the partitions $\Pi^W_i$ for $W \in
+\Y_\sigma$. This property can be expressed syntactically as follows, where
+for a collection $G$ we write $\exppart{G}$ for the sub-collection of formulas
+of the form $\E_i\phi$.
+
+\begin{axiom}[\determination{}]
+    For any $\ast$-consistent $\sigma$ and $c \in \C$,
+    $
+        \proppart{B^\sigma_c}
+        =
+        \proppart{\cn_c(K^\sigma \sqcup \exppart{B^\sigma})}
+    $.
+\end{axiom}
+
+In other words, \determination{} says that propositional beliefs may
+be fully recovered by taking (the $c$-consequences of) the knowledge set
+$K^\sigma$ together with just the expertise formulas in $B^\sigma$.
+%
+Surprisingly, \determination{} in fact characterises EC-selectivity,
+under additional mild assumptions. In what follows, recall that $G^\snd_\sigma$
+denotes the collection with $(G^\snd_\sigma)_c = \{\S_i\phi \mid \tuple{i,
+\phi} \in \sigma \rs c\}$.
+
+\begin{theorem}
+    \label{kr_thm_ec_selectivity_characterisation}
+    A model-based operator satisying \consistency{} and $K^\sigma =
+    \cn(G^\snd_\sigma)$ for all $\sigma$ is EC-selective if and only
+    if it satisfies \determination{}.
+\end{theorem}
+
+\todo{Write up from online notes.}
+
+In particular, \cref{kr_thm_ec_selectivity_characterisation} applies to all
+operators satisfying the basic postulates and $K^\emptyset = \cn(\emptyset)$,
+by \cref{kr_prop_prior_knowledge}.
+
+\todo{Consider weak EC-selectivity, where we only require $\neg\E_i{f_\sigma(i,
+c, \phi)} \notin B^\sigma_c$.}
 
 \section{Related Work}
 \label{kr_sec_relatedwork}
