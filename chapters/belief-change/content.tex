@@ -3169,7 +3169,7 @@ formalised: a report of $\phi$ from source $i$ is expanded by the
 As the above example shows, this join may be strictly coarser than any of the
 individual partitions $\Pi^W_i$. Formally, for a set of worlds $S \subseteq
 \W$, write $\Pi^S_i = \bigjoin_{W \in S}{\Pi^W_i}$ for the join of the
-$i$-partitions of worlds in $S$.
+$i$-partitions of worlds in $S$. We first need a preliminary result.
 
 \footnotetext{
     The join of a set of partitions is its least upper bound with respect to
@@ -3177,7 +3177,47 @@ $i$-partitions of worlds in $S$.
 }
 
 \begin{lemma}
-    \label{kr_lemma_ec_selective_propmodels}
+    \label{kr_lemma_expertise_join}
+    For any model-based operator, $\E_i\phi \in B^\sigma_c$ iff
+    $\Pi^{\Y_\sigma}_i[\phi] = \propmods{\phi}$.
+\end{lemma}
+
+\begin{proof}
+    ``if'': Suppose $\Pi^{\Y_\sigma}_i[\phi] = \propmods{\phi}$. Take $W \in
+    \Y_\sigma$. Then since $\Pi^W_i$ refines $\Pi^{\Y_\sigma}_i$, we have
+    $\Pi^W_i[\phi] \subseteq \Pi^{\Y_\sigma}_i[\phi] = \propmods{\phi}$. Since
+    $\propmods{\phi} \subseteq \Pi^W_i[\phi]$ always holds, we have
+    $\Pi^W_i[\phi] = \propmods{\phi}$ and thus $W, c \models \E_i\phi$. Since
+    $W \in \Y_\sigma$ was arbitrary, this shows $\E_i\phi \in B^\sigma_c$.
+
+    ``only if'': Suppose $\E_i\phi \in B^\sigma_c$. We need to show
+    $\Pi^{\Y_\sigma}_i[\phi] \subseteq \propmods{\phi}$. Take $v \in
+    \Pi^{\Y_\sigma}_i[\phi]$. Let $R^W_i$ be the equivalence relation
+    corresponding to the partition $\Pi^W_i$. Then the relation $R$
+    corresponding to the join $\Pi^{\Y_\sigma}_i$ is the smallest equivalence
+    relation containing each of the $R^W_i$, which is given explictly by the
+    transitive closure $R = \left(\bigcup_{W \in
+    \Y_\sigma}{R^W_i}\right)^\trcls$.
+
+    Now, from $v \in \Pi^{\Y_\sigma}_i[\phi]$ there is some $u \in
+    \propmods{\phi}$ such that $vRu$. By definition of the transitive closure,
+    there are $x_0, \ldots, x_n \in \vals$ such that $v = x_0$, $u = x_n$, and
+    for each $0 \le k < n$, $(x_k, x_{k + 1}) \in \bigcup_{W \in
+    \Y_\sigma}{R^W_i}$. That is, there are $W_0, \ldots, W_{n - 1} \in
+    \Y_\sigma$ such that $(x_k, x_{k + 1}) \in R^{W_k}_i$.
+    %
+    We wil show that each $x_k$ lies in $\propmods{\phi}$ by backwards
+    induction. For $k = n$, we have $x_n = u \in \propmods{\phi}$ by
+    assumption. If $x_{k + 1} \in \propmods{\phi}$, then $(x_k, x_{k + 1}) \in
+    R^{W_k}_i$ gives $x_k \in \Pi^{W_k}_i[x_{k + 1}] \subseteq
+    \Pi^{W_k}_i[\phi]$. By assumption, $\E_i\phi \in B^\sigma_c$. Since $W_k
+    \in \Y_\sigma$, this means $W_k, c \models \E_i\phi$ and $\Pi^{W_k}_i[\phi]
+    = \propmods{\phi}$.  Hence $x_k \in \propmods{\phi}$ as desired.
+    %
+    This shows $v = x_0 \in \propmods{\phi}$, and we are done.  \end{proof}
+
+\begin{proposition}
+    \label{kr_prop_ec_selective_propmodels}
     If a model-based operator is EC-selective and satisfies \soundness{}, then
     \[
         \propmods{\proppart{B^\sigma_c}}
@@ -3187,11 +3227,49 @@ $i$-partitions of worlds in $S$.
         }
     \]
     for all $\ast$-consistent $\sigma$ and $c \in \C$.
-\end{lemma}
+\end{proposition}
 
-\todo{Write up from online notes.}
+\begin{proof}
+    Let $\sigma$ be an $\ast$-consistent sequence and take $c \in \C$.
 
-Note that \cref{kr_lemma_ec_selective_propmodels} immediately implies
+    $\subseteq$: Let $v \in \propmods{\proppart{B^\sigma_c}}$. By
+    \cref{kr_lemma_model_based_models_of_proppart}, there is $W \in \Y_\sigma$
+    such that $v = v^W_c$. Take $\tuple{i, \phi} \in \sigma \rs c$. By
+    \soundness{} (and \containment{}, which holds for all model-based
+    operators) we have $\S_i\phi \in B^\sigma_c$, so $W, c \models \S_i\phi$.
+    Consequently $v = v^W_c \in \Pi^W_i[\phi] \subseteq
+    \Pi^{\Y_\sigma}_i[\phi]$, where we use the fact that $\Pi^W_i$ refines
+    $\Pi^{\Y_\sigma}_i$ in the last step.
+
+    $\supseteq$: Let $v \in \bigcap_{\tuple{i, \phi} \in \sigma \rs
+    c}{\Pi^{\Y_\sigma}_i[\phi]}$. By EC-selectivity there is some
+    expertise-compatible selection scheme $f$. Write $F_\sigma(i, c, \phi) =
+    \propmods{f_\sigma(i, c, \phi)}$. Then we have
+    \begin{equation}
+        \label{kr_eqn_ec_selective_propmodels_intersection}
+        \propmods{\proppart{B^\sigma_c}}
+        = \bigcap_{\tuple{i, \phi} \in \sigma \rs c}{
+            F_\sigma(i, c, \phi)
+        }
+    \end{equation}
+    and $\E_i{f_\sigma(i, c, \phi)} \in B^\sigma_c$ for each $\tuple{i, \phi}
+    \in \sigma \rs c$. By \cref{kr_lemma_expertise_join},
+    $\Pi^{\Y_\sigma}_i[F_\sigma(i, c, \phi)] = F_\sigma(i, c, \phi)$. We show
+    $v \in \propmods{\proppart{B^\sigma_c}}$ using
+    \cref{kr_eqn_ec_selective_propmodels_intersection}. Take $\tuple{i, \phi}
+    \in \sigma \rs c$. By definition of a selection scheme we have $f_\sigma(i,
+    c, \phi) \in \cnprop(\phi)$, so $\propmods{\phi} \subseteq F_\sigma(i, c,
+    \phi)$. Since $v \in \Pi^{\Y_\sigma}_i[\phi]$ by assumption, we get
+    \[
+        v
+        \in \Pi^{\Y_\sigma}_i[\phi]
+        \subseteq \Pi^{\Y_\sigma}_i[F_\sigma(i, c, \phi)]
+        = F_\sigma(i, c, \phi)
+    \]
+    as required.
+\end{proof}
+
+Note that \cref{kr_prop_ec_selective_propmodels} immediately implies
 selectivity with respect to any scheme $f$ such that $\propmods{f_\sigma(i, c,
 \phi)} = \Pi^{\Y_\sigma}_i[\phi]$. Since the right-hand side does not depend on
 the case $c$, we get the following corollary.
@@ -3202,7 +3280,7 @@ the case $c$, we get the following corollary.
     it is case-independent-selective.
 \end{corollary}
 
-\cref{kr_lemma_ec_selective_propmodels} also shows that propositional beliefs
+\cref{kr_prop_ec_selective_propmodels} also shows that propositional beliefs
 in case $c$ are determined only by the reports in $\sigma \rs c$ together with
 the expertise part of $B^\sigma$, via the partitions $\Pi^W_i$ for $W \in
 \Y_\sigma$. This property can be expressed syntactically as follows, where
@@ -3223,25 +3301,169 @@ be fully recovered by taking (the $c$-consequences of) the knowledge set
 $K^\sigma$ together with just the expertise formulas in $B^\sigma$.
 %
 Surprisingly, \determination{} in fact characterises EC-selectivity,
-under additional mild assumptions. In what follows, recall that $G^\snd_\sigma$
-denotes the collection with $(G^\snd_\sigma)_c = \{\S_i\phi \mid \tuple{i,
+under additional mild assumptions. In what follows, recall that $G^\sigma_\snd$
+denotes the collection with $(G^\sigma_\snd)_c = \{\S_i\phi \mid \tuple{i,
 \phi} \in \sigma \rs c\}$.
 
 \begin{theorem}
     \label{kr_thm_ec_selectivity_characterisation}
-    A model-based operator satisying \consistency{} and $K^\sigma =
-    \cn(G^\snd_\sigma)$ for all $\sigma$ is EC-selective if and only
+    A model-based operator satisfying \consistency{} and $K^\sigma =
+    \cn(G^\sigma_\snd)$ for all $\sigma$ is EC-selective if and only
     if it satisfies \determination{}.
 \end{theorem}
 
-\todo{Write up from online notes.}
+\begin{proof}
+    Take any model-based operator satisfying \consistency{} and which has
+    $K^\sigma = \cn(G^\sigma_\snd)$ for all $\sigma$. Note that the latter
+    property implies \soundness{}.
 
-In particular, \cref{kr_thm_ec_selectivity_characterisation} applies to all
-operators satisfying the basic postulates and $K^\emptyset = \cn(\emptyset)$,
-by \cref{kr_prop_prior_knowledge}.
+    ``if'': Suppose \determination{} holds. We claim that for any
+    $\ast$-consistent $\sigma$ and $c \in \C$,
+    \begin{equation}
+        \label{kr_eqn_ec_selectivity_characterisation_suff_conf}
+        \propmods{\proppart{B^\sigma_c}}
+        =
+        \bigcap_{\tuple{i, \phi} \in \sigma \rs c}{
+            \Pi^{\Y_\sigma}_i[\phi]
+        }.
+    \end{equation}
+    This implies selectivity upon letting $f_\sigma(i, c, \phi)$ be any
+    formula with models $\Pi^{\Y_\sigma}_i[\phi]$. Furthermore it implies
+    EC-selectivity by \cref{kr_lemma_expertise_join}.
 
-\todo{Consider weak EC-selectivity, where we only require $\neg\E_i{f_\sigma(i,
-c, \phi)} \notin B^\sigma_c$.}
+    The left-to-right inclusion of
+    \cref{kr_eqn_ec_selectivity_characterisation_suff_conf} follows by an
+    argument identical to that of \cref{kr_prop_ec_selective_propmodels} using
+    \soundness{}. It suffices to show the right-to-left inclusion. Take $v \in
+    \bigcap_{\tuple{i, \phi} \in \sigma \rs c}{ \Pi^{\Y_\sigma}_i[\phi] }$. By
+    \consistency{}, there is some $W_0 \in \Y_\sigma$. Consider $W$ obtained
+    from $W_0$ by setting its $c$-valuation to $v$, and by setting the
+    partition of source $i$ to $\Pi^{\Y_\sigma}_i$:
+    \[
+        v^W_d = \begin{cases}
+            v^{W_0},& d \ne c \\
+            v,& d = c
+        \end{cases},
+    \]
+    \[
+        \Pi^W_i = \Pi^{\Y_\sigma}_i.
+    \]
+    Note that since $W_0 \in \Y_\sigma$, $\Pi^{W_0}_i$ refines $\Pi^W_i$ for
+    each $i$. We aim to show $W \in \mods(K^\sigma \sqcup \exppart{B^\sigma})$.
+    Recall that, by assumption, $K^\sigma = \cn(G^\sigma_\snd)$. It therefore
+    suffices to show that $W \in \mods(G^\sigma_\snd) \cap
+    \mods(\exppart{B^\sigma})$. First take $\tuple{i, d, \phi} \in \sigma$.
+    By \soundness{} and \containment{} we have $W_0, d \models \S_i\phi$, i.e.
+    $v^{W_0}_d \in \Pi^{W_0}_i[\phi]$. If $d \ne c$ then
+    \[
+        v^W_d = v^{W_0}_d \in \Pi^{W_0}_i[\phi] \subseteq \Pi^W_i[\phi],
+    \]
+    where we use the fact that $\Pi^{W_0}_i$ refines $\Pi^W_i$ in the last
+    step. Thus $W, d \models \S_i\phi$ as required. If instead $d = c$, then
+    by our assumption on $v$,
+    \[
+        v^W_c = v \in \Pi^{\Y_\sigma}_i[\phi] = \Pi^W_i[\phi]
+    \]
+    so that $W, c \models \S_i\phi$ as required. This shows $W \in
+    \mods(G^\sigma_\snd)$. For $W \in \mods(\exppart{B^\sigma})$, take any
+    $\E_i\phi \in B^\sigma_c$ (note that by \closure{} $\exppart{B^\sigma}$
+    contains the same formulas in each case, so we may choose $c$ without loss
+    of generality). Then by \cref{kr_lemma_expertise_join},
+    $\Pi^{\Y_\sigma}_i[\phi] = \|\phi\|$. By construction of $W$ we evidently
+    have $W, c \models \E_i\phi$.
+
+    This shows $W \in \mods(K^\sigma \sqcup \exppart{B^\sigma})$. Finally, to
+    show $v \in \propmods{\proppart{B^\sigma_c}}$, take any $\psi \in
+    \proppart{B^\sigma_c}$. By \determination{}, $\psi \in \cn_c(K^\sigma
+    \sqcup \exppart{B^\sigma})$. Thus $W, c \models \psi$. But by construction
+    the $c$-valuation in $W$ is $v$, so $v \in \propmods{\psi}$ and we are
+    done.
+
+    ``only if'': Suppose the operator is EC-selective according to some scheme
+    $f$. To show \determination{}, take any $\ast$-consistent $\sigma$ and $c
+    \in \C$. By \containment{} we have $K^\sigma \sqsubseteq B^\sigma$, and
+    clearly $\exppart{B^\sigma} \sqsubseteq B^\sigma$. Consequently $\K^\sigma
+    \sqcup \exppart{B^\sigma} \sqsubseteq B^\sigma$; by monotonicity of $\cn$
+    and \closure{} we get $\cn(K^\sigma \sqcup \exppart{B^\sigma}) \sqsubseteq
+    B^\sigma$. This in turn implies $\proppart{B^\sigma_c} \supseteq
+    \proppart{\cn_c(K^\sigma \sqcup \exppart{B^\sigma})}$.
+
+    For the reverse inclusion, it is sufficient by \closure{} to show
+    \begin{equation}
+        \label{kr_eqn_ec_sel_implies_det}
+        \propmods{\proppart{\cn_c(K^\sigma \sqcup \exppart{B^\sigma})}}
+        \subseteq
+        \propmods{\proppart{B^\sigma_c}}.
+    \end{equation}
+    So, take $v$ in the set on the left-hand side. By an argument identical to
+    the proof of \cref{kr_lemma_model_based_models_of_proppart}, there is some
+    $W \in \mods(K^\sigma \sqcup \exppart{B^\sigma})$ such that $v = v^W_c$.
+    Since \soundness{} holds by the assumption that $K^\sigma =
+    \cn(G^\sigma_\snd)$, EC-selectivity and
+    \cref{kr_prop_ec_selective_propmodels} give
+    $\propmods{\proppart{B^\sigma_c}} = \bigcap_{\tuple{i, \phi} \in \sigma \rs
+    c}{ \Pi^{\Y_\sigma}_i[\phi] }$.
+
+    Take $\tuple{i, \phi} \in \sigma \rs c$. Let $\psi$ be any propositional
+    formula with $\propmods{\psi} = \Pi^{\Y_\sigma}_i[\phi]$. Then $\E_i\psi
+    \in B^\sigma_c$, so $W \in \mods(\exppart{B^\sigma})$ gives $W, c \models
+    \E_i\psi$. Now, \soundness{} and $W \in \mods(K^\sigma)$ also gives $W, c
+    \models \S_i\phi$, i.e. $v = v^W_c \in \Pi^W_i[\phi]$. Since
+    $\propmods{\phi} \subseteq \Pi^{\Y_\sigma}_i[\phi] = \propmods{\psi}$, we
+    get
+    \[
+        v
+        \in \Pi^W_i[\phi]
+        \subseteq \Pi^W_i[\psi]
+        = \propmods{\psi}
+        = \Pi^{\Y_\sigma}_i[\phi].
+    \]
+    This shows \cref{kr_eqn_ec_sel_implies_det} and completes the proof.
+\end{proof}
+
+Note that if the basic postulates are given, the condition $K^\sigma =
+\cn(G^\sigma_\snd)$ in \cref{kr_thm_ec_selectivity_characterisation} is
+equivalent to $K^\emptyset = \cn(\emptyset)$ by \cref{kr_prop_prior_knowledge}.
+In particular, \cref{kr_thm_ec_selectivity_characterisation} applies to our
+concrete operators \varbasedcond{}, \partbasedcond{} and \scorebasedop{}. Since
+we have already seen these operators are \emph{not} EC-selective, we also have
+that they each fail \determination{}.
+
+The potential problem with EC-selectivity, as expressed by \determination{}, is
+that is only permits belief formation on the basis of soundness statements
+together with firmly believed expertise statements in $\exppart{B^\sigma}$. A
+natural weaker notion of expertise-compatible selectivity requires not that $i$
+is believed to have expertise on $f_\sigma(i, c, \phi)$, but merely that such
+expertise is \emph{consistent} with $B^\sigma$.
+
+\begin{definition}
+    A selection scheme $f$ is \emph{weakly expertise-compatible} with an
+    operator $\sigma \mapsto \tuple{B^\sigma, K^\sigma}$ if for all
+    $\ast$-consistent $\sigma$ and $\tuple{i, c, \phi} \in \sigma$,
+    \[
+        \neg\E_i{f_\sigma(i, c, \phi)} \notin B^\sigma_c.
+    \]
+\end{definition}
+
+Mirroring earlier terminology, say an operator is \emph{weakly EC-selective} if
+it is selective according to some weakly expertise-compatible scheme. Weak
+EC-selectivitity overcomes the issues of EC-selectivity highlighted above on
+the sequence
+\[
+    \sigma = ( \tuple{i, c, p}, \tuple{j, c, p}, \tuple{i, d, p},
+    \tuple{j, d, \neg p}).
+\]
+For example, each of our example operators
+\varbasedcond{}, \partbasedcond{} and \scorebasedop{} are weakly EC-selective
+for this particular $\sigma$ according to the selection
+\begin{align*}
+    f_\sigma(i, c, p) &= f_\sigma(j, c, p) = p \\
+    f_\sigma(i, d, p) &= f_\sigma(j, d, \neg{p}) = \true.
+\end{align*}
+However, this selection is \emph{not} case independent. Questions around the
+interaction between weak EC-selectivity and case independence, as well as the
+whether the example operators are weakly EC-selective and/or
+case-independent-selective in general, are left for future work.
 
 \section{Related Work}
 \label{kr_sec_relatedwork}
