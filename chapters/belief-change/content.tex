@@ -2475,7 +2475,8 @@ have more expertise are preferred.
 \begin{proof}
     Take distinct sources $i_1, i_2 \in \srcs \setminus \{\ast\}$, distinct cases
     $c, d \in \C$, and distinct valuations $v_1, v_2 \in \vals$. Let $\phi_1,
-    \phi_2 \in \lprop$ be propositional formulas with $\propmods{\phi_k} = v_k$
+    \phi_2 \in \lprop$ be propositional formulas with $\propmods{\phi_k} =
+    \{v_k\}$
     ($k \in \{1, 2\}$). Suppose for contradiction that some elementary
     conditioning operator -- satisfying the basic postulates -- has the stated
     properties.
@@ -2593,7 +2594,6 @@ have more expertise are preferred.
     and $v_2$ were assumed to be distinct: contradiction.
 
     \todo{Show that any strict subset is satisfiable}
-    \todo{Proposition 23 from online notes}
 \end{proof}
 
 \Cref{kr_prop_strongcondsucc_conditioning_impossibilitity} highlights an important
@@ -2601,6 +2601,92 @@ difference between conditioning and score-based operators, and hints that
 a fixed plausibility order may be too restrictive: we
 need to allow the order to be responsive to new reports in order to satisfy
 properties such as \strongcondsucc{}.
+
+To futher this point, two of the postulates involved in the characterisation of
+elementary conditioning operators -- \duprem{} and \incvac{} -- are already
+enough on their own to imply a somewhat questionable property when combined
+with \strongcondsucc{}.
+
+\begin{axiom}[\decisiveness{}]
+    If $\tuple{i, c, \phi} \in \sigma$ then either $\phi \in B^\sigma_c$ or
+    $\neg\E_i\phi \in B^\sigma_c$.
+\end{axiom}
+
+This property says that each report is either accepted, or the reporting source
+is distrusted. Thus, no room is left for an operator to abstain on a particular
+report. It can be easily seen that \decisiveness{} fails for \varbasedcond{},
+\partbasedcond{} and \scorebasedop{} by considering the simple sequence $\sigma
+= (\tuple{i, c, p}, \tuple{j, c, \neg{p}})$, and indeed we argue this is the
+intuitively ``correct'' behaviour. The tension between \strongcondsucc{} and
+\duprem{} -- which says that duplicate reports can be removed without effecting
+beliefs -- is already evident from this example when one considers $\sigma
+\concat \tuple{i, c, p}$. Formally, we have the following.
+
+\begin{proposition}\leavevmode
+    \begin{enumerate}
+        \item\label{kr_item_duprem_strongcondsucc_deciciveness} The basic
+            postulates, \duprem{} and \strongcondsucc{} imply \decisiveness{}.
+        \item The basic postulates, \incvac{} and \strongcondsucc{} imply
+              \decisiveness{}.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}\leavevmode
+    \begin{enumerate}
+        \item Suppose $\tuple{i, c, \phi} \in \sigma$. First suppose
+              $\neg(\E_i\phi \land \phi) \notin B^\sigma_c$. Then
+              \strongcondsucc{} gives $\phi \in B^{\sigma \concat \tuple{i, c,
+              \phi}}_c$. But since $\tuple{i, c, \phi}$ already appears in
+              $\sigma$, \rearr{} and \duprem{} give $B^{\sigma \concat
+              \tuple{i, c, \phi}} = B^\sigma$. Thus $\phi \in B^\sigma_c$.
+
+              Now suppose $\neg(\E_i\phi \land \phi) \in B^\sigma_c$. We claim
+              $\neg\E_i\phi \in B^\sigma_c$, i.e. $W, c \models \neg\E_i\phi$
+              for all $W \in \Y_\sigma$. Indeed, take any
+              $W \in \Y_\sigma$. Then $W, c \models \neg(\E_i\phi \land \phi)$,
+              so either $W, c \models \neg\E_i\phi$ or $W, c \models \neg\phi$.
+              In the former case we are done. In the latter case, an
+              application of \soundness{} and \containment{} gives $W, c
+              \models \S_i\phi$, so in fact $W, c \models \S_i\phi \land
+              \neg\phi$. But $\S_i\phi \land \neg\phi \limplies \neg\E_i\phi$
+              is a validity of the logic (\cref{kr_prop_validities}
+              \cref{kr_item_e_and_s_implies_phi}), so $W, c \models
+              \neg\E_i\phi$ also. Hence $\neg\E_i\phi \in B^\sigma_c$, and
+              \decisiveness{} is shown.
+
+          \item Take $\tuple{i, c, \phi} \in \sigma$. We consider cases again.
+                The case $\neg(\E_i\phi \land \phi) \in B^\sigma_c$ is the same
+                as above, needing only the basic postulates to show
+                $\neg\E_i\phi \in B^\sigma_c$.
+
+                Suppose $\neg(\E_i\phi \land \phi) \notin B^\sigma_c$. We aim
+                to show $\phi \in B^\sigma_c$. Without loss of generality,
+                suppose $B^\sigma$ is consistent. Now,
+                \strongcondsucc{} gives $\phi \in B^{\sigma \concat \tuple{i,
+                c, \phi}}_c$. By \incvac{},
+                \[
+                    B^{\sigma \concat \tuple{i, c, \phi}}
+                    \sqsubseteq \cn(B^\sigma \sqcup K^{\tuple{i, c, \phi}}),
+                \]
+                with equality if the right-hand side is consistent. Since
+                $B^\sigma$ is consistent, there is some $W \in
+                \mods(B^\sigma)$. Recall that \kconj{} -- which follows from
+                the basic postulates -- implies that knowledge is monotonic.
+                The fact that $\tuple{i, c, \phi} \in \sigma$ consequently
+                implies $K^{\tuple{i, c, \phi}} \sqsubseteq K^\sigma$.
+                Appealing also to \containment{}, we get $K^{\tuple{i, c,
+                \phi}} \sqsubseteq B^\sigma$. Thus
+                \[
+                    \cn(B^\sigma \sqcup K^{\tuple{i, c, \phi}})
+                    = \cn(B^\sigma)
+                    = B^\sigma
+                \]
+                which is consistent by assumption. Consequently, \incvac{}
+                gives $B^{\sigma \concat \tuple{i, c, \phi}} = \cn(B^\sigma
+                \sqcup K^{\tuple{i, c, \phi}}) = B^\sigma$. In particular,
+                we get $\phi \in B^\sigma_c$ as desired.
+    \end{enumerate}
+\end{proof}
 
 \section{Selective Change}
 \label{kr_sec_selective_change}
