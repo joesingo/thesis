@@ -2106,7 +2106,7 @@ For the particular choice of $w$ for Weighted Agreement from
             \frac{\indicator{c \in \claims_N(s)}}{|\claims_N(s)|}.
         \]
     \end{claim}
-    \begin{proof}
+    \begin{claimproof}
         First, note that for any claim $d$,
         \[
             |\src_{\addclaim{N}{u}{c}}(d)| = |\src_N(d)| + \indicator{c = d},
@@ -2134,7 +2134,7 @@ For the particular choice of $w$ for Weighted Agreement from
             } \\
             &= w_N(s) + \frac{\indicator{c \in \claims_N(s)}}{|\claims_N(s)|}
         \end{align*}
-    \end{proof}
+    \end{claimproof}
 
     Now, for \freshposresp, suppose $\claims_N(u) = \emptyset$, $c \ne d$ and
     $d \cle_N^T c$. We need to show $d \clt_{\addclaim{N}{u}{c}}^T c$. Indeed,

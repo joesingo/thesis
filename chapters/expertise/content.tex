@@ -1798,7 +1798,7 @@ Let $\phi \in \cL$. Then $\entails_{\sLtop}
 \phi \liff u(t(\phi))$.
 \end{claim}
 
-\begin{proof}
+\begin{claimproof}
 
 By induction on $\cL$ formulas. The cases of atomic
 propositions and propositional connectives are straightforward. For
@@ -1852,7 +1852,7 @@ hypothesis and replacement of equivalents, since
 $u(t(\A\phi)) = \A u(t(\phi)$.
 
         \end{itemize}
-\end{proof}
+\end{claimproof}
 
 Next we show that if $\phi \in \cLKA$ is a theorem of
 $\sLsfoura$, then $u(\phi)$ is a theorem of $\sLtop$.
@@ -1865,7 +1865,7 @@ $\entails_{\sLsfoura} \phi$ implies $\entails_{\sLtop}
 u(\phi)$.
 
 \end{claim}
-    \begin{proof}
+    \begin{claimproof}
     By induction on the length of $\sLsfoura$ proofs. The base
 case consists of showing that if $\phi$ is an instance of an
 $\sLsfoura$ axiom or a substitution instance of a
@@ -1951,7 +1951,7 @@ u(\A\phi)$, so we are done.
 $\sLtop$ and the fact that $u(\phi \limplies \psi) =
 u(\phi) \limplies u(\psi)$.
         \end{itemize}
-    \end{proof}
+    \end{claimproof}
 
 \cref{exp_claim_ut_equivalence,exp_claim_u_thm} easily imply the following.
 
@@ -1964,12 +1964,12 @@ $\entails_{\sLsfoura} t(\phi)$ implies $\entails_{\sLtop}
 
 \end{claim}
 
-    \begin{proof}
+    \begin{claimproof}
     Suppose $\entails_{\sLsfoura} t(\phi)$. By \cref{exp_claim_u_thm},
 $\entails_{\sLtop} u(t(\phi))$. By \cref{exp_claim_ut_equivalence},
 $\entails_{\sLtop} \phi \liff u(t(\phi))$. By
 $\modpon$, $\entails_{\sLtop} \phi$.
-    \end{proof}
+    \end{claimproof}
 
 We can now show strong completeness. Suppose $\Gamma \subseteq \cL$, $\phi \in
 \cL$ and $\Gamma \models_{\Mtop} \phi$. We claim $t(\Gamma) \models_{\Msfour}

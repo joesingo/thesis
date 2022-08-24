@@ -14,6 +14,15 @@
 \theoremstyle{plain}\newtheorem{claim}{Claim}[section]
 \theoremstyle{plain}\newtheorem{corollary}{Corollary}[section]
 
+% preserve some default commands which we will overwrite
+\let\sectionsymbol\S
+\let\originalqedsymbol\qedsymbol
+
+% proof environment for claims, which uses a different QED symbol
+\newenvironment{claimproof}
+    {\begin{proof}[Proof of claim.]\renewcommand{\qedsymbol}{$\diamondsuit$}}
+    {\end{proof}\renewcommand{\qedsymbol}{\originalqedsymbol}}
+
 % Environment for axiom definition
 \newcommand{\axiomenvsep}{3mm}
 \newcommand{\axiomenvmargin}{2.5em}
@@ -59,5 +68,3 @@
 
 % misc operators
 \newcommand{\trcls}{+}  % transitive closure
-
-\let\sectionsymbol\S

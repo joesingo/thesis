@@ -1427,7 +1427,7 @@ establish some useful properties of $\rho(W_1, W_2)$.
         \label{kr_claim_w_j_in_rho}
         If $\rho(W_1, W_2) \ne \emptyset$, $W_1, W_2 \in \X_{\rho(W_1, W_2)}$.
     \end{claim}
-    \begin{proof}
+    \begin{claimproof}
         By \kconj{}, for any sequences $\sigma$, $\rho$ we have
         $K^{\sigma \concat \rho} = \cn(K^\sigma \sqcup K^\rho)$.  Taking the
         models of both sides, we have $\X_{\sigma \concat \rho} = \X_\sigma
@@ -1440,7 +1440,7 @@ establish some useful properties of $\rho(W_1, W_2)$.
         If $\tuple{i, c, \phi} \in \rho(W_1, W_2)$ then $W_1, W_2 \in
         \X_{\tuple{i, c, \phi}}$ by definition. Hence $W_1, W_2 \in
         \X_{\rho(W_1, W_2)}$.
-    \end{proof}
+    \end{claimproof}
 
     \begin{claim}
         \label{kr_claim_exists_delta}
@@ -1450,7 +1450,7 @@ establish some useful properties of $\rho(W_1, W_2)$.
         that $W_1, W_2 \in \X_\delta$ and $\rho(W_1, W_2)$ is a permutation of
         $\widehat{\sigma} \concat \delta$.
     \end{claim}
-    \begin{proof}
+    \begin{claimproof}
         If $\sigma = \emptyset$ then we can simply take $\delta = \rho(W_1,
         W_2)$. So suppose $\sigma \ne \emptyset$. By the same argument as in
         the proof of \cref{kr_claim_w_j_in_rho}, we have
@@ -1485,7 +1485,7 @@ establish some useful properties of $\rho(W_1, W_2)$.
             \subseteq \X_\delta
         \]
         and we are done.
-    \end{proof}
+    \end{claimproof}
 
 Now define a relation $R$ on $\W$ by
 \[
@@ -1497,7 +1497,7 @@ We have that any world in $\Y_\sigma$ $R$-precedes all worlds $\X_\sigma$.
         \label{kr_claim_y_subset_minimal}
         If $W \in \Y_\sigma$, then for all $W' \in \X_\sigma$ we have $W R W'$
     \end{claim}
-    \begin{proof}
+    \begin{claimproof}
         By \rearr{}, \equivpost{} and
         \duprem{}, we may assume without loss of generality that
         $\sigma$ contains no distinct equivalent reports.
@@ -1521,7 +1521,7 @@ We have that any world in $\Y_\sigma$ $R$-precedes all worlds $\X_\sigma$.
             = \Y_{\rho(W, W')}
         \]
         so $W R W'$ as required.
-    \end{proof}
+    \end{claimproof}
 
 Now let $\le_0$ be the transitive closure of $R$. Then $\le_0$ is a (partial)
 preorder. By \cref{kr_claim_y_subset_minimal}, every world in $\Y_\sigma$ is
@@ -1532,7 +1532,7 @@ $\le_0$-minimal in $\X_\sigma$. In fact, the converse is also true.
         If $W \in \X_\sigma$ and there is no $W' \in \X_\sigma$ with $W' <_0
         W$, then $W \in \Y_\sigma$.
     \end{claim}
-    \begin{proof}
+    \begin{claimproof}
         As before, assume without loss of generality that
         $\sigma$ contains no distinct equivalent reports.
 
@@ -1618,7 +1618,7 @@ $\le_0$-minimal in $\X_\sigma$. In fact, the converse is also true.
         \]
         But we already saw that $W_0 \in \Y_{\rho_n}$. Hence $W_0 \in
         \Y_\sigma$. Since $W_0 = W$, we are done.
-    \end{proof}
+    \end{claimproof}
 
 To complete the proof we extend $\le_0$ to a \emph{total} preorder and show
 that this does not affect the minimal elements of each $\X_\sigma$. Indeed, let
@@ -1639,7 +1639,7 @@ inequalities, i.e. $\le$ such that
     \begin{claim}
         For any sequence $\sigma$, $\Y_\sigma = \min_{\le}{\X_\sigma}$
     \end{claim}
-    \begin{proof}
+    \begin{claimproof}
         Take any $\sigma$. For the left-to-right inclusion, take $W \in
         \Y_\sigma$. Then $W \in \X_\sigma$. Let $W' \in \X_\sigma$. By
         \cref{kr_claim_y_subset_minimal}, $W R W'$, so $W \le_0 W'$ and $W \le
@@ -1652,7 +1652,7 @@ inequalities, i.e. $\le$ such that
         $\X_\sigma$ and $W \in \X_\sigma$, the conditions of
         \cref{kr_claim_minimal_subset_y} are satisfied, and we get $W \in
         \Y_\sigma$.
-    \end{proof}
+    \end{claimproof}
 
 This shows that our operator is an elementary conditioning operator as
 required.
@@ -1673,7 +1673,7 @@ The following claim will be useful at various points.
         Suppose $\sigma$ and $\rho$ are such that $\X_\sigma = \X_\rho$. Then
         $K^\sigma = K^\rho$ and $B^\sigma = B^\rho$.
     \end{claim}
-    \begin{proof}
+    \begin{claimproof}
         Since the total preorder $\le$ is fixed, we have
         \[
             Y_\sigma
@@ -1684,7 +1684,7 @@ The following claim will be useful at various points.
         Now, $\X_\sigma = \X_\rho$ means $\mod(K^\sigma) = \mod(K^\rho)$, so
         $\cn(K^\sigma) = \cn(K^\rho)$. By \closure{}, $K^\sigma = K^\rho$.
         Similarly, $\Y_\sigma = \Y_\rho$ gives $B^\sigma = B^\rho$.
-    \end{proof}
+    \end{claimproof}
 
 We take the postulates to be shown in turn.
 
@@ -2117,7 +2117,7 @@ We have a sufficient condition for \agm{} for score-based operators.
         \begin{claim}
             $\propmods{\proppart{B^\sigma_c}} = \min_{\preceq}{\vals}$.
         \end{claim}
-        \begin{proof}
+        \begin{claimproof}
 
             ``$\subseteq$'': let $v \in \propmods{\proppart{B^\sigma_c}}$. By
             \cref{kr_lemma_model_based_models_of_proppart}, there is some $W \in
@@ -2155,7 +2155,7 @@ We have a sufficient condition for \agm{} for score-based operators.
             That is, $W \in \Y_\sigma \cap \W_{c\ :\  v}$. By
             \cref{kr_lemma_model_based_models_of_proppart}, $v \in
             \propmods{\proppart{B^\sigma_c}}$.
-        \end{proof}
+        \end{claimproof}
 
     So, $\star$ is indeed an AGM operator for $\proppart{B^\sigma_c}$. Now take
     $\phi \in \lprop$ such that $\neg\phi \notin K^\sigma_c$. Write $\rho =
@@ -2166,7 +2166,7 @@ We have a sufficient condition for \agm{} for score-based operators.
             $\propmods{\proppart{B^\rho_c}} =
             \min\nolimits_{\preceq}{\propmods{\phi}}$.
         \end{claim}
-        \begin{proof}
+        \begin{claimproof}
             ``$\subseteq$'': let $v \in \propmods{\proppart{B^\rho_c}}$.  By
             \cref{kr_lemma_model_based_models_of_proppart} again, there is some $W
             \in \Y_\rho \cap \W_{c\ :\  v}$. Since $\tuple{\ast, c, \phi} \in
@@ -2244,7 +2244,7 @@ We have a sufficient condition for \agm{} for score-based operators.
             This shows $W \in \Y_\rho$, i.e. $\Y_\rho \cap \W_{c\ :\  v} \ne
             \emptyset$. By \cref{kr_lemma_model_based_models_of_proppart}, we are
             done.
-        \end{proof}
+        \end{claimproof}
 
     Noting that $\propmods{\proppart{B^\sigma_c}} \star \phi =
     \min_{\preceq}{\propmods{\phi}}$, it follows from
@@ -2522,7 +2522,7 @@ have more expertise are preferred.
             \label{kr_claim_w1_simeq_w2}
             $W_1 \simeq W_2$.
         \end{claim}
-        \begin{proof}
+        \begin{claimproof}
             Let $\pi$ be the permutation of $\srcs$ which swaps $i_1$ and $i_2$.
             It is easily observed that $\pi(W_1)$ is partition-equivalent to
             $W_2$. By reflexivity of partition refinement, $\pi(W_1) \preceq
@@ -2530,7 +2530,7 @@ have more expertise are preferred.
             \simeq W_2$. By property \cref{kr_item_anonymity}, $W_1 \simeq
             \pi(W_1)$. By transitivity of ${\simeq}$ we get $W_1 \simeq W_2$ as
             desired.
-        \end{proof}
+        \end{claimproof}
 
     Now, from the basic postulates, property
     \cref{kr_item_conditioning_impossibility_first} and
@@ -2544,7 +2544,7 @@ have more expertise are preferred.
             \label{kr_claim_w1_w2_in_ysigm}
             $W_1, W_2 \in \Y_\sigma$.
         \end{claim}
-        \begin{proof}
+        \begin{claimproof}
             We show $W_1$ and $W_2$ are $\le$-minimal in $\X_\sigma$. Take any
             $W \in \X_\sigma$. Then $W \in \mods(G^\sigma_\snd)$, so $W, c
             \models \S_\ast(\phi_1 \lor \phi_2)$, i.e. $V^W_c \in \{v_1, v_2\}$.
@@ -2572,7 +2572,7 @@ have more expertise are preferred.
             \end{itemize}
             In either case, both $W_1 \le W$ and $W_2 \le W$, so $W_1, W_2 \in
             \Y_\sigma$.
-        \end{proof}
+        \end{claimproof}
 
     Now we consider case $d$. Since
     \[
