@@ -1287,14 +1287,6 @@ property of \textcite{kraus1990nonmonotonic}.
 instance of theirs.  }
 
 \begin{axiomlist}
-\begin{axiom}[\duprem{}]
-    If $\rho_1 = \sigma \concat \tuple{i, c, \phi}$ and $\rho_2 = \rho_1
-    \concat \tuple{i, c, \phi}$ then $B^{\rho_1} = B^{\rho_2}$ and
-    $K^{\rho_1} = K^{\rho_2}$
-\end{axiom}
-\begin{axiom}[\condcons{}]
-    If $K^\sigma$ is consistent then so is $B^\sigma$
-\end{axiom}
 \begin{axiom}[\incvac{}]
     $B^{\sigma \concat \rho} \sqsubseteq \cn(B^\sigma \sqcup K^\rho)$, with
     equality if $B^\sigma \sqcup K^\rho$ is consistent
@@ -1310,9 +1302,6 @@ instance of theirs.  }
 \incvac{} is so-named since it is analogous to the combination of
 \emph{Inclusion} and \emph{Vacuity} from AGM revision, if one informally views
 $B^{\sigma \concat \rho}$ as the revision of $B^\sigma$ by $K^\rho$.
-%
-\condcons{} is another consistency postulate, which follows from
-\consistency{},  \closure{} and \soundness{}.
 %
 \acyc{} is the analogue of the postulate of \citeauthor{delgrande2018general},
 which rules out cycles in the plausibility order
@@ -1332,20 +1321,78 @@ elementary.\footnotemark{}
 \begin{theorem}
     \label{kr_thm_conditioning_characterisation}
     Suppose an operator satisfies the basic postulates of
-    \cref{kr_sec_basic_postulates}.\footnotemark{} Then it is an elementary
-    conditioning operator if and only if it satisfies \duprem{},
-    \condcons{}, \incvac{} and \acyc{}.
-
-    \footnotetext{
-        Strictly speaking, we only need \closure{}, \containment{},
-        \kconj{}, \equivpost{} and \rearr{}.
-    }
+    \cref{kr_sec_basic_postulates}. Then it is an elementary
+    conditioning operator if and only if it satisfies \incvac{} and \acyc{}.
 \end{theorem}
 
 The proof is roughly follows the lines of Theorem 4.9 in
-\cite{delgrande2018general}, although some
-differences arise due to the form of our input as finite sequences of reports.
-First, we need a preliminary result.
+\cite{delgrande2018general}, although some differences arise due to the form of
+our input as finite sequences of reports. In fact, we will prove a result more
+general than \cref{kr_thm_conditioning_characterisation}, which does not
+require the full set of basic postulates to hold. For example, the general
+result applies to conditioning operators which do not necessarily satisfy
+\soundness{}. In order to state the result in full generality, we introduce two
+auxiliary postulates -- each of which follows from the basic postulates and
+\incvac{}.
+
+\begin{axiomlist}
+\begin{axiom}[\condcons{}]
+    If $K^\sigma$ is consistent then so is $B^\sigma$
+\end{axiom}
+\begin{axiom}[\duprem{}]
+    If $\tuple{i, c, \phi} \in \sigma$ then $B^{\sigma \concat \tuple{i, c,
+    \phi}} = B^\sigma$ and $K^{\sigma \concat \tuple{i, c, \phi}} = K^\sigma$
+\end{axiom}
+\end{axiomlist}
+
+\begin{lemma}
+    \label{kr_lemma_condcons_duprem_follow}
+    Any operator satisfying the basic postulates and \incvac{} also satisfies
+    both \condcons{} and \duprem{}.
+\end{lemma}
+
+\begin{proof}
+    For \condcons{} we show the contrapositive. Suppose $B^\sigma$ is
+    inconsistent. By \consistency{}, $\sigma$ cannot be $\ast$-consistent.
+    Thus, there is some case $c$ such that the reports from $\ast$ are
+    inconsistent. But by \soundness{} and \closure{}, $\tuple{\ast, c, \phi}
+    \in \sigma$ implies $\phi \in K^\sigma_c$. Hence $K^\sigma$ is
+    inconsistent.
+
+    For \duprem{}, suppose $\tuple{i, c, \phi} \in \sigma$. First note that if
+    $\sigma$ is $\ast$-inconsistent, the argument above shows $K^\sigma$ is
+    inconsistent. By \containment{}, so too is $B^\sigma$. By \closure{}, both
+    $K^\sigma$ and $B^\sigma$ contain \emph{all} formulas of $\lext$. But
+    $\sigma \concat \tuple{i, c, \phi}$ is also $\ast$-inconsistent, so
+    $B^{\sigma \concat \tuple{i, c, \phi}} = B^\sigma$ and $K^{\sigma \concat
+    \tuple{i, c, \phi}} = K^\sigma$.
+
+    So, suppose $\sigma$ is $\ast$-consistent. By \consistency{}, $B^\sigma$ is
+    consistent. By \rearr{} and \kconj{}, $\tuple{i, c, \phi} \in \sigma$
+    implies $K^{\tuple{i, c, \phi}} \sqsubseteq K^\sigma$. Appealing to
+    \containment{}, $K^{\tuple{i, c, \phi}} \sqsubseteq B^\sigma$. Thus
+    \[
+        \cn(B^\sigma \sqcup K^{\tuple{i, c, \phi}})
+        = \cn(B^\sigma)
+        = B^\sigma
+    \]
+    with \closure{} applied in the final step. Since this is a consistent
+    collection, \incvac{} yields
+    \[
+        B^{\sigma \concat \tuple{i, c, \phi}}
+        = \cn(B^\sigma \sqcup K^{\tuple{i, c, \phi}})
+        = B^\sigma
+    \]
+    as required. For knowledge, pairing $K^{\tuple{i, c, \phi}} \sqsubseteq
+    K^\sigma$ with \kconj{} gives
+    \[
+        K^{\sigma \concat \tuple{i, c, \phi}}
+        = \cn(K^\sigma \sqcup K^{\tuple{i, c, \phi}})
+        = \cn(K^\sigma)
+        = K^\sigma,
+    \]
+    which completes the proof.
+\end{proof}
 
 \begin{lemma}
 \label{kr_lemma_model_based_elementary}
@@ -1363,9 +1410,9 @@ some collection $G$. Since $\Phi \in K^\sigma_c$ iff $\X_\sigma \subseteq
 Consequently $\mod(K^\sigma) = \mod(\cn(G)) = \mod(G) = \X_\sigma$.
 \end{proof}
 
-We will prove the following result -- slightly more general than
-\cref{kr_thm_conditioning_characterisation} -- from which
-\cref{kr_thm_conditioning_characterisation} immediately follows.
+We now come to the more general characterisation. Once proved, the main result
+in \cref{kr_thm_conditioning_characterisation} easily follows in light of
+\cref{kr_prop_kconj,kr_lemma_condcons_duprem_follow}.
 
 \begin{proposition}
     \label{kr_prop_conditioning_pre_characterisation}
@@ -1701,19 +1748,17 @@ We take the postulates to be shown in turn.
           of sets gives $\X_\sigma = \X_\rho$. \rearr{} follows
           from \cref{kr_claim_x_equal_implies_output_equal}.
 
-    \item \duprem{}: Let $\sigma$, $\rho_1$ and $\rho_2$ be as
-          in the statement of \duprem{}. Then by
-          \kconj{},
+      \item \duprem{}: Suppose $\tuple{i, c, \phi} \in \sigma$. Then there is a
+          (possibly empty) sequence $\rho$ such that $\sigma$ is a permutation
+          of $\rho \concat \tuple{i, c, \phi}$. By \rearr{} just shown and
+          \kconj{}, we have
           \begin{align*}
-            \X_{\rho_2}
-            &= \X_{\rho_1 \concat \tuple{i, c, \phi}} \\
-            &= \X_{\rho_1} \cap \X_{\tuple{i, c, \phi}} \\
-            &= \X_{\sigma \concat \tuple{i, c, \phi}} \cap \X_{\tuple{i, c,
-            \phi}} \\
-            &= \X_{\sigma} \cap \X_{\tuple{i, c, \phi}} \cap \X_{\tuple{i, c,
-            \phi}} \\
-            &= \X_{\sigma} \cap \X_{\tuple{i, c, \phi}} \\
-            &= \X_{\rho_1}
+              \X_{\sigma \concat \tuple{i, c, \phi}}
+              &= \X_{\rho \concat \tuple{i, c, \phi} \concat \tuple{i, c, \phi}} \\
+              &= \X_\rho \cap \X_{\tuple{i, c, \phi}} \cap \X_{\tuple{i, c, \phi}} \\
+              &= \X_\rho \cap \X_{\tuple{i, c, \phi}} \\
+              &= \X_{\rho \concat \tuple{i, c, \phi}} \\
+              &= \X_\sigma
           \end{align*}
           and we may conclude by \cref{kr_claim_x_equal_implies_output_equal}.
     \item \condcons{}: Suppose $K^\sigma$ is consistent,
@@ -1949,7 +1994,7 @@ this ideal.
 
 One can verify that \scorebasedop{} satisfies the basic postulates of
 \cref{kr_sec_basic_postulates}. It can also be seen that $\X_\sigma$ and
-$\Y_\sigma$ are elementary, and \scorebasedop{} fails \duprem{} and \incvac{}.
+$\Y_\sigma$ are elementary, and \scorebasedop{} fails \incvac{}.
 It follows from
 \cref{kr_thm_conditioning_characterisation} that \scorebasedop{} is \emph{not} a
 conditioning operator.\footnotemark{}
@@ -2654,37 +2699,9 @@ beliefs -- is already evident from this example when one considers $\sigma
               \neg\E_i\phi$ also. Hence $\neg\E_i\phi \in B^\sigma_c$, and
               \decisiveness{} is shown.
 
-          \item Take $\tuple{i, c, \phi} \in \sigma$. We consider cases again.
-                The case $\neg(\E_i\phi \land \phi) \in B^\sigma_c$ is the same
-                as above, needing only the basic postulates to show
-                $\neg\E_i\phi \in B^\sigma_c$.
-
-                Suppose $\neg(\E_i\phi \land \phi) \notin B^\sigma_c$. We aim
-                to show $\phi \in B^\sigma_c$. Without loss of generality,
-                suppose $B^\sigma$ is consistent. Now,
-                \strongcondsucc{} gives $\phi \in B^{\sigma \concat \tuple{i,
-                c, \phi}}_c$. By \incvac{},
-                \[
-                    B^{\sigma \concat \tuple{i, c, \phi}}
-                    \sqsubseteq \cn(B^\sigma \sqcup K^{\tuple{i, c, \phi}}),
-                \]
-                with equality if the right-hand side is consistent. Since
-                $B^\sigma$ is consistent, there is some $W \in
-                \mods(B^\sigma)$. Recall that \kconj{} -- which follows from
-                the basic postulates -- implies that knowledge is monotonic.
-                The fact that $\tuple{i, c, \phi} \in \sigma$ consequently
-                implies $K^{\tuple{i, c, \phi}} \sqsubseteq K^\sigma$.
-                Appealing also to \containment{}, we get $K^{\tuple{i, c,
-                \phi}} \sqsubseteq B^\sigma$. Thus
-                \[
-                    \cn(B^\sigma \sqcup K^{\tuple{i, c, \phi}})
-                    = \cn(B^\sigma)
-                    = B^\sigma
-                \]
-                which is consistent by assumption. Consequently, \incvac{}
-                gives $B^{\sigma \concat \tuple{i, c, \phi}} = \cn(B^\sigma
-                \sqcup K^{\tuple{i, c, \phi}}) = B^\sigma$. In particular,
-                we get $\phi \in B^\sigma_c$ as desired.
+          \item By \cref{kr_lemma_condcons_duprem_follow} the basic postulates
+              and \incvac{} already imply \duprem{}, so we may conclude by
+              \cref{kr_item_duprem_strongcondsucc_deciciveness}.
     \end{enumerate}
 \end{proof}
 
@@ -3646,9 +3663,7 @@ properties, and our concrete instances make useful inferences that go
 beyond \weakop{}. However, we have examples in which intuitively plausible
 inferences are blocked, and conditioning is largely incompatible with
 \strongcondsucc{}. Score-based operators, and in particular \scorebasedop{},
-offer a way around these limitations, but may
-come at the expense of some other seemingly reasonable postulates, such as
-\duprem{}.
+were introduced as a possible way around these limitations.
 
 \paragraph{Limitations and future work.}
 There are many possibilities for future work.
