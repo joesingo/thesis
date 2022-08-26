@@ -2083,7 +2083,7 @@ worlds whose $c$ valuation is $v$.
 \begin{lemma}
     \label{kr_lemma_model_based_models_of_proppart}
     For any model-based operator, sequence $\sigma$, case $c$, and valuation
-    $v\ in \vals$,
+    $v \in \vals$,
     \[
         v \in \propmods{\proppart{B^\sigma_c}}
         \iff
@@ -3575,26 +3575,45 @@ In this section we discuss related work.
 
 \paragraph{Belief Merging.}
 
-In the framework of \textcite{konieczny2002merging}, a merging operator $\Delta$
-maps a multiset of propositional formulas $\Phi = \{\phi_1,\ldots,\phi_n\}$ and
-an integrity constraint $\mu$ to a formula $\Delta_\mu(\Phi)$. Here $\phi_i$
-represents the input from source $i$, and $\Delta_\mu(\Phi)$ represents the
-merged result. Various operators and postulates have been proposed in the
-literature; see \cite{Konieczny_2011} for a review.
+In the framework of \textcite{konieczny2002merging}, a merging operator
+$\Delta$ maps a multiset of propositional formulas $\Psi =
+\{\phi_1,\ldots,\phi_n\}$ and an integrity constraint $\mu$ to a formula
+$\Delta_\mu(\Psi)$. Here $\phi_i$ represents the input from source $i$, the
+integrity constraint $\mu$ represents sure information which must be respected
+-- akin to reports from $\ast$ in our framework -- and $\Delta_\mu(\Psi)$
+represents the merged result. Various operators and postulates have been
+proposed in the literature; see \cite{Konieczny_2011} for a review.
 
-This can be seen as the special case of our framework with a single case $c$:
-for $\Phi$, $\mu$ we consider the sequence $\sigma_{\Phi, \mu}$ where $\ast$
-reports $\mu$ and each source $i$ reports $\phi_i$. Any operator then gives
-rise to a merging operator $\Delta_\mu(\Phi) =
-\bigland\proppart{B^{\sigma_{\Phi,\mu}}_c}$. Note that our basic postulates
-imply $\Delta_\mu(\Phi) \vdash \mu$ -- the \axiomref{IC0} postulate of
-\textcite{konieczny2002merging}. We leave it to future work to determine which
-other merging postulates hold.
+Merging can be seen as the special case of our framework, if we impose an upper
+bound $N$ on the size of the multisets considered as inputs. Indeed,
+instantiating our framework with $\srcs = \{1, \ldots, N, \ast\}$ and a single
+case $\C = \{c\}$, we can interpret a multiset $\Psi$ and integrity constraint
+$\mu$ as a sequence $\sigma_{\Psi, \mu}$, where
+\[
+    \sigma_{\Psi, \mu}
+    = (
+        \tuple{\ast, c, \mu},
+        \tuple{1, c, \phi_1},
+        \cdots
+        \tuple{n, c, \phi_n}
+    ).
+\]
+That is, $\ast$ reports the integrity constraint and each source $i$ reports
+$\phi_i$.
+%
+In this way, any operator gives rise to a merging operator -- defined up to
+$\lprop$ equivalence -- with
+\begin{equation}
+    \label{kr_eqn_belief_merging_translation}
+    \propmods{\Delta_\mu(\Psi)}
+    =
+    \propmods{\proppart{B^{\sigma_{\Psi,\mu}}_c}}.
+\end{equation}
 
 We go beyond this setting by considering multiple cases and explicitly
 modelling expertise (and trust, via beliefs about expertise). While it may be
 possible to model expertise \emph{implicitly} in belief merging (for example,
-say $i$ is not trusted on $\psi$ if $\Delta_\mu(\Phi) \not\vdash \psi$ when
+say $i$ is not trusted on $\psi$ if $\Delta_\mu(\Psi) \not\vdash \psi$ when
 $\phi_i \vdash \psi$), bringing expertise to the object level allows us to
 express more complex beliefs about expertise, such as $\E_a{x} \lor \E_b{x}$ in
 \cref{kr_ex_hospital_ex_formalised}. It also facilitates postulates which refer
@@ -3604,10 +3623,101 @@ directly to expertise, such as the weakenings of \axiomref{Success} in
 However, our problem is more specialised than merging, since we focus
 specifically on conflicting information due to lack of expertise. Belief
 merging may be applied more broadly to other types of \emph{information
-fusion}, e.g. subjective beliefs or goals~\cite{gregoire_fusion_2006},
-where notions of objective expertise do not apply. While our framework
-\emph{could} be applied in these settings, our postulates may no longer be
+fusion}, e.g. subjective beliefs or goals~\cite{gregoire_fusion_2006}, where
+notions of objective expertise do not apply. While our framework \emph{could}
+be applied in these settings, our postulates and operators may no longer be
 desirable.
+
+One way to assess the applicability of our operators, however, it to look at
+which \emph{belief merging postulates} our operator satisfy, via the mapping in
+\cref{kr_eqn_belief_merging_translation}. A core basic set of postulates were
+proposed by \textcite{konieczny2002merging}, defining the class of so-called
+\emph{IC merging operators}. In each postulate, all formulas $\phi \in \Psi$
+are assumed to be consistent, and $\sqcup$ denotes the union of multisets.
+
+\begin{axiomlist}
+
+\begin{axiom}[\icpostulate{0}]
+    $\Delta_\mu(\Psi) \propentails \mu$
+\end{axiom}
+
+\begin{axiom}[\icpostulate{1}]
+    If $\mu$ is consistent, then $\Delta_\mu(\Psi)$ is consistent
+\end{axiom}
+
+\begin{axiom}[\icpostulate{2}]
+    If $\bigland\Psi \land \mu$ is consistent, then $\Delta_\mu(\Psi) \equiv
+    \bigland \Psi \land \mu$
+\end{axiom}
+
+\begin{axiom}[\icpostulate{3}]
+    If $\Psi_1 \equiv \Psi_2$\footnotemark{} and $\mu_1 \equiv \mu_2$, then
+    $\Delta_{\mu_1}(\Psi_1) \equiv \Delta_{\mu_2}(\Psi_2)$
+\end{axiom}
+
+\footnotetext{
+    $\Psi_1 \equiv \Psi_2$ iff there is a bijection $f: \Psi_1 \to \Psi_2$ such
+    that $\propentails f(\phi) \liff \phi$.
+}
+
+\begin{axiom}[\icpostulate{4}]
+    If $\phi \propentails \mu$ and $\phi' \propentails \mu$, then if
+    $\Delta_\mu(\{\phi, \phi'\}) \land \phi$ is consistent, $\Delta_\mu(\{\phi,
+    \phi'\}) \land \phi'$ is also consistent
+\end{axiom}
+
+\begin{axiom}[\icpostulate{5}]
+    $\Delta_\mu(\Psi_1) \land \Delta_\mu(\Psi_2) \propentails \Delta_\mu(\Psi_1
+    \sqcup \Psi_2)$
+\end{axiom}
+
+\begin{axiom}[\icpostulate{6}]
+    If $\Delta_\mu(\Psi_1) \land \Delta_\mu(\Psi_2)$ is consistent, then
+    $\Delta_\mu(\Psi_1 \sqcup \Psi_2) \propentails \Delta_\mu(\Psi_1) \land
+    \Delta_\mu(\Psi_2)$
+\end{axiom}
+
+\begin{axiom}[\icpostulate{7}]
+    $\Delta_{\mu_1}(\Psi) \land \mu_2 \propentails \Delta_{\mu_1 \land
+    \mu_2}(\Psi)$
+\end{axiom}
+
+\begin{axiom}[\icpostulate{8}]
+    If $\Delta_{\mu_1}(\Psi) \land \mu_2$ is consistent, then $\Delta_{\mu_1
+    \land \mu_2}(\Psi) \propentails \Delta_{\mu_1}(\Psi) \land \mu_2$
+\end{axiom}
+
+\end{axiomlist}
+
+The only postulate that may cause trouble is \icpostulate{5}, since the union
+$\Psi_1 \sqcup \Psi_2$ may require more than $N$ sources for its representation
+in our framework. However, this is easily resolved by adding the precondition
+$|\Psi_1| + |\Psi_2| \le N$ to \icpostulate{5}.
+%
+It turns out that our three examples \emph{do} satisfy the IC postulates.
+
+\begin{theorem}
+    The merging operators associated with \varbasedcond{}, \partbasedcond{} and
+    \scorebasedop{} via \cref{kr_eqn_belief_merging_translation} satisfy
+    \icpostulate{0} - \icpostulate{8}.
+\end{theorem}
+
+\todo{Proof.}
+
+However, there are further postulates in the belief merging literature
+which cannot be expressed in our framework due to the fixed-source assumption.
+For example, the \emph{majority} postulate says that by repeating $\Psi_2$
+enough times, the merged output implies $\Delta_\mu(\Psi_2)$.
+
+\begin{axiom}[\majoritymerging{}]
+    $\exists n \in \Nat:\ \Delta_\mu(\Psi_1 \sqcup \Psi_2^n) \propentails
+    \Delta_\mu(\Psi_2)$
+\end{axiom}
+
+Clearly \majoritymerging{} requires one to consider multisets of unbounded
+size. A variable-domain approach to our belief change problem -- such as the
+framework for truth discovery in \cref{chapter_td}, where the set of sources
+was given as part of the input -- would allow such postulates to be expressed.
 
 \paragraph{Epistemic Logic.}
 
