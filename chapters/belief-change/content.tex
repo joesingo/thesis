@@ -3027,7 +3027,6 @@ state some preliminary results.
     completes the proof.
 \end{proof}
 
-
 \subsection{Case Independence}
 
 In the definition of a selection scheme, we allow $f_\sigma(i, c, \phi)$ to
@@ -3599,16 +3598,22 @@ $\mu$ as a sequence $\sigma_{\Psi, \mu}$, where
     ).
 \]
 That is, $\ast$ reports the integrity constraint and each source $i$ reports
-$\phi_i$.
+$\phi_i$.\footnotemark{}
 %
-In this way, any operator gives rise to a merging operator -- defined up to
-$\lprop$ equivalence -- with
+In this way, any operator gives rise to a merging operator -- up to logical
+equivalence -- by setting
 \begin{equation}
     \label{kr_eqn_belief_merging_translation}
     \propmods{\Delta_\mu(\Psi)}
     =
     \propmods{\proppart{B^{\sigma_{\Psi,\mu}}_c}}.
 \end{equation}
+
+\footnotetext{
+    Since multisets are not ordered, to ensure $\sigma_{\Psi, \mu}$ is
+    well-defined we order the reports $\tuple{i, c, \phi_i}$ according to some
+    arbitrary but fixed total order on $\lprop$.
+}
 
 We go beyond this setting by considering multiple cases and explicitly
 modelling expertise (and trust, via beliefs about expertise). While it may be
@@ -3632,7 +3637,7 @@ One way to assess the applicability of our operators, however, it to look at
 which \emph{belief merging postulates} our operator satisfy, via the mapping in
 \cref{kr_eqn_belief_merging_translation}. A core basic set of postulates were
 proposed by \textcite{konieczny2002merging}, defining the class of so-called
-\emph{IC merging operators}. In each postulate, all formulas $\phi \in \Psi$
+\emph{IC merging operators}. In each postulate, all formulas in $\Psi$
 are assumed to be consistent, and $\sqcup$ denotes the union of multisets.
 
 \begin{axiomlist}
@@ -3661,9 +3666,9 @@ are assumed to be consistent, and $\sqcup$ denotes the union of multisets.
 }
 
 \begin{axiom}[\icpostulate{4}]
-    If $\phi \propentails \mu$ and $\phi' \propentails \mu$, then if
-    $\Delta_\mu(\{\phi, \phi'\}) \land \phi$ is consistent, $\Delta_\mu(\{\phi,
-    \phi'\}) \land \phi'$ is also consistent
+    If $\phi \propentails \mu$ and $\theta \propentails \mu$, then if
+    $\Delta_\mu(\{\phi, \theta\}) \land \phi$ is consistent, $\Delta_\mu(\{\phi,
+    \theta\}) \land \theta$ is also consistent
 \end{axiom}
 
 \begin{axiom}[\icpostulate{5}]
@@ -3702,7 +3707,132 @@ It turns out that our three examples \emph{do} satisfy the IC postulates.
     \icpostulate{0} - \icpostulate{8}.
 \end{theorem}
 
-\todo{Proof.}
+\begin{proof}
+    We remind the reader that each operator satisfies all the basic postulates
+    of \cref{kr_sec_basic_postulates}, and we will use this fact freely
+    throughout the proof. Using the $\X_\sigma, \Y_\sigma$ notation for
+    model-based operators, we have that $\X_\sigma$ is the same for all three
+    operators. For disambiguation, we write $\Y_\sigma^\vbc$, $\Y_\sigma^\pbc$
+    and $\Y_\sigma^\exm$ for \varbasedcond{}, \partbasedcond{} and
+    \scorebasedop{} respectively.
+
+    \begin{itemize}
+        \item \icpostulate{0}: Since $\tuple{\ast, c, \mu} \in \sigma_{\Psi,
+            \mu}$, \soundness{} and \containment{} give $\S_\ast\mu \in
+            B^\sigma_c$; \closure{} and the fact that $\S_\ast\mu \liff \mu$ is
+            valid gives $\mu \in \proppart{B^{\sigma_{\Psi, \mu}}_c}$ and hence
+            $\Delta_\mu(\Psi) \propentails \mu$.
+
+        \item \icpostulate{1}: Consistency of $\mu$ implies $\ast$-consistency
+            of $\sigma_{\Psi, \mu}$, so $B^\sigma$ and thus $\Delta_\mu(\Psi)$
+            are consistent by \consistency{}.
+
+        \item \icpostulate{2}: Suppose $\bigland\Psi \land \mu$ is consistent.
+              Then $\mu$ is consistent, so $\sigma_{\Psi, \mu}$ is
+              $\ast$-consistent. Using the notation from
+              \cref{kr_sec_selective_change}, we have $\Gamma^{\sigma_{\Psi,
+              \mu}}_c = \Psi \cup \{\mu\}$. Recalling that \varbasedcond{},
+              \partbasedcond{} and \scorebasedop{} each satisfy \boundedness{}
+              -- i.e. $\proppart{B^\sigma_c} \subseteq
+              \cnprop(\Gamma^\sigma_c)$ -- we get $\bigland\Psi \land \mu
+              \propentails \Delta_\mu(\Psi)$.
+
+              For the reverse entailment, one can show that each of the three
+              operators has the following property:
+              \[
+                  \text{If } \Gamma^\sigma_c \text{ is consistent for all }
+                  c \in \C, \text{ then } \tuple{i, c, \phi} \in \sigma
+                  \implies \E_i\phi \in B^\sigma_c,
+              \]
+              i.e. all sources are believed to be experts on their reports when
+              there are no conflicts in $\sigma$. Together with \soundness{},
+              \containment{}, \closure{} and the logical validity $\E_i\phi
+              \land \S_i\phi \limplies \phi$ (\cref{kr_prop_validities}
+              \cref{kr_item_e_and_s_implies_phi}) we get $\phi_i \in
+              B^\sigma_c$ for each $i$. Hence $\Psi \cup \{\mu\} \subseteq
+              B^\sigma_c$, and thus $\Delta_\mu(\Psi) \propentails \bigland\Psi
+              \land \mu$.
+
+          \item \icpostulate{3}: This postulate follows easily from \rearr{}
+                and \equivpost{}.
+
+            \item \icpostulate{4}: Suppose $\phi \propentails \mu$, $\theta
+                  \propentails \mu$ and $\Delta_\mu(\Psi) \land
+                  \phi$ is consistent, where $\Psi = \{\phi, \theta\}$. Write
+                  \[
+                      \sigma_{\Psi, \mu}
+                      = (
+                        \tuple{\ast, c, \mu},
+                        \tuple{1, c, \phi},
+                        \tuple{2, c, \theta}
+                        ).
+                  \]
+                  We deal with \varbasedcond{} first. Since $\Delta_\mu(\{\phi,
+                  \theta\}) \land \phi$ is consistent, there is some $v \in
+                  \propmods{\phi} \cap \propmods{\proppart{B^{\sigma_{\Psi,
+                  \mu}}_c}}$. By \cref{kr_lemma_model_based_models_of_proppart}
+                  there is some $W \in \Y_{\sigma_{\Psi, \mu}}^\vbc$ with
+                  $v^W_c = v$. By \soundness{}, $W, c \models \S_2\theta$, i.e.
+                  $v \in \Pi^W_2[\theta]$. Consequently there is some $v' \in
+                  \propmods{\theta}$ with $v' \in \Pi^W_2[v]$. Now let $W'$ be
+                  the world obtained from $W$ by swapping the partitions of
+                  sources $1$ and $2$ and setting the valuation to $v'$.
+                  Observe that the plausibility order $\le$ for \varbasedcond{}
+                  is unaffected by such partition swaps, and thus $W$ and $W'$
+                  are equally ranked. We claim that $W' \in \X_{\sigma_{\Psi,
+                  \mu}}$, i.e. $W'$ validates all the soundness constraints.
+                  Indeed, $v' \in \propmods{\theta} \subseteq \propmods{\mu}$,
+                  so $W', c \models \mu \land \theta$; hence $W', c \models
+                  \S_\ast\mu \land \S_2\theta$.  By construction we have
+                  \[
+                      v^{W'}_c
+                      = v'
+                      \in \Pi^W_2[v]
+                      = \Pi^{W'}_1[v]
+                      \subseteq \Pi^{W'}_1[\phi]
+                  \]
+                  so $W', c \models \S_1\phi$ also. Hence $W \in
+                  \X_{\sigma_{\Psi, \mu}}$. But $W'$ ranks equally with $W$,
+                  which is minimal in $\X_{\sigma_{\Psi, \mu}}$. Hence $W'$ is
+                  also minimal, i.e. $W' \in \Y_{\sigma_{\Psi, \mu}}^\vbc$.
+                  Since $W', c \models \theta$, we have that
+                  $\Delta_\mu(\Psi) \land \theta$ is consistent, as required.
+
+                  The same argument also goes through for \partbasedcond{},
+                  since the plausibility ranking for \partbasedcond{} is
+                  similarly unaffected by partition swaps.
+
+                  It remains to consider \scorebasedop{}. By \icpostulate{2} we
+                  may assume without loss of generality that $\phi \land
+                  \theta$ is inconsistent. Recall that by assumption $\phi$ and
+                  $\theta$ are individually consistent. Take some $v_1 \in
+                  \propmods{\phi}$ and $v_2 \in \propmods{\theta}$. Then $v_1$
+                  and $v_2$ are necessarily distinct.
+
+                  Let $\widehat{\Pi} = \{\{v_1, v_2\}\} \cup \{\{u\} \mid u
+                  \notin \{v_1, v_2\}\}$ be the partition in which $v_1$ and
+                  $v_2$ share a cell, and all other valuations lie in their own
+                  cell. Let $W$ be the world with valuation $v_2$ in which all
+                  sources except $1$ have partition $\Pi_\bot = \{\{u\} \mid u
+                  \in \vals\}$, with source $1$ having partition
+                  $\widehat{\Pi}$.\footnote{Note that this is a similar
+                  construction to that of the proof of
+                  \cref{kr_prop_strongcondsucc_conditioning_impossibilitity}.}
+
+                  Then, with $r$ denoting the ranking function associated with
+                  \scorebasedop{}, we have $r_{\sigma_{\Psi, \mu}}(W) = 1$.
+                  Since $\phi \land \theta$ are inconsistent, there can be no
+                  world with score 0. Hence $W \in \Y_{\sigma_{\Psi,
+                  \mu}}^\exm$. Since $W, c \models \theta$, $\Delta_\mu(\Psi)
+                  \land \theta$ is consistent, and we are done.
+
+        \item \icpostulate{5}
+        \item \icpostulate{6}
+        \item \icpostulate{7}
+        \item \icpostulate{8}
+    \end{itemize}
+
+\end{proof}
 
 However, there are further postulates in the belief merging literature
 which cannot be expressed in our framework due to the fixed-source assumption.
