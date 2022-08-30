@@ -3645,9 +3645,9 @@ merging operators.
 }
 
 That is, $\Delta^{d, \Sigma}_\mu(\Psi)$ selects the models of the integrity
-constraint $\mu$ minimising the sum of distances to each formula $\phi_i$, with
-the distance between $v$ and $\phi_i$ interpreted as the minimal distance
-between $v$ and some $\phi_i$ model.
+constraint $\mu$ which minimise the sum of the distances to each formula
+$\phi_i$, with the distance between $v$ and $\phi_i$ interpreted as the minimal
+distance between $v$ and some $\phi_i$ model.
 
 Typical distances $d$ include the \emph{Hamming distance} $d_H$, where $d_H(u,
 v)$ is the number of propositional variables on which $u$ and $v$ differ, and
@@ -3657,12 +3657,9 @@ corresponding to these distances.
 
 \begin{restatable}{theorem}{restatekrmergingthm}
     \label{kr_thm_merging_operators}
-    For any $\mu$ and $\Psi$,
-    \begin{enumerate}
-        \item $\vbcmergingop \equiv \Delta^{d_H, \Sigma}$
-        \item $\pbcmergingop \equiv \Delta^{d_D, \Sigma}$
-        \item $\exmmergingop \equiv \Delta^{d_D, \Sigma}$
-    \end{enumerate}
+        $\vbcmergingop \equiv \Delta^{d_H, \Sigma}$,
+        $\pbcmergingop \equiv \Delta^{d_D, \Sigma}$ and
+        $\exmmergingop \equiv \Delta^{d_D, \Sigma}$.
 \end{restatable}
 
 The proof can be found in \cref{kr_app_sec_thm_merging_operators}. It follows
@@ -3696,13 +3693,13 @@ cannot be recovered from propositional beliefs alone, as demonstrated by the
 fact that \partbasedcond{} and \scorebasedop{} differ in general but coincide
 as merging operators.
 
-However, our problem is more specialised than merging, since we focus
-specifically on conflicting information due to lack of expertise. Belief
-merging may be applied more broadly to other types of \emph{information
-fusion}, e.g. subjective beliefs or goals~\cite{gregoire_fusion_2006}, where
-notions of objective expertise do not apply. While our framework \emph{could}
-be applied in these settings, our postulates and operators may no longer be
-desirable.
+However, while more general on a technical level, our problem is more
+specialised than merging, since we focus specifically on conflicting
+information due to lack of expertise. Belief merging may be applied more
+broadly to other types of \emph{information fusion}, e.g. subjective beliefs or
+goals~\cite{gregoire_fusion_2006}, where notions of objective expertise do not
+apply. While our framework \emph{could} be applied in these settings, our
+postulates and operators may no longer be desirable.
 
 Furthermore, there are further postulates in the belief merging literature
 which cannot be expressed in our framework due to the fixed-source assumption.
@@ -3718,37 +3715,9 @@ size. A variable-domain approach to our belief change problem -- such as the
 framework for truth discovery in \cref{chapter_td}, where the set of sources
 was given as part of the input -- would allow such postulates to be expressed.
 
-\paragraph{Epistemic Logic.}
+\paragraph{Trust and belief revision.}
 
-Our notions of expertise and soundness are related to \emph{S5
-knowledge} from epistemic logic~\cite{handbook_epistemic}. In such
-logics, an agent \emph{knows} $\phi$ at a state $x$ if $\phi$ holds at all
-states $y$ ``accessible'' from $x$. Knowledge is thus determined by an
-\emph{epistemic accessibility relation}, which describes the distinctions
-between states the agent can make. The logic of S5 arises when this relation is an
-equivalence relation (or equivalently, a partition).
-
-Our previous work~\cite{singleton2021logic} -- in which expertise and soundness
-were introduced in a modal logic framework -- showed that ``expertise
-models'' are in 1-to-1 correspondence with S5 models, such that $\E{\phi}$
-holds iff $\A(\phi \limplies \K\phi)$ holds in the S5 model, where $\A$ is the
-universal modality. By symmetry of expertise, we can also replace $\phi$ with
-its negation. Thus, expertise has a precise epistemic interpretation: it is the
-ability to \emph{know whether} $\phi$ holds in \emph{any possible state}.
-Similarly, $\S\phi$ translates to $\neg\K\neg\phi$. That is, $\phi$ is sound
-exactly when the source does not \emph{know} $\phi$ is false.
-
-In the present framework, if we set
-%
-$W, c \models \K_i\phi$ iff $\Pi_i[v_c] \subseteq \propmods{\phi}$ and
-%
-$W, c \models \A\Phi$ iff $\forall v:\ W_{c=v}, c \models \Phi$,
-%
-where $W_{c=v}$ is the world obtained from $W$ by setting $v'_c = v$, then we
-have $\E_i\phi \equiv \A(\phi \limplies \K_i\phi)$ and $\S_i\phi \equiv
-\neg \K_i(\neg \phi)$. While $K_i$ is not quite an S5 modality (the \textbf{5}
-axiom requires iterating $K_i$, which is not possible in our framework), this
-shows the fundamental link between expertise, soundness and knowledge.
+\todo{Talk about \textcite{yasser_21}.}
 
 \section{Conclusion}
 \label{kr_sec_conclusion}
