@@ -3,8 +3,6 @@
 \section{Proof of \cref{kr_thm_merging_operators}}
 \label{kr_app_sec_thm_merging_operators}
 
-\restatekrmergingthm*
-
 We tackle all three operators at once by first stating a technical result which
 applies to score-based operators with certain conditions. Since \varbasedcond{}
 and \partbasedcond{} are score-based (by
@@ -276,5 +274,123 @@ $\Pi'$.
     we are done.
 \end{proof}
 
-\todo{show specific $d_{\phi}$ for example operators turn out to be Hamming and
-drastic.}
+The main result follows.
+
+\restatekrmergingthm*
+
+\begin{proof}
+    If a score-based operator satisfies the hypotheses of
+    \cref{kr_app_lemma_score_based_merging}, the associated merging operator
+    $\Delta$ has
+    \[
+        \propmods{\Delta_\mu(\Psi)}
+        = \argmin_{v \in \propmods{\mu}}{
+            \sum_{i=1}^{n}{
+                \min_{u \in \propmods{\phi_i}}{
+                    d_{\phi_i}(u, v)
+                }
+            }
+        },
+    \]
+    for some functions $d_{\phi}$. This is already close to the form of the
+    model-based merging operator $\Delta^{d, \Sigma}$, except that a different
+    distance function $d_{\phi_i}$ is used in each term of the sum. To show
+    that \varbasedcond{} corresponds to $\Delta^{d_H, \Sigma}$ and that
+    \partbasedcond{} and \scorebasedop{} correspond to $\Delta^{d_D, \Sigma}$,
+    it suffices to show that one can replace the minimum of $d_{\phi_i}$
+    with the minimum of $d_H$ or $d_D$ respectively. We take each operator in
+    turn.
+
+    \begin{enumerate}
+        \item By \cref{kr_prop_kconj_conditioning_implies_score_based},
+              \varbasedcond{} is score-based. One can easily show it is
+              decomposable via
+              \begin{align*}
+                &f(\Pi) = -|\{p \in \propvars \mid \Pi[p] = \propmods{p}\}|, \\
+                &g(\Pi, \phi) = 0.
+              \end{align*}
+              Such $f$ and $g$ are refinement-compatible, and so
+              \cref{kr_app_lemma_score_based_merging} applies. Inspecting the
+              proof, we have
+              \[
+                d_{\phi}(u, v)
+                = f(\Pi(u, v)) - f(\Pi_\bot).
+              \]
+              Clearly this quantity does not depend on $\phi$ (since $g \equiv
+              0$), so we are justified in writing $d(u, v)$ without further
+              qualification. In fact, since $f(\Pi_\bot) = -|\propvars|$, we
+              have
+              \begin{align*}
+                d(u, v)
+                &= |\propvars| - |\{p \in \propvars \mid \Pi(u, v)[p] =
+                \propmods{p}\}| \\
+                &= |\{p \in \propvars \mid \Pi(u, v)[p] \supset \propmods{p}\}|.
+              \end{align*}
+
+              To complete the proof, it suffices to show $d(u, v) = d_H(u, v)$.
+              But this follows immediately upon noticing that $\Pi(u, v)[p]
+              \supseteq \propmods{p}$ if and only if $u$ and $v$ differ on $p$.
+
+        \item In much the same way as for \varbasedcond{} above, one can show
+              \partbasedcond{} is a decomposable score-based operator via
+              refinement-compatible functions
+              \begin{align*}
+                &f(\Pi) = -|\Pi| \\
+                &g(\Pi, \phi) = 0.
+              \end{align*}
+              We have
+              \[
+                d_{\phi}(u, v)
+                = f(\Pi(u, v)) - f(\Pi_\bot)
+                = |\vals| - |\Pi(u, v)|.
+              \]
+              It is straightforward to observe that
+              \[
+                  |\Pi(u, v)| = \begin{cases}
+                      |\vals|,& u = v \\
+                      |\vals| - 1,& u \ne v,
+                  \end{cases}
+              \]
+              and thus
+              \[
+                  d_{\phi}(u, v)
+                  = \begin{cases}
+                      0,& u = v \\
+                      1,& u \ne v
+                  \end{cases}
+              \]
+              which is equal to the drastic distance $d_D(u, v)$, as required.
+
+          \item \scorebasedop{} satisfies the hypothesis of
+              \cref{kr_app_lemma_score_based_merging} by taking
+              \begin{align*}
+                  &f(\Pi) = 0 \\
+                  &g(\Pi, \phi) = |\Pi[\phi] \setminus \propmods{\phi}|.
+              \end{align*}
+              The corresponding distance functions are
+              \begin{align*}
+                  d_{\phi}(u, v)
+                  &= f(\Pi(u, v)) + g(\Pi(u, v), \phi)
+                    - f(\Pi_\bot) - g(\Pi_\bot, \phi) \\
+                  &= g(\Pi(u, v), \phi) \\
+                  &= |\Pi(u, v)[\phi] \setminus \propmods{\phi}|.
+              \end{align*}
+              Unlike in the other two cases, $d_\phi$ does in fact depend on
+              $\phi$. To complete the proof, it suffices to show that for any
+              valuation $v$ and any consistent $\phi \in \lprop$,
+              \[
+                  \min_{u \in \propmods{\phi}}{d_{\phi}(u, v)}
+                  =
+                  \min_{u \in \propmods{\phi}}{d_D(u, v)}.
+              \]
+              First suppose $v \in \propmods{\phi}$. Then the minima on both
+              sides are equal, attaining value 0 at $u = v$.
+              %
+              If instead $v \notin \propmods{\phi}$, then for any $u \in
+              \propmods{\phi}$ we have $\Pi(u, v)[\phi] = \propmods{\phi} \cup
+              \{v\}$, so $d_\phi(u, v) = |\{v\}| = 1$ and the minimum on the
+              left-hand side is 1. But the minimum on the right-hand side is
+              also 1, since $u \in \propmods{\phi}$ implies $u \ne v$ and
+              $d_D(u, v) = 1$. This completes the proof.
+    \end{enumerate}
+\end{proof}
