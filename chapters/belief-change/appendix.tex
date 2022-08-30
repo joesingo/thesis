@@ -1,0 +1,280 @@
+\chapter{Proofs for \cref{chapter_belief_change}}
+
+\section{Proof of \cref{kr_thm_merging_operators}}
+\label{kr_app_sec_thm_merging_operators}
+
+\restatekrmergingthm*
+
+We tackle all three operators at once by first stating a technical result which
+applies to score-based operators with certain conditions. Since \varbasedcond{}
+and \partbasedcond{} are score-based (by
+\cref{kr_prop_kconj_conditioning_implies_score_based}), the main result will
+follow.
+
+Let $\parts$ denote the set of partitions of $\vals$. Say a score-based
+operator with prior ranking function $r_0$ and disagreement function $d$ is
+\emph{decomposable} via functions $f: \parts \to \mathbb{Z}$ and $g: \parts
+\times \lprop \to \Nat_0$ if
+\begin{align*}
+    r_0(W) &= \sum_{i \in \srcs}{f(\Pi^W_i)}, \\
+    d(W, \tuple{i, c, \phi}) &= \begin{cases}
+        g(\Pi^W_i, \phi),& W, c \models \S_i\phi \\
+        \infty,& W, c \not\models \S_i\phi
+    \end{cases}.
+\end{align*}
+
+In analogy with the \refinement{} property for conditioning operators, say $f$
+is \emph{refinement-compatible} if whenever $\Pi$ refines $\Pi'$ we have
+$f(\Pi) \le f(\Pi')$. Similarly, say $g$ is refinement-compatible if $g(\Pi,
+\phi) \le g(\Pi', \phi)$ for all $\phi \in \lprop$ whenever $\Pi$ refines
+$\Pi'$.
+
+\begin{lemma}
+    \label{kr_app_lemma_score_based_merging}
+    Suppose a score-based operator is decomposable via refinement-compatible
+    functions $f$ and $g$. Then for each $\phi \in \lprop$ there is a function
+    $d_\phi: \vals \times \vals \to \R_{\ge 0}$ such that
+    for any $\mu \in \lprop$ and multiset
+    $\Psi = \{\phi_1, \ldots, \phi_n\}$,
+    \begin{equation}
+        \label{kr_app_eqn_merging}
+        \propmods{\proppart{B^{\sigma_{\Psi, \mu}}_c}}
+        =
+        \argmin_{v \in \propmods{\mu}}{
+            \sum_{i=1}^{n}{
+                \min_{u \in \propmods{\phi_i}}{
+                    d_{\phi_i}(u, v)
+                }
+            }
+        }.
+    \end{equation}
+\end{lemma}
+
+\begin{proof}
+    For valuations $u, v \in \vals$, define a partition $\Pi(u, v)$ by
+    \[
+        \Pi(u, v) = \{\{u, v\}\} \cup \{\{w\} \mid w \notin \{u, v\}\}.
+    \]
+    Recall that $\Pi_\bot$ denotes the finest partition $\{\{u\} \mid u \in
+    \vals\}$. For $\phi \in \lprop$, set
+    \[
+        d_\phi(u, v)
+        = f(\Pi(u, v)) + g(\Pi(u, v), \phi) - f(\Pi_\bot) - g(\Pi_\bot, \phi).
+    \]
+
+    Now take some $\mu$ and $\Psi = \{\phi_1, \ldots, \phi_n\}$. Recall that we
+    are in the setting with a single case $c$, and with sources $\srcs = \{1,
+    \ldots, N, \ast\}$. Write $[n] = \{1, \ldots, n\}$. For any valuation $v$
+    and $i \in [n]$ such that $v \notin \propmods{\phi_i}$, choose some $u_i
+    \in \argmin_{u \in \propmods{\phi_i}}{d_{\phi_i}(u, v)}$.  Then define a
+    world $W_v$ with valuation $v$ and partitions given by
+    \[
+        \Pi^{W_v}_i = \begin{cases}
+            \Pi_\bot,& i \notin [n] \\
+            \Pi_\bot,& i \in [n], v \in \propmods{\phi_i} \\
+            \Pi(u_i, v),& i \in [n], v \notin \propmods{\phi_i}.
+        \end{cases}
+    \]
+    Note that $u_i$ depends on $\Psi$ and $v$ in addition to $i$, but these
+    dependencies are suppressed from the notation.
+
+    \begin{claim}
+        \label{kr_app_claim_wv_sound}
+        $W_v \in \X_{\sigma_{\Psi, \mu}}$ whenever $v \in \propmods{\mu}$.
+    \end{claim}
+    \begin{claimproof}
+        Since $f$ and $g$ are always finite, it follows from the
+        decomposition property that $W \in \X_\sigma$ iff $W, c \models
+        \S_i\phi$ for all $\tuple{i, c, \phi} \in \sigma$.
+
+        Recall that $\sigma_{\Psi, \mu} = (\tuple{\ast, c, \mu}, \tuple{1, c,
+        \phi_1} \ldots \tuple{n, c, \phi_n})$. Since $v \in \propmods{\mu}$, we
+        have $W_v, c \models \mu$ and thus $W_v, c \models \S_\ast\mu$.
+        Similarly, for $i \in [n]$ we have $W_v, c \models \S_i\phi_i$ whenever
+        $v \in \propmods{\phi_i}$. It remains to consider $i \in [n]$ such that
+        $v \notin \propmods{\phi_i}$. By construction we have $\Pi^{W_v}_i =
+        \Pi(u_i, v)$. But $u_i \in \propmods{\phi_i}$ by definition, and
+        $\{u_i, v\} \in \Pi(u_i, v)$. Hence $v \in \Pi^{W_v}_i[u_i] \subseteq
+        \Pi^{W_v}_i[\phi_i]$, i.e. $W_v, c \models \S_i\phi_i$ as required.
+    \end{claimproof}
+
+    For brevity, write $r$ for the ranking function $r_{\sigma_{\Psi, \mu}}$.
+    Then for $W \in \X_{\sigma_{\Psi, \mu}}$,
+    \begin{align}
+        r(W)
+        &= r_0(W)
+            + d(W, \tuple{\ast, c, \mu})
+            + \sum_{i=1}^{n}{d(W, \tuple{i, c, \phi_i})} \nonumber \\
+        &= \sum_{i \in \srcs}{f(\Pi^W_i)}
+            + g(\Pi_\bot, \mu)
+            + \sum_{i=1}^{n}{g(\Pi^W_i, \phi_i)} \nonumber \\
+        &= \sum_{i \in \srcs \setminus ([n] \cup \{\ast\})}{f(\Pi^W_i)}
+            + f(\Pi_\bot)
+            + g(\Pi_\bot, \mu) \nonumber \\
+            &\quad\quad + \sum_{i=1}^{n}{
+               \left(
+                    f(\Pi^W_i) + g(\Pi^W_i, \phi_i)
+               \right)
+            }.
+            \label{kr_app_eqn_rw}
+    \end{align}
+
+    \begin{claim}
+        \label{kr_app_claim_rv_better_than_w}
+        If $W \in \X_{\sigma_{\Psi, \mu}}$ and $v^W_c = v$, then $r(W_v) \le
+        r(W)$.
+    \end{claim}
+    \begin{claimproof}
+        Note that $\mu \in K^{\sigma_{\Psi, \mu}}_c$, so $W, c \models \mu$ and
+        thus $v \in \propmods{\mu}$. By \cref{kr_app_claim_wv_sound}, we may
+        use \cref{kr_app_eqn_rw}.  We show that each term in the sums in the
+        expression for $r(W_v)$ is no greater than the corresponding term in
+        $r(W)$.
+
+        First, take $i \in \srcs \setminus ([n] \cup \{\ast\})$. By
+        construction, $\Pi^{W_v}_i = \Pi_\bot$. Since $\Pi_\bot$ is the finest
+        partition, it certainly refines $\Pi^W_i$. By refinement-compatibility
+        of $f$, we have $f(\Pi^{W_v}_i) \le f(\Pi^W_i)$ as required.
+
+        Now take $i \in [n]$. If $v \in \propmods{\phi_i}$ then we again have
+        $\Pi^{W_v}_i = \Pi_\bot$, so by refinement-compatibility of $f$ and $g$
+        we have $f(\Pi^{W_v}_i) + g(\Pi^{W_v}_i, \phi_i) \le f(\Pi^W_i) +
+        g(\Pi^W_i, \phi_i)$.
+
+        Suppose instead that $v \notin \propmods{\phi_i}$. Since $W \in
+        \X_{\sigma_{\Psi, \mu}}$, $W, c \models \S_i\phi_i$. Recalling that the
+        $c$-valuation of $W$ is $v$, this means $v \in \Pi^W_i[\phi_i]$, i.e.
+        there is some $\hat{u} \in \propmods{\phi_i}$ such that $v \in
+        \Pi^W_i[\hat{u}]$. It follows that $\Pi(\hat{u}, v)$ refines $\Pi^W_i$.
+        By refinement-compatibility,
+        \[
+            f(\Pi(\hat{u}, v)) + g(\Pi(\hat{u}, v), \phi_i)
+            \le
+            f(\Pi^W_i) + g(\Pi^W_i, \phi_i).
+        \]
+        By definition, $\Pi^{W_v}_i = \Pi(u_i, v)$. By choice of $u_i$, we have
+        $d_{\phi_i}(u_i, v) \le d_{\phi_i}(\hat{u}, v)$; considering the
+        definition of $d_{\phi_i}$, this implies
+        \[
+            f(\Pi(u_i, v)) + g(\Pi(u_i, v), \phi_i)
+            \le
+            f(\Pi(\hat{u}, v)) + g(\Pi(\hat{u}, v), \phi_i).
+        \]
+        Putting things together, we find $f(\Pi^{W_v}_i) + g(\Pi^{W_v}_i,
+        \phi_i) \le f(\Pi^W_i) + g(\Pi^W_i, \phi_i)$ as required.
+    \end{claimproof}
+
+    \begin{claim}
+        \label{kr_app_claim_rv}
+        There is a constant $C$ such that for any $v \in \propmods{\mu}$,
+        \[
+            r(W_v)
+            = C + \sum_{i=1}^{n}{
+                \min_{u \in \propmods{\phi_i}}{
+                    d_{\phi_i}(u, v)
+                }
+            }.
+        \]
+    \end{claim}
+    \begin{claimproof}
+        Taking off from \cref{kr_app_eqn_rw}, we have
+        \begin{align*}
+            r(W_v)
+            &= \sum_{i \in \srcs \setminus ([n] \cup \{\ast\})}{f(\Pi_\bot)}
+                + f(\Pi_\bot)
+                + g(\Pi_\bot, \mu) \\
+                &\quad\quad + \sum_{i \in [n]: v \in \propmods{\phi_i}}{
+                   \left(
+                        f(\Pi_\bot) + g(\Pi_\bot, \phi_i)
+                   \right)
+                } \\
+                &\quad\quad + \sum_{i \in [n]: v \notin \propmods{\phi_i}}{
+                   \left(
+                        f(\Pi(u_i, v)) + g(\Pi(u_i, v), \phi_i)
+                   \right)
+                }.
+        \end{align*}
+        Note that by definition of $d_{\phi_i}$,
+        \[
+            f(\Pi(u, v)) + g(\Pi(u, v), \phi_i)
+            = d_{\phi_i}(u, v) + f(\Pi_\bot) + g(\Pi_\bot, \phi_i).
+        \]
+        Noting also that $\Pi_\bot = \Pi(v, v)$, we get
+        \begin{align*}
+            r(W_v)
+            &= (N + 1)f(\Pi_\bot)
+                + g(\Pi_\bot, \mu)
+                + \sum_{i \in [n]: v \in \propmods{\phi_i}}{
+                    d_{\phi_i}(v, v)
+                } \\
+                &\qquad + \sum_{i \in [n]: v \notin \propmods{\phi_i}}{
+                    d_{\phi_i}(u_i, v)
+                }
+                + \sum_{i \in [n]}{
+                    g(\Pi_\bot, \phi_i)
+                } \\
+            &= C + \sum_{i \in [n]: v \in \propmods{\phi_i}}{
+                    d_{\phi_i}(v, v)
+                }
+                + \sum_{i \in [n]: v \notin \propmods{\phi_i}}{
+                    d_{\phi_i}(u_i, v)
+                },
+        \end{align*}
+        where $C = (N + 1)f(\Pi_\bot) + g(\Pi_\bot, \mu) +
+        \sum_{i=1}^{n}{g(\Pi_\bot, \phi_i)}$.
+
+        Now, $d_{\phi_i}(u_i, v) = \min_{u \in \propmods{\phi_i}}{d(u, v)}$
+        holds by construction of $u_i$ for $i \in [n]$ with $v \notin
+        \propmods{\phi}$. For $i \in [n]$ with $v \in \propmods{\phi_i}$, it
+        easily observed that $d_{\phi_i}(v, v) = 0$, and $d_{\phi_i}$ is
+        non-negative by refinement-compatibility. Hence $d_{\phi_i}(v, v) =
+        \min_{u \in \propmods{\phi_i}}{d_{\phi_i}(u, v)}$ also. Combining the
+        sums above, we find
+        \[
+            r(W_v) = C + \sum_{i=1}^{n}{\min_{u \in
+            \propmods{\phi_i}}{d_{\phi_i}(u, v)}}
+        \]
+        as required.
+    \end{claimproof}
+
+    We are finally in a position to show \cref{kr_app_eqn_merging}.
+
+    $\subseteq$: Take $v \in \propmods{\proppart{B^{\sigma_{\Psi, \mu}}_c}}$.
+    Then by \cref{kr_lemma_model_based_models_of_proppart} there is $W \in
+    \Y_{\sigma_{\Psi, \mu}}$ such that $v^W_c = v$. Since $W, c \models \mu$,
+    $v \in \propmods{\mu}$. Now take any $v' \in \propmods{\mu}$. Then $r(W)
+    \le r(W_{v'})$ since $W$ minimises $r$. But $r(W_v) \le r(W)$ by
+    \cref{kr_app_claim_rv_better_than_w}. Hence $r(W_v) \le r(W_{v'})$.
+    Applying \cref{kr_app_claim_rv} we find
+    \[
+        \sum_{i=1}^{n}{
+            \min_{u \in \propmods{\phi_i}}{
+                d_{\phi_i}(u, v)
+            }
+        }
+        \le
+        \sum_{i=1}^{n}{
+            \min_{u \in \propmods{\phi_i}}{
+                d_{\phi_i}(u, v')
+            }
+        }.
+    \]
+    Since $v' \in \propmods{\mu}$ was arbitrary, this shows $v \in \argmin_{v'
+    \in \propmods{\mu}}{\sum_{i=1}^{n}{\min_{u \in
+    \propmods{\phi_i}}{d_{\phi_i}(u, v')}}}$ as required.
+
+    $\supseteq$: Take $v \in \argmin_{v' \in
+    \propmods{\mu}}{\sum_{i=1}^{n}{\min_{u \in \propmods{\phi_i}}{d_{\phi_i}(u,
+    v')}}}$. We will show $W_v \in \Y_{\sigma_{\Psi, \mu}}$ and conclude $v \in
+    \propmods{\proppart{B^{\sigma_{\Psi, \mu}}_c}}$ by
+    \cref{kr_lemma_model_based_models_of_proppart}. Indeed, take any $W' \in
+    \X_{\sigma_{\Psi, \mu}}$. Write $v' = v^{W'}_c$. Then $v' \in
+    \propmods{\mu}$, so by \cref{kr_app_claim_rv} and our minimising
+    assumption on $v$, we have $r(W_v) \le r(W_{v'})$. But using
+    \cref{kr_app_claim_rv_better_than_w} again, $r(W_{v'}) \le r(W')$. Hence
+    $r(W_v) \le r(W')$. Since $W' \in \X_{\sigma_{\Psi, \mu}}$ was arbitrary,
+    we are done.
+\end{proof}
+
+\todo{show specific $d_{\phi}$ for example operators turn out to be Hamming and
+drastic.}

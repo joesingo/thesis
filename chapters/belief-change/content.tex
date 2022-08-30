@@ -3593,7 +3593,7 @@ $\mu$ as a sequence $\sigma_{\Psi, \mu}$, where
     = (
         \tuple{\ast, c, \mu},
         \tuple{1, c, \phi_1},
-        \cdots
+        \ldots
         \tuple{n, c, \phi_n}
     ).
 \]
@@ -3615,15 +3615,86 @@ equivalence -- by setting
     arbitrary but fixed total order on $\lprop$.
 }
 
-We go beyond this setting by considering multiple cases and explicitly
-modelling expertise (and trust, via beliefs about expertise). While it may be
-possible to model expertise \emph{implicitly} in belief merging (for example,
-say $i$ is not trusted on $\psi$ if $\Delta_\mu(\Psi) \not\vdash \psi$ when
-$\phi_i \vdash \psi$), bringing expertise to the object level allows us to
+In fact, for our specific operators \varbasedcond{}, \partbasedcond{} and
+\scorebasedop{}, the corresponding merging operators $\vbcmergingop$,
+$\pbcmergingop$ and $\exmmergingop$ coincide with well-known \emph{model-based}
+merging operators.
+
+\begin{definition}[\textcite{konieczny2002merging,Konieczny_2011}]
+    Let $d: \vals \times \vals \to \R_{\ge 0}$ be a function such that
+    $d(u, v) = d(v, u)$ and $d(u, v) = 0$ iff $u = v$.\footnotemark{} The
+    merging operator $\Delta^{d, {\Sigma}}$ is defined (up to logical
+    equivalence) by
+    \[
+        \propmods{\Delta^{d, {\Sigma}}_\mu(\Psi)}
+        =
+        \argmin\limits_{v \in \propmods{\mu}}{
+            \sum_{i=1}^{n}{
+                \min_{u \in \propmods{\phi_i}}{
+                    d(u, v)
+                }
+            }
+        }.
+    \]
+\end{definition}
+
+\footnotetext{
+    Such $d$ are called \emph{distance functions} in the merging literature,
+    although the triangle inequality $d(u, v) \le d(u, w) + d(w, v)$ is not
+    required to hold.
+}
+
+That is, $\Delta^{d, \Sigma}_\mu(\Psi)$ selects the models of the integrity
+constraint $\mu$ minimising the sum of distances to each formula $\phi_i$, with
+the distance between $v$ and $\phi_i$ interpreted as the minimal distance
+between $v$ and some $\phi_i$ model.
+
+Typical distances $d$ include the \emph{Hamming distance} $d_H$, where $d_H(u,
+v)$ is the number of propositional variables on which $u$ and $v$ differ, and
+the \emph{drastic distance} $d_D$, where $d_D(u, v)$ is 0 if $u = v$ and 1
+otherwise. Our operators give rise to model-based merging operators
+corresponding to these distances.
+
+\begin{restatable}{theorem}{restatekrmergingthm}
+    \label{kr_thm_merging_operators}
+    For any $\mu$ and $\Psi$,
+    \begin{enumerate}
+        \item $\vbcmergingop_\mu(\Psi) \equiv \Delta^{d_H, \Sigma}_\mu(\Psi)$
+        \item $\pbcmergingop_\mu(\Psi) \equiv \Delta^{d_D, \Sigma}_\mu(\Psi)$
+        \item $\exmmergingop_\mu(\Psi) \equiv \Delta^{d_D, \Sigma}_\mu(\Psi)$
+    \end{enumerate}
+\end{restatable}
+
+The proof can be found in \cref{kr_app_sec_thm_merging_operators}. It follows
+that $\vbcmergingop$, $\pbcmergingop$ and $\exmmergingop$ each satisfy the
+\emph{IC postulates} \icpostulate{0} -- \icpostulate{8} of
+\textcite{konieczny2002merging}.
+
+Also note that, perhaps surprisingly, \partbasedcond{} and \scorebasedop{}
+result in the same merging operator. In some sense this highlights the
+restrictiveness of purely propositional merging, given that the two operators
+differ substantially in our general setting (e.g. on \strongcondsucc{} and in
+\cref{kr_ex_score_based}).\footnotemark{}
+
+\footnotetext{
+    Note that it is \emph{not} the case that \partbasedcond{} and
+    \scorebasedop{} output the same propositional beliefs given any input
+    $\sigma$; \cref{kr_thm_merging_operators} only shows this to be the case
+    for $\sigma$ of the form $\sigma_{\Psi, \mu}$.
+}
+
+Indeed, we go beyond propositional merging by considering multiple cases and
+explicitly modelling expertise (and trust, via beliefs about expertise). While
+it may be possible to model expertise \emph{implicitly} in belief merging (for
+example, say $i$ is not trusted on $\psi$ if $\Delta_\mu(\Psi) \not\vdash \psi$
+when $\phi_i \vdash \psi$), bringing expertise to the object level allows us to
 express more complex beliefs about expertise, such as $\E_a{x} \lor \E_b{x}$ in
 \cref{kr_ex_hospital_ex_formalised}. It also facilitates postulates which refer
 directly to expertise, such as the weakenings of \axiomref{Success} in
-\cref{kr_sec_one_step_postulates}.
+\cref{kr_sec_one_step_postulates}. Moreover, such beliefs about expertise
+cannot be recovered from propositional beliefs alone, as demonstrated by the
+fact that \partbasedcond{} and \scorebasedop{} differ in general but coincide
+as merging operators.
 
 However, our problem is more specialised than merging, since we focus
 specifically on conflicting information due to lack of expertise. Belief
@@ -3633,211 +3704,9 @@ notions of objective expertise do not apply. While our framework \emph{could}
 be applied in these settings, our postulates and operators may no longer be
 desirable.
 
-One way to assess the applicability of our operators, however, it to look at
-which \emph{belief merging postulates} our operator satisfy, via the mapping in
-\cref{kr_eqn_belief_merging_translation}. A core basic set of postulates were
-proposed by \textcite{konieczny2002merging}, defining the class of so-called
-\emph{IC merging operators}. In each postulate, all formulas in $\Psi$
-are assumed to be consistent, and $\sqcup$ denotes the union of multisets.
-
-\begin{axiomlist}
-
-\begin{axiom}[\icpostulate{0}]
-    $\Delta_\mu(\Psi) \propentails \mu$
-\end{axiom}
-
-\begin{axiom}[\icpostulate{1}]
-    If $\mu$ is consistent, then $\Delta_\mu(\Psi)$ is consistent
-\end{axiom}
-
-\begin{axiom}[\icpostulate{2}]
-    If $\bigland\Psi \land \mu$ is consistent, then $\Delta_\mu(\Psi) \equiv
-    \bigland \Psi \land \mu$
-\end{axiom}
-
-\begin{axiom}[\icpostulate{3}]
-    If $\Psi_1 \equiv \Psi_2$\footnotemark{} and $\mu_1 \equiv \mu_2$, then
-    $\Delta_{\mu_1}(\Psi_1) \equiv \Delta_{\mu_2}(\Psi_2)$
-\end{axiom}
-
-\footnotetext{
-    $\Psi_1 \equiv \Psi_2$ iff there is a bijection $f: \Psi_1 \to \Psi_2$ such
-    that $\propentails f(\phi) \liff \phi$.
-}
-
-\begin{axiom}[\icpostulate{4}]
-    If $\phi \propentails \mu$ and $\theta \propentails \mu$, then if
-    $\Delta_\mu(\{\phi, \theta\}) \land \phi$ is consistent, $\Delta_\mu(\{\phi,
-    \theta\}) \land \theta$ is also consistent
-\end{axiom}
-
-\begin{axiom}[\icpostulate{5}]
-    $\Delta_\mu(\Psi_1) \land \Delta_\mu(\Psi_2) \propentails \Delta_\mu(\Psi_1
-    \sqcup \Psi_2)$
-\end{axiom}
-
-\begin{axiom}[\icpostulate{6}]
-    If $\Delta_\mu(\Psi_1) \land \Delta_\mu(\Psi_2)$ is consistent, then
-    $\Delta_\mu(\Psi_1 \sqcup \Psi_2) \propentails \Delta_\mu(\Psi_1) \land
-    \Delta_\mu(\Psi_2)$
-\end{axiom}
-
-\begin{axiom}[\icpostulate{7}]
-    $\Delta_{\mu_1}(\Psi) \land \mu_2 \propentails \Delta_{\mu_1 \land
-    \mu_2}(\Psi)$
-\end{axiom}
-
-\begin{axiom}[\icpostulate{8}]
-    If $\Delta_{\mu_1}(\Psi) \land \mu_2$ is consistent, then $\Delta_{\mu_1
-    \land \mu_2}(\Psi) \propentails \Delta_{\mu_1}(\Psi) \land \mu_2$
-\end{axiom}
-
-\end{axiomlist}
-
-The only postulate that may cause trouble is \icpostulate{5}, since the union
-$\Psi_1 \sqcup \Psi_2$ may require more than $N$ sources for its representation
-in our framework. However, this is easily resolved by adding the precondition
-$|\Psi_1| + |\Psi_2| \le N$ to \icpostulate{5}.
-%
-It turns out that our three examples \emph{do} satisfy the IC postulates.
-
-\begin{theorem}
-    The merging operators associated with \varbasedcond{}, \partbasedcond{} and
-    \scorebasedop{} via \cref{kr_eqn_belief_merging_translation} satisfy
-    \icpostulate{0} - \icpostulate{8}.
-\end{theorem}
-
-\begin{proof}
-    We remind the reader that each operator satisfies all the basic postulates
-    of \cref{kr_sec_basic_postulates}, and we will use this fact freely
-    throughout the proof. Using the $\X_\sigma, \Y_\sigma$ notation for
-    model-based operators, we have that $\X_\sigma$ is the same for all three
-    operators. For disambiguation, we write $\Y_\sigma^\vbc$, $\Y_\sigma^\pbc$
-    and $\Y_\sigma^\exm$ for \varbasedcond{}, \partbasedcond{} and
-    \scorebasedop{} respectively.
-
-    \begin{itemize}
-        \item \icpostulate{0}: Since $\tuple{\ast, c, \mu} \in \sigma_{\Psi,
-            \mu}$, \soundness{} and \containment{} give $\S_\ast\mu \in
-            B^\sigma_c$; \closure{} and the fact that $\S_\ast\mu \liff \mu$ is
-            valid gives $\mu \in \proppart{B^{\sigma_{\Psi, \mu}}_c}$ and hence
-            $\Delta_\mu(\Psi) \propentails \mu$.
-
-        \item \icpostulate{1}: Consistency of $\mu$ implies $\ast$-consistency
-            of $\sigma_{\Psi, \mu}$, so $B^\sigma$ and thus $\Delta_\mu(\Psi)$
-            are consistent by \consistency{}.
-
-        \item \icpostulate{2}: Suppose $\bigland\Psi \land \mu$ is consistent.
-              Then $\mu$ is consistent, so $\sigma_{\Psi, \mu}$ is
-              $\ast$-consistent. Using the notation from
-              \cref{kr_sec_selective_change}, we have $\Gamma^{\sigma_{\Psi,
-              \mu}}_c = \Psi \cup \{\mu\}$. Recalling that \varbasedcond{},
-              \partbasedcond{} and \scorebasedop{} each satisfy \boundedness{}
-              -- i.e. $\proppart{B^\sigma_c} \subseteq
-              \cnprop(\Gamma^\sigma_c)$ -- we get $\bigland\Psi \land \mu
-              \propentails \Delta_\mu(\Psi)$.
-
-              For the reverse entailment, one can show that each of the three
-              operators has the following property:
-              \[
-                  \text{If } \Gamma^\sigma_c \text{ is consistent for all }
-                  c \in \C, \text{ then } \tuple{i, c, \phi} \in \sigma
-                  \implies \E_i\phi \in B^\sigma_c,
-              \]
-              i.e. all sources are believed to be experts on their reports when
-              there are no conflicts in $\sigma$. Together with \soundness{},
-              \containment{}, \closure{} and the logical validity $\E_i\phi
-              \land \S_i\phi \limplies \phi$ (\cref{kr_prop_validities}
-              \cref{kr_item_e_and_s_implies_phi}) we get $\phi_i \in
-              B^\sigma_c$ for each $i$. Hence $\Psi \cup \{\mu\} \subseteq
-              B^\sigma_c$, and thus $\Delta_\mu(\Psi) \propentails \bigland\Psi
-              \land \mu$.
-
-          \item \icpostulate{3}: This postulate follows easily from \rearr{}
-                and \equivpost{}.
-
-            \item \icpostulate{4}: Suppose $\phi \propentails \mu$, $\theta
-                  \propentails \mu$ and $\Delta_\mu(\Psi) \land
-                  \phi$ is consistent, where $\Psi = \{\phi, \theta\}$. Write
-                  \[
-                      \sigma_{\Psi, \mu}
-                      = (
-                        \tuple{\ast, c, \mu},
-                        \tuple{1, c, \phi},
-                        \tuple{2, c, \theta}
-                        ).
-                  \]
-                  We deal with \varbasedcond{} first. Since $\Delta_\mu(\{\phi,
-                  \theta\}) \land \phi$ is consistent, there is some $v \in
-                  \propmods{\phi} \cap \propmods{\proppart{B^{\sigma_{\Psi,
-                  \mu}}_c}}$. By \cref{kr_lemma_model_based_models_of_proppart}
-                  there is some $W \in \Y_{\sigma_{\Psi, \mu}}^\vbc$ with
-                  $v^W_c = v$. By \soundness{}, $W, c \models \S_2\theta$, i.e.
-                  $v \in \Pi^W_2[\theta]$. Consequently there is some $v' \in
-                  \propmods{\theta}$ with $v' \in \Pi^W_2[v]$. Now let $W'$ be
-                  the world obtained from $W$ by swapping the partitions of
-                  sources $1$ and $2$ and setting the valuation to $v'$.
-                  Observe that the plausibility order $\le$ for \varbasedcond{}
-                  is unaffected by such partition swaps, and thus $W$ and $W'$
-                  are equally ranked. We claim that $W' \in \X_{\sigma_{\Psi,
-                  \mu}}$, i.e. $W'$ validates all the soundness constraints.
-                  Indeed, $v' \in \propmods{\theta} \subseteq \propmods{\mu}$,
-                  so $W', c \models \mu \land \theta$; hence $W', c \models
-                  \S_\ast\mu \land \S_2\theta$.  By construction we have
-                  \[
-                      v^{W'}_c
-                      = v'
-                      \in \Pi^W_2[v]
-                      = \Pi^{W'}_1[v]
-                      \subseteq \Pi^{W'}_1[\phi]
-                  \]
-                  so $W', c \models \S_1\phi$ also. Hence $W \in
-                  \X_{\sigma_{\Psi, \mu}}$. But $W'$ ranks equally with $W$,
-                  which is minimal in $\X_{\sigma_{\Psi, \mu}}$. Hence $W'$ is
-                  also minimal, i.e. $W' \in \Y_{\sigma_{\Psi, \mu}}^\vbc$.
-                  Since $W', c \models \theta$, we have that
-                  $\Delta_\mu(\Psi) \land \theta$ is consistent, as required.
-
-                  The same argument also goes through for \partbasedcond{},
-                  since the plausibility ranking for \partbasedcond{} is
-                  similarly unaffected by partition swaps.
-
-                  It remains to consider \scorebasedop{}. By \icpostulate{2} we
-                  may assume without loss of generality that $\phi \land
-                  \theta$ is inconsistent. Recall that by assumption $\phi$ and
-                  $\theta$ are individually consistent. Take some $v_1 \in
-                  \propmods{\phi}$ and $v_2 \in \propmods{\theta}$. Then $v_1$
-                  and $v_2$ are necessarily distinct.
-
-                  Let $\widehat{\Pi} = \{\{v_1, v_2\}\} \cup \{\{u\} \mid u
-                  \notin \{v_1, v_2\}\}$ be the partition in which $v_1$ and
-                  $v_2$ share a cell, and all other valuations lie in their own
-                  cell. Let $W$ be the world with valuation $v_2$ in which all
-                  sources except $1$ have partition $\Pi_\bot = \{\{u\} \mid u
-                  \in \vals\}$, with source $1$ having partition
-                  $\widehat{\Pi}$.\footnote{Note that this is a similar
-                  construction to that of the proof of
-                  \cref{kr_prop_strongcondsucc_conditioning_impossibilitity}.}
-
-                  Then, with $r$ denoting the ranking function associated with
-                  \scorebasedop{}, we have $r_{\sigma_{\Psi, \mu}}(W) = 1$.
-                  Since $\phi \land \theta$ are inconsistent, there can be no
-                  world with score 0. Hence $W \in \Y_{\sigma_{\Psi,
-                  \mu}}^\exm$. Since $W, c \models \theta$, $\Delta_\mu(\Psi)
-                  \land \theta$ is consistent, and we are done.
-
-        \item \icpostulate{5}
-        \item \icpostulate{6}
-        \item \icpostulate{7}
-        \item \icpostulate{8}
-    \end{itemize}
-
-\end{proof}
-
-However, there are further postulates in the belief merging literature
+Furthermore, there are further postulates in the belief merging literature
 which cannot be expressed in our framework due to the fixed-source assumption.
-For example, the \emph{majority} postulate says that by repeating $\Psi_2$
-enough times, the merged output implies $\Delta_\mu(\Psi_2)$.
+For example, consider the \emph{majority} postulate:
 
 \begin{axiom}[\majoritymerging{}]
     $\exists n \in \Nat:\ \Delta_\mu(\Psi_1 \sqcup \Psi_2^n) \propentails

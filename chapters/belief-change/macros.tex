@@ -21,10 +21,12 @@
 \newcommand{\lprop}{\lang{}_0}
 \newcommand{\lext}{\lang{}}
 \newcommand{\vals}{\mathcal{V}}
+\newcommand{\parts}{\mathcal{P}}
 \newcommand{\true}{\top}
 \newcommand{\falsum}{\bot}
+\newcommand{\R}{\mathbb{R}}
 \newcommand{\Nat}{\mathbb{N}}
-\newcommand{\Ninf}{\Nat \cup \{\infty\}}
+\newcommand{\Ninf}{\Nat_0 \cup \{\infty\}}
 \renewcommand{\phi}{\varphi}
 \newcommand{\rs}{\upharpoonright}
 \newcommand{\snd}{\mathsf{snd}}
@@ -37,7 +39,7 @@
 % \newcommand{\propmods}[1]{\mods_0\left({#1}\right)}
 \newcommand{\propmods}[1]{\|{#1}\|}
 \newcommand{\concat}{\cdot}
-\newcommand{\argmin}{\operatorname{argmin}}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
 \newcommand{\proppart}[1]{\left[{#1}\right]}
 \newcommand{\exppart}[1]{\operatorname{\E}\left({#1}\right)}
 \newcommand{\bigjoin}{\bigvee}
@@ -78,6 +80,12 @@
 \newcommand{\vbc}{\mathsf{vbc}}
 \newcommand{\pbc}{\mathsf{pbc}}
 \newcommand{\exm}{\mathsf{exm}}
+
+% merging operators
+\newcommand{\mergingop}[1]{\Delta^{#1}}
+\newcommand{\vbcmergingop}{\mergingop{\vbc}}
+\newcommand{\pbcmergingop}{\mergingop{\pbc}}
+\newcommand{\exmmergingop}{\mergingop{\exm}}
 
 % markup
 \newcommand{\tuple}[1]{\langle {#1} \rangle}
