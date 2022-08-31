@@ -3663,7 +3663,7 @@ corresponding to these distances.
 \end{restatable}
 
 The proof can be found in \cref{kr_app_sec_thm_merging_operators}. It follows
-that $\vbcmergingop$, $\pbcmergingop$ and $\exmmergingop$ each satisfy the
+that $\vbcmergingop$, $\pbcmergingop$ and $\exmmergingop$ satisfy the
 \emph{IC postulates} \icpostulate{0} -- \icpostulate{8} of
 \textcite{konieczny2002merging}.
 
@@ -3717,7 +3717,75 @@ was given as part of the input -- would allow such postulates to be expressed.
 
 \paragraph{Trust and belief revision.}
 
-\todo{Talk about \textcite{yasser_21}.}
+\textcite{yasser_21} study the joint revision of belief and trust in the style
+of belief revision theory. As with our framework, they consider reports from
+multiple sources, and set out several postulates to govern the interaction
+between trust in sources and belief in formulas.
+%
+Unlike our work, however, they take a more general view of trust -- not based
+on any fixed semantic notion such as expertise -- wherein sources are assigned
+degrees of trust on each topic. In this way, their view of trustworthiness is
+closer to that of truth discovery in \cref{chapter_td}.
+
+Formally, they consider totally ordered sets $\mathcal{D}_b$ and
+$\mathcal{D}_t$ of \emph{belief and trust degrees}, respectively, and a finite
+collection of \emph{topics} $\mathcal{O}$, where each $T \in \mathcal{O}$ is a
+set of formulas such that $\bigcup\mathcal{O} = \mathcal{L}$.\footnotemark{} An
+\emph{information state} $\mathcal{K}$ then consists of
+%
+\begin{inlinelist}
+    \item a set of reports of the form $\tuple{i, \phi}$;
+    \item a partial function assigning degrees of belief in formulas of
+        $\mathcal{L}$; and
+    \item a partial function assigning degrees of trust in a source-topic pair.
+\end{inlinelist}
+
+\footnotetext{
+    Note that we have changed the notation compared to the original paper.
+}
+%
+A revision operator $\ltimes$ then updates takes an information state
+$\mathcal{K}$ and a new report $\tuple{i, \phi}$ and produces a new information
+state $\mathcal{K} \ltimes \tuple{i, \phi}$. The authors introduce natural
+notions of \emph{entrenchment}, whereby a formula $\phi$ may be more entrenched
+in a state $\mathcal{K}$ over $\mathcal{K'}$, and similarly where a source $i$
+may be more trusted on a topic $T$ in $\mathcal{K}$ over $\mathcal{K'}$. Such
+entrenchment notions are used to state postulates to constrain $\ltimes$.
+
+This framework generalises ours along several dimensions. Primarily, it allows
+an operator to consider graded belief and trust via the degree sets
+$\mathcal{D}_b$ and $\mathcal{D}_t$. In our framework we have, roughly
+speaking, only three degrees:
+%
+\begin{inlinelist}
+    \item 1, if $\phi \in B^\sigma_c$;
+    \item -1, if $\neg\phi \in B^\sigma_c$; and
+    \item 0, if $\phi \notin B^\sigma_c$ and $\neg\phi \notin B^\sigma_c$.
+\end{inlinelist}
+Likewise, we have three degrees for trust by considering membership of
+$\E_i\phi$ and $\neg\E_i\phi$.
+
+Secondly, their notion of trust is vastly more general than ours. This can be
+seen as a benefit, since the framework can be applied in more settings, or
+as a drawback, since the generality restricts the extent to which the authors
+can state postulates which are reasonable in the general case. Indeed, part of
+our motivation to study trust via expertise was to be able to introduce more
+specific -- and, hopefully, more interesting -- postulates and operators.
+
+Our notion of separate cases -- representing different instantiations of some
+propositional domain -- can also be represented via an encoding trick. Namely,
+one can consider the propositional language $\lprop^\C$ formed from
+propositional variables of the form $p_c$, for $p \in \propvars$ and $c \in
+\C$, read as ``$p$ holds in case $c$''. A report $\tuple{i, c, \phi}$ in our
+framework becomes $\tuple{i, \phi_c}$, where $\phi_c$ is obtained from $\phi
+\in \lprop$ by replacing each variable $p$ appearing in $\phi$ with $p_c$. To
+ensure that trust is fixed across cases, one can choose as topics $T_\phi =
+\{\phi_c \mid c \in \C\}$.
+
+Ultimately, our work is complementary and addresses the problem of trust and
+belief revision from a different angle. Future work could investigate further
+links and differences between the two frameworks; for example by comparing
+postulates.
 
 \section{Conclusion}
 \label{kr_sec_conclusion}
