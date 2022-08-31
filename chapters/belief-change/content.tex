@@ -3787,6 +3787,49 @@ belief revision from a different angle. Future work could investigate further
 links and differences between the two frameworks; for example by comparing
 postulates.
 
+\paragraph{Building trust.} In recent work, \textcite{hunter_building_21}
+investigates how trust in a source may be determined from its record on past
+reports. Our work shares a common ancestor via \cite{booth_trust_2018}, in
+which trust is rooted in expertise and the ability of sources to distinguish
+between states. In \cite{booth_trust_2018}, a single partition was used to
+represent expertise. Here, we consider possibly several partitions $\Pi^W_i$,
+for $W \in \Y_\sigma$.
+
+\textcite{hunter_building_21} considers a richer representation of
+distinguishability, in the form of a \emph{pseudo-ultrametric} $d$ on states
+for each source; that is, a function $d: \vals \times \vals \to \R_{\ge 0}$
+such that
+\begin{inlinelist}
+    \item $d(v, v) = 0$;
+    \item $d(u, v) = d(v, u)$; and
+    \item\label{kr_item_ultrametric_inequality}
+        $d(u, v) \le \max\{d(u, w), d(w, v)\}$.
+\end{inlinelist}
+Here $d(u, v)$ represents the degree to which the source is trusted to be able
+to distinguish states $u$ and $v$. Due to the so-called \emph{ultrametric
+inequality} \cref{kr_item_ultrametric_inequality}, the set of balls of radius
+$r$ -- i.e. $\{\{u \mid d(u, v) \le n\} \mid v \in \vals\}$ -- forms a
+partition of $\vals$. Consequently, any threshold value $r$ gives rise to a
+partition. In this sense the pseudo-ultrametric representation generalises
+partitions.
+
+More importantly, \textcite{hunter_building_21} considers how to iteratively
+\emph{revise} a pseudo-ultrametric from a so-called \emph{report history}. Such
+a history consists of reports of the form $\tuple{\phi, j}$, representing the
+fact that the source had previously reported $\phi$ and was either correct (if
+$j = 1$) or incorrect (if $j = 0$). An algorithm is given to update a
+pseudo-ultrametric $d$ given a history, and thereby modify the revision agent's
+perception of the source's expertise on the basis of their past performance.
+
+Report histories can be modelled in our framework by reports from $\ast$. For
+example, a negative example $\tuple{\phi, 0}$ from source $i$ can be
+represented by the sequence $(\tuple{i, c, \phi}, \tuple{\ast, c, \neg\phi})$.
+However, we take a different view on what to \emph{do} with such histories: our
+operators select possible partitions representing the source's expertise,
+whereas the algorithm of \textcite{hunter_building_21} updates a
+pseudo-ultrametric representation. Investigating ways in which the two
+approaches can be combined is an interesting direction for future work.
+
 \section{Conclusion}
 \label{kr_sec_conclusion}
 
