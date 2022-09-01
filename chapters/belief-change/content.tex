@@ -16,10 +16,10 @@ actual world, i.e. the aggregation of the reports from sources.
 Our point of departure is logic-based belief change in the AGM
 paradigm~\cite{alchourron1985logic}.  To illustrate the problem -- and how it
 differs from existing forms of belief change -- consider the following scenario
-in a hospital. Suppose we observe the results of a blood test of patient 1,
-confirming condition X. Assuming the test is reliable, AGM revision tells us
-how to revise our beliefs in light of the new information. Dr.\ A then claims
-that patient 2 suffers from the same condition, but Dr.\ B disagrees. Given
+in a hospital. Suppose we observe the results of a blood test of patient $\patientA$,
+confirming condition $p$. Assuming the test is reliable, AGM revision tells us
+how to revise our beliefs in light of the new information. Dr.\ $\drX$ then claims
+that patient $\patientB$ suffers from the same condition, but Dr.\ $\drY$ disagrees. Given
 that doctors specialise in different areas and may make mistakes, who should we
 trust?
 %
@@ -28,11 +28,11 @@ information is reliable, we are outside the realm of AGM revision, and must
 instead apply some form of \emph{non-prioritised}
 revision~\cite{hansson1999survey}.
 
-Suppose it now emerges that Dr.\ A had earlier claimed patient 1 did \emph{not}
-suffer from condition X, contrary to the test results. We now have reason to
-suspect Dr.\ A may \emph{lack expertise} on diagnosing X, and may subsequently
-revise beliefs about Dr.\ A's domain of expertise and the status of patient
-2 (e.g. by opting to trust Dr.\ B instead).
+Suppose it now emerges that $\drX$ had earlier claimed $\patientA$ did \emph{not}
+suffer from condition p, contrary to the test results. We now have reason to
+suspect $\drX$ may \emph{lack expertise} on diagnosing p, and may subsequently
+revise beliefs about $\drX$'s domain of expertise and the status of patient
+$\patientB$ (e.g. by opting to trust $\drY$ instead).
 
 While simple, this example illustrates the key features of the belief change
 problem we study: we consider multiple sources, whose expertise is \emph{a
@@ -93,10 +93,10 @@ That is, reports are only false due to sources overstepping the bounds of their
 expertise. In particular, we assume sources are honest in their reports, and
 that experts are always right.
 
-Note that in our introductory example, the fact that we had a report from Dr.\ A
-on patient 1 (together with reliable information on patient 1) was essential
-for determining the expertise of Dr.\ A, and subsequently the status of patient
-2. While the patients are independent, reports on one can cause beliefs about
+Note that in our introductory example, the fact that we had a report from Dr.\ $\drX$
+on patient $\patientA$ (together with reliable information on patient $\patientA$) was essential
+for determining the expertise of $\drX$, and subsequently the status of patient
+$\patientB$. While the patients are independent, reports on one can cause beliefs about
 the other to change, as we update our beliefs about the expertise of the
 sources.
 
@@ -113,8 +113,8 @@ having only partial information about ``previous'' cases.
 
 Throughout the chapter we make the assumption that \emph{expertise is fixed
 across cases}: the expertise of a source does not depend on the particular
-instance of the domain we look at. For instance, the expertise of Dr.\ A is the
-same for patient 1 as for patient 2. This is a simplifying assumption, and may
+instance of the domain we look at. For instance, the expertise of Dr.\ $\drX$ is the
+same for patient $\patientA$ as for patient $\patientB$. This is a simplifying assumption, and may
 rule out certain interpretations of the cases (e.g. if cases represent
 different points in time, it would be natural to let expertise evolve over
 time as per the dynamics of \cref{exp_sec_dynamic_extension}).
@@ -335,36 +335,36 @@ expertise models and collections. We come to an example.
 \begin{example}
     \label{kr_ex_hospital_world}
     Let us extend the hospital example from the introduction. Let $\srcs = \{\ast,
-    a, b\}$ denote the reliable source, Dr.\ A and Dr.\ B, and let $\C = \{c_1,
-    c_2\}$ denote patients 1 and 2. Consider propositional variables
-    $\propvars = \{x, y\}$, standing
-    for condition X and Y respectively. Suppose that Dr.\ A has expertise on
-    diagnosing condition Y only, whereas Dr.\ B only has expertise on X. For the
-    sake of the example, suppose that patient 1 suffers from both conditions,
-    and patient 2 suffers only from condition Y. This situation is modelled by
-    the following world $W = \tuple{\{v_c\}_{c \in \{c_1, c_2\}}, \{\Pi_i\}_{i
-    \in \{\ast, a, b\}}}$:
+    \drX, \drY\}$ denote the reliable source, Dr.\ $\drX$ and Dr.\ $\drY$, and let $\C = \{\patientA,
+    \patientB\}$ denote patients $\patientA$ and $\patientB$. Consider propositional variables
+    $\propvars = \{p, q\}$, standing
+    for conditions $p$ and $q$ respectively. Suppose that $\drX$ has expertise on
+    diagnosing condition $q$ only, whereas $\drY$ only has expertise on $p$. For the
+    sake of the example, suppose that patient $\patientA$ suffers from both conditions,
+    and patient $\patientB$ suffers only from condition $q$. This situation is modelled by
+    the following world $W = \tuple{\{v_c\}_{c \in \{\patientA, \patientB\}}, \{\Pi_i\}_{i
+    \in \{\ast, \drX, \drY\}}}$:
     \[
         \begin{array}{cc}
-            v_{c_1} = xy;
+            v_{\patientA} = pq;
             &
-            v_{c_2} = \bar{x}y;
+            v_{\patientB} = \bar{p}q;
             \\
-            \Pi_a = xy, \bar{x}y \mid x\bar{y}, \bar{x}\bar{y};
+            \Pi_{\drX} = pq, \bar{p}q \mid p\bar{q}, \bar{p}\bar{q};
             &
-            \Pi_b = xy, x\bar{y} \mid \bar{x}y, \bar{x}\bar{y}.
+            \Pi_{\drY} = pq, p\bar{q} \mid \bar{p}q, \bar{p}\bar{q}.
         \end{array}
     \]
-    % (where $\Pi_\ast$ is the unit partition)
-    We have $W, c \models \E_a y
-    \land \E_b x$ for each $c \in \{c_1, c_2\}$. Also note that $W, c_1 \models
-    x$ (patient 1 suffers from X), $W, c_1 \models \S_a{\neg x}$ (it is sound
-    for Dr.\ A to report otherwise; this holds since $\Pi_a[\neg x] = \{xy,
-    \bar{x}y\} \cup \{x\bar{y}, \bar{x}\bar{y}\} \ni xy = v_{c_1}$), but $W,
-    c_1 \models \neg \S_b{\neg x}$ (the same formula is \emph{not} sound for
-    Dr.\
-    B; we have $\Pi_b[\neg x] = \{\bar{x}y, \bar{x}\bar{y}\} = \propmods{\neg
-    x} \not\ni xy = v_{c_1}$).
+    \todo{consider tikz diagram}
+    We have $W, c \models \E_{\drX} q
+    \land \E_{\drY} p$ for each $c \in \{\patientA, \patientB\}$. Also note that $W, \patientA \models
+    p$ ($\patientA$ suffers from $p$), $W, \patientA \models \S_{\drX}{\neg p}$ (it is sound
+    for $\drX$ to report otherwise; this holds since $\Pi_{\drX}[\neg p] = \{pq,
+    \bar{p}q\} \cup \{p\bar{q}, \bar{p}\bar{q}\} \ni pq = v_{\patientA}$), but $W,
+    \patientA \models \neg \S_{\drY}{\neg p}$ (the same formula is \emph{not} sound for
+    $\drY$;
+    we have $\Pi_{\drY}[\neg p] = \{\bar{p}q, \bar{p}\bar{q}\} = \propmods{\neg
+    p} \not\ni pq = v_{\patientA}$).
 \end{example}
 
 Say $\Phi$ is \emph{valid} if $W, c \models \Phi$ for all $W \in \W$ and $c \in \C$.
@@ -987,26 +987,26 @@ by formalising the introductory hospital example.
     \[
         \sigma
         = (
-            \tuple{\ast, c_1, x},
-            \tuple{a, c_2, x},
-            \tuple{b, c_2, \neg x},
-            \tuple{a, c_1, \neg x}
+            \tuple{\ast, \patientA, p},
+            \tuple{\drX, \patientB, p},
+            \tuple{\drY, \patientB, \neg p},
+            \tuple{\drX, \patientA, \neg p}
         ).
     \]
     What do we know on the basis of this sequence, assuming the basic
     postulates? First note that by \soundness{}, \cref{kr_prop_validities}
-    part \cref{kr_item_star_exp} and \closure{}, the report from $\ast$ gives $x
-    \in K^\sigma_{c_1}$, i.e. reliable reports are known. \soundness{} also
-    gives $\S_a{x} \land \S_b{\neg x} \in K^\sigma_{c_2}$. Combined with
+    part \cref{kr_item_star_exp} and \closure{}, the report from $\ast$ gives $p
+    \in K^\sigma_{\patientA}$, i.e. reliable reports are known. \soundness{} also
+    gives $\S_{\drX}{p} \land \S_{\drY}{\neg p} \in K^\sigma_{\patientB}$. Combined with
     \cref{kr_prop_validities} parts \cref{kr_item_e_symmetric},
     \cref{kr_item_e_and_s_implies_phi} and \closure{}, this yields
-    $\neg(\E_a{x} \land \E_b{x}) \in K^\sigma_c$ for all $c$, formalising the
-    intuitive idea that Drs.\ A and B cannot both be experts on X, since they
+    $\neg(\E_{\drX}{p} \land \E_{\drY}{p}) \in K^\sigma_c$ for all $c$, formalising the
+    intuitive idea that $\drX$ and $\drY$ cannot both be experts on $p$, since they
     give conflicting reports.
     %
-    Considering the final report from $a$, we get $x \land \S_a{\neg x} \in
-    K^\sigma_{c_1}$, and thus $\neg \E_a{x} \in K^\sigma_c$ by
-    \closure{}. So in fact Dr.\ A is known to be a non-expert on X.
+    Considering the final report from $\drX$, we get $p \land \S_{\drX}{\neg p} \in
+    K^\sigma_{\patientA}$, and thus $\neg \E_{\drX}{p} \in K^\sigma_c$ by
+    \closure{}. So in fact $\drX$ is known to be a non-expert on $p$.
 
     What about beliefs? The basic postulates do not require beliefs to go
     beyond knowledge, so we cannot say much in general. An ``optimistic''
@@ -1014,13 +1014,13 @@ by formalising the introductory hospital example.
     know otherwise, and thus maximise the information that can be (defeasibly)
     inferred from the sequence (in the next section we will introduce
     concrete operators obeying this principle). In this case we may believe
-    that at least one source has expertise on $x$ (i.e. $\E_a{x} \lor \E_b{x} \in
-    B^\sigma_c$).  Combined with $\neg \E_a{x} \in K^\sigma_c$, \closure{} and
-    \containment{}, we get $\E_b{x} \in B^\sigma_{c_2}$. Symmetry of expertise
+    that at least one source has expertise on $p$ (i.e. $\E_{\drX}{p} \lor \E_{\drY}{p} \in
+    B^\sigma_c$).  Combined with $\neg \E_{\drX}{p} \in K^\sigma_c$, \closure{} and
+    \containment{}, we get $\E_{\drY}{p} \in B^\sigma_{\patientB}$. Symmetry of expertise
     together with \cref{kr_prop_basic_postulates_consequences} part
-    \cref{kr_item_trust_belief_link} then gives $\neg x \in
-    B^\sigma_{c_2}$, i.e. we trust Dr.\ B in the example and believe patient 2
-    does not suffer from condition X.
+    \cref{kr_item_trust_belief_link} then gives $\neg p \in
+    B^\sigma_{\patientB}$, i.e. we trust $\drY$ in the example and believe $\patientB$
+    does not suffer from condition $p$.
 
 \end{example}
 
@@ -3257,7 +3257,7 @@ $\E_i{p}
 This example already shows that \varbasedcond{}, \partbasedcond{} and
 \scorebasedop{} are not EC-selective.
 
-The core issue here is that, unlike in ealier work on trust-based selective
+The core issue here is that, unlike in earlier work on trust-based selective
 revision, the expertise of sources is part of the operator's output and is thus
 uncertain. In order for $\E_i\phi$ to be believed, $i$ needs to be trusted on
 $\phi$ in \emph{every} maximally plausible world. If there are several such
@@ -3265,7 +3265,7 @@ worlds with different assessments of expertise -- e.g. if $W_1$ trusts $i$ but
 not $j$, and vice versa in $W_2$ -- then EC-selectivity requires reports to be
 significantly weakened before expertise is believed in \emph{all} worlds.
 
-For model-based operators satifying \soundness{}, this phenomenon can be
+For model-based operators satisfying \soundness{}, this phenomenon can be
 formalised: a report of $\phi$ from source $i$ is expanded by the
 \emph{join}\footnotemark{} of the partitions $\Pi^W_i$, for $W \in \Y_\sigma$.
 As the above example shows, this join may be strictly coarser than any of the
@@ -3297,7 +3297,7 @@ $i$-partitions of worlds in $S$. We first need a preliminary result.
     \Pi^{\Y_\sigma}_i[\phi]$. Let $R^W_i$ be the equivalence relation
     corresponding to the partition $\Pi^W_i$. Then the relation $R$
     corresponding to the join $\Pi^{\Y_\sigma}_i$ is the smallest equivalence
-    relation containing each of the $R^W_i$, which is given explictly by the
+    relation containing each of the $R^W_i$, which is given explicitly by the
     transitive closure $R = \left(\bigcup_{W \in
     \Y_\sigma}{R^W_i}\right)^\trcls$.
 
@@ -3308,7 +3308,7 @@ $i$-partitions of worlds in $S$. We first need a preliminary result.
     \Y_\sigma}{R^W_i}$. That is, there are $W_0, \ldots, W_{n - 1} \in
     \Y_\sigma$ such that $(x_k, x_{k + 1}) \in R^{W_k}_i$.
     %
-    We wil show that each $x_k$ lies in $\propmods{\phi}$ by backwards
+    We will show that each $x_k$ lies in $\propmods{\phi}$ by backwards
     induction. For $k = n$, we have $x_n = u \in \propmods{\phi}$ by
     assumption. If $x_{k + 1} \in \propmods{\phi}$, then $(x_k, x_{k + 1}) \in
     R^{W_k}_i$ gives $x_k \in \Pi^{W_k}_i[x_{k + 1}] \subseteq
@@ -3685,7 +3685,7 @@ explicitly modelling expertise (and trust, via beliefs about expertise). While
 it may be possible to model expertise \emph{implicitly} in belief merging (for
 example, say $i$ is not trusted on $\psi$ if $\Delta_\mu(\Psi) \not\vdash \psi$
 when $\phi_i \vdash \psi$), bringing expertise to the object level allows us to
-express more complex beliefs about expertise, such as $\E_a{x} \lor \E_b{x}$ in
+express more complex beliefs about expertise, such as $\E_{\drX}{p} \lor \E_{\drY}{p}$ in
 \cref{kr_ex_hospital_ex_formalised}. It also facilitates postulates which refer
 directly to expertise, such as the weakenings of \axiomref{Success} in
 \cref{kr_sec_one_step_postulates}. Moreover, such beliefs about expertise
