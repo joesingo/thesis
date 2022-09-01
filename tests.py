@@ -96,7 +96,7 @@ class TestSuite:
         should not mention 'paper'
         """
         exceptions = [
-            "\documentclass[a4paper,12pt,oneside]{memoir}",
+            r"\documentclass[a4paper,12pt,oneside]{memoir}",
             "Note that we have changed the notation compared to the original "
             "paper.",
             r"We refer the reader to the original TruthFinder paper"
