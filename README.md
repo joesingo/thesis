@@ -11,20 +11,9 @@
 
 - Change paper, work etc to chapter, thesis etc
 
-- Change "the appendix" to proper reference
-
-- Proof sketches can be moved out of appendices
-
-- Proofs deferred to the appendix only for space reasons can be moved into the
-  body
-
 - Punctuation at the end of display math
 
-- Standardise \paragraph vs \subsection etc divisions across chapters
-
 - Duplicate references in bibliography
-
-- Shared notation between KR and NMR papers
 
 - Possible mathematical prerequisites
     * preorders, total preorders, strict parts, max/min
@@ -33,10 +22,6 @@
 
 - References:
     * `van` for Dutch names
-
-## TD
-
-- Tikz-ify the figures
 
 ## Bipartite tournaments
 
@@ -52,13 +37,11 @@ From parsing compile logs:
 
 # New content
 
-## Extensions and elaborations
-
-- KR paper: more detailed analysis of merging, and compare postulates
-
 ## Open questions
 
 - Sums and Monotonicity in TD chapter
 - Operator with chain-min, dual and mon simultaneously in tournament chapter
 - For expertise models: can closure under arbitrary unions be captured at the
   level of frames?
+- KR paper:
+    - H-boundedness for our operators

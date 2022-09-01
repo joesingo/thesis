@@ -95,8 +95,14 @@ class TestSuite:
         """
         should not mention 'paper'
         """
-        # hacky exceptions...
-        if "a4paper" not in line and "original TruthFinder paper" not in line:
+        exceptions = [
+            "\documentclass[a4paper,12pt,oneside]{memoir}",
+            "Note that we have changed the notation compared to the original "
+            "paper.",
+            r"We refer the reader to the original TruthFinder paper"
+            r"~\cite{yin2008} for the",
+        ]
+        if line not in exceptions:
             assert "paper" not in line
 
     @test(line_based=True)
