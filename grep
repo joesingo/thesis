@@ -1,0 +1,2 @@
+#!/bin/bash
+grep --exclude-dir=".latex" --exclude-dir="venv" --exclude-dir="lean" --color=auto "$@"
