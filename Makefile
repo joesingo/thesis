@@ -6,3 +6,6 @@ bib:
 
 test:
 	venv/bin/python tests.py && echo "passed"
+
+clean:
+	rm .latex/*
