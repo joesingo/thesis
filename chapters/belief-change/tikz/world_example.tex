@@ -1,0 +1,43 @@
+\begin{tikzpicture}[scale=2]
+    \def\p{0.3}
+    \def\q{0.45}
+
+    \node at (0, 0) {\Large ${pq}$};
+    \node at (1, 0) {\Large ${p\bar{q}}$};
+    \node at (0, 1) {\Large ${\bar{p}q}$};
+    \node at (1, 1) {\Large ${\bar{p}\bar{q}}$};
+
+    \draw[drycells]
+        (-\p, -\p) --
+        (1 + \p, -\p) --
+        (1 + \p, \p) --
+        (-\p, \p) --
+        cycle;
+    \draw[drycells]
+        (-\p, 1 + \p) --
+        (1 + \p, 1 + \p) --
+        (1 + \p, 1 - \p) --
+        (-\p, 1 - \p) --
+        cycle;
+
+    \draw[drxcells]
+        (-\q, -\q) --
+        (\q, -\q) --
+        (\q, 1 + \q) --
+        (-\q, 1 + \q) --
+        cycle;
+    \draw[drxcells]
+        (1 - \q, -\q) --
+        (1 + \q, -\q) --
+        (1 + \q, 1 + \q) --
+        (1 - \q, 1 + \q) --
+        cycle;
+
+    \node[color=red] at (1.75, 0) {\Large ${\Pi_{\drY}}$};
+    \node[color=blue] at (1.75, 1) {\Large ${\Pi_{\drX}}$};
+
+    \node[color=black!60!green] (va) at (-0.75, 0) {\Large ${v_{\patientA{}}}$};
+    \node[color=black!60!green] (vb) at (-0.75, 1) {\Large ${v_{\patientB{}}}$};
+    \draw[vals,->] (va) -- (-0.175, 0);
+    \draw[vals,->] (vb) -- (-0.175, 1);
+\end{tikzpicture}

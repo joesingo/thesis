@@ -334,16 +334,17 @@ expertise models and collections. We come to an example.
 
 \begin{example}
     \label{kr_ex_hospital_world}
-    Let us extend the hospital example from the introduction. Let $\srcs = \{\ast,
-    \drX, \drY\}$ denote the reliable source, Dr.\ $\drX$ and Dr.\ $\drY$, and let $\C = \{\patientA,
-    \patientB\}$ denote patients $\patientA$ and $\patientB$. Consider propositional variables
-    $\propvars = \{p, q\}$, standing
-    for conditions $p$ and $q$ respectively. Suppose that $\drX$ has expertise on
-    diagnosing condition $q$ only, whereas $\drY$ only has expertise on $p$. For the
-    sake of the example, suppose that patient $\patientA$ suffers from both conditions,
-    and patient $\patientB$ suffers only from condition $q$. This situation is modelled by
-    the following world $W = \tuple{\{v_c\}_{c \in \{\patientA, \patientB\}}, \{\Pi_i\}_{i
-    \in \{\ast, \drX, \drY\}}}$:
+    Let us extend the hospital example from the introduction. Let $\srcs =
+    \{\ast, \drX, \drY\}$ denote the reliable source, Dr.\ $\drX$ and Dr.\
+    $\drY$, and let $\C = \{\patientA, \patientB\}$ denote patients $\patientA$
+    and $\patientB$. Consider propositional variables $\propvars = \{p, q\}$,
+    standing for conditions $p$ and $q$ respectively. Suppose that $\drX$ has
+    expertise on diagnosing condition $q$ only, whereas $\drY$ only has
+    expertise on $p$. For the sake of the example, suppose that patient
+    $\patientA$ suffers from both conditions, and patient $\patientB$ suffers
+    only from condition $q$. This situation is modelled by the following world
+    $W = \tuple{\{v_c\}_{c \in \{\patientA, \patientB\}}, \{\Pi_i\}_{i \in
+    \{\ast, \drX, \drY\}}}$:
     \[
         \begin{array}{cc}
             v_{\patientA} = pq;
@@ -352,20 +353,31 @@ expertise models and collections. We come to an example.
             \\
             \Pi_{\drX} = pq, \bar{p}q \mid p\bar{q}, \bar{p}\bar{q};
             &
-            \Pi_{\drY} = pq, p\bar{q} \mid \bar{p}q, \bar{p}\bar{q}.
+            \Pi_{\drY} = pq, p\bar{q} \mid \bar{p}q, \bar{p}\bar{q},
         \end{array}
     \]
-    \todo{consider tikz diagram}
-    We have $W, c \models \E_{\drX} q
-    \land \E_{\drY} p$ for each $c \in \{\patientA, \patientB\}$. Also note that $W, \patientA \models
-    p$ ($\patientA$ suffers from $p$), $W, \patientA \models \S_{\drX}{\neg p}$ (it is sound
-    for $\drX$ to report otherwise; this holds since $\Pi_{\drX}[\neg p] = \{pq,
-    \bar{p}q\} \cup \{p\bar{q}, \bar{p}\bar{q}\} \ni pq = v_{\patientA}$), but $W,
-    \patientA \models \neg \S_{\drY}{\neg p}$ (the same formula is \emph{not} sound for
-    $\drY$;
-    we have $\Pi_{\drY}[\neg p] = \{\bar{p}q, \bar{p}\bar{q}\} = \propmods{\neg
-    p} \not\ni pq = v_{\patientA}$).
+    where $\Pi_\ast$ is the unit partition. This world is also depicted
+    graphically in \cref{kr_fig_example_world}.
+    %
+    We have $W, c \models \E_{\drX} q \land \E_{\drY} p$ for each $c \in
+    \{\patientA, \patientB\}$. Also note that $W, \patientA \models p$
+    ($\patientA$ suffers from $p$), $W, \patientA \models \S_{\drX}{\neg p}$
+    (it is sound for $\drX$ to report otherwise; this holds since
+    $\Pi_{\drX}[\neg p] = \{pq, \bar{p}q\} \cup \{p\bar{q}, \bar{p}\bar{q}\}
+    \ni pq = v_{\patientA}$), but $W, \patientA \models \neg \S_{\drY}{\neg p}$
+    (the same formula is \emph{not} sound for $\drY$; we have $\Pi_{\drY}[\neg
+    p] = \{\bar{p}q, \bar{p}\bar{q}\} = \propmods{\neg p} \not\ni pq =
+    v_{\patientA}$).
 \end{example}
+
+\begin{figure}
+    \centering
+    \input{chapters/belief-change/tikz/world_example.tex}
+    \caption{
+        Depiction of the world $W$ defined in \cref{kr_ex_hospital_world}.
+    }
+    \label{kr_fig_example_world}
+\end{figure}
 
 Say $\Phi$ is \emph{valid} if $W, c \models \Phi$ for all $W \in \W$ and $c \in \C$.
 For future reference we collect a list of validities.\footnotemark{}
