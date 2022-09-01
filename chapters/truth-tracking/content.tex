@@ -1,13 +1,10 @@
 \chapter{Truth-Tracking}
 \label{chapter_truthtracking}
 
-\todo{Sort out this chapter.}
-
-% \section{Introduction}
-
-In this chapter we study truth-tracking in the logical framework of
-\textcite{singleton_booth_22_preprint} for reasoning about multiple non-expert
-information sources. Broadly speaking, the goal of truth-tracking is to find
+In this chapter we study apply the framework of the previous chapter to study
+\emph{truth-tracking}.
+%
+Broadly speaking, the goal of truth-tracking is to find
 the true state of the world given some input which describes it. In our case
 this involves finding the true state of some propositional domain about which
 the sources give reports, and finding the extent of the expertise of the
@@ -30,56 +27,50 @@ takes place in a logical framework. \emph{Belief merging} has close links with
 judgement aggregation, and generalised jury theorems have been found here
 too~\cite{everaere_epistemic_2010}.
 
-In crowdsourcing, the problem of \emph{truth discovery}~\cite{li_survey_2016}
-looks at how information from unreliable sources can be aggregated to find the
-true value of a number of variables, and to find the true reliability level of
-the sources. This is close to our setting, since incoming information is not
-always assumed to be reliable, and information about the sources themselves is
-sought after. Work in this area combines empirical results (e.g. how well
-methods find the truth on test datasets for which true values are known) and
-theoretical guarantees, and is
-typically set in a probabilistic framework.
+In crowdsourcing, and familiar from \cref{chapter_td}, the problem of
+\emph{truth discovery}~\cite{li_survey_2016} looks at how information from
+unreliable sources can be aggregated to find the true claims associated with a
+number of objects, and to find the true reliability level of the sources.
+Work in this area typically combines empirical results (e.g. how well methods
+find the truth on test datasets for which true values are known) and
+theoretical guarantees, and is typically set in a probabilistic framework.
 
 On the other hand, \emph{formal learning theory}~\cite{jain1999systems} offers
-a non-probabilistic view on truth-tracking, stemming from the framework of
-\textcite{Gold_1967} for identification in the limit. In this paradigm a learner
-receives an infinite sequence of information step-by-step, such that all true
-information eventually appears in the sequence. The learner outputs a
-hypothesis at each step, and aims to stabilise on the correct hypothesis after
-some finite number of steps. This framework has been combined with belief
-revision theory~\cite{kelly1997reliable,baltag_tt_2019} and dynamic
+a non-probabilistic view on truth-tracking, stemming from the classical
+framework of \textcite{Gold_1967} for identification in the limit. In this
+paradigm a learner receives an infinite sequence of information step-by-step,
+such that all true information eventually appears in the sequence. The learner
+outputs a hypothesis at each step, and aims to stabilise on the correct
+hypothesis after some finite number of steps. This framework has been combined
+with belief revision theory~\cite{kelly1997reliable,baltag_tt_2019} and dynamic
 epistemic logic~\cite{baltag2019dynamic}.
 
 This is the approach we take, and in particular we adapt the truth-tracking
-setting of \textcite{baltag_tt_2019}. We apply this to the logical
-framework of \textcite{singleton_booth_22_preprint}. Briefly, this framework
-extends finite propositional logic with two new notions: that of a source
-having \emph{expertise} on a formula, and a formula being \emph{sound} for a
-source to report. Intuitively, expertise on $\phi$ means the source has the
-epistemic capability to distinguish between any pair of $\phi$ and $\neg\phi$
-states: they know whether or not $\phi$ holds in any state. A formula is sound
-for a source if it is true \emph{up to their lack of expertise}. For example,
-if a source has expertise on $\phi$ but not $\psi$, then $\phi \land \psi$ is
-sound whenever $\phi$ holds, since we can ignore the $\psi$ part (on which the
-source has no expertise). The resulting logical language therefore addresses
-both the \emph{ontic} facts of the world, through the propositional part, and
-the \emph{epistemic} state of the sources, via expertise and soundness.
+setting of \textcite{baltag_tt_2019}. We apply this to the logical framework of
+\cref{chapter_belief_change}, which extends a finitely-generated propositional
+language with two new notions: that of a source having \emph{expertise} on a
+formula, and a formula being \emph{sound} for a source to report. Consequently
+we can consider learning both both the \emph{ontic} facts of the world, via
+purely propositional formulas, and the \emph{epistemic} state of the
+sources, via expertise and soundness formulas.
 
-Generally speaking, formal learning theory supposes that all information
+For the most part, formal learning theory supposes that all information
 received is true, and that all true information is eventually
 received.\footnotemark{} This is not a tenable assumption with non-expert
 sources: some sources may simply lack the expertise to know whether $\phi$ is
 true or false. Instead we make a different (and strong) assumption: all and
 only \emph{sound} reports are received. Thus, sources report everything
-consistent with their expertise. This necessitates inconsistent reports from
-non-experts, even if we assume sources are rational. Consequently, the input to
+consistent with their expertise, which necessitates inconsistent reports from
+non-experts. Consequently, the input to
 our learning methods should be distinguished from the inputs to belief revision
 and belief merging methods~\cite{alchourron1985logic,konieczny2002merging} --
 also propositional formulas -- which represent \emph{beliefs} of the reporting
 sources. Indeed, we do not model beliefs of the sources at all.
 
 \footnotetext{
-    \textcite{baltag_tt_2019} consider erroneous reports, but only
+    But see \textcite[\sectionsymbol{}8.1]{jain1999systems}, which considers
+    inaccurate data of various kinds, and
+    \textcite{baltag_tt_2019}, which consider erroneous reports
     provided that all errors are eventually corrected.
 }
 
@@ -212,7 +203,7 @@ $\vals$, $\css$ and $\srcs$ are.
 For $\phi \in \Lprop$, write $\propmods{\phi} \subseteq \vals$ for the
 models of $\phi$, and write $v \propmodels \phi$ iff $v \in \propmods{\phi}$.
 The consequences of a set $\Gamma \subseteq \Lprop$ is denoted by
-$\cnprop{\phi}$, and we write $\Gamma \propmodels \phi$ if $\phi \in
+$\cnprop{\Gamma}$, and we write $\Gamma \propmodels \phi$ if $\phi \in
 \cnprop{\Gamma}$.
 %
 For a partition $\Pi$, let $\Pi[v]$ denote the unique cell in $\Pi$ containing
@@ -228,7 +219,7 @@ and a case $c$ as follows:
 where the clauses for conjunction and negation are as standard. The semantics
 follows the intuition outlined above: $\E_i\phi$ holds when $\Pi_i$ separates
 the $\phi$ states from the $\neg\phi$ states, and $\S_i\phi$ holds when $v_c$
-is indistinguishable from some $\phi$ state. Consequently, $\S_i\phi$ means
+is indistinguishable from some $\phi$ state. Thus, $\S_i\phi$ means
 $\phi$ is true \emph{up to the expertise of $i$}: if we weaken $\phi$ according
 to $i$'s expertise, the resulting formula (with models $\Pi_i[\phi]$) is true.
 
@@ -248,14 +239,14 @@ we write $S, c \models \Phi$ iff $W, c \models \Phi$ for all $W \in S$.
 
 \paragraph{Reports.}
 
-A \emph{report} is triple $\tuple{i, c, \phi}$, where $i \in \srcs$, $c \in
+A \emph{report} is a triple $\tuple{i, c, \phi}$, where $i \in \srcs$, $c \in
 \css$ and $\phi \in \Lprop$ with $\phi \not\equiv \falsum$. In this chapter, we
 interpret such triples as source $i$ reporting that $\phi$ is possible in case
 $c$. An \emph{input sequence} $\sigma$ is a finite sequence of reports.
 
 A \emph{method} $L$ maps each input sequence $\sigma$ to a set of worlds
-$L(\sigma) \subseteq \worlds$, representing the worlds $L$ considers most
-plausible given $\sigma$.\footnotemark{} We say $L$ \emph{believes} $S
+$L(\sigma) \subseteq \worlds$, called the \emph{conjecture} of $L$
+on $\sigma$.\footnotemark{} We say $L$ \emph{implies} $S
 \subseteq \worlds$ on the basis of $\sigma$ if $L(\sigma) \subseteq S$. $L$ is
 \emph{consistent} if $L(\sigma) \ne \emptyset$ for all input sequences
 $\sigma$.
@@ -312,7 +303,7 @@ for the finite initial segment of $\rho$ of length $n$.
 \begin{example}
     \label{ex_stream}
     Consider $W$ from \cref{fig_example_world} and case $\patientA{}$. From the
-    point of view of $\dr{}$'s expertise, the ``actual'' world could be $pq$,
+    point of view of $\dr{}$'s expertise, the ``actual'' valuation could be $pq$,
     $\bar{p}q$, $p\bar{q}$. Consequently, in a stream for $W$, $\dr{}$ will
     report $p$, $\neg p$, $q$, $\neg q$, $p \lor q$, and so on. A report that
     $\dr{}$ will \emph{not} give is $\neg (p \lor q)$, since $\dr{}$ has
@@ -329,8 +320,9 @@ A \emph{question} $Q$ is a partition of $\worlds$. That is, a question is a set
 of disjoint \emph{answers} $A \in Q$, with each world $W$ appearing in a unique
 cell $Q[W]$ -- the correct answer at $W$.
 
-\begin{example}\leavevmode
+\begin{example}
     \label{ex_questions}
+    We consider some example questions.
     \begin{enumerate}
         \item Any formula $\Phi \in \L$ and case $c$ defines a question
               $Q_{\Phi, c}$, whose two cells consist of the worlds satisfying
@@ -353,7 +345,7 @@ cell $Q[W]$ -- the correct answer at $W$.
     \end{enumerate}
 \end{example}
 
-A method solves $Q$ if it eventually believes the correct answer when given any
+A method solves $Q$ if it eventually implies the correct answer when given any
 stream.
 
 \begin{definition}
@@ -1057,9 +1049,9 @@ Consider the following properties which may hold of a learning method $L$.
 \end{axiomlist}
 
 \equivalence{} says that $L$ should not care about the syntactic form of the
-input. \repetition{} says that beliefs should not change if each
+input. \repetition{} says that the output from $L$ should not change if each
 source repeats their reports $k$ times. \soundness{} says that all reports in
-$\sigma$ are believed to be sound.
+$\sigma$ are conjectured to be sound.
 
 For methods satisfying these properties, we have a precise characterisation of
 truth-tracking, i.e. necessary and sufficient conditions for $L$ to solve
@@ -1081,7 +1073,7 @@ does, up to logical equivalence. Set
 Then $W \in T_\sigma$ iff $\sigma$ is sound for $W$ and any $\delta$ sound for
 $W$ has $\delta \seqss \sigma$. In this sense $\sigma$ contains \emph{all}
 soundness statements for $W$ -- up to equivalence -- so can be seen as a finite
-version of a stream. Let us call $\sigma$ a \emph{psuedo-stream} for $W$
+version of a stream. Let us call $\sigma$ a \emph{pseudo-stream} for $W$
 whenever $W \in T_\sigma$.
 
 \begin{theorem}
@@ -1102,7 +1094,7 @@ whenever $W \in T_\sigma$.
 Before the proof, we comment on our interpretation of
 \credulity{}. It says that whenever $\neg\S_i\phi$
 is consistent with $T_\sigma$ -- those $W$ for which $\sigma$ is a
-psuedo-stream -- $L$ should believe $\neg\S_i\phi$. Since the number of
+pseudo-stream -- $L(\sigma)$ should imply $\neg\S_i\phi$. Since the number of
 sound statements \emph{decreases} with increasing expertise, this is a
 principle of \emph{maximal trust}: we should believe $i$ has the expertise to
 rule out $\phi$ in case $c$, whenever this is consistent with $T_\sigma$.  That
@@ -1138,7 +1130,7 @@ amount of \emph{inductive} or \emph{non-monotonic} reasoning, as captured by
 
 The rest of this section works towards the proof of
 \cref{thm_tt_characterisation}. We collect some useful properties of
-psuedo-streams. First, psuedo-streams provide a way of accessing $Q^*$ via a
+pseudo-streams. First, pseudo-streams provide a way of accessing $Q^*$ via a
 finite sequence: $T_\sigma$ is a cell in $Q^*$ whenever it is non-empty.
 
 \begin{lemma}
@@ -1177,7 +1169,7 @@ finite sequence: $T_\sigma$ is a cell in $Q^*$ whenever it is non-empty.
 \end{proof}
 
 The next two results show that initial segments of streams are (eventually)
-psuedo-streams, and that any psuedo-stream gives rise to a stream.
+pseudo-streams, and that any pseudo-stream gives rise to a stream.
 
 \begin{lemma}
     \label{lemma_stream_to_pseudostream}
