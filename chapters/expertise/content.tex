@@ -307,15 +307,15 @@ iff $\phi$ holds at all states $y \in X$.
         \draw[expertiseset]
             (-\px, 2*\h -\py*\s) -- (\w + \px, 2*\h -\py*\s) -- (\w + \px, 3*\h + \py*\s)
             -- (-\px, 3*\h + \py*\s) -- cycle;
-        \node[color=red,opacity=0.7,anchor=east] at (-\px, 0.5*\h) {$\|p\|$};
-        \node[color=red,opacity=0.7,anchor=east] at (-\px, 2.5*\h) {$\|\neg p\|$};
+        \node[color=red,anchor=east] at (-\px, 0.5*\h) {$\|p\|$};
+        \node[color=red,anchor=east] at (-\px, 2.5*\h) {$\|\neg p\|$};
 
         % e ∧ ¬d
         \def\r{0.7}
         \draw[rounded corners,draw=blue,thick,dashed]
             (-\px*\r, \h + -\py*\s*\r) -- (\w + \px*\r, \h + -\py*\s*\r) --
             (\w + \px*\r, \h + \py*\s*\r) -- (-\px*\r, \h + \py*\s*\r) -- cycle;
-        \node[color=blue,opacity=0.7,anchor=west] at (\w + \px, \h) {$\|p \land \neg d\|$};
+        \node[color=blue,anchor=west] at (\w + \px, \h) {$\|p \land \neg d\|$};
 
         \examplemodel{}
 
@@ -708,9 +708,18 @@ sets $P$ to a binary relation.
     For a set $X$ and $P \subseteq 2^X$, let $R_P$ be the binary relation on
     $X$ given by
     \[
-        x{R_P}y \iff \forall A \in P: (y \in A \implies x \in A)
+        x{R_P}y \iff \forall A \in P: (y \in A \implies x \in A).
     \]
 \end{definition}
+
+In the case where $P$ is the collection of closed sets of a topology on $X$,
+$R_P$ is the \emph{specialisation preorder}.
+%
+\cref{exp_fig_rp_example} shows an example of $R_P$ for $X$ and $P$ from
+\cref{exp_ex_economist_formalisation}.
+%
+In what follows, say a set $A \subseteq X$ is \emph{downwards closed} with
+respect to a relation $R$ if $xRy$ and $y \in A$ implies $x \in A$.
 
 \begin{figure}[h]
     \centering
@@ -772,15 +781,6 @@ sets $P$ to a binary relation.
     }
     \label{exp_fig_rp_example}
 \end{figure}
-
-In the case where $P$ is the collection of closed sets of a topology on $X$,
-$R_P$ is the \emph{specialisation preorder}.
-%
-\cref{exp_fig_rp_example} shows an example of $R_P$ for $X$ and $P$ from
-\cref{exp_ex_economist_formalisation}.
-%
-In what follows, say a set $A \subseteq X$ is \emph{downwards closed} with
-respect to a relation $R$ if $xRy$ and $y \in A$ implies $x \in A$.
 
 \begin{lemma}
 \label{exp_lemma_same_dc_sets_implies_equality}
