@@ -48,8 +48,8 @@ epistemic logic~\cite{baltag2019dynamic}.
 This is the approach we take, and in particular we adapt the truth-tracking
 setting of \textcite{baltag_tt_2019}. We apply this to the logical framework of
 \cref{chapter_belief_change}, which extends a finitely-generated propositional
-language with two new notions: that of a source having \emph{expertise} on a
-formula, and a formula being \emph{sound} for a source to report. Consequently
+language with two new notions: that of a source having expertise on a
+formula, and a formula being sound for a source to report. Consequently
 we can consider learning both both the \emph{ontic} facts of the world, via
 purely propositional formulas, and the \emph{epistemic} state of the
 sources, via expertise and soundness formulas.
@@ -59,13 +59,15 @@ received is true, and that all true information is eventually
 received.\footnotemark{} This is not a tenable assumption with non-expert
 sources: some sources may simply lack the expertise to know whether $\phi$ is
 true or false. Instead we make a different (and strong) assumption: all and
-only \emph{sound} reports are received. Thus, sources report everything
+only sound reports are received. Thus, sources report everything
 consistent with their expertise, which necessitates inconsistent reports from
 non-experts. Consequently, the input to
 our learning methods should be distinguished from the inputs to belief revision
 and belief merging methods~\cite{alchourron1985logic,konieczny2002merging} --
 also propositional formulas -- which represent \emph{beliefs} of the reporting
 sources. Indeed, we do not model beliefs of the sources at all.
+
+\todo{reconsider this, if we extent to model beliefs.}
 
 \footnotetext{
     But see \textcite[\sectionsymbol{}8.1]{jain1999systems}, which considers
@@ -74,8 +76,9 @@ sources. Indeed, we do not model beliefs of the sources at all.
     provided that all errors are eventually corrected.
 }
 
-The following example informally illustrates the core concepts of the logical
-framework and truth-tracking, and will be returned to throughout the chapter.
+The following example -- a modification of the motivating example from
+\cref{chapter_belief_change} -- informally illustrates the core concepts and
+will be returned to throughout the chapter.
 
 \begin{example}
     \label{tt_ex_informal_example}
@@ -116,7 +119,7 @@ framework and truth-tracking, and will be returned to throughout the chapter.
 \paragraph{Contributions.} \todo{Explicitly list contributions}
 
 \begin{chapteroutline}
-    In \cref{tt_sec_preliminaries} we outline the logical framework for reasoning
+    In \cref{tt_sec_preliminaries} we recap the logical framework for reasoning
     about expertise. \cref{tt_sec_truthtracking} introduces the key concepts of
     truth-tracking and solvable questions. We characterise solvable questions in
     \cref{tt_sec_characterising_solvable_questions}, and explore what they can reveal
@@ -128,55 +131,63 @@ framework and truth-tracking, and will be returned to throughout the chapter.
 \section{Preliminaries}
 \label{tt_sec_preliminaries}
 
-In this section we recall the logical framework of
-\textcite{singleton_booth_22_preprint} for reasoning with non-expert sources.
+In this section we introduce the logical framework, which is largely the same
+as in \cref{chapter_belief_change} but with minor differences.
 
 \paragraph{Syntax.}
 
-Let $\propvars$ be a finite set of propositional variables, and let $\Lprop$
+As before, let $\propvars$ be a finite set of propositional variables. Let $\Lprop$
 denote the propositional language generated from $\propvars$. We use $\Lprop$
 to model the domain underlying the truth-tracking problem; it describes the
 ``ontic'' facts of the world, irrespective of the expertise of the sources.
 Formulas in $\Lprop$ will be denoted by lower-case Greek letters ($\phi$,
 $\psi$, etc).
 
-Let $\srcs$ be a finite set of sources. The language $\L$ extends $\Lprop$ with
+Let $\srcs$ be a finite set of sources. Here we make an important change to the
+setup of \cref{chapter_belief_change}: we do \emph{not} include the special
+source $\ast$. Indeed, having access to a completely reliable source of
+information would somewhat trivialise the truth-tracking problem.
+
+The language $\L$ extends $\Lprop$ with
 expertise and soundness formulas for each source $i \in \srcs$, and is defined
 by the following grammar:
 \[
     \Phi
-    ::=  \phi
+    ::= p
     \mid \E_i\phi
     \mid \S_i\phi
     \mid \Phi \land \Phi
     \mid \neg\Phi,
 \]
-for $\phi \in \Lprop$ and $i \in \srcs$. Formulas in $\L$ will be denoted by
-upper-case Greek letters ($\Phi$, $\Psi$ etc). Other logical connectives
-($\lor$, $\limplies$, $\liff$) are introduced as abbreviations. We read
-$\E_i\phi$ as ``$i$ has expertise on $\phi$'', and $\S_i\phi$ as ``$\phi$ is
-sound for $i$''. Note that we restrict the expertise and soundness formulas to
-propositional arguments, and do not considered iterated formulas such as
-$\E_i\S_j\phi$.
+for $i \in \srcs$, $p \in \propvars$ and $\phi \in \Lprop$. Formulas in $\L$
+will be denoted by upper-case Greek letters ($\Phi$, $\Psi$ etc). Other logical
+connectives ($\lor$, $\limplies$, $\liff$) are introduced as abbreviations.  As
+usual, we read $\E_i\phi$ as ``$i$ has expertise on $\phi$'', and $\S_i\phi$ as
+``$\phi$ is sound for $i$''. Note that we again restrict the expertise and
+soundness formulas to propositional arguments, and do not consider iterated
+formulas such as $\E_i\S_j\phi$.
 
 \paragraph{Semantics.}
 
-Let $\vals$ denote the set of propositional valuations
-over $\propvars$. We represent the expertise of a source $i$ with a
-\emph{partition} $\Pi_i$ of $\vals$. Intuitively, this partition represents
-the distinctions between states the source is able to make: valuations in the
-same cell in $\Pi_i$ are indistinguishable to $i$, whereas $i$ is able to tell
-apart valuations in different cells. We say $i$ has expertise on $\phi$ iff $i$
-can distinguish all $\phi$ states from $\neg\phi$ states, and $\phi$ is sound
-for $i$ if the ``actual'' state is indistinguishable from some $\phi$ state.
-Note that these notions are closely linked to \emph{S5 knowledge} from
-epistemic logic; see
-\cite{singleton_booth_22_preprint,singleton2021logic} for further discussion.
-
-Let $\css$ be a finite set of \emph{cases}, thought of as independent
+The semantics are identical to those given in \cref{chapter_belief_change}; we
+provide only a brief recap. The set of propositional valuations over
+$\propvars$ is denoted by $\vals$. The expertise of a source $i \in \srcs$ is
+represented by a partition $\Pi_i$ of $\vals$, which encodes the distinctions
+between states the source is able to make. We say $i$ has expertise on $\phi$
+iff $i$ can distinguish all $\phi$ states from $\neg\phi$ states, and $\phi$ is
+sound for $i$ if the ``actual'' state is indistinguishable from some $\phi$
+state. $\css$ is a finite set of cases, thought of as independent
 instantiations of the domain of interest. For example, the cases in
-\cref{tt_ex_informal_example} are the patients $\patientA{}$ and $\patientB{}$. We
-consider the expertise of sources to be fixed across all cases.
+\cref{tt_ex_informal_example} are the patients $\patientA{}$ and $\patientB{}$.
+We consider the expertise of sources to be fixed across all cases.
+%
+A \emph{world} is a pair $W = \tuple{\{v_c\}_{c \in \css},
+\{\Pi_i\}_{i \in \srcs}}$, where
+\begin{itemize}
+    \item $v_c \in \vals$ is the ``true'' valuation at case $c \in \css$;
+    \item $\Pi_i$ is a partition of $\vals$ representing the
+          ``true'' expertise of source $i$.
+\end{itemize}
 
 \begin{figure}
     \centering
@@ -188,14 +199,6 @@ consider the expertise of sources to be fixed across all cases.
     }
     \label{tt_fig_example_world}
 \end{figure}
-
-A \emph{world} is a pair $W = \tuple{\{v_c\}_{c \in \css},
-\{\Pi_i\}_{i \in \srcs}}$, where
-\begin{itemize}
-    \item $v_c \in \vals$ is the ``actual'' valuation for case $c$;
-    \item $\Pi_i \subseteq 2^\vals$ is a partition representing the
-          expertise of $i$.
-\end{itemize}
 
 Let $\worlds$ denote the set of worlds. Note that $\worlds$ is finite, since
 $\vals$, $\css$ and $\srcs$ are.
@@ -212,16 +215,11 @@ $v$, and write $\Pi[U] = \bigcup_{v \in U}{\Pi[v]}$ for $U \subseteq
 $\Pi[\propmods{\phi}]$. We evaluate $\L$ formulas with respect to a world $W$
 and a case $c$ as follows:
 \begin{align*}
-    W, c \models \phi &\iff v_c \propmodels \phi \\
+    W, c \models p &\iff v_c \propmodels p \\
     W, c \models \E_i\phi &\iff \Pi_i[\phi] = \propmods{\phi} \\
-    W, c \models \S_i\phi &\iff v_c \in \Pi_i[\phi],
+    W, c \models \S_i\phi &\iff v_c \in \Pi_i[\phi]
 \end{align*}
-where the clauses for conjunction and negation are as standard. The semantics
-follows the intuition outlined above: $\E_i\phi$ holds when $\Pi_i$ separates
-the $\phi$ states from the $\neg\phi$ states, and $\S_i\phi$ holds when $v_c$
-is indistinguishable from some $\phi$ state. Thus, $\S_i\phi$ means
-$\phi$ is true \emph{up to the expertise of $i$}: if we weaken $\phi$ according
-to $i$'s expertise, the resulting formula (with models $\Pi_i[\phi]$) is true.
+where the clauses for conjunction and negation are as standard.
 
 \begin{example}
     \label{tt_ex_semantics}
@@ -245,17 +243,20 @@ interpret such triples as source $i$ reporting that $\phi$ is possible in case
 $c$. An \emph{input sequence} $\sigma$ is a finite sequence of reports.
 
 A \emph{method} $L$ maps each input sequence $\sigma$ to a set of worlds
-$L(\sigma) \subseteq \worlds$, called the \emph{conjecture} of $L$
-on $\sigma$.\footnotemark{} We say $L$ \emph{implies} $S
-\subseteq \worlds$ on the basis of $\sigma$ if $L(\sigma) \subseteq S$. $L$ is
-\emph{consistent} if $L(\sigma) \ne \emptyset$ for all input sequences
-$\sigma$.
+$L(\sigma) \subseteq \worlds$, called the \emph{conjecture} of $L$ on $\sigma$.
+We say $L$ \emph{implies} $S \subseteq \worlds$ on the basis of $\sigma$ if
+$L(\sigma) \subseteq S$. $L$ is \emph{consistent} if $L(\sigma) \ne \emptyset$
+for all input sequences $\sigma$.
 
-\footnotetext{
-    We depart from the original framework here by taking a semantic view of
-    belief change operators, with the output a set of worlds instead of
-    formulas.
-}
+This is the main point of difference between the framework of the present
+chapter and \cref{chapter_belief_change}: here we take a purely semantic view,
+by taking the output of a method to be a set of worlds instead of a collection
+of formulas. Of course, an operator in the sense of
+\cref{chapter_belief_change} defines a method by setting $L(\sigma) =
+\operatorname{mod}(B^\sigma)$, and a method defines an operator in the manner
+of model-based operators (\cref{kr_def_model_based}). The difference is
+therefore in presentation only, and the semantic viewpoint will prove to be
+more convenient in what follows.
 
 \section{Truth-Tracking}
 \label{tt_sec_truthtracking}
@@ -618,11 +619,22 @@ We need a notion of \emph{group expertise}. For $\srcs' \subseteq \srcs$ and
 $\Gamma \subseteq \Lprop$, write $W \models \E_{\srcs'}{\Gamma}$ if for each
 $\psi \in \Gamma$ there is $i \in \srcs'$ such that $W \models \E_i\psi$. Then
 the group $\srcs'$ have expertise on $\Gamma$ in a collective sense, even if no
-single source has expertise on \emph{all} formulas in $\Gamma$.
+single source has expertise on \emph{all} formulas in $\Gamma$.\footnotemark{}
 %
 We have that $\phi$ is decided if $\srcs$ have group expertise on a set of true
 formulas $\Gamma \subseteq \Lprop$ such that either $\Gamma \propmodels \phi$
 or $\Gamma \propmodels \neg\phi$.
+
+\footnotetext{
+    In contrast to the notions of collective expertise introduced in
+    \cref{chapter_expertise}, here we refer to joint expertise on a \emph{set}
+    of formulas. If one considers a weaker form of distributed expertise in
+    which expertise collections are combined as in
+    \cref{exp_sec_collective_expertise} but not closed under intersections
+    and unions -- e.g. if sources cannot communicate directly with one another
+    -- then $\E_{\srcs'}{\Gamma}$ corresponds to joint expertise on each $\phi
+    \in \Gamma$.
+}
 
 \begin{theorem}
     \label{tt_thm_decide_phi}
@@ -787,7 +799,10 @@ The remainder of this section proves
 \subsection{Source Partitions}
 
 We now apply the analysis of the previous section to the set of source
-partitions $\{\Pi^W_i\}_{i \in \srcs}$. For $S \subseteq \worlds$ and $i \in
+partitions $\{\Pi^W_i\}_{i \in \srcs}$ in order to determine conditions under
+which the true expertise of $i$ can be found by truth-tracking methods.
+%
+For $S \subseteq \worlds$ and $i \in
 \srcs$, write $\parts^S_i = \{\Pi^W_i \mid S \in W\}$ for the $i$-partitions
 appearing in $S$. When $S = Q^*[W]$, these are exactly those partitions which
 agree with $\Pi^W_i$ at each valuation $v^W_c$.
@@ -820,8 +835,8 @@ agree with $\Pi^W_i$ at each valuation $v^W_c$.
     \centering
     \input{chapters/truth-tracking/tikz/partition_example.tex}
     \caption{
-        World $W$ from \cref{tt_ex_qstar_partitions}. Note that for brevity we do
-        not label the valuations.
+        World $W$ from \cref{tt_ex_qstar_partitions}. Valuations are unlabelled
+        for brevity.
     }
     \label{tt_fig_qstar_partitions}
 \end{figure}
@@ -1024,8 +1039,8 @@ truth-tracking methods, i.e when $Q^*[W] = \{W\}$.
 So far we have focussed on solvable questions, and the extent to which they
 reveal information about the actual world. We now turn to the methods which
 solve them. We give a general characterisation of truth-tracking methods under
-mild assumptions, before discussing the family of \emph{conditioning} methods
-from \textcite{singleton_booth_22_preprint}.
+mild assumptions, before discussing the family of conditioning and score-based
+methods from \cref{chapter_belief_change}.
 
 \subsection{A General Characterisation}
 
@@ -1051,14 +1066,15 @@ Consider the following properties which may hold of a learning method $L$.
 \equivalence{} says that $L$ should not care about the syntactic form of the
 input. \repetition{} says that the output from $L$ should not change if each
 source repeats their reports $k$ times. \soundness{} says that all reports in
-$\sigma$ are conjectured to be sound.
+$\sigma$ are conjectured to be sound, and is the analogue of the same postulate
+in \cref{chapter_belief_change}.
 
 For methods satisfying these properties, we have a precise characterisation of
 truth-tracking, i.e. necessary and sufficient conditions for $L$ to solve
 $Q^*$. First, some new notation is required. Write $\delta \seqss \sigma$ iff
 for each $\tuple{i, c, \phi} \in \delta$ there is $\psi \equiv \phi$ such that
-$\tuple{i, c, \psi} \in \sigma$. That is, $\sigma$ contains everything $\delta$
-does, up to logical equivalence. Set
+$\tuple{i, c, \psi} \in \sigma$. That is, $\sigma$ contains everything in
+$\delta$, up to logical equivalence. Set
 \[
     T_\sigma
     = \Xsnd_\sigma
@@ -1075,19 +1091,19 @@ $W$ has $\delta \seqss \sigma$. In this sense $\sigma$ contains \emph{all}
 soundness statements for $W$ -- up to equivalence -- so can be seen as a finite
 version of a stream. Let us call $\sigma$ a \emph{pseudo-stream} for $W$
 whenever $W \in T_\sigma$.
+%
+The truth-tracking characterisation uses the following postulate.
+
+\begin{axiom}[\credulity{}]
+    If $T_\sigma, c \not\models \S_i\phi$
+    then
+    $L(\sigma), c \models \neg\S_i\phi$.
+\end{axiom}
 
 \begin{theorem}
     \label{tt_thm_tt_characterisation}
     A method $L$ satisfying \equivalence{}, \repetition{} and \soundness{} is
-    truth-tracking if and only if it satisfies the following property.
-    \begin{axiom}[\credulity{}]
-        $
-        % \forall \sigma, i, c, \phi:\
-        T_\sigma, c \not\models \S_i\phi
-        \implies
-        L(\sigma), c \models \neg\S_i\phi.
-        $
-    \end{axiom}
+    truth-tracking if and only if it satisfies \credulity{}.
 
 \end{theorem}
 
@@ -1107,9 +1123,9 @@ A stronger version of \credulity{} spells this out
 explicitly in terms of expertise:
 \begin{equation}
     \label{tt_eqn_stronger_tt_property}
-    \forall \sigma, i, c, \phi:\
+    \text{If }
     T_\sigma, c \not\models \neg\E_i\phi
-    \implies
+    \text{ then }
     L(\sigma), c \models \E_i\phi.
 \end{equation}
 \cref{tt_eqn_stronger_tt_property} implies \credulity{}
@@ -1124,8 +1140,8 @@ truth-tracking (when also taken with \equivalence{} and
 
 \cref{tt_thm_tt_characterisation} also shows truth-tracking cannot be performed
 \emph{deductively}: the method $L(\sigma) = \Xsnd_\sigma$, which does not go
-beyond the mere information that each report is sound, fails \credulity{}. Some
-amount of \emph{inductive} or \emph{non-monotonic} reasoning, as captured by
+beyond the mere information that each report is sound, fails
+\credulity{}. Some amount of or \emph{non-monotonic} reasoning, as captured by
 \credulity{}, is necessary.
 
 The rest of this section works towards the proof of
@@ -1292,26 +1308,30 @@ Finally, we prove the characterisation of truth-tracking.
 
 \subsection{Conditioning Methods}
 
-In this section we turn to the family of \emph{conditioning} methods, proposed
-in \cite{singleton_booth_22_preprint} and inspired by similar methods in the
-belief change literature~\cite{spohn1988ordinal}.
+In this section we turn to the family of \emph{conditioning} methods from
+\cref{kr_sec_conditioning_operators}.
+% and inspired by similar methods in the
+% belief change literature~\cite{spohn1988ordinal}.
 % These methods were originally proposed in relation to \emph{rationality
 % postulates} for a belief change problem with non-expert sources. By studying
 % them in relation to truth-tracking, we will see that rationality is compatible
 % with truth-tracking.
-While our interpretation of input sequences is different -- we read $\tuple{i,
-c, \phi}$ as $i$ reporting $\phi$ is \emph{possible} in case $c$, whereas
-\textcite{singleton_booth_22_preprint} read this as $i$ \emph{believes} $\phi$ --
-this class of methods can still be applied in our setting.
+While the interpretation of input sequences is different in this chapter -- we
+read $\tuple{i, c, \phi}$ as $i$ reporting $\phi$ is \emph{possible} in case
+$c$, whereas before such reports were read as $i$
+\emph{believes} $\phi$ -- this class of methods can still be applied in our
+setting. Moreover, while conditioning methods were put forward in
+\cref{kr_sec_conditioning_operators} in order to satisfy rationality
+postulates, we will soon see that they are also compatible with truth-tracking.
 
 Conditioning methods operate by successively restricting a fixed
-\emph{plausibility total preorder}\footnote{A total preorder is a reflexive,
-transitive and total relation.} to the information corresponding to each
+\emph{plausibility total preorder} to the information corresponding to each
 new report $\tuple{i, c, \phi}$. In this chapter, we take a report $\tuple{i, c,
-\phi}$ to correspond to the fact that $\S_i\phi$ holds in case $c$; this fits
-with our assumption throughout that sources only report sound
-statements.\footnote{\textcite{singleton_booth_22_preprint} consider more general
-conditioning methods in which this choice is not fixed.} Thus, the worlds under
+\phi}$ to correspond to the information that $\S_i\phi$ holds in case $c$; this
+fits with our assumption throughout that sources only report sound
+statements.\footnotemark{}
+%
+Thus, the worlds under
 consideration given a sequence $\sigma$ are exactly those satisfying all
 soundness statements in $\sigma$, i.e. $\Xsnd_\sigma$. Note that $\Xsnd_\sigma$
 represents the \emph{indefeasible knowledge} given by $\sigma$: worlds outside
@@ -1319,6 +1339,12 @@ $\Xsnd_\sigma$ are eliminated and cannot be recovered with further reports,
 since $\Xsnd_{\sigma \seqappend \delta} \subseteq \Xsnd_\sigma$. The
 plausibility order allows us to represent \emph{defeasible beliefs} about the
 most plausible worlds within $\Xsnd_\sigma$.
+
+\footnotetext{
+    This is more restrictive than in the previous chapter, where the knowledge
+    component of an operator enjoyed more freedom. Our assumption here is
+    equivalent to fixing $K^\sigma = \operatorname{Cn}(G^\sigma_\snd)$.
+}
 
 \begin{definition}
     \label{tt_def_conditioning_method}
@@ -1328,7 +1354,7 @@ most plausible worlds within $\Xsnd_\sigma$.
 
 Note that since $\Xsnd_\sigma \ne \emptyset$ for all $\sigma$\footnotemark{}
 and $\worlds$ is finite, $L_{\le}$ is consistent. Moreover, $L_{\le}$ satisfies
-\equivalence{}, \repetition{} and \soundness{}.
+\equivalence{}, \repetition{} and \soundness{} for any choice of $\le$.
 
 \footnotetext{
     For example, if $\Pi^W_i = \{\vals\}$ for all $i$ then $W \in \Xsnd_\sigma$
@@ -1337,8 +1363,7 @@ and $\worlds$ is finite, $L_{\le}$ is consistent. Moreover, $L_{\le}$ satisfies
 
 \begin{example}
     \label{tt_ex_conditioning_operators}
-    We recall two concrete choices of $\le$ from
-    \textcite{singleton_booth_22_preprint}.
+    We recall two concrete choices of $\le$ from \cref{chapter_belief_change}.
 
     \begin{enumerate}
         \item Set $W \le W'$ iff $r(W) \le r(W')$, where
@@ -1351,9 +1376,9 @@ and $\worlds$ is finite, $L_{\le}$ is consistent. Moreover, $L_{\le}$ satisfies
               \]
               The most plausible worlds in this order are those in which
               source have as much expertise on the propositional variables as
-              possible, on aggregate. We denote the corresponding conditioning
-              method by $L_\vbc{}$, standing for \emph{variable-based
-              conditioning}.
+              possible, on aggregate. The corresponding conditioning
+              method is denoted by $L_\vbc{}$, standing for
+              \emph{variable-based conditioning}.
 
         \item Set $W \le W'$ iff $r(W) \le r(W')$, where
               \[
@@ -1362,8 +1387,9 @@ and $\worlds$ is finite, $L_{\le}$ is consistent. Moreover, $L_{\le}$ satisfies
               This order aims to maximise the number of cells in each source's
               partitions, thereby maximising the number of propositions on
               which they have expertise. Note that the propositional variables
-              play no special role. We denote the corresponding conditioning
-              operator by $L_\pbc{}$, for \emph{partition-based conditioning}.
+              play no special role. The corresponding conditioning
+              operator is denoted by $L_\pbc{}$, for \emph{partition-based
+              conditioning}.
     \end{enumerate}
 
 \end{example}
@@ -1393,6 +1419,12 @@ $W < W'$ here; then $W'$ is strictly less plausible and will be ruled out in
 favour of $W$.  This yields a sufficient condition for truth-tracking, but to
 obtain a necessary condition we need to allow a ``surrogate'' world $W'' \speceq
 W$ to take the place of $W$.
+
+\cref{tt_eq_conditioning_tt_characterisation} is also intuitively similar to
+\refinement{} from \cref{chapter_belief_change}, which requires that $W \le W'$
+whenever $W \refines W'$ (where the latter condition means each partition
+$\Pi^W_i$ refines $\Pi^{W'}_i$), but with the strict part of $\specleq$ taking
+the place of $\refines$.
 
 \begin{proof}[Proof of \cref{tt_thm_conditioning_tt_characterisation}]
     Write $L = L_{\le}$. Since $L$ satisfies \equivalence{}, \repetition{} and
@@ -1471,6 +1503,52 @@ W$ to take the place of $W$.
     \end{enumerate}
 
 \end{example}
+
+\subsection{Score-based Methods}
+
+In this section we consider the other class of methods introduced in
+\cref{chapter_belief_change}: \emph{score-based} methods. As with conditioning
+methods above, we consider a more restricted class in which we dispense with
+the prior plausibility ranking $r_0$ from \cref{kr_def_score_based}, and fix
+knowledge as soundness.
+
+\begin{definition}
+    For a function $d: \worlds \times (\srcs \times \css \times \Lprop) \to
+    \N_{0}$, the \emph{score-based method} $L_d$ is given by
+    \[
+        L_d(\sigma)
+        = \argmin_{W \in \Xsnd_\sigma}{
+            \sum_{\tuple{i, c, \phi}}{
+                d(W, \tuple{i, c, \phi})
+            }
+        }.
+    \]
+\end{definition}
+
+As before, $d(W, \tuple{i, c, \phi})$ represents a measure of ``disagreement''
+between the world $W$ and report $\tuple{i, c, \phi}$; the greater $d(W,
+\tuple{i, c, \phi})$, the less plausible it is deemed for $i$ to report $\phi$
+in case $c$. The conjecture $L_d(\sigma)$ consists of the worlds satisfying the
+soundness constraints of $\sigma$ with minimal disagreement score, computed as
+the sum of the disagreement on each report.
+%
+$L_d$ is consistent and satisfies both \repetition{} and \soundness{} for any
+choice of $d$.
+
+\begin{example}
+    Adapting the score-based example from \cref{chapter_belief_change} to this
+    setting, take
+    \[
+        d(W, \tuple{i, c, \phi})
+        = |\Pi^W_i[\phi] \setminus \propmods{\phi}|.
+    \]
+    The corresponding method aims to minimise the ``excess'' valuations
+    in $\Pi^W_i[\phi]$ which are not themselves models of $\phi$. We denote
+    it by $L_\exm$, standing for \emph{excess-minimisation}.
+\end{example}
+
+\todo{truth-tracking characterisation for score-based operators, and discussion
+for excess-min specifically.}
 
 \section{Conclusion}
 \label{tt_sec_conclusion}
