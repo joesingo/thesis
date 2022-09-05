@@ -8,13 +8,19 @@ upfront, but is to be estimated on the basis of reports from multiple sources.
 In this way we develop a logic-based analogue of the truth discovery
 aggregation problem, which complements the social-choice-style framework of
 \cref{chapter_td}. Specifically, we identify trustworthiness with \emph{belief
-in expertise}: a source $i$ is deemed trustworthy on $\phi$ if the belief
-change operator includes $\E_i\phi$ in its belief set. By also including
+in expertise}: an agent deems source $i$ trustworthy on $\phi$ if its belief
+set contains $\E_i\phi$. By also including
 propositional formulas in belief sets, we are able to express beliefs about the
 actual world, i.e. the aggregation of the reports from sources.
 
 Our point of departure is logic-based belief change in the AGM
-paradigm~\cite{alchourron1985logic}.  To illustrate the problem -- and how it
+paradigm (named after \textcite{alchourron1985logic}).
+%
+\todo{
+    Refer back to introduction for an overview of AGM.
+}
+%
+To illustrate the problem -- and how it
 differs from existing forms of belief change -- consider the following scenario
 in a hospital. Suppose we observe the results of a blood test of patient $\patientA$,
 confirming condition $p$. Assuming the test is reliable, AGM revision tells us
@@ -258,7 +264,7 @@ is, it is consistent with $i$'s expertise that $\phi$ is true.
 Note that the mapping $2^\vals \to 2^\vals$ given by $U \mapsto \Pi[U]$
 satisfies the \emph{Kuratowski closure axioms},\footnotemark{} so can be
 considered a closure operator of the set of propositional valuations. Then $W,
-c \models \E_i\phi$ iff $\propmods{\phi}$ is closed in $V$, and $W, c \models
+c \models \E_i\phi$ iff $\propmods{\phi}$ is closed in $\vals$, and $W, c \models
 \S_i\phi$ iff $v_c$ lies in the closure of $\propmods{\phi}$, i.e. $\phi$ is
 true after closing $\propmods{\phi}$ along the lines of the expertise of source
 $i$. Also note that $\Pi[U] = U$ iff $U$ can be expressed as a union of the
@@ -628,8 +634,8 @@ combinations of partition-equivalent worlds.
     collection $G = \{\Gamma_c\}_{c \in \C}$ by setting $\Gamma_c = \{\Phi \in
     \lext \mid S \subseteq \mod_c(\Phi)\}$. Clearly $S \subseteq \mod(G)$. For the
     reverse inclusion, suppose $W \in \mod(G)$. For any set of valuations $U
-    \subseteq \vals$, let $\phi_U$ be any propositional sentence with
-    $\propmods{\phi_U} = U$. For each $c \in \C$, consider the sentence
+    \subseteq \vals$, let $\phi_U$ be any propositional formula with
+    $\propmods{\phi_U} = U$. For each $c \in \C$, consider the formula
     \[
         \Phi_c = \biglor_{W' \in S}\left(
             \phi_{\{v^{W'}_c\}}
@@ -653,7 +659,7 @@ combinations of partition-equivalent worlds.
     \begin{inlinelist}
         \item \label{kr_item_vals_equal} $v^W_c = v^{W_c}_c$; and
         \item \label{kr_item_partition_equiv} for each $i \in \srcs$ and $U \subseteq
-              V$, $W, c \models \E_i{\phi_U}$ iff $W_c, c \models \E_i{\phi_U}$.
+              \vals$, $W, c \models \E_i{\phi_U}$ iff $W_c, c \models \E_i{\phi_U}$.
     \end{inlinelist}
     From \ref{kr_item_vals_equal}, $W$ is a valuation combination from $\{W_c\}_{c
     \in \C}$. From \ref{kr_item_partition_equiv} it can be shown that in fact
@@ -1224,7 +1230,7 @@ We now present examples of how such an ordering can be defined.
 
 \varbasedcond{} aims to trust each source on \emph{as many propositional
 variables} as possible. One can check that \varbasedcond{} satisfies the
-basic postulates.
+basic postulates. \todo{Show?}
 
 \begin{example}
     \label{kr_ex_conditioning_operator}
@@ -1258,6 +1264,7 @@ basic postulates.
 partitions, and thereby maximise the number of propositions on which they have
 expertise. Unlike \varbasedcond{}, the propositional variables play no special
 role. As expected, \partbasedcond{} satisfies the basic postulates.
+\todo{Show?}
 
 \begin{example}
     Applying \partbasedcond{} to $\sigma$ from
@@ -2007,6 +2014,12 @@ this ideal.
 One can verify that \scorebasedop{} satisfies the basic postulates of
 \cref{kr_sec_basic_postulates}. It can also be seen that $\X_\sigma$ and
 $\Y_\sigma$ are elementary, and \scorebasedop{} fails \incvac{}.
+%
+\todo{
+    Show? It is enough to show that \duprem{} fails, since \incvac{} plus the
+    basic postulates implies \duprem{}.
+}
+%
 It follows from
 \cref{kr_thm_conditioning_characterisation} that \scorebasedop{} is \emph{not} a
 conditioning operator.\footnotemark{}
@@ -2113,8 +2126,8 @@ worlds whose $c$ valuation is $v$.
     propositional formula, so $\psi \in \proppart{B^\sigma_c}$. Since $v \notin
     \propmods{\psi}$, we have $v \notin \propmods{\proppart{B^\sigma_c}}$.
 
-    $\impliedby$: Suppose there is some $W \in \Y_\sigma \cap \W_{c\ :\
-    v}$. Let $\phi \in \proppart{B^\sigma_c}$. Then, in particular, $\phi \in
+    $\impliedby$: Suppose there is some $W \in \Y_\sigma \cap \W_{c\ :\ v}$.
+    Let $\phi \in \proppart{B^\sigma_c}$. Then, in particular, $\phi \in
     B^\sigma_c$, so $W, c \models \phi$ by $W \in \Y_\sigma$ and the definition
     of the model-based belief set. That is, $v = v^W_c \in \propmods{\phi}$.
     Since $\phi \in \proppart{B^\sigma_c}$ was arbitrary, we have $v \in
@@ -2426,8 +2439,8 @@ $\sigma \mapsto \X_\sigma$ (together with some basic postulates) is enough.
     $\Y_\rho$. Hence $\phi \in B^\rho_c$, as required.
 \end{proof}
 
-Similarly, we have sufficient conditioning for score-based operators to satisfy
-\strongcondsucc{}: the postulate follows if worlds in which $i$ makes a expert,
+Similarly, we have a sufficient condition for score-based operators to satisfy
+\strongcondsucc{}: the postulate follows if worlds in which $i$ makes an expert,
 truthful report are strictly more plausible than worlds in which $i$ makes a
 false report.
 
@@ -2605,7 +2618,7 @@ have more expertise are preferred.
         \begin{claimproof}
             We show $W_1$ and $W_2$ are $\le$-minimal in $\X_\sigma$. Take any
             $W \in \X_\sigma$. Then $W \in \mods(G^\sigma_\snd)$, so $W, c
-            \models \S_\ast(\phi_1 \lor \phi_2)$, i.e. $V^W_c \in \{v_1, v_2\}$.
+            \models \S_\ast(\phi_1 \lor \phi_2)$, i.e. $v^W_c \in \{v_1, v_2\}$.
             We consider two cases.
             \begin{itemize}
                 \item \textbf{Case 1} ($v^W_c = v_1$). By $W \in
@@ -3222,8 +3235,12 @@ The question of whether our concrete operators satisfy \hboundedness{}
 In the existing literature on selective belief change (e.g.
 \cite{ferme1999selective,booth_trust_2018}), the selection function typically
 acts as a means to separate out the part of new information on which the
-reporting sources is \emph{credible}, or \emph{trusted}. In our framework, this
-property of the selection scheme $f$ can be captured as follows.
+reporting sources is \emph{credible}, or \emph{trusted}. For instance,
+\textcite{booth_trust_2018} use a partition $\Pi$ to represent an agent's
+perception of the incoming source's expertise; a report of $\phi$ is then
+weakened to $\Pi[\phi]$ -- on which the source is trusted to have expertise --
+before revision takes place. In our framework, an analogous connection between
+the selection function and trust can be captured as follows.
 
 \begin{definition}
     \label{kr_def_ec_scheme}
@@ -3269,13 +3286,13 @@ $\E_i{p}
 This example already shows that \varbasedcond{}, \partbasedcond{} and
 \scorebasedop{} are not EC-selective.
 
-The core issue here is that, unlike in earlier work on trust-based selective
-revision, the expertise of sources is part of the operator's output and is thus
+The core issue is that
+the expertise of sources is part of the operator's output and is thus
 uncertain. In order for $\E_i\phi$ to be believed, $i$ needs to be trusted on
 $\phi$ in \emph{every} maximally plausible world. If there are several such
 worlds with different assessments of expertise -- e.g. if $W_1$ trusts $i$ but
 not $j$, and vice versa in $W_2$ -- then EC-selectivity requires reports to be
-significantly weakened before expertise is believed in \emph{all} worlds.
+significantly weakened before expertise can be believed in \emph{all} worlds.
 
 For model-based operators satisfying \soundness{}, this phenomenon can be
 formalised: a report of $\phi$ from source $i$ is expanded by the
@@ -3544,7 +3561,7 @@ we have already seen these operators are \emph{not} EC-selective, we also have
 that they each fail \determination{}.
 
 The potential problem with EC-selectivity, as expressed by \determination{}, is
-that is only permits belief formation on the basis of soundness statements
+that it only permits belief formation on the basis of soundness statements
 together with firmly believed expertise statements in $\exppart{B^\sigma}$. A
 natural weaker notion of expertise-compatible selectivity requires not that $i$
 is believed to have expertise on $f_\sigma(i, c, \phi)$, but merely that such
@@ -3729,7 +3746,7 @@ was given as part of the input -- would allow such postulates to be expressed.
 
 \paragraph{Trust and belief revision.}
 
-\textcite{yasser_21} study the joint revision of belief and trust in the style
+\textcite{yasser_21,yasser_journal_2021} study the joint revision of belief and trust in the style
 of belief revision theory. As with our framework, they consider reports from
 multiple sources, and set out several postulates to govern the interaction
 between trust in sources and belief in formulas.
@@ -3756,7 +3773,7 @@ set of formulas such that $\bigcup\mathcal{O} = \mathcal{L}$.\footnotemark{} An
     Note that we have changed the notation compared to the original paper.
 }
 %
-A revision operator $\ltimes$ then updates takes an information state
+A revision operator $\ltimes$ then takes an information state
 $\mathcal{K}$ and a new report $\tuple{i, \phi}$ and produces a new information
 state $\mathcal{K} \ltimes \tuple{i, \phi}$. The authors introduce natural
 notions of \emph{entrenchment}, whereby a formula $\phi$ may be more entrenched
@@ -3857,14 +3874,15 @@ revision which assume expertise (or reliability, credibility, priority
 etc) is known up-front (e.g.
 \cite{ferme1999selective,hansson_2001,booth_trust_2018,delgrande2006iterated}).
 We went on to propose some concrete belief change operators, and explored their
-properties through examples and postulates.
+properties through examples, postulates, and a notion of selective revision.
 
 We saw that conditioning operators satisfy some desirable
 properties, and our concrete instances make useful inferences that go
 beyond \weakop{}. However, we have examples in which intuitively plausible
 inferences are blocked, and conditioning is largely incompatible with
 \strongcondsucc{}. Score-based operators, and in particular \scorebasedop{},
-were introduced as a possible way around these limitations.
+were introduced as a possible way around these limitations. \todo{Possible
+downsides of \scorebasedop{}; e.g. failure of \duprem{}.}
 
 \paragraph{Limitations and future work.}
 There are many possibilities for future work.
