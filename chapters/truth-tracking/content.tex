@@ -443,10 +443,15 @@ respectively.\footnotemark{}
 
 Note that $\Pi_i[v_c]$ is the set of valuations indistinguishable from the
 ``actual'' valuation in case $c$, for source $i$. In light of
-\cref{tt_lemma_spec_active_cell}, we can interpret $W \specleq W'$ as saying that
-all sources are \emph{more knowledgeable} in each case $c$ in world $W$ than in
-$W'$. However, $W \specleq W'$ does not say anything about the partition cells
-not containing some $v_c$.
+\cref{tt_lemma_spec_active_cell}, we can interpret $W \specleq W'$ as saying
+that all sources are \emph{more knowledgeable} in each case $c$ in world $W$
+than in $W'$. However, $W \specleq W'$ does not say anything about the
+partition cells not containing some $v_c$. Also note that the condition
+in \cref{tt_lemma_spec_active_cell} already appeared in the previous chapter,
+where $\Pi^W_i[v^W_v] \subseteq \Pi^{W'}_i[v^{W'}_c]$ for each $i \in \srcs$
+was called \emph{refinement at $c$}; this property was used to characterise
+selective conditioning operators in
+\cref{kr_prop_conditioning_selectivity_characterisation}.
 
 \begin{proposition}
     \label{tt_prop_speceq_equivalent_conditions}
@@ -459,9 +464,6 @@ not containing some $v_c$.
             \css$, $\Pi^W_i[v^W_c] = \Pi^{W'}_i[v^{W'}_c]$.
     \end{enumerate}
 \end{proposition}
-
-\todo{Final property was called ``refinement at $c$'' in
-\cref{chapter_belief_change}. Note this.}
 
 \begin{proof}
     \cref{tt_item_speceq} and \cref{tt_item_active_cells_equal} are easily seen to be
