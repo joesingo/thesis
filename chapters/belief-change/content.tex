@@ -1208,11 +1208,16 @@ Note that $\le$ is independent of $\sigma$: it is fixed before receiving any
 reports. All conditioning operators are model-based by definition. Clearly
 $\Y_\sigma$ is determined by $\X_\sigma$ and the plausibility order, so that to
 define a conditioning operator it is enough to specify $\le$ and the mapping
-$\sigma \mapsto \X_\sigma$.
-%
-Write $W \simeq W'$ iff both $W \le W'$ and $W' \le W$.
-%
-We now present examples of how such an ordering can be defined.
+$\sigma \mapsto \X_\sigma$. Write $W \simeq W'$ iff both $W \le W'$ and $W' \le
+W$.
+
+Conditioning in this manner is well-established in the belief change
+literature. Our operators use a simplified case of conditionalisation as
+introduced by \textcite{spohn1988ordinal}. \textcite{boutilier1998belief} use a
+similar notion in their account of unreliable belief revision, wherein an
+agent's plausibility ranking is successively conditioned by its observations.
+
+We now present examples of how the plausibility ordering $\le$ may be defined.
 
 \begin{definition}
     \label{kr_def_varbasedcond}
@@ -1925,6 +1930,9 @@ way is to have a ranking for each
 for each sequence $\sigma$. We represent these rankings by \emph{scoring
 functions}, and call the resulting operators \emph{score-based}.
 
+\todo{Also consider presenting the ``Cancellation'' postulate as a case against
+simple conditioning.}
+
 \begin{definition}
 \label{kr_def_score_based}
     An operator is \emph{score-based} if there is a mapping $\sigma \mapsto
@@ -1946,7 +1954,10 @@ c, \phi}$. The set of most plausible worlds $\Y_\sigma$ consists of those $W$
 which minimise the sum of the prior implausibility and the total
 disagreement with $\sigma$. Note that by summing the scores
 of each report $\tuple{i, c, \phi}$ with equal weight, we treat each report independently.
-%
+This construction is informally inspired by the form of the so-called
+\emph{Markovian observation systems} of \textcite[Eq.
+(5)]{boutilier1998belief}.
+
 Score-based operators generalise elementary conditioning operators with \kconj{}.
 
 \begin{proposition}
@@ -2050,7 +2061,8 @@ conditioning operator.\footnotemark{}
      q$? Both our conditioning operators \varbasedcond{} and \partbasedcond{}
      decline to decide, and have $\proppart{B^\sigma_c} = \cnprop(p)$. However,
      since \scorebasedop{} takes into account each report in the
-     sequence, the fact that $i$ reports both $p$ and $q$ in case $d$ leads to
+     sequence, the fact that $i$ reports both $p$ and $q$ in case $d$ -- and is
+     uncontested on these reports -- leads to
      $\E_i{p} \land \E_i{q} \in B^\sigma_c$. This gives $\E_i(p \limplies q)
      \in B^\sigma_c$ by \cref{kr_prop_validities} part
      \cref{kr_item_exp_on_all_variables}, so we can make use of the report
@@ -2060,7 +2072,10 @@ conditioning operator.\footnotemark{}
      This example shows that score-based operators can be \emph{more credulous}
      than conditioning operators (e.g. we can believe $\E_i{p}$ when
      $i$ reports $p$), and can consequently hold stronger propositional
-     beliefs.
+     beliefs. Indeed, the conditioning operators \varbasedcond{} and
+     \partbasedcond{} are not able to make use of the reports from $i$ in case
+     $d$ to form beliefs about case $c$, and in this sense do not make full use
+     of the available information in $\sigma$.
 
 \end{example}
 
