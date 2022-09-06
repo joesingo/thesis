@@ -1407,7 +1407,7 @@ strict part.
     \label{tt_thm_conditioning_tt_characterisation}
     $L_{\le}$ is truth-tracking if and only if
     \begin{equation}
-        \label{tt_eq_conditioning_tt_characterisation}
+        \label{tt_eqn_conditioning_tt_characterisation}
         W \speclt W'
             \implies
                 \exists W'' \speceq W \text{ such that }
@@ -1415,7 +1415,7 @@ strict part.
     \end{equation}
 \end{theorem}
 
-Like \credulity{}, \cref{tt_eq_conditioning_tt_characterisation} is a principle of
+Like \credulity{}, \cref{tt_eqn_conditioning_tt_characterisation} is a principle of
 maximising trust in sources. Recall from that \cref{tt_lemma_spec_active_cell}
 that $W \speclt W'$ means all sources are more knowledgeable in each case in
 $W$ than in $W'$, and there is at least one source and case for which this
@@ -1425,7 +1425,7 @@ favour of $W$.  This yields a sufficient condition for truth-tracking, but to
 obtain a necessary condition we need to allow a ``surrogate'' world $W'' \speceq
 W$ to take the place of $W$.
 
-\cref{tt_eq_conditioning_tt_characterisation} is also intuitively similar to
+\cref{tt_eqn_conditioning_tt_characterisation} is also intuitively similar to
 \refinement{} from \cref{chapter_belief_change}, which requires that $W \le W'$
 whenever $W \refines W'$ (where the latter condition means each partition
 $\Pi^W_i$ refines $\Pi^{W'}_i$), but with the strict part of $\specleq$ taking
@@ -1435,7 +1435,7 @@ the place of $\refines$.
     Write $L = L_{\le}$. Since $L$ satisfies \equivalence{}, \repetition{} and
     \soundness{}, we may use \cref{tt_thm_tt_characterisation}. Furthermore, it is
     sufficient by \cref{tt_lemma_equivalent_tt_property} to show that
-    \cref{tt_eq_conditioning_tt_characterisation} holds if and only if $L(\sigma)
+    \cref{tt_eqn_conditioning_tt_characterisation} holds if and only if $L(\sigma)
     \subseteq T_\sigma$, whenever $T_\sigma \ne \emptyset$.
 
     ``if'': Suppose $W \speclt W'$. Let $\sigma$ be some pseudo-stream for $W$,
@@ -1458,7 +1458,7 @@ the place of $\refines$.
     W'$. Since $W' \in L(\sigma) \subseteq \Xsnd_\sigma$,
     \cref{tt_lemma_tsigma_qstar} gives $W \specleq W'$. Suppose for contradiction
     that $W \not\speceq W'$. Then $W \speclt W'$. By
-    \cref{tt_eq_conditioning_tt_characterisation}, there is $W'' \speceq W$ such
+    \cref{tt_eqn_conditioning_tt_characterisation}, there is $W'' \speceq W$ such
     that $W'' < W'$. But $W'$ is $\le$-minimal in $\Xsnd_\sigma$, so this must
     mean $W'' \notin \Xsnd_\sigma$. On the other hand, $W'' \in Q^*[W] =
     T_\sigma \subseteq \Xsnd_\sigma$: contradiction.
@@ -1472,6 +1472,7 @@ the place of $\refines$.
 \end{figure}
 
 \begin{example}
+    \label{tt_ex_conditioning_operators_revisited}
     We revisit the methods of \cref{tt_ex_conditioning_operators}.
 
     \begin{enumerate}
@@ -1487,7 +1488,7 @@ the place of $\refines$.
               \cref{tt_thm_qstar_unique_ipartition_conditions}, so if $W'' \speceq
               W$ then $r(W'') = 0$ also. That is, there is no $W'' \speceq W$
               such that $W'' < W'$. Hence
-              \cref{tt_eq_conditioning_tt_characterisation} fails, and $L_\vbc{}$
+              \cref{tt_eqn_conditioning_tt_characterisation} fails, and $L_\vbc{}$
               is not truth-tracking.
                 %
               Intuitively, the problem here is that since $i$'s expertise is
@@ -1519,28 +1520,27 @@ knowledge as soundness.
 
 \begin{definition}
     For a function $d: \worlds \times (\srcs \times \css \times \Lprop) \to
-    \N_{0}$, the \emph{score-based method} $L_d$ is given by
+    \N_{0}$ and a sequence $\sigma$, write
     \[
-        L_d(\sigma)
-        = \argmin_{W \in \Xsnd_\sigma}{
-            \sum_{\tuple{i, c, \phi}}{
-                d(W, \tuple{i, c, \phi})
-            }
-        }.
+        r_d^\sigma(W)
+        = \sum_{\tuple{i, c, \phi} \in \sigma}{d(W, \tuple{i, c, \phi})}.
     \]
+    The \emph{score-based method} $L_d$ is then given by
+    $L_d(\sigma) = \argmin_{W \in \Xsnd_\sigma}{r_d^\sigma(W)}$.
 \end{definition}
 
 As before, $d(W, \tuple{i, c, \phi})$ represents a measure of ``disagreement''
 between the world $W$ and report $\tuple{i, c, \phi}$; the greater $d(W,
 \tuple{i, c, \phi})$, the less plausible it is deemed for $i$ to report $\phi$
-in case $c$. The conjecture $L_d(\sigma)$ consists of the worlds satisfying the
-soundness constraints of $\sigma$ with minimal disagreement score, computed as
-the sum of the disagreement on each report.
+in case $c$. The conjecture $L_d(\sigma)$ consists of the worlds $W$ satisfying
+the soundness constraints of $\sigma$ with minimal disagreement score, computed
+as the sum $r_d^\sigma(W)$ of the disagreement on each report.
 %
 $L_d$ is consistent and satisfies both \repetition{} and \soundness{} for any
 choice of $d$.
 
 \begin{example}
+    \label{tt_ex_exm}
     Adapting the score-based example from \cref{chapter_belief_change} to this
     setting, take
     \[
@@ -1552,8 +1552,62 @@ choice of $d$.
     it by $L_\exm$, standing for \emph{excess-minimisation}.
 \end{example}
 
-\todo{truth-tracking characterisation for score-based operators, and discussion
-for excess-min specifically.}
+Truth-tracking for score-based operators satisfying \equivalence{} can be
+characterised in almost exactly the same way as for conditioning operators,
+using a property similar to \cref{tt_eqn_conditioning_tt_characterisation}.
+
+\begin{theorem}
+    \label{tt_thm_scorebased_tt_suff_cond}
+    Suppose $d$ is such that $d(W, \tuple{i, c, \phi}) = d(W, \tuple{i, c,
+    \psi})$ whenever $\phi \equiv \psi$. Then $L_d$ is truth-tracking if and
+    only if
+    \begin{equation}
+        \label{tt_eqn_scorebased_tt_characterisation}
+        W \in T_\sigma \text{ and }
+            W \speclt W'
+                \implies
+                    \exists W'' \speceq W \text{ such that }
+                        r_d^\sigma(W'') < r_d^\sigma(W').
+    \end{equation}
+\end{theorem}
+
+The proof is essentially identical to that of
+\cref{tt_thm_conditioning_tt_characterisation}, and is thus omitted.
+
+\begin{example}
+    Revisiting \cref{tt_ex_exm}, we find that $L_\exm$ is truth-tracking.
+    Indeed, it is clear that $d$ treats equivalent formula identically, since
+    $d(W, \tuple{i, c, \phi})$ only depends on $\Pi^W_i$ and $\propmods{\phi}$.
+    Given $W \in T_\sigma$ and $W \speclt W'$ one can take $W''$ in the
+    same way as for $L_\pbc$ in
+    \cref{tt_ex_conditioning_operators_revisited}. Then $\Pi^{W''}_i$ refines
+    $\Pi^{W'}_i$ for all $i$, so $d(W'', \tuple{i, c, \phi}) \le d(W',
+    \tuple{i, c, \phi})$ for all $\tuple{i, c, \phi} \in \sigma$. Consequently,
+    $r_d^\sigma(W'') \le r_d^\sigma(W')$. Moreover, since $W \speclt W'$
+    there is some $i$ and $c$ such that $\Pi^{W}_i[v^{W}_c]
+    \subset \Pi^{W'}_i[v^{W'}_c]$. Taking any $\phi$ such that $\propmods{\phi}
+    = \Pi^{W}_i[v^{W}_c]$, we have $W, c \models \S_i\phi$. Since $W \in
+    T_\sigma$, there is some $\psi \equiv \phi$ such that $\tuple{i, c, \psi}
+    \in \sigma$. Now, since $W \speceq W''$ we have $\Pi^{W''}_i[v^{W''}_c] =
+    \Pi^{W}_i[v^W_c]$. Consequently
+    \[
+        \Pi^{W''}_i[\psi]
+        = \Pi^{W''}_i[\Pi^W_i[v^W_c]]
+        = \Pi^{W''}_i[\Pi^{W''}_i[v^{W''}_c]]
+        = \Pi^{W''}_i[v^{W''}_c]
+        = \Pi^W_i[v^W_c]
+        = \propmods{\psi}
+    \]
+    and thus $d(W'', \tuple{i, c, \psi})= 0$. On the other hand,
+    $\Pi^{W'}_i[v^{W'}_c] \supset \propmods{\psi}$ implies $\Pi^{W'}_i[\psi] =
+    \Pi^{W'}_i[v^{W'}_c]$, and so
+    \[
+        d(W', \tuple{i, c, \psi})
+        = |\Pi^{W'}_i[v^{W'}_c] \setminus \propmods{\psi}|
+        > 0 = d(W'', \tuple{i, c, \psi}),
+    \]
+    which gives $r_d^\sigma(W'') < r_d^\sigma(W')$ as required.
+\end{example}
 
 \section{Conclusion}
 \label{tt_sec_conclusion}
