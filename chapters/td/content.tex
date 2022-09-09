@@ -366,10 +366,9 @@ zero in order for $U$ to be well-defined.
 Note that the limit operator $T^*$ is unique, when it exists. We can consider
 any scheme to converge to a \emph{partial} operator $T^*$, defined on the
 networks $N$ such that $\lim_{n \to \infty}{U^n(T_0)_N(z)}$ exists for all $z
-\in S \cup C$. Convergence and fixed-point properties -- i.e.  whether $U(T^*)
-= T^*$ -- will be discussed in
-\cref{td_new_sec_fixed_points_recursive_operators}. For now, we introduce
-examples of recursive operators from the literature.
+\in S \cup C$. Convergence and fixed-point properties -- i.e. whether $U(T^*) =
+T^*$ -- will be discussed in \cref{td_new_sec_satisfaction_of_the_axioms}. For
+now, we introduce examples of recursive operators from the literature.
 
 \paragraph{Sums.}
 
@@ -1729,221 +1728,11 @@ We can now characterise voting, up to ranking equivalence.
     as in $N$, this completes the proof.
 \end{proof}
 
-\todo{Can we get a characterisation of weighted voting? Or a subclass of
-weighted voting? An easier but still interesting goal might be ``binary
-weighted voting'', where $w_N(s) \in \{0, 1\}$.}
-
-\section{Fixed-points for Recursive Operators}
-\label{td_new_sec_fixed_points_recursive_operators}
-
-% \begin{notes}
-%     Sketch of this section:
-%     \begin{itemize}
-%         \item For a recursive operator $R$, we might not have a closed-form
-%               expression for the limit operator $T^*$.
-%         \item But hopefully, the operator converges to a fixed point of $U$, so
-%             that $U(T^*) = T^*$.
-%         \item This will simplify analysis of recursive operators (e.g. to see
-%               which axioms hold).
-%         \item Fixing $N$, an operator gives us a function $S_N \cup C_N \to
-%               \R$. Let $\F_N$ be the set of such functions.
-%         \item Basic compatibility condition for a recursive operator: if $T_N =
-%             T'_N$ then $U(T)_N = U(T')_N$.
-%         \item This implies that $U$ defines a function $\F_N \to \F_N$ (which
-%             we also denote by $U$).
-%         \item $\F_N$ is a metric space with the uniform distance
-%             \[
-%                 d(f, g) = \|f - g\|_{\infty}
-%                 = \max_{z \in S \cup C}{|f(z) - g(z)|}.
-%             \]
-%         \item Can use results for convergence in metric spaces
-%         \item If $R$ converges and $\D$ is closed, then $T^* \in \D$
-%             (i.e. the limit is in the domain of the update function)
-%         \item Since $S \cup C$ is finite, pointwise convergence (i.e. our
-%             definition) implies uniform convergence
-%         \item If $U$ is continuous and $R$ converges, then $U(T^*) = T^*$.
-%         \item Banach's fixed-point theorem: if $U$ is a contraction mapping,
-%               then $U$ is continuous and $R$ converges to a fixed point.
-%               Moreover, $T_0$ can be chosen arbitrarily.
-%         \item We can try these for each of our example operators.
-%         \item Show which operators are weightable, using the fixed-point
-%               properties.
-%     \end{itemize}
-% \end{notes}
-
-% Having introduced several example operators in
-% \cref{td_new_sec_example_operators} and axioms in \cref{td_new_sec_axioms}, it
-% is natural to ask which axioms are satisfied by each operator. To aid this
-% process, in this section we first collect some results for the limit $T^*$ of a
-% recursive scheme $(\D, T_0, U)$ to be a \emph{fixed-point} of $U$, i.e. $U(T^*)
-% = T^*$.  This property greatly simplifies analysis of (some of) the axioms,
-% especially for recursive operators for which no closed-form expression is
-% available for $T^*$. In what follows, when a recursive scheme is understood we
-% write $T^n$ for $U^n(T_0)$, i.e. the $n$-th iteration of the scheme,
-
-% The strategy is as follows: we first define a distance metric $d$ on the of
-% operators, so that convergence in the sense of
-% \cref{td_new_def_recursive_scheme} -- i.e. $T_N^n(z) \to T^*_N(z)$ for all
-% networks $N$ and $z \in S_N \cup C_N$ -- coincides with $T^n \to T^*$ in the
-% sense of convergence in a metric space -- i.e. $d(T^*, T^n) \to 0$. We may then
-% speak of $U: \D \to \D$ being \emph{continuous}, and a basic result from
-% topology gives that $T^n \to T^*$ implies $U(T^n) \to U(T^*)$.  Since $U(T^n) =
-% T^{n + 1}$ and limits are unique in a metric space, this implies $T^* = U(T^*)$
-% as desired.
-
-% For simplicity we work with \emph{bounded operators}: $T$ is \emph{bounded} if
-% there is $M \ge 0$ such that for all networks $N$ and $z \in S_N \cup C_N$,
-% $|T_N(z)| \le M$. Note that this is equivalent to $T$ bounded in the
-% conventional sense when viewed as a function $\bigsqcup_N{(S_N \cup C_N)} \to
-% \R$. A recursive scheme $(\D, T_0, U)$ is bounded if each operator in $\D$ is.
-% Write $\T$ for the set of bounded operators. The limit of a bounded recursive
-% scheme is again bounded.
-
-% \begin{proposition}
-%     If $(\D, T_0, U)$ is bounded and converges to $T^*$, then $T^*$ is
-%     bounded.
-% \end{proposition}
-
-% \begin{proof}
-%     \todo{Write.}
-% \end{proof}
-
-% Now, for sets $X, Y$, the \emph{uniform norm} $\|f\|_\infty = \sup_{x \in
-% X}{|f(x)|}$ is a norm on the set of bounded functions $f: X \to Y$, which in
-% turn defines a metric $d(f, g) = \|f - g\|_{\infty}$. Applying this to bounded
-% operators yields the following metric $d: \T \times \T \to \R$:\footnotemark{}
-% \[
-%     d(T, T')
-%     =
-%     \sup_{N}{
-%         \max_{z \in S_N \cup C_N}{
-%             |T_N(z) - T'_N(z)|
-%         }
-%     }.
-% \]
-
-% \footnotetext{
-%     Note that the boundedness assumption ensures the supremum is finite.
-% }
-
-% \begin{proposition}
-%     A bounded recursive scheme $(\D, T_0, U)$ converges to $T^*$ if and only if
-%     $T^n$ converges to $T^*$ in $(\T, d)$.
-% \end{proposition}
-
-% \begin{proof}
-%     \todo{Write.}
-% \end{proof}
-
-% For $T^*$ to be a fixed-point of $U$, clearly $T^*$ needs to lie in the domain
-% $\D$ of $U$. A sufficient condition is for $\D$ to be \emph{closed} as a subset
-% of $\T$, due to the following standard result.
-
-% \begin{lemma}
-%     Let $(X, d)$ be a metric space. Then $A \subseteq X$ is
-%     closed\footnotemark{} if and only if it contains all its limit points, i.e.
-%     $x_n \to x^*$ implies $x^* \in A$, for all convergent sequences $(x_n)_{n
-%     \in \Nat}$ in $A$.
-% \end{lemma}
-
-% \footnotetext{
-%     A set $A \subseteq X$ is \emph{open} if for all $x \in A$, there is $r > 0$
-%     such that $\{x' \in X \mid d(x, x') < r\} \subseteq A$. $A$ is
-%     \emph{closed} if its complement $X \setminus A$ is open.
-% }
-
-% \todo{Citation for proof, or just reproduce it here.}
-
-% The following definition of a continuous map between metric spaces is standard.
-
-% \begin{definition}
-%     A function $f: X \to Y$ between metric spaces $(X, d_X)$, $(Y, d_Y)$ is
-%     \emph{continuous} if for all $x \in X$ and $\epsilon > 0$ there is $\delta
-%     > 0$ such that for all $x' \in X$,
-%     \[
-%         d_X(x, x') < \delta \implies d_Y(f(x), f(x')) < \epsilon.
-%     \]
-% \end{definition}
-
-% Fixing a recursive scheme $(\D, T_0, U)$, restricting $d$ to $\D$ gives a
-% metric space structure on $\D$, and we may therefore speak of $U: \D \to \D$
-% being continuous. By another standard result, we may interchange the
-% application of a continuous function with the limit.
-
-% \begin{lemma}
-%     Let $f: X \to Y$ be continuous and $(x_n)_{n \in \Nat}$ a convergent
-%     sequence in $X$. Then $\lim_{n \to \infty}{f(x_n)} = f(\lim_{n \to
-%     \infty}{x_n})$.
-% \end{lemma}
-
-% \todo{Citation for proof, or just reproduce it here.}
-
-% Putting things together, we arrive at the following.
-
-% \begin{proposition}
-%     \label{td_new_prop_recursive_scheme_fp_condition}
-%     Let $(\D, T_0, U)$ be a bounded recursive scheme with limit $T^*$. If $\D$
-%     is closed and $U$ is continuous, then $U(T^*) = T^*$.
-% \end{proposition}
-
-% Our aim is to now show that \cref{td_new_prop_recursive_scheme_fp_condition}
-% can be applied to each of the example recursive operators from
-% \cref{td_new_sec_recursive_operators}. We take each operator in turn.
-
-% \paragraph{Sums.}
-
-% Let $(\D, T_0, U)$ be as defined for Sums in \cref{td_new_def_sums}. Sums is
-% clearly bounded by definition of $\D$.
-
-
-
-% It will
-% prove more convenient to express $U$ as a composition $U_2 \circ U_1$, where
-% $U_1$ performs the sum step, and $U_1$ normalises scores by dividing by the
-% maximum. In what follows, for a set of numbers $X \subseteq \R$, write
-% \[
-%     \norm{X} = \begin{cases}
-%         \frac{1}{\max_{x \in X}{|x|}},& \max_{x \in X}{|x|} \ne 0 \\
-%         0,& \text{ otherwise}.
-%     \end{cases}
-% \]
-
-% \begin{lemma}
-%     Define $U_1: \D \to \D$ by $U_1(T) = T'$, where
-%     \begin{align*}
-%         T'_N(s) &=
-%             \sum_{c \in \claims_N(s)}{
-%                 T_N(c)
-%             },
-%         \\
-%         T'_N(c) &=
-%             \sum_{s \in \src_N(c)}{
-%                 T'_N(s)
-%             }
-%     \end{align*}
-%     and $U_2: \D \to \D$ by $U_2(T) = T'$, where
-%     \begin{align*}
-%         T'_N(s) &=
-%             \norm{T_N(S)} \cdot T_N(s)
-%         \\
-%         T'_N(c) &=
-%             \norm{T_N(C)} \cdot T_N(c).
-%     \end{align*}
-%     Then $U = U_2 \circ U_1$.
-% \end{lemma}
-
-% \begin{proof}
-%     \todo{Write.}
-% \end{proof}
-
-% \paragraph{TruthFinder.} \todo{Write.}
-% \paragraph{CRH.} \todo{Write.}
-
 \section{Satisfaction of the Axioms}
 \label{td_new_sec_satisfaction_of_the_axioms}
 
 In the previous section we introduced several axioms for truth discovery. We
-now turn back to the example operators from
+now turn back to some of the example operators from
 \cref{td_new_sec_example_operators}, to assess which axioms hold for each
 operator. \cref{td_new_tab_axiom_satisfaction} summarises the results.
 
@@ -1953,15 +1742,14 @@ operator. \cref{td_new_tab_axiom_satisfaction} summarises the results.
     \caption{Axiom satisfaction for the example operators.}
     \def\yes{\checkmark}
     \def\no{\sffamily{X}}
-    \begin{tabular}{lccccccc}
-
+    \begin{tabular}{lcccc}
         &
         Voting             &
         WeightedAgg        &
-        Sums               &
-        CRH-$\epsilon$     &
-        TruthFinder        &
-        TruthFinder ($\lambda = 0$) \\
+        Sums               \\
+        % CRH-$\epsilon$     &
+        % TruthFinder        &
+        % TruthFinder ($\lambda = 0$) \\
 
         \toprule
 
@@ -2026,6 +1814,8 @@ operator. \cref{td_new_tab_axiom_satisfaction} summarises the results.
 	\end{tabular}
     \label{td_new_tab_axiom_satisfaction}
 \end{table}
+
+\todo{Mention that we skip CRH and TruthFinder, for simplicity.}
 
 \todo{Mention Voting axioms. Proofs are similar to Weighted Agreement.}
 
@@ -2453,7 +2243,7 @@ We come to the axioms satisfied by Sums. While it satisfies both
 monotonicity properties and \disjointindependence{}. In some sense these
 problems are caused by the normalisation step, where source and claim scores
 are divided by their respective maximums. We present a modified version of Sums
-without these deficiencies in \todo{section reference}.
+without these deficiencies in \cref{td_new_sec_modifying_sums}.
 
 \begin{theorem}
     Sums satisfies \claimcoherence{}, \sourcecoherence{}, \symmetry{},
@@ -2569,6 +2359,46 @@ without these deficiencies in \todo{section reference}.
     $\antisrc_N(c') = \{t'\}$ but $c' \not\clt_N^{\sums} c$.
 \end{proof}
 
+The key to the counterexamples derived from \cref{td_new_fig_sums_counterex} in
+the above proof lies in the lower disjoint component, which takes the form of a
+\emph{connected} bipartite graph. That is, each source $x_i$ reports each claim
+$e_j$ in the component. Moreover, sources elsewhere in the network claim fewer
+facts than the $x_i$, and claims elsewhere are reported by fewer sources than
+the $e_j$.
+
+Since Sums assigns scores by a simple sum, this results in the scores for the
+$x_i$ and $e_j$ dominating those of the other sources and claims. The
+normalisation step (i.e. the factors $\alpha$ and $\beta$ in
+\cref{td_new_def_sums}) then divides these scores by the (comparatively large)
+maximum. As the next result shows, under certain conditions this causes scores
+to decrease \emph{exponentially} and become $0$ in the limit. In particular, we
+can generate pathological examples such as \cref{td_new_fig_sums_counterex}
+where a whole component receives scores of 0, which leads to failure of
+\disjointindependence{} and the monotonicity axioms.
+
+\begin{proposition}
+\label{td_new_prop_obliteration}
+    Let $N$ be a network. Suppose there are non-empty sets $X \subseteq S$, $Y
+    \subseteq C$ such that
+    \begin{enumerate}
+        \item $\claims_N(x) = Y$ for each $x \in X$;
+        \item $\src_N(y) = X$ for each $y \in Y$;
+        \item $|\claims_N(s)| \le \frac{|Y|}{2}$ for each $s \in S \setminus
+              X$; and
+        \item $|\src_N(c)| \le \frac{|X|}{2}$ for each $f \in C \setminus Y$.
+    \end{enumerate}
+    Then, with $T^n$ denoting the $n$-th step in the iteration of Sums, for all
+    $n > 0$ we have
+    \[ T_N^n(s) \le \frac{1}{2^{n-1}} \qquad (s \in S \setminus X), \]
+    \[ T_N^n(c) \le \frac{1}{2^{n-1}} \qquad (c \in C \setminus Y), \]
+    \[ T_N^n(x) = 1, \qquad (x \in X) \]
+    \[ T_N^n(y) = 1. \qquad (y \in Y) \]
+    In particular, $\sums_N(s) = \sums_N(c) = 0$ for all $s \in S \setminus X$
+    and $c \in C \setminus Y$.
+\end{proposition}
+
+The proof follows by induction on $n$.
+
 % \paragraph{TruthFinder.}
 
 % As with Sums, we can greatly simplify axiomatic analysis of TruthFinder by
@@ -2669,148 +2499,242 @@ without these deficiencies in \todo{section reference}.
 %     \todo{Correct and finish or ditch.}
 % \end{proof}
 
-\paragraph{CRH.}
+% \paragraph{CRH.}
 
-As with Sums, we can greatly simplify axiomatic analysis of CRH by first
-showing that the limit operator $\crh{\epsilon}$ is a fixed point of the update
-function $U$. Take $\epsilon > 0$, and let $(\D, T^0, U)$ denote the recursive
-scheme of CRH-$\epsilon$ from \cref{td_new_def_crh}. As before, we write $T^n =
-U^n(T^0)$ for the $n$-th step of the iteration, and assume for simplicity that
-CRH-$\epsilon$ converges on all networks.
+% As with Sums, we can greatly simplify axiomatic analysis of CRH by first
+% showing that the limit operator $\crh{\epsilon}$ is a fixed point of the update
+% function $U$. Take $\epsilon > 0$, and let $(\D, T^0, U)$ denote the recursive
+% scheme of CRH-$\epsilon$ from \cref{td_new_def_crh}. As before, we write $T^n =
+% U^n(T^0)$ for the $n$-th step of the iteration, and assume for simplicity that
+% CRH-$\epsilon$ converges on all networks.
 
-\begin{lemma}
-    \label{td_new_lemma_crh_fixedpoint}
-    $\crh{\epsilon} \in \D$, and $U(\crh{\epsilon}) = \crh{\epsilon}$.
-\end{lemma}
+% \begin{lemma}
+%     \label{td_new_lemma_crh_fixedpoint}
+%     $\crh{\epsilon} \in \D$, and $U(\crh{\epsilon}) = \crh{\epsilon}$.
+% \end{lemma}
 
-\begin{proof}
-    First we show $\crh{\epsilon} \in \D$; that is, we have $0 \le
-    \crh{\epsilon}_N(c) \le 1$ for all networks $N$ and claims $c$. First, note
-    that for any operator $T$ and source $s \in S$, we have $U(T)_N(s) > 0$.
-    Consequently $U(T)_N(c) \ge 0$, and
-    \[
-        U(T)_N(c)
-        = \frac{\sum_{s \in \src_N(c)}{U(T)_N(s)}}{\sum_{t \in S}{U(T)_N(t)}}
-        \le \frac{\sum_{s \in S}{U(T)_N(s)}}{\sum_{t \in S}{U(T)_N(t)}}
-        = 1.
-    \]
-    Since $T^n = U(T^{n - 1})$ for $n > 1$, we have $T^n(c) \in [0, 1]$ for all
-    $n > 1$. Consequently $\crh{\epsilon}_N(c) = \lim_{n \to \infty}{T^n_N(c)}
-    \in [0, 1]$ also. Thus $\crh{\epsilon} \in \D$.
+% \begin{proof}
+%     First we show $\crh{\epsilon} \in \D$; that is, we have $0 \le
+%     \crh{\epsilon}_N(c) \le 1$ for all networks $N$ and claims $c$. First, note
+%     that for any operator $T$ and source $s \in S$, we have $U(T)_N(s) > 0$.
+%     Consequently $U(T)_N(c) \ge 0$, and
+%     \[
+%         U(T)_N(c)
+%         = \frac{\sum_{s \in \src_N(c)}{U(T)_N(s)}}{\sum_{t \in S}{U(T)_N(t)}}
+%         \le \frac{\sum_{s \in S}{U(T)_N(s)}}{\sum_{t \in S}{U(T)_N(t)}}
+%         = 1.
+%     \]
+%     Since $T^n = U(T^{n - 1})$ for $n > 1$, we have $T^n(c) \in [0, 1]$ for all
+%     $n > 1$. Consequently $\crh{\epsilon}_N(c) = \lim_{n \to \infty}{T^n_N(c)}
+%     \in [0, 1]$ also. Thus $\crh{\epsilon} \in \D$.
 
-    Now, take any network $N$. We aim to show $\crh{\epsilon}_N(z) =
-    U(\crh{\epsilon})_N(z)$ for all $z \in S \cup C$. First take $s \in S$.
-    For any $t \in S$, write
-    \[
-        \alpha^n_t = \epsilon + \sum_{c \in \claims_N(t)}{
-            \sum_{d \in \claims_N(\obj(c))}{
-                (T^n_N(d) - \indicator{d = c})^2
-            }
-        }.
-    \]
-    Then $\lim_{n \to \infty}{\alpha^n_t} = \epsilon + \sum_{c \in
-    \claims_N(t)}{\sum_{d \in \claims_N(\obj(c))}{(\crh{\epsilon}_N(d) -
-    \indicator{d = c})^2}}$. We have
-    \begin{align}
-        \crh{\epsilon}_N(s)
-        &= \lim_{n \to \infty}{T^{n+1}_N(s)} \nonumber \\
-        &= \lim_{n \to \infty}{\left(
-            \epsilon
-            -
-            \log\left(
-                \frac{\alpha^n_s}{\sum_{t \in S}{\alpha^n_t}}
-            \right)
-        \right)}.
-        \label{td_new_eqn_crh_fixpoint_limit}
-    \end{align}
-    Now, since $T^n_N(d) \in [0, 1]$ for all $n \in \Nat$, and clearly
-    $\indicator{d = c} \in [0, 1]$, we have
-    \[
-        \epsilon \le
-        \alpha^n_t
-        = \epsilon + \sum_{c \in \claims_N(t)}{
-            \sum_{d \in \claims_N(\obj(c))}{
-                \underbrace{(T^n_N(d) - \indicator{d = c})^2}_{\le 1}
-            }
-        }
-        \le \epsilon + |C|^2.
-    \]
-    Hence
-    \[
-        \frac{\alpha^n_s}{\sum_{t \in S}{\alpha^n_t}}
-        \ge \frac{\epsilon}{\sum_{t \in S}{(\epsilon + |C|^2)}}
-        = \frac{\epsilon}{|S|(\epsilon + |C|^2)} > 0,
-    \]
-    assuming $S \ne \emptyset$. Since this lower bound is independent of $n$,
-    this implies $\lim_{n \to \infty}{\frac{\alpha^n_s}{\sum_{t \in
-    S}{\alpha^n_t}}} > 0$. By continuity of the logarithm and
-    \cref{td_new_eqn_crh_fixpoint_limit}, we get
-    \[
-        \crh{\epsilon}_N(s)
-        = \epsilon - \log\left(
-            \frac{\lim_{n \to \infty}{\alpha^n_s}}{\sum_{t \in S}{\lim_{n \to
-            \infty}{\alpha^n_t}}}
-        \right)
-        = U(\crh{\epsilon})_N(s)
-    \]
-    as required.
+%     Now, take any network $N$. We aim to show $\crh{\epsilon}_N(z) =
+%     U(\crh{\epsilon})_N(z)$ for all $z \in S \cup C$. First take $s \in S$.
+%     For any $t \in S$, write
+%     \[
+%         \alpha^n_t = \epsilon + \sum_{c \in \claims_N(t)}{
+%             \sum_{d \in \claims_N(\obj(c))}{
+%                 (T^n_N(d) - \indicator{d = c})^2
+%             }
+%         }.
+%     \]
+%     Then $\lim_{n \to \infty}{\alpha^n_t} = \epsilon + \sum_{c \in
+%     \claims_N(t)}{\sum_{d \in \claims_N(\obj(c))}{(\crh{\epsilon}_N(d) -
+%     \indicator{d = c})^2}}$. We have
+%     \begin{align}
+%         \crh{\epsilon}_N(s)
+%         &= \lim_{n \to \infty}{T^{n+1}_N(s)} \nonumber \\
+%         &= \lim_{n \to \infty}{\left(
+%             \epsilon
+%             -
+%             \log\left(
+%                 \frac{\alpha^n_s}{\sum_{t \in S}{\alpha^n_t}}
+%             \right)
+%         \right)}.
+%         \label{td_new_eqn_crh_fixpoint_limit}
+%     \end{align}
+%     Now, since $T^n_N(d) \in [0, 1]$ for all $n \in \Nat$, and clearly
+%     $\indicator{d = c} \in [0, 1]$, we have
+%     \[
+%         \epsilon \le
+%         \alpha^n_t
+%         = \epsilon + \sum_{c \in \claims_N(t)}{
+%             \sum_{d \in \claims_N(\obj(c))}{
+%                 \underbrace{(T^n_N(d) - \indicator{d = c})^2}_{\le 1}
+%             }
+%         }
+%         \le \epsilon + |C|^2.
+%     \]
+%     Hence
+%     \[
+%         \frac{\alpha^n_s}{\sum_{t \in S}{\alpha^n_t}}
+%         \ge \frac{\epsilon}{\sum_{t \in S}{(\epsilon + |C|^2)}}
+%         = \frac{\epsilon}{|S|(\epsilon + |C|^2)} > 0,
+%     \]
+%     assuming $S \ne \emptyset$. Since this lower bound is independent of $n$,
+%     this implies $\lim_{n \to \infty}{\frac{\alpha^n_s}{\sum_{t \in
+%     S}{\alpha^n_t}}} > 0$. By continuity of the logarithm and
+%     \cref{td_new_eqn_crh_fixpoint_limit}, we get
+%     \[
+%         \crh{\epsilon}_N(s)
+%         = \epsilon - \log\left(
+%             \frac{\lim_{n \to \infty}{\alpha^n_s}}{\sum_{t \in S}{\lim_{n \to
+%             \infty}{\alpha^n_t}}}
+%         \right)
+%         = U(\crh{\epsilon})_N(s)
+%     \]
+%     as required.
 
-    Now take any $c \in C$. From above we have $\lim_{n \to \infty}{T^n_N(t)} =
-    \crh{\epsilon}_N(t) \ge \epsilon > 0$ for each $t \in S$. By simple
-    manipulation of limits we find
-    \begin{align*}
-        \crh{\epsilon}_N(c)
-        &= \lim_{n \to \infty}{T^n_N(c)} \\
-        &= \lim_{n \to \infty}{
-            \frac{\sum_{s \in \src_N(c)}{T^n_N(s)}}{\sum_{t \in S}{T^n_N(t)}}
-        } \\
-        &= \frac{
-                \sum_{s \in \src_N(c)}{\lim_{n \to \infty}{T^n_N(s)}}
-            }{
-                \sum_{t \in S}{\lim_{n \to \infty}{T^n_N(t)}}
-            } \\
-        &= \frac{
-            \sum_{s \in \src_N(c)}{\crh{\epsilon}_N(s)}
-            }{
-                \sum_{t \in S}{\crh{\epsilon}_N(t)}
-            } \\
-        &= U(\crh{\epsilon})_N(c).
-    \end{align*}
-    This completes the proof.
-\end{proof}
+%     Now take any $c \in C$. From above we have $\lim_{n \to \infty}{T^n_N(t)} =
+%     \crh{\epsilon}_N(t) \ge \epsilon > 0$ for each $t \in S$. By simple
+%     manipulation of limits we find
+%     \begin{align*}
+%         \crh{\epsilon}_N(c)
+%         &= \lim_{n \to \infty}{T^n_N(c)} \\
+%         &= \lim_{n \to \infty}{
+%             \frac{\sum_{s \in \src_N(c)}{T^n_N(s)}}{\sum_{t \in S}{T^n_N(t)}}
+%         } \\
+%         &= \frac{
+%                 \sum_{s \in \src_N(c)}{\lim_{n \to \infty}{T^n_N(s)}}
+%             }{
+%                 \sum_{t \in S}{\lim_{n \to \infty}{T^n_N(t)}}
+%             } \\
+%         &= \frac{
+%             \sum_{s \in \src_N(c)}{\crh{\epsilon}_N(s)}
+%             }{
+%                 \sum_{t \in S}{\crh{\epsilon}_N(t)}
+%             } \\
+%         &= U(\crh{\epsilon})_N(c).
+%     \end{align*}
+%     This completes the proof.
+% \end{proof}
 
-\begin{corollary}
-    $\crh{\epsilon}$ is weightable.
-\end{corollary}
+% \begin{corollary}
+%     $\crh{\epsilon}$ is weightable.
+% \end{corollary}
 
-\begin{proof}
-    From \cref{td_new_lemma_crh_fixedpoint} we have
-    \[
-        \crh{\epsilon}_N(c)
-        = \frac{
-            \sum_{s \in \src_N(c)}{\crh{\epsilon}_N(s)}
-        }{
-            \sum_{t \in S}{\crh{\epsilon}_N(t)}
-        }.
-    \]
-    Defining a weighting $w$ by $w_N(s) = \frac{\crh{\epsilon}_N(s)}{\sum_{t
-    \in S}{\crh{\epsilon}_N(t)}}$, it is easily seen that $\crh{\epsilon}
-    \rankequiv \wvoting{w}$.
-\end{proof}
+% \begin{proof}
+%     From \cref{td_new_lemma_crh_fixedpoint} we have
+%     \[
+%         \crh{\epsilon}_N(c)
+%         = \frac{
+%             \sum_{s \in \src_N(c)}{\crh{\epsilon}_N(s)}
+%         }{
+%             \sum_{t \in S}{\crh{\epsilon}_N(t)}
+%         }.
+%     \]
+%     Defining a weighting $w$ by $w_N(s) = \frac{\crh{\epsilon}_N(s)}{\sum_{t
+%     \in S}{\crh{\epsilon}_N(t)}}$, it is easily seen that $\crh{\epsilon}
+%     \rankequiv \wvoting{w}$.
+% \end{proof}
 
-\todo{intro to crh axioms}
+% \todo{intro to CRH axioms}
 
-\begin{theorem}
-    \label{td_new_thm_crh_axioms}
-    Take $\epsilon > 0$.
-\end{theorem}
+% \begin{theorem}
+%     \label{td_new_thm_crh_axioms}
+%     Take $\epsilon > 0$.
+% \end{theorem}
 
 \subsection{Modifying Sums}
+\label{td_new_sec_modifying_sums}
 
-\begin{notes}
-    Failure of \disjointindependence{} is bad. Show that Sums converges
-    ordinally, which resolves the issue
-\end{notes}
+While Sums satisfies some desirable axioms, the failure of
+\disjointindependence{} and the monotonicity axioms is problematic. We saw
+through \cref{td_new_prop_obliteration} that this is in some sense caused by
+the normalisation step, where source and claim scores are divided by the
+``global'' maximum scores across the network.
+
+A seemingly natural fix for \disjointindependence{} is to therefore use
+different normalisation factors $\alpha$ and $\beta$ for each disjoint
+component. However, this does not escape the negative consequences of
+\cref{td_new_prop_obliteration}. Indeed, if one modifies the network(s) in
+\cref{td_new_fig_sums_counterex} so that claim $e_1$ is associated with object
+$o$ instead of $p_1$, the network no longer has two disjoint components.
+Consequently, the ``per-component Sums'' operator gives the same result as Sums
+itself, and in particular the counterexamples for \freshposresp{} and
+\sourceposresp{} still hold. Perhaps even worse, one can show that
+\claimcoherence{} fails for this modified operator. We consider loss of
+\claimcoherence{} too high a price to pay for \disjointindependence{}.
+
+Instead, let us take a step back and consider if normalisation is truly
+necessary. On the one hand, without normalisation the source and claim scores
+are unbounded and therefore do not converge. On the other, we are not
+interested in the numeric scores for their own sake, but rather for the
+\emph{rankings} that they induce. It may be possible that whilst the scores
+diverge without normalisation, the induced rankings \emph{do} converge to a
+fixed one, which we may take as the ``ordinal limit''. This is in fact the
+case.  We call this new operator \emph{UnboundedSums}
+
+\begin{definition}
+    \emph{UnboundedSums} is the recursive scheme $(\D, T^0, U)$, where $\D$ is
+    the set of all operators with scores in $[0, 1]$,
+    \begin{align*}
+        T^0_N(s) &= 1, \\
+        T^0_N(c) &= |\src_N(c)|
+    \end{align*}
+    and $U(T) = T'$, where
+    \begin{align*}
+        T'_N(s) &=
+            \sum_{c \in \claims_N(s)}{
+                T_N(c)
+            },
+        \\
+        T'_N(c) &=
+            \sum_{s \in \src_N(c)}{
+                T'_N(s)
+            }.
+    \end{align*}
+\end{definition}
+
+Note that the update function $U$ is almost identical to that of Sums from
+\cref{td_new_def_sums}, expect that it does not include the normalisation
+factors $\alpha$ and $\beta$. Also note that to simplify the proof of ordinal
+convergence, we use a different initial operator $T^0$ compared to Sums. In
+what follows, let $T^n$ denote the $n$-th step in the iteration of
+UnboundedSums.
+
+\begin{restatable}{theorem}{restatetdusumsthm}
+    \label{td_new_thm_usums_ordinal_convergence}
+    UnboundedSums is ordinally convergent in the following sense: for every
+    network $N$ there is $m \in \Nat$ such that for all $n \ge m$,
+    \begin{align*}
+        T^n_N(s) \le T^n_N(s') &\iff T^m_N(s) \le T^m_N(s'), \qquad (s \in S) \\
+        T^n_N(c) \le T^n_N(c') &\iff T^m_N(c) \le T^m_N(c'). \qquad (c \in C) \\
+    \end{align*}
+    That is, the rankings induced by $T^n_N$ remain constant for $n \ge m$.
+\end{restatable}
+
+The proof -- which can be found in \cref{td_new_app_sec_usums} -- expresses the
+update function of UnboundedSums in terms of matrix multiplication, and
+uses some techniques and results from linear algebra.
+
+In light of \cref{td_new_thm_usums_ordinal_convergence}, we may consider define
+an operator $\usums$ whose source and claim rankings $\sle_N^{\usums{}}$,
+$\cle_N^{\usums}$ coincide with those of $T^m_N$, for $m$ sufficiently large.
+With the normalisation problems aside, UnboundedSums provides an example of a
+principled operator satisfying many of our core axioms, including
+\sourcecoherence{}, \claimcoherence{} and \disjointindependence{}. In
+particular, we avoid the desirable behaviour of Sums in
+\cref{td_new_fig_sums_counterex}; whereas Sums trivialises the ranking of
+sources and claims in the upper component, UnboundedSums allows meaningful
+comparison (e.g. we have $d \clt c$). We conjecture that UnboundedSums also
+satisfies the monotonicity properties \freshposresp{} and \sourceposresp{}, but
+this remains to be proven.\footnotemark{}
+
+\footnotetext{
+    We have experimentally verified that UnboundedSums satisfies all the
+    specific instances of \freshposresp{} with the starting network $N$ as in
+    \cref{td_new_fig_intro_example}.
+}
+
+\begin{theorem}
+    UnboundedSums satisfies \sourcecoherence{}, \claimcoherence{}, \symmetry{},
+    \marginaltrustworthiness{}, \trustbasedmon{} and \disjointindependence{}.
+    It does not satisfy \classicalindependence{}, \conflictcoherence{} or
+    \anticoherence{}.
+\end{theorem}
+
+\todo{Proof.}
 
 \section{Related Work}
 

@@ -1,0 +1,173 @@
+\chapter{Proofs for \cref{chapter_td}}
+
+\section{Proof of \cref{td_new_thm_usums_ordinal_convergence}}
+\label{td_new_app_sec_usums}
+
+\restatetdusumsthm*
+
+\begin{proof}
+    The proof will use some results from linear algebra, so we will work with a
+    matrix and vector representation of UnboundedSums. Take some network $N$.
+    Enumerate $S$ as
+    $\{s_1,\ldots,s_k\}$, and $C$ as $\{c_1,\ldots,c_l\}$. Write
+    $M$ for the $k \times l$ matrix given by
+    \[
+        [M]_{ij} = \begin{cases}
+            1 & \text{ if } s_i \in \src_N(c_j), \\
+            0 & \text{ otherwise.}
+        \end{cases}
+        \qquad
+        (1 \le i \le k, 1 \le j \le l)
+    \]
+    Write $v_n$ and $w_n$ for the vectors of source and claims scores of
+    UnboundedSums at iteration $n$, i.e.
+    \[
+        v_n = [T_N^n(s_1), \ldots, T_N^n(s_k)]^\top \in \R^k,
+    \]
+    \[
+        w_n = [T_N^n(c_1), \ldots, T_N^n(c_l)]^\top \in \R^l.
+    \]
+
+    Multiplication by $M$ encodes the update step of UnboundedSums: it is easily
+    shown that $v_{n+1} = Mw_n$ and $w_{n+1} = M^{\top}v_{n+1}$. Writing $A =
+    MM^\top \in \R^{k \times k}$, we have $v_{n+1} = Av_n$, and therefore
+    $v_{n+1} = A^n v_1$.
+
+    To show that the rankings of UnboundedSums remain constant after finitely many
+    iterations, we will show that for each $s_p, s_q \in S$ there is $m_{pq}
+    \in \Nat$ such that $\sign([v_n]_p - [v_n]_q)$ is constant for all $n \ge
+    m_{pq}$. Since $[v_n]_p$ and $[v_n]_q$ are the trust scores of $s_p$ and
+    $s_q$ respectively in the $n$-th iteration, this will show that the ranking
+    of $s_p$ and $s_q$ remains the same after $m_{pq}$ iterations. Since there
+    are only finitely many pairs of sources, we may then take $m$ as the
+    maximum value of $m_{pq}$ over all pairs $(p, q)$, and the entire source
+    ranking ${\sle_N^{T^n}}$ of UnboundedSums remains constant for $n \ge m$. An
+    almost identical argument can be carried out for the claim ranking, and
+    these together will prove the result.
+
+    So, fix $s_p, s_q \in S$. Write $\delta_n = [v_n]_p - [v_n]_q$. First note
+    that $A = MM^\top$ is symmetric, so the \emph{spectral theorem} gives the
+    existence of $k$ orthogonal eigenvectors $x_1, \ldots, x_k$ for
+    $A$~\cite[Theorem 7.29]{axler2014}. Let $\lambda_1, \ldots, \lambda_k$ be
+    the corresponding eigenvalues. Form a $(k \times k)$-matrix $P$ whose
+    $i$-th column is $x_i$, and let $D =
+    \operatorname{diag}(\lambda_1,\ldots,\lambda_k)$. Then $A$ can be diagonalised as
+    $A = PDP^{-1}$. It follows that for any $n \in \Nat$, $A^n = PD^nP^{-1}$.
+
+    Now, since $x_1,\ldots,x_k$ are orthogonal, $P$ is an orthogonal matrix, i.e.
+    $P^\top = P^{-1}$. Hence $A^n = PD^nP^\top$. Note that
+    \[
+        PD^n
+        = \begin{bmatrix}
+            x_1 \mid \ldots \mid x_k
+        \end{bmatrix}
+        \begin{bmatrix}
+            \lambda_1^n &        &             \\
+                        & \ddots &             \\
+                        &        & \lambda_k^n \\
+        \end{bmatrix}
+        = \begin{bmatrix}
+            \lambda_1^n x_1 \mid \ldots \mid \lambda_k^n x_k
+        \end{bmatrix},
+    \]
+    and
+    \[
+        P^{\top}v_1
+        = \begin{bmatrix}
+            x_1 \\ - \\ \vdots \\ - \\ x_k
+        \end{bmatrix} v_1
+        = \begin{bmatrix}
+            x_1 \cdot v_1 \\ \vdots \\ x_k \cdot v_1
+        \end{bmatrix},
+    \]
+    where $\cdot$ denotes the dot product. This means
+    \[
+        v_{n+1}
+        = A^nv_1
+        = PD^nP^{\top}v_1
+        = \begin{bmatrix}
+            \lambda_1^n x_1 \mid \ldots \mid \lambda_k^n x_k
+        \end{bmatrix}
+        \begin{bmatrix}
+            x_1 \cdot v_1 \\ \vdots \\ x_k \cdot v_1
+        \end{bmatrix}
+        = \sum_{i=1}^{k}{(x_i \cdot v_1) \lambda_i^n x_i}.
+    \]
+    We obtain an explicit formula for $\delta_{n+1}$:
+    \begin{equation}
+        \label{td_new_app_eqn_delta_formula}
+        \delta_{n+1}
+        = [v_n]_p - [v_n]_q
+        = \sum_{i=1}^{k}{
+            (x_i \cdot v_1) \lambda_i^n \left( [x_i]_p - [x_i]_q \right)
+        }
+        = \sum_{i=1}^{k}{r_i \lambda_i^n}
+    \end{equation}
+    where $r_i = (x_i \cdot v_1)\left( [x_i]_p - [x_i]_q \right)$. Note that
+    $r_i$ does not depend on $n$.
+
+    Now, it is easy to see that $A = MM^\top$ is \emph{positive semi-definite},
+    which means its eigenvalues $\lambda_1,\ldots,\lambda_k$ are all
+    non-negative. We re-index the sum in \cref{td_new_app_eqn_delta_formula} by
+    grouping together the $\lambda_i$ which are equal, to get
+    \[
+        \delta_{n+1} = \sum_{t=1}^{K}{R_t \mu_t^n},
+    \]
+    where $K \le k$, each $R_t$ is a sum of the $r_i$ (whose corresponding
+    $\lambda_i$ are equal), and the $\mu_t$ are distinct and non-negative.
+    Assume without loss of generality that $\mu_1 > \mu_2 > \cdots > \mu_K \ge
+    0$. If $R_t = 0$ for all $t$, then clearly $\sign(\delta_{n+1}) = \sign(0)
+    = 0$ which is constant, so we are done. Otherwise, let $T$ be the minimal
+    $t$ such that $R_t \ne 0$. We may also assume $\mu_T > 0$ (otherwise we
+    necessarily have $\mu_T = 0$, $T=K$ and $\sign(\delta_{n+1}) = \sign(R_T
+    \cdot 0^n)$ which is again constant 0). Observe that
+    \[
+        \delta_{n+1}
+        = R_T \mu_T^n + \sum_{t=T + 1}^{K}{R_t \mu_t^n} \\
+        = \mu_T^n \left[
+            R_T + \sum_{t=T + 1}^{K}{
+                R_t \left(\frac{\mu_t}{\mu_T}\right)^n
+            }
+        \right].
+    \]
+    By our assumption on the ordering of the $\mu_t$, we have $\mu_t < \mu_T$
+    in the sum. Consequently $|\mu_t / \mu_T| < 1$, and $(\mu_t / \mu_T)^n \to
+    0$ as $n \to \infty$. This means
+    \[
+        \lim_{n \to \infty}{\left[
+            R_T + \sum_{t=T + 1}^{K}{
+                R_t \underbrace{\left(\frac{\mu_t}{\mu_T}\right)^n}_{\to 0}
+            }
+        \right]}
+        = R_T
+        \ne 0.
+    \]
+    Since this limit is non-zero, there is $m_{pq} \in \Nat$ such that the sign
+    of term in square brackets is
+    equal to $S = \sign R_T \in \{1, -1\}$ for all $n \ge m_{pq}$. Finally,
+    for such $n$ we have
+    \[
+        \sign \delta_{n+1}
+        = \sign \left(
+            \underbrace{\mu_T^n}_{> 0}
+            \left[
+                R_T + \sum_{t=T + 1}^{K}{
+                    R_t \left(\frac{\mu_t}{\mu_T}\right)^n
+                }
+            \right]
+        \right)
+        = \sign \left(
+            R_T + \sum_{t=T + 1}^{K}{
+                R_t \left(\frac{\mu_t}{\mu_T}\right)^n
+            }
+        \right)
+        = S
+    \]
+    i.e. $\sign \delta_n$ is constant for $n \ge m_{pq} + 1$, as required.
+
+    The argument which shows that the difference between claim scores
+    is also eventually constant in sign is almost identical. Write $B =
+    M^{\top}M$, and observe that $w_{n+1} = B^nw_1$. Since $B$ is also
+    symmetric and positive semi-definite, the proof goes through as above. This
+    completes the proof.
+\end{proof}
