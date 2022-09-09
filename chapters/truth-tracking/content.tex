@@ -1609,6 +1609,43 @@ The proof is essentially identical to that of
     which gives $r_d^\sigma(W'') < r_d^\sigma(W')$ as required.
 \end{example}
 
+\section{Possible section on belief streams?}
+
+\begin{notes}
+    \begin{itemize}
+        \item Problem: completeness assumption is very strong.
+        \item Idea: replace with beliefs.
+        \item Definition: belief structure $U$ assigns a non-empty belief set
+              $U_{ic}$ for each $i$ and $c$. $U$ is compatible with $W$ iff
+              $U_{ic} \subseteq \Pi^W_i$.
+        \item A $U$-stream enumerates $\tuple{i, c, \phi}$ such that $U_{ic}
+              \subseteq \propmods{\phi}$.
+        \item We want to investigate what can be learned about a world $W$ on
+              the basis of a $U$-stream.
+        \item We do not systematically study what can be learned (e.g. as we
+              did via $Q^*$ above), but look at ``local'' question solving.
+        \item $L$ $U$-solves $Q$ at $W$ iff for all $U$-streams $\rho$ there is
+              $n$ such that $L(\rho[m]) \subseteq Q[W]$ for all $m \ge n$.
+        \item Note that $U$-solvability at $W$ is not a meaningful property:
+              for each $W$ the method $L(\sigma) = \{W\}$ clearly $U$-solves
+              \emph{any} question at $W$, but not at any other $W'$.
+        \item However, the notion is still useful for particular methods (e.g.
+              $L_\vbc$, $L_\pbc$, $L_\exm$) which we know is not designed to
+              output one particular world $W$.
+        \item Results:
+        \begin{itemize}
+            \item Truthful belief structure for $W$: $U_{ic} = \Pi^W_i$. Here
+                  all beliefs are true. Our methods guess $\Pi_\ast$ for all
+                  sources, and beliefs are the intersections of active cells.
+            \item Suppose there is at least 2 sources with total expertise, and
+                  any pair of non-expert sources have inconsistent beliefs in
+                  some case. Then our methods find and believe the experts
+            \item Interesting example: there are sequences where our methods
+                  correctly ignore a majority in a particular case.
+        \end{itemize}
+    \end{itemize}
+\end{notes}
+
 \section{Conclusion}
 \label{tt_sec_conclusion}
 

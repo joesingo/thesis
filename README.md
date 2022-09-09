@@ -23,6 +23,8 @@
 - References:
     * `van` for Dutch names
 
+- Consider using `\ref` instead of `\cref`
+
 ## Bipartite tournaments
 
 - Truth discovery reference in the introduction is no longer be appropriate
