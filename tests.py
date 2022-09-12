@@ -101,6 +101,8 @@ class TestSuite:
             "paper.",
             r"We refer the reader to the original TruthFinder paper"
             r"~\cite{yin2008} for the",
+            "describe the axiom in rough terms, deferring to the paper for the"
+            " technical",
         ]
         if line not in exceptions:
             assert "paper" not in line

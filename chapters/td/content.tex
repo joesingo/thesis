@@ -586,6 +586,7 @@ revisit the example operators of the previous section to see to what extent our
 axioms hold in practise.
 
 \subsection{Coherence}
+\label{td_new_sec_coherence}
 
 The guiding principle of truth discovery is that claims backed by trustworthy
 sources should be believed, and sources making believable claims are
@@ -2790,6 +2791,126 @@ this remains to be proven.\footnotemark{}
 \end{proof}
 
 \section{Related Work}
+
+In this section we discuss related work.
+
+\paragraph{Ranking systems.} \textcite{altman2008} initiated axiomatic study of
+ranking systems. First we discuss their framework in relation to ours, and then
+turn to their axioms. In their framework, a \emph{ranking system} $F$ maps any
+(finite) directed graph $G = (V, E)$ to a total preorder $\le_G^F$ on the
+vertex set $V$. In their view this is a variation of the classical social
+choice setting, in which the set of voters and alternatives coincide. Nodes $v
+\in V$ ``vote'' on their peers in $V$ by a form of approval
+voting~\cite{laslier2010handbook}: an edge $v \to u$ is interpret as a vote for
+$u$ from $v$. A ranking system then outputs a ranking of $V$, following the
+general intuition that the more ``votes'' $v$ receives (i.e. the more incoming
+edges), the higher $v$ should rank. As with the ranking of claims in truth
+discovery, this does not necessarily mean ranking nodes simply by the
+\emph{number} of votes received, since the \emph{quality} of the voters should
+also be taken in account. For example, a ranking system may prioritise nodes
+which receive few votes from highly ranked nodes over those with many votes
+from lower ranked nodes.
+
+Note that our truth discovery networks $N$ can be viewed as directed graphs on
+the vertex set $S \cup C \cup O$; this is the presentation we have used in the
+figures throughout this chapter. However, naively applying a ranking system to
+such graphs directly makes little sense: sources never receive any ``votes'',
+and the resulting ranking includes objects, which do not need to be ranked in
+our setting. Perhaps a more sensible approach is to consider the bipartite
+graph $G_N = (V_N, E_N)$ associated with a network $N$, where
+\[
+    V_N = S \cup C, \qquad E_N = \bigcup_{(s, c) \in R}{ \{(s, c), (c, s)\} }.
+\]
+That is, we
+take the edges from sources to claims together with the reversal of such edges.
+The edges in $G_N$ have some intuitive interpretation: a source votes for the
+claims which it believes are true, and a claim votes for the sources who vouch for
+it.  Any ranking system $F$ thus gives rise to a truth discovery operator,
+where $s \sle_N^T t$ iff $s \le_{G_N}^F t$, and similar for claims.
+
+However, some characteristic aspects of the truth discovery problem are lost in
+this translation to ranking systems. Notably, the objects play no role at all
+in $G_N$. Sources and claims are also treated symmetrically, where they perhaps
+should not be. For example, a claim $c$ receiving more claims than $d$ is
+beneficial for $c$, all else being equal, but a source $s$
+reporting more claims than $t$ does not tell us anything about the relative
+trustworthiness of $s$ and $t$.
+
+While other choices of $G_N$ may be possible to alleviate some of these
+problems, we believe the truth discovery is sufficiently specialised beyond
+general graph ranking so that a bespoke modelling is required to capture its
+nuances appropriately. Our framework provides this novel contribution.
+
+In \cite{altman2008}, Altman and Tennenholtz also introduce axioms for ranking
+systems. Their first set of axioms deal with the transitive effects of voting
+when the alternatives are the voters themselves. As mentioned in
+\cref{td_new_sec_coherence}, these axioms provided the inspiration for our
+coherence axioms. The core idea is that if the predecessors of a node $v$ are
+weaker than those of $u$, then $v$ should be ranked below $u$. If $v$
+additionally has \emph{more} predecessors, $v$ should rank \emph{strictly}
+below. Coherence applies this idea both in the direction of sources-to-claims
+(\claimcoherence{}) and from claims-to-sources (\sourcecoherence{}). A notable
+difference is that we only consider the case where the number of sources for
+two claims (or the number of claims, for two sources) is the same. For example,
+a source reporting more claims does not give it the strict boost Transitivity
+would dictate. Under the mapping $N \mapsto G_N$ described above, any ranking
+system satisfying Transitivity induces a truth discovery operator which
+satisfies both \sourcecoherence{} and \claimcoherence{}.
+
+The other axiom of \textcite{altman2008} is the independence axiom \emph{RIIA}
+(ranked independence of irrelevant alternatives), which adapts the classical
+IIA axiom from social choice theory to the ranking system setting, although in
+a different manner to our independence axioms of \cref{td_new_sec_independence}. We
+describe the axiom in rough terms, deferring to the paper for the technical
+details. Suppose the relative ranking of $u_1$'s predecessors compared to
+$u_2$'s predecessors is the same as that of $v_1$'s compared to $v_2$'s. Then
+RIIA requires $u_1 \le u_2$ iff $v_1 \le v_2$. Informally, ``the relative
+ranking of two agents must only depend on the pairwise comparison of the ranks
+of their predecessors''~\cite{altman2008}.
+%
+While we do not have an analogous axiom, the idea can be adapted to truth
+discovery networks. Intuitively, such an axiom would state that the ranking of
+two claims depends only on comparisons between their corresponding sources (and
+similar for the ranking of sources).
+
+However, the main result of Altman and Tennenholtz is an impossibility:
+Transitivity is incompatible with RIIA. Moreover, the result remains true even
+when restricting to bipartite graphs, such as $G_N$ described above.
+Accordingly, we can expect a similar impossibility result to hold in the truth
+discovery setting between the coherence axioms and any analogue of RIIA.
+
+\paragraph{PageRank.} PageRank~\cite{page_pagerank_1999} is a well-known
+algorithm for ranking web pages based on the hyperlink structure of the web,
+viewed as a directed graph. It has also been studied through the lens of social
+choice and characterised
+axiomatically~\cite{altman2005ranking,skibski_pagerank}.\footnotemark{}
+
+\footnotetext{
+    \textcite{skibski_pagerank} axiomatise the \emph{numerical
+    scores} of PageRank, whereas \textcite{altman2005ranking} axiomatise the resulting ranking.
+    Moreover, Wąs and Skibski point out that Altman and Tennenholtz in fact
+    only consider a simplified version of PageRank called \emph{Katz prestige},
+    defined only for strongly connected graphs.
+}
+
+In ~\cite{altman2005ranking} the authors propose several \emph{invariance
+axioms}, each of which requires that the ranking of pages is not affected by a
+certain transformation of the web graph. For example, the axiom \emph{Self
+Edge} says that adding a self loop from a page $a$ to itself does not change
+the relative ranking of other pages, and results in a strictly positive boost
+for $a$ (c.f. our monotonicity axioms). However, if we identify a truth
+discovery network $N$ with the graph $G_N$ as described above, most of the
+transformations involved do not respect the bipartite, symmetric structure of
+$G_N$. That is, the transformed graph does not correspond to any $G_{N'}$, for
+a network $N'$.  Consequently, the PageRank axioms have no truth discovery
+counterpart in our setting. The only exception is \emph{Isomorphism}, where the
+transformation in question is graph isomorphism; this axiom is analogous to our
+\symmetry{} axiom. However, since PageRank is similar to the \emph{Hubs and
+Authorities}~\cite{kleinberg1999} algorithm on which Sums is based -- which
+also uses the hyperlink structure of the web to rank pages -- we expect there
+may be additional axioms which can be expressed both for general graphs
+\emph{and} truth discovery networks, satisfied by PageRank and Sums. We leave
+the task of finding such axioms to future work.
 
 \section{Conclusion}
 
