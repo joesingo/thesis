@@ -2,6 +2,18 @@ import math
 
 from truthdiscovery import Dataset, TruthFinder, CRH, FixedIterator
 
+
+def get_ranks(scores):
+    ranks = {}
+    rank = 0
+    prev_score = None
+    for x in sorted(scores, key=lambda x: scores[x]):
+        score = scores[x]
+        rank = rank + 1 if prev_score is None or score > prev_score else rank
+        ranks[x] = rank
+        prev_score = score
+    return ranks
+
 t0 = 0.9
 gamma = 0.3
 rho = 0.5
@@ -85,33 +97,69 @@ claims = {"c", "d", "e", "f"}
 #         scores[s] = q / len(claim[s])
 
 # crh
-print("from library:")
-res = CRH(iterator=it).run(mydata)
-print(res.trust)
-print(res.belief)
+# print("from library:")
+# res = CRH(iterator=it).run(mydata)
+# print(res.trust)
+# print(res.belief)
 
-eps = 1e-5
-scores = {x: 0 for x in set.union(sources, claims)}
+# eps = 1e-5
+# scores = {x: 0 for x in set.union(sources, claims)}
+# for c in claims:
+#     scores[c] = len(src[c]) / len(sources)
+
+# for its in range(max_its):
+#     alpha = {
+#         s: eps + sum(
+#                 (scores[d] - (1 if c == d else 0))**2
+#                 for c in claim[s] for d in siblings[c]
+#         )
+#         for s in sources
+#     }
+#     sum_alpha = sum(alpha[s] for s in sources)
+#     for s in sources:
+#         scores[s] = eps - math.log(alpha[s] / sum_alpha)
+#     for c in claims:
+#         scores[c] = sum(scores[s] for s in src[c]) \
+#                     / sum(scores[t] for t in sources)
+
+# print("from scrap code")
+# for s in sorted(sources):
+#     print(f"{s}: {scores[s]:.4f}")
+# for c in sorted(claims):
+#     print(f"{c}: {scores[c]:.4f}")
+
+print("USums")
+# sources = {"s", "t", "u", "s'", "t'"}
+# claims = {"c", "d", "e", "f", "c'", "d'"}
+# src = {
+#     "c": {"s"},
+#     "d": {"t"},
+#     "e": {"s", "t"},
+#     "f": {"u", "s'", "t'"},
+#     "c'": {"s'"},
+#     "d'": {"t'"},
+# }
+# claim = {s: set() for s in sources}
+# for c in claims:
+#     for s in src[c]:
+#         claim[s].add(c)
+
+scores = {x: 1 for x in set.union(sources, claims)}
 for c in claims:
-    scores[c] = len(src[c]) / len(sources)
+    scores[c] = len(src[c])
 
 for its in range(max_its):
-    alpha = {
-        s: eps + sum(
-                (scores[d] - (1 if c == d else 0))**2
-                for c in claim[s] for d in siblings[c]
-        )
-        for s in sources
-    }
-    sum_alpha = sum(alpha[s] for s in sources)
     for s in sources:
-        scores[s] = eps - math.log(alpha[s] / sum_alpha)
+        scores[s] = sum(scores[c] for c in claim[s])
     for c in claims:
-        scores[c] = sum(scores[s] for s in src[c]) \
-                    / sum(scores[t] for t in sources)
+        scores[c] = sum(scores[s] for s in src[c])
+print("pre-sorted scores:")
+print(scores)
 
-print("from scrap code")
+source_ranks = get_ranks({s: scores[s] for s in sources})
+claim_ranks = get_ranks({c: scores[c] for c in claims})
 for s in sorted(sources):
-    print(f"{s}: {scores[s]:.4f}")
+    print(f"{s}: {source_ranks[s]:.4f}")
+print("")
 for c in sorted(claims):
-    print(f"{c}: {scores[c]:.4f}")
+    print(f"{c}: {claim_ranks[c]:.4f}")

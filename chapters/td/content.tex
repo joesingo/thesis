@@ -1734,86 +1734,7 @@ We can now characterise voting, up to ranking equivalence.
 In the previous section we introduced several axioms for truth discovery. We
 now turn back to some of the example operators from
 \cref{td_new_sec_example_operators}, to assess which axioms hold for each
-operator. \cref{td_new_tab_axiom_satisfaction} summarises the results.
-
-\begin{table}
-    \footnotesize
-    \centering
-    \caption{Axiom satisfaction for the example operators.}
-    \def\yes{\checkmark}
-    \def\no{\sffamily{X}}
-    \begin{tabular}{lcccc}
-        &
-        Voting             &
-        WeightedAgg        &
-        Sums               \\
-        % CRH-$\epsilon$     &
-        % TruthFinder        &
-        % TruthFinder ($\lambda = 0$) \\
-
-        \toprule
-
-        \claimcoherence{} &
-            \yes{} &
-            \yes{} &
-            \yes{} &
-            \\
-        \sourcecoherence{} &
-            \no{} &
-            \no{} &
-            \yes{} &
-            \\
-        \symmetry{} &
-            \yes{} &
-            \yes{} &
-            \yes{} &
-            \\
-        \freshposresp{} &
-            \yes{} &
-            \yes{} &
-            \no{} &
-            \\
-        \sourceposresp{} &
-            \no{} &
-            \yes{} &
-            \no{} &
-            \\
-        \marginaltrustworthiness{} &
-            \yes{} &
-            \yes{} &
-            \yes{} &
-            \\
-        \trustbasedmon{} &
-            \yes{} &
-            \yes{} &
-            \yes{} &
-            \\
-        \classicalindependence{} &
-            \yes{} &
-            \no{} &
-            \no{} &
-            \\
-        \disjointindependence{} &
-            \yes{} &
-            \yes{} &
-            \no{} &
-            \\
-        \conflictcoherence{} &
-            \no{} &
-            \no{} &
-            \no{} &
-            \\
-        \anticoherence{} &
-            \no{} &
-            \no{} &
-            \no{} &
-            \\
-
-        \bottomrule
-
-	\end{tabular}
-    \label{td_new_tab_axiom_satisfaction}
-\end{table}
+operator.
 
 \todo{Mention that we skip CRH and TruthFinder, for simplicity.}
 
@@ -1922,7 +1843,7 @@ For the particular choice of $w$ for Weighted Agreement from
                     \frac{\indicator{c = d}}{|\claims_N(s)|}
                 }_{= 0 \text{ unless } c = d}
             } \\
-            &= w_N(s) + \frac{\indicator{c \in \claims_N(s)}}{|\claims_N(s)|}
+            &= w_N(s) + \frac{\indicator{c \in \claims_N(s)}}{|\claims_N(s)|}.
         \end{align*}
     \end{claimproof}
 
@@ -2696,21 +2617,23 @@ UnboundedSums.
 \begin{restatable}{theorem}{restatetdusumsthm}
     \label{td_new_thm_usums_ordinal_convergence}
     UnboundedSums is ordinally convergent in the following sense: for every
-    network $N$ there is $m \in \Nat$ such that for all $n \ge m$,
+    network $N$ there is $m \in \Nat$ such that for all $n \ge m$, $s, s' \in
+    S$ and $c, c' \in C$,
     \begin{align*}
-        T^n_N(s) \le T^n_N(s') &\iff T^m_N(s) \le T^m_N(s'), \qquad (s \in S) \\
-        T^n_N(c) \le T^n_N(c') &\iff T^m_N(c) \le T^m_N(c'). \qquad (c \in C) \\
+        T^n_N(s) \le T^n_N(s') &\iff T^m_N(s) \le T^m_N(s'), \\
+        T^n_N(c) \le T^n_N(c') &\iff T^m_N(c) \le T^m_N(c').
     \end{align*}
-    That is, the rankings induced by $T^n_N$ remain constant for $n \ge m$.
+    That is, the rankings induced by $T^n_N$ are constant for $n \ge m$.
 \end{restatable}
 
 The proof -- which can be found in \cref{td_new_app_sec_usums} -- expresses the
-update function of UnboundedSums in terms of matrix multiplication, and
-uses some techniques and results from linear algebra.
+update function of UnboundedSums in terms of matrix multiplication, and uses
+techniques and results from linear algebra.
+%
+In light of \cref{td_new_thm_usums_ordinal_convergence}, we may define an
+operator $\usums$ by setting $\usums_N(z) = T_N^m(z)$, where $m$ depends on $N$
+and is taken sufficiently large. It follows that $U(\usums) \rankequiv \usums$.
 
-In light of \cref{td_new_thm_usums_ordinal_convergence}, we may consider define
-an operator $\usums$ whose source and claim rankings $\sle_N^{\usums{}}$,
-$\cle_N^{\usums}$ coincide with those of $T^m_N$, for $m$ sufficiently large.
 With the normalisation problems aside, UnboundedSums provides an example of a
 principled operator satisfying many of our core axioms, including
 \sourcecoherence{}, \claimcoherence{} and \disjointindependence{}. In
@@ -2734,161 +2657,144 @@ this remains to be proven.\footnotemark{}
     \anticoherence{}.
 \end{theorem}
 
-\todo{Proof.}
+\begin{proof}[Proof (sketch)]
+    Setting $w_N(s) = U(\usums)_N(s) = \sum_{c \in \claims_n(s)}{\usums_n(c)}$,
+    one can show $\usums \rankequiv \wvoting{w}$, and thus UnboundedSums is
+    weightable. By \cref{td_new_cor_weightable_axioms}, \claimcoherence{},
+    \marginaltrustworthiness{} and \trustbasedmon{} hold.
+
+    For \sourcecoherence{}: if $\claims_N(s)$ strictly precedes $\claims_N(s')$
+    with respect to $\cle_N^{\usums}$, then taking the same approach as in the
+    proof of \sourcecoherence{} for Sums, we have
+    \[
+        \sum_{c \in \claims_N(s)}{\usums_N(c)}
+        <
+        \sum_{c' \in \claims_N(s')}{\usums_N(c')}
+    \]
+    and thus $U(\usums)_N(s) < U(\usums)_N(s')$. Since $\usums \rankequiv
+    U(\usums)$, we get $s \slt_N^{\usums} s'$ as required.
+
+    \symmetry{} holds by an argument similar to the one employed for Weighted
+    Agreement.
+
+    For \disjointindependence{}, suppose $N$ and $N'$ are disjoint. One can
+    show (e.g. by induction) that $T_N^n(z) = T_{N \sqcup N'}^n(z)$ for all $z
+    \in S \cup C$ and $n \in \Nat$. Taking $n$ sufficiently
+    large, $T_N^n$ and $T_{N \sqcup N'}^n$ yield the same rankings on $S$ and
+    $C$ as $\usums_N$ and $\usums_{N \sqcup N'}$ respectively. Consequently,
+    for any $s, t \in S$,
+    \begin{align*}
+        s \sle_N^{\usums} t
+        &\iff T_N^n(s) \le T_N^n(t) \\
+        &\iff T_{N \sqcup N'}^n(s) \le T_{N \sqcup N'}^n(t) \\
+        &\iff s \sle_{N \sqcup N'}^{\usums} t.
+    \end{align*}
+    Similarly, $c \cle_N^{\usums} d$ iff $c \cle_{N \sqcup N'}^{\usums} d$ for
+    $c, d \in C$, and \disjointindependence{} is shown.
+
+    To see \classicalindependence{} does not hold, consider the network $N$
+    from \cref{td_new_fig_intro_example} and the network $N'$ obtained by
+    removing reports from sources $u$ and $v$. Then one can show $c
+    \clt_N^{\usums} d$ but $c \ceq_{N'}^{\usums} d$, so
+    \classicalindependence{} fails. Finally, the same counterexamples for
+    \conflictcoherence{} and \anticoherence{} for Sums provide counterexamples
+    for UnboundedSums.
+\end{proof}
+
+To summarise this section, \cref{td_new_tab_axiom_satisfaction} shows which
+axioms are satisfied by each operator.
+
+\begin{table}
+    \centering
+    \caption{Axiom satisfaction for the example operators.}
+    \def\yes{\checkmark}
+    \def\no{\sffamily{X}}
+    \def\notsure{\sffamily{?}}
+    \begin{tabular}{lccccc}
+        &
+        Voting             &
+        WeightedAgg        &
+        Sums               &
+        USums              \\
+        % CRH-$\epsilon$     &
+        % TruthFinder        &
+        % TruthFinder ($\lambda = 0$) \\
+
+        \toprule
+
+        \claimcoherence{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \sourcecoherence{} &
+            \no{} &
+            \no{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \symmetry{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \freshposresp{} &
+            \yes{} &
+            \yes{} &
+            \no{} &
+            \notsure{} &
+            \\
+        \sourceposresp{} &
+            \no{} &
+            \yes{} &
+            \no{} &
+            \notsure{} &
+            \\
+        \marginaltrustworthiness{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \trustbasedmon{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \classicalindependence{} &
+            \yes{} &
+            \no{} &
+            \no{} &
+            \no{} &
+            \\
+        \disjointindependence{} &
+            \yes{} &
+            \yes{} &
+            \no{} &
+            \no{} &
+            \\
+        \conflictcoherence{} &
+            \no{} &
+            \no{} &
+            \no{} &
+            \no{} &
+            \\
+        \anticoherence{} &
+            \no{} &
+            \no{} &
+            \no{} &
+            \no{} &
+            \\
+
+        \bottomrule
+
+	\end{tabular}
+    \label{td_new_tab_axiom_satisfaction}
+\end{table}
 
 \section{Related Work}
 
 \section{Conclusion}
-
-%-----------------------------------------------------------------------------%
-
-% Framework: - Key concept is that of a *source* making *claims* about an
-% *object*.  - An operator ranks sources by trustworthiness, and claims by
-% their believability.  - We abstract away the possible values for an object -
-% Thus, the value associated with a claim (v, o) is not important: it is only
-% important when two claims are in *conflict* - Accordingly, we consider claims
-% as primitive objects and assume there is a conflict (equivalence) relation.
-% Conceptually, each equivalence class is an object, and the claims within are
-% possible values.
-
-%     - Formally:
-%         * \S, \C are countably infinite sets of source and claim labels
-%         * A network is a tuple (S, C, R, N)
-%             - S ⊆ \S is a finite set of sources
-%             - C ⊆ \C is a (finite?) set of claims
-%             - R is an equivalence relation on C
-%             - N ⊆ S x C: (s, c) ∈ N iff s claims c
-%           subject to the constraint
-%             (s, c), (s, d) ∈ N ⇒ ¬(c R d),
-%           i.e. no source provides conflicting reports
-
-%     - Comments:
-%         * Values are important in other TD works. E.g. to average reported
-%           values in \R^d
-%         * (C, R) is a special case of an argumentation framework with clusters
-%           of mutually attacking arguments
-
-%     - Operator:
-%         * An operator T maps each network (S, C, R, N) to a function
-%           T_N: S ∪ C -> \R
-%         * We use numerical outputs for convenience when defining operators,
-%           although we are generally only interested in *ordinal* properties of
-%           the rankings on S, C introduced by T_N
-
-% Operators:
-%     - Weighted Voting
-%     - Sums
-%     - Others?
-%     - Recursive operators (T_0, U)
-%     - If C finite, a recursive operator converging pointwise converges
-%       uniformly. Thus, if U is continuous we have the fixed-point property T* =
-%       U(T*)
-%     - Show that U_Sums is continuous
-%     - [In fact, maybe defer this stuff to axiom satisfaction section?]
-
-% Axioms:
-%     - Key principle: the more trustworthy a claim's sources, the more
-%       believable the claim. Conversely, the more believable a source's claims,
-%       the more trustworthy the source.
-
-%     - Express this via *Coherence*.
-
-%     - Notation: if ≤ is a tpo on a set X, let ≤_pw be the ''pairwise'' preorder
-%       on 2^X defined by
-%         A ≤_pw B iff ∃f : A -> B bijective st for all x ∈ A, x ≤ f(x)
-
-%     - Given a network N and operator T, let ≤_coh be the preorder on C defined
-%       by
-%         s ≤_coh s' iff claims_N(s) ≤NT_pw claims_N(s')
-%       Similarly, let ≤_coh be the preorder on C defined by
-%         c ≤_coh c' iff src_N(c) ≤NT_pw src_N(c')
-
-%     - Coherence:
-%         ≤NT extends ≤_coh, and likewise for strict parts
-
-%     - Give example on intro network
-%     - Coherence consequences:
-%         * If claims_N(s) = claims_N(s') then s ~= s': weak form of symmetry
-%         * Marginal effects of a single claim: if claims_N(s) = Y ∪ {c} and
-%           claims_N(s') = Y ∪ {c'}, for some Y ⊆ C, then s ≤NT s' iff c ≤NT c'
-%         * Strict part: we have s <_coh s' iff ∃f st c <NT f(c) for some c
-%     - Limitation: we can only apply coherence to sources/claims with the same
-%       number of claims/sources. We extend this later
-
-%     - Symmetry: straightforward
-
-%     - Independence:
-%         - Naive indep (aka strong independence): claim it is bad on the basis
-%           of example network with symmetry and informal reasoning (will
-%           formalise later?)
-%         - PCI: restrict to connected components
-%         - Marginal independence: suppose
-%             src(c) = X ∪ Y; src(d) = X ∪ Z
-%             src(c') = X' ∪ Y; src(d) = X' ∪ Z
-%           where X disjoint from Y, Z, sim. for X'. Then c ≤ d iff c' ≤ d'
-
-%           (Q: does the version of MI for sources make sense?)
-
-%         - Come up with some example
-
-%     - Monotonicity properties:
-%         - Naive positive responsiveness: new claim for c from s improves c
-%           relative to d which c already dominated
-%         - Naive monotonicity: claims(c) ⊆ claims(c') ⇒ c ≤ c'
-%         - Both are naive because additional sources might be malicious: this
-%           could *detract* from the credibility of c'
-%         - However, there is a special case where such axioms are appropriate:
-%           if N contains only a single object, each source can make at most one
-%           claim. In the absence of any other structure we claim a plurality
-%           approach is appropriate.
-%         - (Introduce single-object pos-resp. With symmetry this implies
-%           single-object monotonicity).
-%         - Returning to the general case: how do we determine whether a source
-%           (or coalition of sources) is malicious? We can use the ideas in MI: X
-%           ⊆ S is untrusted if there is an instance of X having a negative
-%           marginal effect
-%         - Introduce relations R_∃, R_∀ on 2^S:
-%             Y R_∃ Z iff ∃ c, d, X st src(c) = X ∪ Y, src(d) = X ∪ Z and c ≤NT d
-%             Y R_∀ Z iff ∀ c, d, X st src(c) = X ∪ Y, src(d) = X ∪ Z,
-%                         we have c ≤NT d
-%         - Claim (to check): MI iff R_∃ ⊆ R_∀
-%         - We can extract various notions of trustworthiness of coalitions:
-%             * X trustworthy if ∅ R_∀ X (there is no evidence that X strictly
-%               worsens some claim)
-%             * Less credulous option: X trustworthy if ∅ R_∀ X and ∅ R_∃ X:
-%               additionally require some positive evidence as well as just the
-%               lack of negative evidence
-%             * X untrustworthy if X R_∃ ∅
-%             * An individual source s could be said to be untrustworthy if
-%                 i) {s} is untrustworthy
-%                 ii) s is contained in some ⊆-minimal untrustworthy set
-%             * Sim., s could be said to be trustworthy if
-%                 i) {s} is trustworthy
-%                 ii) s is not contained in any ⊆-minimal untrustworthy set
-%             * These probably leave the option of s being neither trusted nor
-%               untrusted
-%         - These notions allow more nuanced monotonicity properties:
-%             * Trust-based mon: if claims(c') = claims(c) ∪ Y for a trustworthy
-%               coalition Y, then c ≤ c'
-%             * Trust-based positive responsiveness: if s trustworthy, additional
-%               claim from s boosts believability
-
-%     - Using the conflict relation:
-%         - Anti-coherence: the more trusted a claim's detractors, the less
-%           believable it should be.
-
-%         - We have an interesting tension between Coherence, Anti-coherence and
-%           Single-Object PR and a symmetry-breaking property
-
-%         - Impossibility result
-
-% Axiom satisfaction (and characterisations?):
-%     - Uniform-weighted-voting char. by Naive indep, Symmetry, Naive PR
-%     - Leads to another impossibility result with Coherence
-%     - Sums: analyse by looking at fixed point property?
-
-% Modifying Sums:
-%     - Failure of PCI is not good
-%     - Show that Sums converges *ordinally*
-%     - Do this by noting that omitting the normalisation step does not affect
-%       the rankings, and giving proof as before
