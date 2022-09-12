@@ -323,13 +323,12 @@ also that we allow the possibility of ``untrustworthy'' sources with $w_N(s) <
     association with source $t$, who is more trustworthy than $s$.
 \end{example}
 
-As we will see in \todo{section reference}, some operators do not correspond
+As we will see in \cref{td_new_sec_satisfaction_of_the_axioms}, some operators do not correspond
 exactly to a weighting $w$, but give rise to the same rankings. Let us say an
 operator $T$ is \emph{weightable} if there exists a weighting $w$ such that $T
 \rankequiv \wvoting{w}$. Given that weighted voting expresses a clear
-relationship between source and claim scores, this notion will greatly simplify
-axiomatic analysis in \cref{td_new_sec_satisfaction_of_the_axioms}. \todo{Check
-afterwards.}
+relationship between source and claim scores, this notion will simplify
+some aspects of axiomatic analysis later.
 
 \subsection{Recursive Operators}
 \label{td_new_sec_recursive_operators}
@@ -768,10 +767,6 @@ to which it can take antisources into account. We formulate an antisource
 version of coherence in \cref{td_new_sec_conflicting_claims}, and show that
 it is incompatible with \claimcoherence{} when taken with some other basic
 axioms.
-
-\todo{Limitation: we can only compare sources/claims with the same number of
-claims/sources. Signpost if we end up improving this later by considering extra
-trustworthy sources/claims.}
 
 \subsection{Symmetry}
 
@@ -1214,8 +1209,6 @@ then the sources in $Z$ acting collectively should also have a positive impact.
 Also note that in the case $Z = \{s\}$, \trustbasedmon{} implies that the
 marginal impact of $s$ is consistent across the network.
 
-\todo{Example of these postulates? Are they interesting?}
-
 \subsection{Independence}
 \label{td_new_sec_independence}
 
@@ -1319,8 +1312,6 @@ since \sourceposresp{} can also be replaced with \sourcecoherence{}.
         \item \sourcecoherence{} and \classicalindependence{}.
     \end{enumerate}
 \end{theorem}
-
-\todo{Figure out if these impossibilities are minimal.}
 
 \begin{proof}\leavevmode
     \begin{enumerate}
@@ -1688,7 +1679,7 @@ We can now characterise voting, up to ranking equivalence.
 \end{theorem}
 
 \begin{proof}[Proof (sketch)]
-    The ``if'' direction is straightforward. \todo{Worth sketching?}. For the
+    The ``if'' direction is straightforward. For the
     ``only if'' direction, take an operator $T$ with the stated axioms.
     \flatsources{} immediately implies ${\sle_N^T} = {\sle_N^{\voting}}$ for
     all networks $N$. For the claim rankings, we take a similar approach to the
@@ -1734,11 +1725,100 @@ We can now characterise voting, up to ranking equivalence.
 In the previous section we introduced several axioms for truth discovery. We
 now turn back to some of the example operators from
 \cref{td_new_sec_example_operators}, to assess which axioms hold for each
-operator.
+operator. For simplicity we skip TruthFinder and CRH, which due to their
+somewhat complicated form are not straightforward to analyse. The results are
+summarised in \cref{td_new_tab_axiom_satisfaction}.
 
-\todo{Mention that we skip CRH and TruthFinder, for simplicity.}
+\begin{table}
+    \centering
+    \caption{Axiom satisfaction for the example operators.}
+    \def\yes{\checkmark}
+    \def\no{\sffamily{X}}
+    \def\notsure{\sffamily{?}}
+    \begin{tabular}{lccccc}
+        &
+        Voting             &
+        WeightedAgg        &
+        Sums               &
+        USums              \\
+        % CRH-$\epsilon$     &
+        % TruthFinder        &
+        % TruthFinder ($\lambda = 0$) \\
 
-\todo{Mention Voting axioms. Proofs are similar to Weighted Agreement.}
+        \toprule
+
+        \claimcoherence{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \sourcecoherence{} &
+            \no{} &
+            \no{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \symmetry{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \freshposresp{} &
+            \yes{} &
+            \yes{} &
+            \no{} &
+            \notsure{} &
+            \\
+        \sourceposresp{} &
+            \no{} &
+            \yes{} &
+            \no{} &
+            \notsure{} &
+            \\
+        \marginaltrustworthiness{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \trustbasedmon{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \yes{} &
+            \\
+        \classicalindependence{} &
+            \yes{} &
+            \no{} &
+            \no{} &
+            \no{} &
+            \\
+        \disjointindependence{} &
+            \yes{} &
+            \yes{} &
+            \no{} &
+            \no{} &
+            \\
+        \conflictcoherence{} &
+            \no{} &
+            \no{} &
+            \no{} &
+            \no{} &
+            \\
+        \anticoherence{} &
+            \no{} &
+            \no{} &
+            \no{} &
+            \no{} &
+            \\
+
+        \bottomrule
+
+	\end{tabular}
+    \label{td_new_tab_axiom_satisfaction}
+\end{table}
 
 \paragraph{Weighted Voting.}
 
@@ -1780,7 +1860,17 @@ choice of weighting $w$.
     each axiom only refers to ordinal properties of operators.
 \end{proof}
 
-For the particular choice of $w$ for Weighted Agreement from
+Voting arises via the uniform weighting $w_N \equiv 1$. We have the following.
+
+\begin{theorem}
+    Voting satisfies \claimcoherence{}, \symmetry{}, \freshposresp{},
+    \marginaltrustworthiness{}, \trustbasedmon{}, \classicalindependence{} and
+    \disjointindependence{}. It does not satisfy \sourcecoherence{},
+    \sourceposresp{}, \conflictcoherence{} or \anticoherence{}.
+\end{theorem}
+
+The proof is for the most part straightforward, and is omitted for brevity. For
+the particular choice of $w$ for Weighted Agreement from
 \cref{td_new_ex_weighted_voting}, we have the following.
 
 \begin{theorem}
@@ -1851,7 +1941,7 @@ For the particular choice of $w$ for Weighted Agreement from
     $d \cle_N^T c$. We need to show $d \clt_{\addclaim{N}{u}{c}}^T c$. Indeed,
     using \cref{td_new_claim_wagree_new_report} we have
     \begin{align*}
-        T_{\addclaim{N}{u}{c}}(c) &- T_{\addclaim{N}{u}{c}}(d)
+        &T_{\addclaim{N}{u}{c}}(c) - T_{\addclaim{N}{u}{c}}(d)
         = w_{\addclaim{N}{u}{c}}(u)
         + \sum_{s \in \src_N(c)}{
             w_{\addclaim{N}{u}{c}}(s)
@@ -1886,8 +1976,7 @@ For the particular choice of $w$ for Weighted Agreement from
         + \sum_{s \in \src_N(c) \setminus \src_N(d)}{
             \frac{1}{|\claims_N(s)|}
         } \\
-        &\ge 1 \\
-        & > 0.
+        &\ge 1 > 0.
     \end{align*}
     This shows $T_{\addclaim{N}{u}{c}}{c} > T_{\addclaim{N}{u}{c}}(d)$, and
     thus $d \clt_{\addclaim{N}{u}{c}}^T c$ as required.
@@ -1962,8 +2051,7 @@ also write $T^n = U^n(T^0)$ for the $n$-th step of the iteration of Sums.
     the matrix $MM^\text{T}$ corresponding to the largest eigenvector (in
     absolute value), where $M$ is the $|S| \times |C|$ matrix defined by
     $M_{sc} = \indicator{s \in \src_N(c)}$. Similarly, claim scores converge to
-    a unit eigenvector of $M^{\text{T}}M$. \todo{possibly signpost that we also
-    take linear algebra approach for unbounded sums?}
+    a unit eigenvector of $M^{\text{T}}M$.
 }
 
 The following lemma helps to deal with the normalisation factors used in the
@@ -2701,100 +2789,11 @@ this remains to be proven.\footnotemark{}
     for UnboundedSums.
 \end{proof}
 
-To summarise this section, \cref{td_new_tab_axiom_satisfaction} shows which
-axioms are satisfied by each operator.
-
-\begin{table}
-    \centering
-    \caption{Axiom satisfaction for the example operators.}
-    \def\yes{\checkmark}
-    \def\no{\sffamily{X}}
-    \def\notsure{\sffamily{?}}
-    \begin{tabular}{lccccc}
-        &
-        Voting             &
-        WeightedAgg        &
-        Sums               &
-        USums              \\
-        % CRH-$\epsilon$     &
-        % TruthFinder        &
-        % TruthFinder ($\lambda = 0$) \\
-
-        \toprule
-
-        \claimcoherence{} &
-            \yes{} &
-            \yes{} &
-            \yes{} &
-            \yes{} &
-            \\
-        \sourcecoherence{} &
-            \no{} &
-            \no{} &
-            \yes{} &
-            \yes{} &
-            \\
-        \symmetry{} &
-            \yes{} &
-            \yes{} &
-            \yes{} &
-            \yes{} &
-            \\
-        \freshposresp{} &
-            \yes{} &
-            \yes{} &
-            \no{} &
-            \notsure{} &
-            \\
-        \sourceposresp{} &
-            \no{} &
-            \yes{} &
-            \no{} &
-            \notsure{} &
-            \\
-        \marginaltrustworthiness{} &
-            \yes{} &
-            \yes{} &
-            \yes{} &
-            \yes{} &
-            \\
-        \trustbasedmon{} &
-            \yes{} &
-            \yes{} &
-            \yes{} &
-            \yes{} &
-            \\
-        \classicalindependence{} &
-            \yes{} &
-            \no{} &
-            \no{} &
-            \no{} &
-            \\
-        \disjointindependence{} &
-            \yes{} &
-            \yes{} &
-            \no{} &
-            \no{} &
-            \\
-        \conflictcoherence{} &
-            \no{} &
-            \no{} &
-            \no{} &
-            \no{} &
-            \\
-        \anticoherence{} &
-            \no{} &
-            \no{} &
-            \no{} &
-            \no{} &
-            \\
-
-        \bottomrule
-
-	\end{tabular}
-    \label{td_new_tab_axiom_satisfaction}
-\end{table}
-
 \section{Related Work}
 
 \section{Conclusion}
+
+\todo{Limitation of coherence axioms: we can only compare sources/claims with
+the same number of claims/sources.}
+
+\todo{Limitation of anaylsis: only Sums.}
