@@ -407,7 +407,7 @@ To formalise this, define a preorder $\specleq$ on $\worlds$ by
     W \specleq W'
     \iff
     \forall i, c, \phi:\
-        W, c \models \S_i\phi \implies W', c \models \S_i\phi.
+        (W, c \models \S_i\phi \implies W', c \models \S_i\phi).
 \]
 Thus, $W \specleq W'$ iff any report sound for $W$ is also sound for $W'$. We
 denote by $\speclt$ and $\speceq$ the strict and symmetric parts of $\specleq$,
@@ -1312,6 +1312,7 @@ Finally, we prove the characterisation of truth-tracking.
 \end{proof}
 
 \subsection{Conditioning Methods}
+\label{tt_sec_conditioning_methods}
 
 In this section we turn to the family of \emph{conditioning} methods from
 \cref{kr_sec_conditioning_operators}.
@@ -1325,7 +1326,7 @@ While the interpretation of input sequences is different in this chapter -- we
 read $\tuple{i, c, \phi}$ as $i$ reporting $\phi$ is \emph{possible} in case
 $c$, whereas before such reports were read as $i$
 \emph{believes} $\phi$ -- this class of methods can still be applied in our
-setting. Moreover, while conditioning methods were put forward in
+setting. \todo{revisit} Moreover, while conditioning methods were put forward in
 \cref{kr_sec_conditioning_operators} in order to satisfy rationality
 postulates, we will soon see that they are also compatible with truth-tracking.
 
@@ -1609,42 +1610,209 @@ The proof is essentially identical to that of
     which gives $r_d^\sigma(W'') < r_d^\sigma(W')$ as required.
 \end{example}
 
-\section{Possible section on belief streams?}
+\section{Incorporating source beliefs}
+
+% \begin{notes}
+%     \begin{itemize}
+%         \item Problem: completeness assumption is very strong.
+%         \item Idea: replace with beliefs.
+%         \item Definition: belief structure $U$ assigns a non-empty belief set
+%               $U_{ic}$ for each $i$ and $c$. $U$ is compatible with $W$ iff
+%               $U_{ic} \subseteq \Pi^W_i$.
+%         \item A $U$-stream enumerates $\tuple{i, c, \phi}$ such that $U_{ic}
+%               \subseteq \propmods{\phi}$.
+%         \item We want to investigate what can be learned about a world $W$ on
+%               the basis of a $U$-stream.
+%         \item We do not systematically study what can be learned (e.g. as we
+%               did via $Q^*$ above), but look at ``local'' question solving.
+%         \item $L$ $U$-solves $Q$ at $W$ iff for all $U$-streams $\rho$ there is
+%               $n$ such that $L(\rho[m]) \subseteq Q[W]$ for all $m \ge n$.
+%         \item Note that $U$-solvability at $W$ is not a meaningful property:
+%               for each $W$ the method $L(\sigma) = \{W\}$ clearly $U$-solves
+%               \emph{any} question at $W$, but not at any other $W'$.
+%         \item However, the notion is still useful for particular methods (e.g.
+%               $L_\vbc$, $L_\pbc$, $L_\exm$) which we know is not designed to
+%               output one particular world $W$.
+%         \item Results:
+%         \begin{itemize}
+%             \item Truthful belief structure for $W$: $U_{ic} = \Pi^W_i$. Here
+%                   all beliefs are true. Our methods guess $\Pi_\ast$ for all
+%                   sources, and beliefs are the intersections of active cells.
+%             \item Suppose there is at least 2 sources with total expertise, and
+%                   any pair of non-expert sources have inconsistent beliefs in
+%                   some case. Then our methods find and believe the experts
+%             \item Interesting example: there are sequences where our methods
+%                   correctly ignore a majority in a particular case.
+%         \end{itemize}
+%     \end{itemize}
+% \end{notes}
 
 \begin{notes}
     \begin{itemize}
-        \item Problem: completeness assumption is very strong.
-        \item Idea: replace with beliefs.
-        \item Definition: belief structure $U$ assigns a non-empty belief set
-              $U_{ic}$ for each $i$ and $c$. $U$ is compatible with $W$ iff
-              $U_{ic} \subseteq \Pi^W_i$.
-        \item A $U$-stream enumerates $\tuple{i, c, \phi}$ such that $U_{ic}
-              \subseteq \propmods{\phi}$.
-        \item We want to investigate what can be learned about a world $W$ on
-              the basis of a $U$-stream.
-        \item We do not systematically study what can be learned (e.g. as we
-              did via $Q^*$ above), but look at ``local'' question solving.
-        \item $L$ $U$-solves $Q$ at $W$ iff for all $U$-streams $\rho$ there is
-              $n$ such that $L(\rho[m]) \subseteq Q[W]$ for all $m \ge n$.
-        \item Note that $U$-solvability at $W$ is not a meaningful property:
-              for each $W$ the method $L(\sigma) = \{W\}$ clearly $U$-solves
-              \emph{any} question at $W$, but not at any other $W'$.
-        \item However, the notion is still useful for particular methods (e.g.
-              $L_\vbc$, $L_\pbc$, $L_\exm$) which we know is not designed to
-              output one particular world $W$.
-        \item Results:
-        \begin{itemize}
-            \item Truthful belief structure for $W$: $U_{ic} = \Pi^W_i$. Here
-                  all beliefs are true. Our methods guess $\Pi_\ast$ for all
-                  sources, and beliefs are the intersections of active cells.
-            \item Suppose there is at least 2 sources with total expertise, and
-                  any pair of non-expert sources have inconsistent beliefs in
-                  some case. Then our methods find and believe the experts
-            \item Interesting example: there are sequences where our methods
-                  correctly ignore a majority in a particular case.
-        \end{itemize}
+        \item So far our model of source inputs is based on complete streams,
+              where sources report \emph{all} sound formulas.
+        \item This is perhaps not realistic cases where sources have
+              \emph{beliefs}, possibly going beyond their knowledge.
+          \item E.g. in our running example, the doctor $\dr$ may \emph{believe}
+              $\patientA$ suffers from $p$ but not \emph{know} so; in this case
+              $\neg{p}$ is sound -- and would thus be reported, in our model so
+              far -- when in fact $\dr$ believes its negation.
+        \item To remedy this we introduce additional structure on top of worlds
+              which express sources' beliefs about the true valuation in each
+              case.
+        \item A \emph{belief stream} then enumerates the beliefs of each
+              source.  Such streams differ from our earlier notion in that
+              while all beliefs are sound, not all sound statements are
+              believed. Intuitively such streams are less informative than
+              before, and the truth-tracking problem therefore becomes harder;
+              this will be formalised below.  \todo{check this.}
     \end{itemize}
 \end{notes}
+
+Formally, each source's beliefs in a particular case will be modelled by
+\emph{plausibility orders} over valuations.
+
+\begin{definition}
+    A \emph{belief structure} is an assignment $\b = \{{\le_{ic}}\}_{i \in
+    \srcs, c \in \css}$ of total preorders $\le_{ic}$ over $\vals$ to each
+    source $i$ and case $c$.
+\end{definition}
+
+A belief structure is independent of any world $W$, and can be thought of as
+the source's \emph{prior beliefs} about the ``actual'' valuation in each case:
+$u \le_{ic} v$ means $i$ considers $u$ at least as plausible as $v$ for the
+actual valuation in case $c$. In a given world $W$ the set $\Pi^W_i[v^W_c]$
+contains the valuations indistinguishable from the actual valuation $v^W_c$;
+i.e. those valuations which are possible candidates from the point of view of
+$i$'s expertise. Combining a belief structure $\b$ with a world $W$, the
+maximally plausible such candidates form each source's belief set.
+
+\begin{definition}
+    Given a belief structure $\b = \{{\le_{ic}}\}_{i \in \srcs, c \in \css}$
+    and a world $W$, source $i$ \emph{believes} $\phi$ in case $c$, denoted $W,
+    c
+    \models_\b \B_i\phi$, if
+    \[
+        \min\nolimits_{\le_{ic}}{\Pi^W_i[v^W_c]} \subseteq \propmods{\phi}.
+    \]
+\end{definition}
+
+That is, $i$ believes $\phi$ in case $c$ if $\phi$ holds in all the most
+plausible states among those indistinguishable from the actual one. Since
+$\vals$ is finite and $\Pi^W_i[v^W_c]$ is non-empty (it contains $v^W_c$, at
+least), so too is the minimum. Consequently, the beliefs of each source in each
+case are consistent. Also note the similarities with conditioning methods in
+\cref{tt_sec_conditioning_methods}, where a plausibility order is used to
+select the most plausible worlds. A key difference here is that each source has
+a plausibility order over \emph{valuations}, not worlds.
+
+\begin{example}
+    Consider the setting of \cref{tt_ex_informal_example,tt_ex_semantics}, and
+    consider a belief structure $\b$ where
+    \begin{align*}
+        {\le_{\dr,\patientA}}
+            &: \bar{p}\bar{q} < \bar{p}q < pq < p\bar{q} \\
+        {\le_{\dr,\patientB}}
+            &: pq \simeq \bar{p}q \simeq p\bar{q} \simeq \bar{p}\bar{q}.
+    \end{align*}
+    Then, if $W$ is the world from \cref{tt_ex_semantics}, we have
+    \begin{align*}
+        \min\nolimits_{\le_{\dr,\patientA}}{\Pi^W_{\dr}[v^W_{\patientA}]}
+        &= \min\nolimits_{\le_{\dr,\patientA}}\{pq, p\bar{q}, \bar{p}q\} \\
+        &= \{\bar{p}q\},
+    \end{align*}
+    so $W, \patientA \models_\b \B_{\dr}{\neg{p}}$. On the other hand, since
+    $\le_{\dr,\patientB}$ is the flat ranking in which all valuations rank
+    equally, we have
+    \begin{align*}
+        \min\nolimits_{\le_{\dr,\patientB}}{\Pi^W_{\dr}[v^W_{\patientB}]}
+        &= \Pi^W_{\dr}[v^W_{\patientB}] \\
+        &= \{pq, p\bar{q}, \bar{p}q\}.
+    \end{align*}
+    We see that for $\patientA$, the doctor $\dr$ has beliefs going beyond mere
+    knowledge, whereas this is not so for $\patientB$. In this case all beliefs
+    are known and therefore true, since the actual valuation $v^W_\patientB =
+    pq$ is contained in
+    $\min_{\le_{\dr,\patientB}}{\Pi^W_{\dr}[v^W_{\patientB}]}$.
+\end{example}
+
+We can now consider streams enumerating source beliefs.
+
+\begin{definition}
+    A sequence of reports $\rho$ is a \emph{$\b$-stream} for a world $W$ iff for
+    all $i, c, \phi$:
+    \[
+        \tuple{i, c, \phi} \in \rho \iff W, c \models_\b \B_i\phi.
+    \]
+\end{definition}
+
+This is essentially the same notion as streams from \cref{tt_def_stream}, but
+with $\B_i\phi$ replacing $\S_i\phi$. Likewise, we have a notion of
+\emph{$\b$-solvability}.
+
+\begin{definition}
+    A method $L$ is said  to \emph{$\b$-solve} a question $Q$ if for all $W$ and
+    all $\b$-streams $\rho$ for $W$, there is $n \in \N$ such that $L(\rho[m])
+    \subseteq Q[W]$ for all $m \ge n$.
+\end{definition}
+
+Again mirroring the definitions above, a preorder $\specleq_\b$ can be defined
+on worlds, where
+\[
+    W \specleq_\b W'
+    \iff
+    \forall i, c, \phi:\
+        (W, c \models_\b \B_i\phi \implies W', c \models \B_i\phi).
+\]
+The analogue of \cref{tt_lemma_spec_active_cell} is as follows.
+
+\begin{lemma}
+    $W \specleq_\b W'$ if and only if for all $i \in \srcs$ and $c \in \css$,
+    $\min_{\le_{ic}}{\Pi^W_i[v^W_c]} \supseteq
+    \min_{\le_{ic}}{\Pi^{W'}_i[v^{W'}_c]}$.
+\end{lemma}
+
+\begin{proof}
+    The ``if'' direction is straightforward. For the ``only if'' part, suppose
+    $W \specleq_\b W'$, and take $i \in \srcs$, $c \in \css$. Taking $\phi$ to
+    be any formula with $\propmods{\phi} = \min_{\le_{ic}}{\Pi^W_i[v^W_c]}$, we
+    have $W, c \models_\b \B_i\phi$. Since $W \specleq_\b W'$ this means $W', c
+    \models_\b \B_i\phi$, i.e.
+    \[
+        \min\nolimits_{\le_{ic}}{\Pi^{W'}_i[v^{W'}_c]}
+        \subseteq \propmods{\phi}
+        = \min\nolimits_{\le_{ic}}{\Pi^W_i[v^W_c]}
+    \]
+    as required.
+\end{proof}
+
+The equivalence relation $\speceq_\b$ induced by $\specleq_\b$ defines a question
+$Q^*_\b$. As one might anticipate by our choice of notation, $Q^*_\b$ is the
+hardest $\b$-solvable question. In analogy with the $\Xsnd_\sigma$ notation for
+the set of worlds satisfying all soundness constraints of $\sigma$, write
+$\Xbel{\b}_\sigma$ for the set of worlds $W$ such that $W, c \models_\b \B_i\phi$
+for all $\tuple{i, c, \phi} \in \sigma$.
+
+\begin{theorem}
+    $Q$ is $\b$-solvable if and only if $Q^*_\b \refines Q$.
+\end{theorem}
+
+\begin{proof}[Proof (sketch)]
+    ``if'': It suffices to show that $Q^*_\b$ can be $\b$-solved by a consistent
+    method $L$. In fact, the same approach to showing $Q^*$ is solvable on
+    sound streams (\cref{tt_prop_qstar_solvable}) can be applied here. Set
+    $L(\sigma) = \min_{\specleq_\b}{\Xbel{\b}_\sigma}$ if $\Xbel{\b}_\sigma \ne
+    \emptyset$, and $L(\sigma) = \worlds$ otherwise. By an argument identical
+    to that of \cref{tt_prop_qstar_solvable} -- with notions of soundness
+    replaced by belief with respect to $\b$ -- one can show $L$ solves $Q^*_\b$.
+
+    ``only if'': This can be shown by an argument idential to that of
+    \cref{tt_lemma_solvable_implies_coarser_than_qstar}, using the fact that $W
+    \speceq_\b W'$ implies $W$ and $W'$ have exactly the same $\b$-streams.
+\end{proof}
+
+\todo{Address gap: is there a single method $L$ which solves $Q^*_\b$ for all
+$\b$?}
 
 \section{Conclusion}
 \label{tt_sec_conclusion}
