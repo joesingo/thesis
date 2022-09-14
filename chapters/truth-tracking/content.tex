@@ -868,7 +868,6 @@ truth-tracking methods can determine the full extent of $i$'s expertise if the
 \begin{theorem}
     \label{tt_thm_qstar_unique_ipartition_conditions}
     The following are equivalent.
-
     \begin{enumerate}
         \item\label{tt_item_uniquepart} $\parts^{Q^*[W]}_i = \{\Pi^W_i\}$.
         \item\label{tt_item_define_all_ephi} $Q^*[W]$ decides $\E_i\phi$ for all
@@ -1664,8 +1663,7 @@ The proof is essentially identical to that of
               source.  Such streams differ from our earlier notion in that
               while all beliefs are sound, not all sound statements are
               believed. Intuitively such streams are less informative than
-              before, and the truth-tracking problem therefore becomes harder;
-              this will be formalised below.  \todo{check this.}
+              before; this will be formalised below.
     \end{itemize}
 \end{notes}
 
@@ -1701,12 +1699,16 @@ That is, $i$ believes $\phi$ in case $c$ if $\phi$ holds in all the most
 plausible states among those indistinguishable from the actual one. Since
 $\vals$ is finite and $\Pi^W_i[v^W_c]$ is non-empty (it contains $v^W_c$, at
 least), so too is the minimum. Consequently, the beliefs of each source in each
-case are consistent. Also note the similarities with conditioning methods in
-\cref{tt_sec_conditioning_methods}, where a plausibility order is used to
+case are consistent. Moreover, if $i$ believes $\phi$ then $W, c \models
+\S_i\phi$, so all beliefs are sound.
+
+There is also similarity with the conditioning methods
+from \cref{tt_sec_conditioning_methods}, where a plausibility order is used to
 select the most plausible worlds. A key difference here is that each source has
 a plausibility order over \emph{valuations}, not worlds.
 
 \begin{example}
+    \label{tt_ex_belief_structure}
     Consider the setting of \cref{tt_ex_informal_example,tt_ex_semantics}, and
     consider a belief structure $\b$ where
     \begin{align*}
@@ -1716,19 +1718,19 @@ a plausibility order over \emph{valuations}, not worlds.
             &: pq \simeq \bar{p}q \simeq p\bar{q} \simeq \bar{p}\bar{q}.
     \end{align*}
     Then, if $W$ is the world from \cref{tt_ex_semantics}, we have
-    \begin{align*}
+    \[
         \min\nolimits_{\le_{\dr,\patientA}}{\Pi^W_{\dr}[v^W_{\patientA}]}
-        &= \min\nolimits_{\le_{\dr,\patientA}}\{pq, p\bar{q}, \bar{p}q\} \\
-        &= \{\bar{p}q\},
-    \end{align*}
+        = \min\nolimits_{\le_{\dr,\patientA}}\{pq, p\bar{q}, \bar{p}q\}
+        = \{\bar{p}q\},
+    \]
     so $W, \patientA \models_\b \B_{\dr}{\neg{p}}$. On the other hand, since
     $\le_{\dr,\patientB}$ is the flat ranking in which all valuations rank
     equally, we have
-    \begin{align*}
+    \[
         \min\nolimits_{\le_{\dr,\patientB}}{\Pi^W_{\dr}[v^W_{\patientB}]}
-        &= \Pi^W_{\dr}[v^W_{\patientB}] \\
-        &= \{pq, p\bar{q}, \bar{p}q\}.
-    \end{align*}
+        = \Pi^W_{\dr}[v^W_{\patientB}]
+        = \{pq, p\bar{q}, \bar{p}q\}.
+    \]
     We see that for $\patientA$, the doctor $\dr$ has beliefs going beyond mere
     knowledge, whereas this is not so for $\patientB$. In this case all beliefs
     are known and therefore true, since the actual valuation $v^W_\patientB =
@@ -1747,8 +1749,16 @@ We can now consider streams enumerating source beliefs.
 \end{definition}
 
 This is essentially the same notion as streams from \cref{tt_def_stream}, but
-with $\B_i\phi$ replacing $\S_i\phi$. Likewise, we have a notion of
-\emph{$\b$-solvability}.
+with $\B_i\phi$ replacing $\S_i\phi$.
+
+\begin{example}
+    Consider $W$ from \cref{tt_fig_example_world} and source $\dr$. Continuing
+    from \cref{tt_ex_belief_structure}, the reports from $\dr$ for case
+    $\patientA$ in any $\b$-stream enumerate $\cnprop{\neg{p} \land q}$, and
+    the reports for case $\patientB$ enumerate $\cnprop{p \lor q}$.
+\end{example}
+
+A notion of \emph{$\b$-solvability} comes naturally.
 
 \begin{definition}
     A method $L$ is said  to \emph{$\b$-solve} a question $Q$ if for all $W$ and
@@ -1756,8 +1766,8 @@ with $\B_i\phi$ replacing $\S_i\phi$. Likewise, we have a notion of
     \subseteq Q[W]$ for all $m \ge n$.
 \end{definition}
 
-Again mirroring the definitions above, a preorder $\specleq_\b$ can be defined
-on worlds, where
+Again mirroring the definitions from earlier, a preorder $\specleq_\b$ can be
+defined on worlds, where
 \[
     W \specleq_\b W'
     \iff
@@ -1767,6 +1777,7 @@ on worlds, where
 The analogue of \cref{tt_lemma_spec_active_cell} is as follows.
 
 \begin{lemma}
+    \label{tt_lemma_specleq_b}
     $W \specleq_\b W'$ if and only if for all $i \in \srcs$ and $c \in \css$,
     $\min_{\le_{ic}}{\Pi^W_i[v^W_c]} \supseteq
     \min_{\le_{ic}}{\Pi^{W'}_i[v^{W'}_c]}$.
@@ -1794,6 +1805,7 @@ $\Xbel{\b}_\sigma$ for the set of worlds $W$ such that $W, c \models_\b \B_i\phi
 for all $\tuple{i, c, \phi} \in \sigma$.
 
 \begin{theorem}
+    \label{tt_thm_bsolvability}
     $Q$ is $\b$-solvable if and only if $Q^*_\b \refines Q$.
 \end{theorem}
 
@@ -1806,13 +1818,124 @@ for all $\tuple{i, c, \phi} \in \sigma$.
     to that of \cref{tt_prop_qstar_solvable} -- with notions of soundness
     replaced by belief with respect to $\b$ -- one can show $L$ solves $Q^*_\b$.
 
-    ``only if'': This can be shown by an argument idential to that of
+    ``only if'': This can be shown by an argument identical to that of
     \cref{tt_lemma_solvable_implies_coarser_than_qstar}, using the fact that $W
     \speceq_\b W'$ implies $W$ and $W'$ have exactly the same $\b$-streams.
 \end{proof}
 
-\todo{Address gap: is there a single method $L$ which solves $Q^*_\b$ for all
-$\b$?}
+\todo{Address gap: is there a single method $L$ which $\b$-solves $Q^*_\b$ for
+all $\b$?}
+
+Thus, $Q^*_\b$ plays the same role with respect to $\b$-streams as $Q^*$ does
+with respect to sound and complete streams. Accordingly, we say a method $L$ is
+\emph{$\b$-truth-tracking} if it $\b$-solves $Q^*_\b$. By comparing $Q^*$ with
+$Q^*_\b$, one can assess the \emph{informativeness} of truth-tracking via sound
+and complete streams versus $\b$-streams. We shall see that $Q^*$ is always at
+least as informative as $Q^*_\b$: we have $Q^* \refines Q^*_\b$. This can be
+interpreted as informativeness via the analysis of \cref{tt_sec_learning_info},
+where we looked at what one can learn about $W$ from the correct answer
+$Q^*[W]$ (which truth-tracking methods are guaranteed to eventually find).
+Indeed, $Q^* \refines Q^*_\b$ means $Q^*[W] \subseteq Q^*_\b[W]$ for all $W$,
+so the correct answer to $Q^*$ narrows down the possibilities for the ``actual''
+world to a greater extent than $Q^*_\b$ does, and thus reveals more
+information about the actual world itself.
+
+Moreover, $Q^*$ is \emph{strictly} more informative for all but one choice of
+belief structure: the ``flat'' structure $\b_\flat$, where each $\le_{ic}$ is
+the flat ranking ${\le_{ic}} = \vals \times \vals$. In this case source beliefs
+do not go beyond knowledge at all; all reports in a $\b_\flat$-stream are
+therefore \emph{true}, but will not be very \emph{specific} when sources are
+non-experts.
+
+\begin{proposition}
+    \label{tt_prop_qstar_refines_qstarb}
+    $Q^* \refines Q^*_\b$ for all belief structures $\b$, and $Q^*_\b =
+    Q^*$ if and only if $\b = \b_\flat$.\footnotemark{}
+\end{proposition}
+
+\footnotetext{
+    For the second statement we assume $|\propvars| \ge 2$.
+}
+
+\begin{proof}
+    First, take any belief structure $\b$. We show that $Q^*[W] \subseteq
+    Q^*_\b[W]$ for all $W$. Indeed, if $W' \in Q^*[W]$ then $W \speceq W'$, so
+    by \cref{tt_lemma_spec_active_cell} we have $\Pi^W_i[v^W_c] =
+    \Pi^{W'}_i[v^{W'}_c]$ for all $i$ and $c$. Evidently the minimal elements
+    with respect to $\le_{ic}$ of both sets must also be the same, so we get $W
+    \speceq_\b W'$ by \cref{tt_lemma_specleq_b}. That is, $W' \in Q^*_\b[W]$.
+    Hence $Q^* \refines Q^*_\b$.
+
+    For the second statement, we first show the ``if'' direction, i.e. that
+    $Q^*_{\b_\flat} = Q^*$. Indeed, since $\le_{ic} = \vals \times \vals$ we
+    have $\min_{\le_{ic}}{U} = U$ for any set $U \subseteq \vals$. Consequently
+    $W \speceq_{\b_\flat} W'$ if and only if $\Pi^W_i[v^W_c] =
+    \Pi^{W'}_i[v^{W'}_c]$ -- using \cref{tt_lemma_specleq_b} -- which is in
+    turn equivalent to $W \speceq W'$ by \cref{tt_lemma_spec_active_cell}.
+    Hence $Q^*_{\b_\flat} = Q^*$.
+
+    For the ``only if'' part we show the contrapositive. Suppose $\b \ne
+    \b_\flat$. We will show $Q^*_\b \not\refines Q^*$, i.e. that there are $W,
+    W'$ such that $W \speceq_\b W'$ but $W \not\speceq W'$. Since $\b \ne
+    \b_\flat$, there exist $i_0 \in \srcs$, $c_0 \in \css$ and $u, v \in \vals$
+    such that $u <_{i_0,c_0} v$. By the assumption $|\propvars| \ge 2$ we have
+    $|\vals| \ge 4$, so we may choose some $w \in \vals \setminus \{u, v\}$.
+    Construct $W$ by setting
+    \begin{align*}
+        v^W_{c_0} &= u, \\
+        v^W_c &= w, \qquad (c \in \css \setminus \{c_0\}) \\
+        \Pi^W_i &= \Pi_\bot. \qquad (i \in \srcs)
+    \end{align*}
+    Then $\Pi^W_i[v^W_c]$ is the singleton set $\{v^W_c\}$ for all $i$ and
+    $c$, and so too is belief set $\min_{\le_{ic}}{\Pi^W_i[v^W_c]}$.
+    %
+    Now construct $W'$ by modifying the partition of source $i_0$ so that
+    \[
+        \Pi^{W'}_{i_0} = \{\{u, v\}, \{w\}, \vals \setminus \{u, v, w\}\}.
+    \]
+    The belief sets of sources $i \ne i_0$ are clearly unchanged, as are the
+    belief sets for $i_0$ in cases $c \ne c_0$ (since
+    $\Pi^{W'}_{i_0}[v^{W'}_c]$ is the singleton set $\{w\}$). For $i_0$ in case
+    $c_0$ we
+    have $\Pi^{W'}_{i_0}[v^{W'}_{c_0}] = \Pi^{W'}_{i_0}[u] = \{u, v\}$; but
+    since $u <_{i_0,c_0} v$ by assumption,
+    \[
+        \min\nolimits_{\le_{i_0,c_0}}{\Pi^{W'}_{i_0}[v^{W'}_{c_0}]}
+        = \{u\}
+        = \min\nolimits_{\le_{i_0,c_0}}{\Pi^{W}_{i_0}[v^{W}_{c_0}]}.
+    \]
+    From \cref{tt_lemma_specleq_b} it follows that $W \speceq_\b W'$. However,
+    we have already seen that $\Pi^W_{i_0}[v^W_{c_0}] = \{u\}$ whereas
+    $\Pi^{W'}_{i_0}[v^{W'}_{c_0}] = \{u, v\}$, so $W \not\speceq W'$ by
+    \cref{tt_lemma_spec_active_cell}. This completes the proof.
+\end{proof}
+
+Both parts of \cref{tt_prop_qstar_refines_qstarb} together imply
+$Q^*_{\b_\flat} \refines Q^*_\b$. However, some subtelty is required in
+interpreting this refinement. In
+\cref{tt_sec_characterising_solvable_questions} refinement of questions was
+expressed as a \emph{difficulty ordering}, since if $Q \refines Q'$ then any
+method solving $Q$ will also solve $Q'$; in this sense $Q'$ is \emph{easier}
+than $Q$. This also holds in the extension to belief-based streams, but only
+for a \emph{fixed} notion of solvability. For instance, $Q^*_{\b_\flat}
+\refines Q^*_\b$ does \emph{not} imply that a method $\b_\flat$-solving
+$Q^*_{\b_\flat}$ will $\b$-solve $Q^*_\b$, i.e. that $\b_\flat$-truth-tracking
+methods are $\b$-truth-tracking for all other $\b$. \footnotemark{}
+
+\footnotetext{
+    Indeed, this is false: since all reports in a $\b_\flat$-stream are true,
+    they must be jointly consistent in each case $c \in \css$. One can
+    therefore construct a $\b_\flat$-truth-tracking method $L$ which reverts to
+    the trivial conjecture $L(\sigma) = \worlds$ whenever the reports in
+    $\sigma$ are not jointly consistent; this problem never arises on
+    $\b_\flat$-streams, but will cause $L$ to fail to be $\b$-truth-tracking
+    for non-flat $\b$.
+}
+
+Rather, \todo{motivate need to relax solving to get more informativeness.
+introduce $\worlds'$-questions. For each of our methods $L$ and arbitrary $\b$,
+look at some choices of $\worlds'$ such that $L$ $\b$-solves the restriction of
+$Q^*_\b$ to $\worlds'$.}
 
 \section{Conclusion}
 \label{tt_sec_conclusion}
