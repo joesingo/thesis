@@ -1,13 +1,34 @@
 \chapter{Truth Discovery}
 \label{chapter_td}
 
-\todo{Introduction}
+There is an increasing amount of data available in today's world, particularly
+from the web, social media platforms and crowdsourcing systems. The openness of
+such platforms makes it simple for a wide range of users to share information
+quickly and easily, potentially reaching a wide international audience. It is
+inevitable that amongst this abundance of data there are \emph{conflicts},
+where data sources disagree on the truth regarding a particular object or
+entity. For example, low-quality sources may mistakenly provide erroneous data
+for topics on which they lack expertise, or malicious sources may try to
+deliberately deceive.
+
+Resolving such conflicts and determining the true facts is therefore an
+important task. Truth discovery has emerged as a set of techniques to achieve
+this by considering the \emph{trustworthiness} of
+sources~\cite{li_survey_2016,gupta2011survey,berti2015veracity}. The general
+principle is that true claims are those reported by trustworthy sources, and
+trustworthy sources are those that report believable claims. Application areas
+include real-time traffic navigation~\cite{du2019}, drug side-effect
+discovery~\cite{ma2017}, crowdsourcing and social
+sensing~\cite{zhang_robust_2016,wang_truth_2012,ma_faitcrowd_2015}.
+
+For a simple example of a situation where trust can play an important role in
+conflict resolution, consider the following example.
 
 \begin{figure}
     \centering
     \begin{tikzpicture}[thick]
         \LARGE
-        \networkinit{s,t,u,v}{c,d,e,f}
+        \networkinitwithnames{s,t,u,v}{s,t,u,v}{c,d,e,f}{+,-,+,-}
         \object{o_1}{c}{d};
         \object{o_2}{e}{f};
         \report{s}{c};
@@ -19,11 +40,148 @@
     \end{tikzpicture}
     \caption{
         Illustrative example of a truth discovery problem, with sources
-        $s, t, u, v$, object $o_1$ with associated claims $c$ and $d$, and
-        $o_2$ with claims $e$ and $f$.
+        $s, t, u, v$ and objects $o_1, o_2$, each with associated values $+$
+        and $-$.
     }
-    \label{td_new_fig_intro_example}
+    \label{td_new_fig_intro_example_with_values}
 \end{figure}
+
+\begin{example}
+\label{td_new_ex_intro_example}
+    Let $o_1$ and $o_2$ represent images for which crowdsourcing workers are
+    asked to label $+$ or $-$ (in the truth discovery terminology, $o_1$ and
+    $o_2$ are called \emph{objects}; $+$ and $-$ are \emph{values}). An object
+    paired with a value is called a \emph{claim}.
+    %
+    Consider workers (the data sources) $s, t, u$ and $v$ who make claims
+    reports as shown in \cref{td_new_fig_intro_example_with_values}. Without
+    considering trust information, the label for $o_1$ appears a tie, with both
+    options $+$ and $-$ receiving one vote from sources $s$ and $t$
+    respectively.
+
+    Taking a trust-aware approach, however, we can look beyond object $o_1$ to
+    consider the \emph{trustworthiness} of $s$ and $t$. Indeed, when it comes
+    to $o_2$, $t$ agrees with two extra sources $u$ and $v$, whereas $s$
+    disagrees with everyone. In principle there could be many extra sources
+    here instead of just two, in which case the effect would be even more
+    striking. We may therefore postulate that $s$ is \emph{less trustworthy}
+    than $t$. Returning to $o_1$, we see that the label $-$ is supported by a
+    more trustworthy source, and conclude that it should be accepted over $-$.
+\end{example}
+
+Many truth discovery algorithms have been proposed in the literature with a
+wide range of techniques used, e.g. iterative heuristic-based
+methods~\cite{pasternack2010,galland2010}, probabilistic models~\cite{yin2008},
+maximum likelihood estimation and optimisation-based methods~\cite{li2016}, and
+neural network
+models~\cite{kotonya2020explainable,marshall2017neural,wang2018eann}. It is
+common for such algorithms to be evaluated empirically by running them against
+real-world or synthetic datasets for which the true facts are already known;
+this allows \emph{accuracy} and other metrics to be calculated, and permits
+comparison between algorithms (see \cite{waguih2014truth} for a systematic
+empirical evaluation of this kind). This may be accompanied by some theoretical
+analysis, such as calculating run-time complexity~\cite{gupta2011survey},
+proving convergence of an iterative algorithm~\cite{yin_supervised_2011}, or
+proving convergence to the ``true'' facts under certain assumptions on the
+distribution of source
+trustworthiness~\cite{xiao2016,xiao_thesis2018,ghosh_2011}.
+
+A limitation of this kind of analysis is that the results only apply narrowly
+to particular algorithms, due to the assumptions made (for instance, that
+claims from sources follow a particular probability distribution). Such
+assumptions can be problematic in domains where the desired truth is somewhat
+``fuzzy''; for example, image classification problems and determining the
+copyright status of
+books.\footnote{\url{https://www.nytimes.com/2019/08/19/technology/amazon-orwell-1984.html}}
+
+In this work we take first steps towards a more general approach, in which we
+aim to study truth discovery without reference to any specific methodology or
+probabilistic framework. To do so we note the similarities between truth
+discovery and problems such as judgment aggregation~\cite{endriss2016ja},
+voting theory~\cite{zwicker2016voting} ranking and recommendation
+systems~\cite{altman2008,altman2005ranking,andersen2008,tennenholtz2004} in
+which the \emph{axiomatic approach} of social choice has been successfully
+applied.
+%
+In taking the axiomatic approach one aims to formulate \emph{axioms} that
+encode intuitively desirable properties that an algorithm may possess. The
+interaction between these axioms can then be studied; typical results include
+\emph{impossibility results}, where it is shown that a set of axioms cannot
+hold simultaneously, and \emph{characterisation results}, where it is shown
+that a set of axioms are uniquely satisfied by a particular algorithm.
+
+Such analysis brings a new \emph{normative} perspective to the truth discovery
+literature. This complements empirical evaluation: in addition to seeing how
+well an algorithm performs in practise on test datasets, one can check how well
+it does against theoretical properties that any ``reasonable'' algorithm should
+satisfy. The satisfaction (or failure) of such properties then shines new light
+on the \emph{intuitive behaviour} of an algorithm, and may guide development of
+new ones.
+
+With this in mind, we develop a simplified framework for truth discovery in
+which axioms can be formulated, and go on to give impossibility results and an
+axiomatic characterisation of a baseline voting algorithm. We also define the
+class of \emph{recursive} truth discovery algorithms, which includes most
+examples from the literature. We outline several examples:
+\emph{Sums}~\cite{pasternack2010},
+\emph{TruthFinder}~\cite{yin_supervised_2011} and \emph{CRH}~\cite{li2016}, and
+analyse Sums in more detail with respect to the axioms.
+
+However, as a first step towards a social choice perspective of truth
+discovery, our framework involves a number of simplifying assumptions not
+commonly made in the truth discovery literature.
+
+\begin{itemize}
+
+    \item \textbf{Collusion.} Our axioms assume sources act independently, in
+        that there is no \emph{collusion} or
+        \emph{copying}~\cite{dong_truth_2009} among sources.
+
+    \item \textbf{Object correlations.} We do not model \emph{correlations}
+          between the objects of interest in the truth discovery
+          problem~\cite{yang_probabilistic_2019}. For example, the
+          crowdsourcing example it may be known in advance that objects $o_1$
+          and $o_2$ are similar, so that their true labels are correlated; this
+          cannot be expressed in our framework.
+
+    \item \textbf{Ordinal outputs.} For the most part, the outputs of our truth
+          discovery methods consist of \emph{rankings} of the sources and
+          facts. Thus, we describe when a source is considered \emph{more
+          trustworthy} than another, but do not assign precise numerical values
+          representing trustworthiness. This breaks with tradition in the truth
+          discovery literature, but is a common point of view in social choice
+          theory.
+\end{itemize}
+
+While this is something of a simplification compared to the current body of
+work in truth discovery, we argue that the problem is non-trivial even in this
+simplified setting, and that interesting axioms can still be put forth. The
+framework as set out here lays the groundwork for these assumptions to be
+lifted in future work.
+
+\paragraph{Contributions.}
+
+\todo{Contributions and publication statement.}
+
+\begin{chapteroutline}
+
+    The framework is motivated and formally defined in the next section.
+    %
+    \cref{td_new_sec_example_operators} expresses in the framework several
+    truth discovery algorithms from the literature.
+    %
+    In \cref{td_new_sec_axioms} we formally introduce the axioms, present some
+    impossibility results showing that certain subsets of axioms cannot be
+    satisfied simultaneously, and obtain an axiomatic characterisation of a
+    baseline voting method.
+    %
+    Some of the examples of \cref{td_new_sec_example_operators} are then
+    revisited in \cref{td_new_sec_satisfaction_of_the_axioms}, where we analyse
+    them with respect to the axioms. We also propose modifications to one
+    well-known method -- Sums -- in order to resolve some axiom failures.
+    Related work is discussed in \cref{td_new_sec_related_work}, and we
+    conclude in \cref{td_new_sec_conclusion}.
+\end{chapteroutline}
 
 \section{Preliminaries}
 \label{td_new_sec_preliminaries}
@@ -98,13 +256,34 @@ claims. In fact, we will take this claim-centric view in the remainder of the
 chapter, with objects and values only playing a role insofar as they tell us
 which claims are in conflict with one another.
 
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[thick]
+        \LARGE
+        \networkinit{s,t,u,v}{c,d,e,f}
+        \object{o_1}{c}{d};
+        \object{o_2}{e}{f};
+        \report{s}{c};
+        \report{s}{e};
+        \report{t}{d};
+        \report{t}{f};
+        \report{u}{f};
+        \report{v}{f};
+    \end{tikzpicture}
+    \caption{
+        Claim-centric presentation of the network described in
+        \cref{td_new_fig_intro_example_with_values,td_new_ex_intro_example}.
+    }
+    \label{td_new_fig_intro_example}
+\end{figure}
+
 \begin{example}
     \label{td_new_ex_intro_example_formalised}
-    The network illustrated in \cref{td_new_fig_intro_example} is given by $S =
-    \{s, t, u, v\}$, $O = \{o_1, o_2\}$ and $D_{o_1} = D_{o_2} =
-    \{\mathsf{true}, \mathsf{false}\}$. We label the claims $c = (o_1,
-    \mathsf{true})$, $d = (o_1, \mathsf{false})$, $e = (o_2, \mathsf{true})$
-    and $f = (o_2, \mathsf{false})$. Then
+    The network illustrated in
+    \cref{td_new_fig_intro_example_with_values,td_new_ex_intro_example} is
+    given by $S = \{s, t, u, v\}$, $O = \{o_1, o_2\}$ and $D_{o_1} = D_{o_2} =
+    \{+, -\}$. Labelling the claims $c = (o_1, +)$, $d = (o_1, -)$, $e = (o_2,
+    +)$ and $f = (o_2, -)$, we have
     $
         R = \{
             (s, c), (s, e),
@@ -112,12 +291,14 @@ which claims are in conflict with one another.
             (u, f),
             (v, f)
         \}
-    $.
+    $. This ``claim-centric'' view of the network is shown in
+    \cref{td_new_fig_intro_example}, where the values $+$ and $-$ are
+    suppressed.
 \end{example}
 
 \cref{td_new_ex_intro_example_formalised} highlights a special case of our
 framework: the ``binary'' case in which the domain of each object consists of
-two values $D_o = \{\mathsf{true}, \mathsf{false}\}$.  In this case we can
+two values $D_o = \{+, -\}$.  In this case we can
 think of each object as a propositional variable. This brings us close to the
 setting studied in \emph{judgment aggregation}~\cite{endriss2016ja} and,
 specifically (since sources do not necessarily provide a claim for each
@@ -997,7 +1178,7 @@ source $u$. We consider another example.
     Bringing \claimcoherence{} in too, $s \slt_{N_2} t$ gives $c \clt_{N_2} d$.
     Thus, \claimcoherence{}, \symmetry{}, \freshposresp{} and \sourceposresp{}
     are enough to capture our intuitions about this network as described in the
-    introduction \todo{check intro.}
+    introduction.
 \end{example}
 
 In the special case where a network contains reports only for a single object,
@@ -2791,6 +2972,7 @@ this remains to be proven.\footnotemark{}
 \end{proof}
 
 \section{Related Work}
+\label{td_new_sec_related_work}
 
 In this section we discuss related work.
 
@@ -2893,7 +3075,7 @@ axiomatically~\cite{altman2005ranking,skibski_pagerank}.\footnotemark{}
     defined only for strongly connected graphs.
 }
 
-In ~\cite{altman2005ranking} the authors propose several \emph{invariance
+\textcite{altman2005ranking} propose several \emph{invariance
 axioms}, each of which requires that the ranking of pages is not affected by a
 certain transformation of the web graph. For example, the axiom \emph{Self
 Edge} says that adding a self loop from a page $a$ to itself does not change
@@ -2913,8 +3095,81 @@ may be additional axioms which can be expressed both for general graphs
 the task of finding such axioms to future work.
 
 \section{Conclusion}
+\label{td_new_sec_conclusion}
 
-\todo{Limitation of coherence axioms: we can only compare sources/claims with
-the same number of claims/sources.}
+\paragraph{Summary.}
 
-\todo{Limitation of analysis: only Sums.}
+In this chapter we formalised a mathematical framework for truth discovery.
+While a number of simplifying assumptions were made compared to the mainstream
+truth discovery literature, we are able to express several algorithms in the
+framework. This provided the setting for the axiomatic method of social choice
+to be applied. To our knowledge, this is the first such axiomatic treatment in
+this context.
+
+It was possible to adapt many axioms from social choice theory and related
+areas. In particular, the \emph{Transitivity} axiom studied in the context of
+ranking systems~\cite{tennenholtz2004,altman2008} took on new life in the form
+of the coherence axioms, which we consider essential for truth discovery
+operators. We proceeded to highlight the differences between voting theory and
+truth discovery via an impossibility result involving a classical independence
+axiom, and used this axiom to characterise Voting. Another impossibility result
+-- \cref{td_new_thm_conflict_impossibilities} -- established the tension
+between methods which rank claims on the basis of their sources, and those
+which rank on the basis of antisources.
+
+On the practical side, we analysed the existing method Sums, and found that,
+surprisingly, it fails \disjointindependence{}. This is a serious issue for
+Sums which has not been discussed in the literature to date, and its discovery
+here highlights the benefits of the axiomatic method. To resolve this, we
+suggested a modification to Sums -- which we call UnboundedSums -- for which
+\disjointindependence{} \emph{is} satisfied.
+
+\paragraph{Limitations and future work.}
+
+While UnboundedSums resolves axiomatic problems with Sums, it may introduce
+computational difficulties (since the numeric scores involved grow without
+bound). Moreover, its status with respect to the monotonicity axioms remains
+unknown, although we suspect that the axioms do hold. We leave further
+investigation of UnboundedSums to future work.
+
+A restriction of our analysis is that only one algorithm from the literature
+was studied in detail. Further axiomatic analysis of algorithms provides a
+deeper understanding of how algorithms operate on an intuitive level, but is
+made difficult by the complexity of the state-of-the-art truth discovery
+methods. New techniques for establishing the satisfaction (or otherwise) of
+axioms would be helpful in this regard.
+
+There is also scope for extensions to our model of truth discovery in the
+framework itself. For example, we make the somewhat simplistic assumption that
+there are only finitely many possible facts for sources to claim. This
+effectively means we can only consider \emph{categorical values}; modelling an
+object whose domain is the set of real numbers, for example, is not
+straightforward in our framework.
+
+Next, our model does not account for any associations or constraints between
+objects, whereas in reality the belief in a fact for one object may strengthen
+or weaken our belief in other facts for related objects. These types of
+constraints or correlations have been studied both on the theoretical side
+(e.g. in judgment aggregation) and practical side in truth
+discovery~\cite{yang_probabilistic_2019}.
+
+The axioms can also be further refined to relax some of the simplifying
+assumptions we make regarding source attitudes; e.g. that they do not collude
+or attempt to manipulate.
+
+Finally, it may be argued that truth discovery as formulated in this chapter
+risks simply to find \emph{consensus} among sources, rather than the
+\emph{truth}. In particular, we do not put forward any model for possible
+states of the world, nor of how sources produce their reports
+(c.f.~\cite{meir_proxy_2019}). Without such ingredients one cannot make precise
+what it means to find the truth. In a sense this is by design: our goal in
+applying the axiomatic approach is to find general principles which should hold
+for truth discovery methods under \emph{any} notion of truth-tracking.
+However, truth-tracking will be addressed in the second half of the thesis --
+in \cref{chapter_truthtracking} -- although using a logic-based framework in
+the style of belief revision as opposed to truth discovery.
+
+\paragraph{Outlook.}
+
+\todo{Lead into tournament stuff, and prepare reader for logic-based analogue
+of truth discovery in the second half.}

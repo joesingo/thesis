@@ -69,20 +69,25 @@
         pos=0.5,right=15pt
     }
 }
+\newcommand{\networkinitwithnames}[4]{
+    \readlist \sourcelabels {#1}
+    \readlist \sourcenames {#2}
+    \readlist \claimlabels {#3}
+    \readlist \claimnames {#4}
+    \def \height {max(\sourcelabelslen, \claimlabelslen)}
+    \foreachitem \s \in \sourcelabels{
+        \def \offset {(\height -  \sourcelabelslen) / 2}
+        \def \y {\offset + \sourcelabelslen * ((\scnt - 1) / (\sourcelabelslen - 1))}
+        \node (\s) at (0, -{(\y)}) {$\sourcenames[\scnt]$};
+    }
+    \foreachitem \c \in \claimlabels{
+        \def \offset {(\height -  \claimlabelslen) / 2}
+        \def \y {\offset + \claimlabelslen * ((\ccnt - 1) / (\claimlabelslen - 1))}
+        \node (\c) at (3, -{(\y)}) {$\claimnames[\ccnt]$};
+    }
+}
 \newcommand{\networkinit}[2]{
-    \readlist \sources {#1}
-    \readlist \claims {#2}
-    \def \height {max(\sourceslen, \claimslen)}
-    \foreachitem \s \in \sources{
-        \def \offset {(\height -  \sourceslen) / 2}
-        \def \y {\offset + \sourceslen * ((\scnt - 1) / (\sourceslen - 1))}
-        \node (\s) at (0, -{(\y)}) {$\s$};
-    }
-    \foreachitem \c \in \claims{
-        \def \offset {(\height -  \claimslen) / 2}
-        \def \y {\offset + \claimslen * ((\ccnt - 1) / (\claimslen - 1))}
-        \node (\c) at (3, -{(\y)}) {$\c$};
-    }
+    \networkinitwithnames{#1}{#1}{#2}{#2}
 }
 \newcommand{\report}[3][]{% optional arg is extra params to \draw (e.g. dashed)
     \draw[-,#1] (#2.east) -- (#3.west);
