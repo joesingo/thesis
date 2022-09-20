@@ -1676,14 +1676,16 @@ Formally, each source's beliefs in a particular case will be modelled by
     source $i$ and case $c$.
 \end{definition}
 
-A belief structure is independent of any world $W$, and can be thought of as
-the source's \emph{prior beliefs} about the ``actual'' valuation in each case:
-$u \le_{ic} v$ means $i$ considers $u$ at least as plausible as $v$ for the
-actual valuation in case $c$. In a given world $W$ the set $\Pi^W_i[v^W_c]$
-contains the valuations indistinguishable from the actual valuation $v^W_c$;
-i.e. those valuations which are possible candidates from the point of view of
-$i$'s expertise. Combining a belief structure $\b$ with a world $W$, the
-maximally plausible such candidates form each source's belief set.
+A belief structure is independent of any world, and can be thought of as the
+source's \emph{prior beliefs} about the ``actual'' valuation in each case: $u
+\le_{ic} v$ means $i$ considers $u$ at least as plausible as $v$ for the actual
+valuation in case $c$. In a given world $W$, the set $\Pi^W_i[v^W_c]$ contains
+the valuations indistinguishable from the actual valuation $v^W_c$. This can be
+interpreted as the \emph{observation} of $i$ for case $c$ in the world $W$,
+since it contains exactly those valuations which are possible candidates from
+the point of view of $i$'s expertise. Combining a belief structure $\b$ with a
+world $W$, the maximally plausible such candidates form each source's belief
+set.
 
 \begin{definition}
     Given a belief structure $\b = \{{\le_{ic}}\}_{i \in \srcs, c \in \css}$
@@ -1709,36 +1711,57 @@ a plausibility order over \emph{valuations}, not worlds.
 
 \begin{example}
     \label{tt_ex_belief_structure}
-    Consider the setting of \cref{tt_ex_informal_example,tt_ex_semantics}, and
-    consider a belief structure $\b$ where
+    Consider the setting of \cref{tt_ex_informal_example}.
+    Based on the age and other characteristics of the patients $\patientA$ and
+    $\patientB$, the doctor $\dr$ has prior beliefs about the likely incidence
+    of conditions $p$ and $q$, as described by the following belief structure
+    $\b$:
     \begin{align*}
         {\le_{\dr,\patientA}}
-            &: \bar{p}\bar{q} < \bar{p}q < pq < p\bar{q} \\
+            &: \bar{p}\bar{q} < p\bar{q} < \bar{p}q < pq \\
         {\le_{\dr,\patientB}}
             &: pq \simeq \bar{p}q \simeq p\bar{q} \simeq \bar{p}\bar{q}.
     \end{align*}
-    Then, if $W$ is the world from \cref{tt_ex_semantics}, we have
+    That is, $\dr$ considers it on the whole plausible for $\patientA$ to be
+    healthy on both counts, but more likely that $\patientA$ suffers only from
+    $p$ than only $q$. On the other hand, no data is available for patients
+    of $\patientB$'s age, and thus the plausibility order $\le_{\dr,\patientB}$
+    is the flat one in which all possibilities are equally plausible.
+
+    Supposing $W$ from \cref{tt_fig_example_world} is the actual world, $\dr$
+    then observes both patients. Since the actual valuations $v^W_{\patientA}$
+    and $v^W_{\patientB}$ lie in the same cell in $\Pi^W_{\dr}$, $\dr$ lacks
+    expertise to distinguish them with certainty; we have
+    \[
+        \Pi^W_{\dr}[v^W_{\patientA}]
+        =
+        \Pi^W_{\dr}[v^W_{\patientB}]
+        =
+        \{pq, p\bar{q}, \bar{p}q\}.
+    \]
+    However, the difference in the plausibility orders $\le_{\dr,\patientA}$
+    and $\le_{\dr,\patientB}$ leads to different beliefs: we have
     \[
         \min\nolimits_{\le_{\dr,\patientA}}{\Pi^W_{\dr}[v^W_{\patientA}]}
         = \min\nolimits_{\le_{\dr,\patientA}}\{pq, p\bar{q}, \bar{p}q\}
-        = \{\bar{p}q\},
+        = \{p\bar{q}\}
     \]
-    so $W, \patientA \models_\b \B_{\dr}{\neg{p}}$. On the other hand, since
-    $\le_{\dr,\patientB}$ is the flat ranking in which all valuations rank
-    equally, we have
+    whereas
     \[
         \min\nolimits_{\le_{\dr,\patientB}}{\Pi^W_{\dr}[v^W_{\patientB}]}
         = \Pi^W_{\dr}[v^W_{\patientB}]
         = \{pq, p\bar{q}, \bar{p}q\}.
     \]
-    We see that for $\patientA$, the doctor $\dr$ has beliefs going beyond mere
-    knowledge, whereas this is not so for $\patientB$. In this case all beliefs
-    are known and therefore true, since the actual valuation $v^W_\patientB =
-    pq$ is contained in
+
+    Note that for $\patientA$ the doctor $\dr$ has beliefs going beyond mere
+    knowledge, and in fact $\dr$ holds \emph{false beliefs}: we have $W,
+    \patientA \models_\b \B_{\dr}p$ but $W, \patientA \models \neg{p}$. This is
+    not so for $\patientB$; in this case all beliefs are known and therefore
+    true, since the actual valuation $v^W_\patientB = pq$ is contained in
     $\min_{\le_{\dr,\patientB}}{\Pi^W_{\dr}[v^W_{\patientB}]}$.
 \end{example}
 
-We can now consider streams enumerating source beliefs.
+We can now consider ``belief-based'' streams, which enumerate source beliefs.
 
 \begin{definition}
     A sequence of reports $\rho$ is a \emph{$\b$-stream} for a world $W$ iff for
@@ -1754,7 +1777,7 @@ with $\B_i\phi$ replacing $\S_i\phi$.
 \begin{example}
     Consider $W$ from \cref{tt_fig_example_world} and source $\dr$. Continuing
     from \cref{tt_ex_belief_structure}, the reports from $\dr$ for case
-    $\patientA$ in any $\b$-stream enumerate $\cnprop{\neg{p} \land q}$, and
+    $\patientA$ in any $\b$-stream enumerate $\cnprop{p \land \neg{q}}$, and
     the reports for case $\patientB$ enumerate $\cnprop{p \lor q}$.
 \end{example}
 
@@ -1920,7 +1943,7 @@ than $Q$. This also holds in the extension to belief-based streams, but only
 for a \emph{fixed} notion of solvability. For instance, $Q^*_{\b_\flat}
 \refines Q^*_\b$ does \emph{not} imply that a method $\b_\flat$-solving
 $Q^*_{\b_\flat}$ will $\b$-solve $Q^*_\b$, i.e. that $\b_\flat$-truth-tracking
-methods are $\b$-truth-tracking for all other $\b$. \footnotemark{}
+methods are $\b$-truth-tracking for all other $\b$.\footnotemark{}
 
 \footnotetext{
     Indeed, this is false: since all reports in a $\b_\flat$-stream are true,
