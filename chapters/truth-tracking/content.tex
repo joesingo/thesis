@@ -1609,7 +1609,7 @@ The proof is essentially identical to that of
     which gives $r_d^\sigma(W'') < r_d^\sigma(W')$ as required.
 \end{example}
 
-\section{Incorporating source beliefs}
+\section{Belief-based streams}
 
 % \begin{notes}
 %     \begin{itemize}
@@ -1846,22 +1846,23 @@ for all $\tuple{i, c, \phi} \in \sigma$.
     \speceq_\b W'$ implies $W$ and $W'$ have exactly the same $\b$-streams.
 \end{proof}
 
-\todo{Address gap: is there a single method $L$ which $\b$-solves $Q^*_\b$ for
-all $\b$?}
+The question of whether there is a \emph{single} method $L$ which
+simulatenously $\b$-solves all $Q^*_\b$ remains open.
 
-Thus, $Q^*_\b$ plays the same role with respect to $\b$-streams as $Q^*$ does
-with respect to sound and complete streams. Accordingly, we say a method $L$ is
-\emph{$\b$-truth-tracking} if it $\b$-solves $Q^*_\b$. By comparing $Q^*$ with
-$Q^*_\b$, one can assess the \emph{informativeness} of truth-tracking via sound
-and complete streams versus $\b$-streams. We shall see that $Q^*$ is always at
-least as informative as $Q^*_\b$: we have $Q^* \refines Q^*_\b$. This can be
-interpreted as informativeness via the analysis of \cref{tt_sec_learning_info},
-where we looked at what one can learn about $W$ from the correct answer
-$Q^*[W]$ (which truth-tracking methods are guaranteed to eventually find).
-Indeed, $Q^* \refines Q^*_\b$ means $Q^*[W] \subseteq Q^*_\b[W]$ for all $W$,
-so the correct answer to $Q^*$ narrows down the possibilities for the ``actual''
-world to a greater extent than $Q^*_\b$ does, and thus reveals more
-information about the actual world itself.
+\cref{tt_thm_bsolvability} shows that $Q^*_\b$ plays the same role with respect
+to $\b$-streams as $Q^*$ does with respect to sound and complete streams.
+Accordingly, we say a method $L$ is \emph{$\b$-truth-tracking} if it
+$\b$-solves $Q^*_\b$. By comparing $Q^*$ with $Q^*_\b$, one can assess the
+\emph{informativeness} of truth-tracking via sound and complete streams versus
+$\b$-streams. We shall see that $Q^*$ is always at least as informative as
+$Q^*_\b$: we have $Q^* \refines Q^*_\b$. This can be interpreted as
+informativeness via the analysis of \cref{tt_sec_learning_info}, where we
+looked at what one can learn about $W$ from the correct answer $Q^*[W]$ (which
+truth-tracking methods are guaranteed to eventually find).  Indeed, $Q^*
+\refines Q^*_\b$ means $Q^*[W] \subseteq Q^*_\b[W]$ for all $W$, so the correct
+answer to $Q^*$ narrows down the possibilities for the ``actual'' world to a
+greater extent than $Q^*_\b$ does, and thus reveals more information about the
+actual world itself.
 
 Moreover, $Q^*$ is \emph{strictly} more informative for all but one choice of
 belief structure: the ``flat'' structure $\b_\flat$, where each $\le_{ic}$ is
@@ -1955,10 +1956,60 @@ methods are $\b$-truth-tracking for all other $\b$.\footnotemark{}
     for non-flat $\b$.
 }
 
-Rather, \todo{motivate need to relax solving to get more informativeness.
-introduce $\worlds'$-questions. For each of our methods $L$ and arbitrary $\b$,
-look at some choices of $\worlds'$ such that $L$ $\b$-solves the restriction of
-$Q^*_\b$ to $\worlds'$.}
+Rather, \cref{tt_prop_qstar_refines_qstarb} places an upper bound on the
+informativeness of truth-tracking via belief-based streams. In order to improve
+this bound so that more can be learned, it is necessary to exclude certain
+problematic worlds. For instance, consider the simple case $\propvars = \{p\}$.
+One can construct $W$ and $W'$ such that all sources believe $p$ in all cases
+-- so that $W \speceq_\b W'$ -- and where $p$ holds in $W$ but $\neg{p}$ holds
+in $W'$. Consequently, $Q^*_\b[W]$ does not even determine $p$, despite the
+fact that all sources are unanimously correct in their beliefs in $W$.
+
+The problem here is the existence of ``degenerate'' worlds such as $W'$. In the
+first part of this chapter, non-experts such as the sources in $W'$ were
+obliged to report both $p$ and $\neg{p}$, thus signalling their lack of
+expertise; this is no longer the case when considering belief-based streams.
+
+In probability-based Jury theorems~\cite{grofman1983thirteen} such degenerate
+worlds occur with low probability due to the choice of the probabilistic model
+and assumption placed on sources. One possible solution in our framework is to
+exclude such worlds from consideration entirely. For example, one could look at
+subsets $S \subseteq \worlds$ and consider the extent to which $Q^*_\b[W] \cap
+S$ reveals information about $W \in S$. In other words, what can $\b$-streams
+tell us about $W$ if we do not need to worry about worlds in $\worlds \setminus
+S$? We leave these considerations for future work.
+
+% We sketch a somewhat more extreme solution to the problem, where such worlds
+% are excluded from consideration entirely.
+%Concretely, given a belief structure and a set of worlds $S \subseteq \worlds$
+%and $W \in S$, thought of as the ``actual'' world, one can consider the extent
+%to which $Q^*_\b[W] \cap S$ reveals information about $W$. In place of a
+%systemic study, we explore this concept via examples of particular choices of
+%$S$.
+
+%\begin{example}
+%    Fix a belief structure $\b$.
+%    \begin{enumerate}
+%        \item For a world $W$, say a set of sources $I \subseteq \srcs$ is a
+%              \emph{$W$-coalition} if for each $c \in \css$ the set $\bigcup_{i
+%              \in I}\{\phi \mid W, c \models_\b \B_i\phi\}$ is consistent. Let
+%              $\mathcal{I}_W$ denote the set of $W$-coalitions.
+%              %
+%              Then take $S^\plurality_\b$ to be the set of worlds $W$ in which
+%              the set of sources with correct beliefs in all cases forms a
+%              plurality, i.e.
+%              \[
+%                  W \in S^\plurality_\b
+%                  \iff
+%                    \exists I \in \mathcal{I}_W \text{ s.t. }
+%                        (i \in I, W, c \models_\b \B_i\phi \implies W, c
+%                        \models \phi)
+%                        \text{ and }
+%                        (J \in \mathcal{I}_W \setminus \{I\} \implies |I| > |J|)
+%                  \}
+%              \]
+%    \end{enumerate}
+%\end{example}
 
 \section{Conclusion}
 \label{tt_sec_conclusion}
