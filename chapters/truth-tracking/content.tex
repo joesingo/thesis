@@ -2019,114 +2019,113 @@ Concretely, given a belief structure and a set of worlds $S \subseteq \worlds$
 and $W \in S$, thought of as the ``actual'' world, one can consider the extent
 to which $Q^*_\b[W] \cap S$ reveals information about $W$. That is, worlds in
 $\worlds \setminus S$ are ignored. In place of a systemic study, we explore
-this concept via examples of particular choices of $S$.
+this concept via examples of particular choices of $S$. In what follows we
+consider an arbitrary but fixed belief structure $\b$.
+
+\paragraph{A majority of experts.}
+
+For a given formula $\phi \in \Lprop$, let $S_\phi$ denote the set of worlds in
+which a strict majority of sources have expertise on $\phi$:
+\[
+  W \in S_\phi
+  \iff
+  |\{i \in \srcs \mid \Pi^W_i[\phi] = \propmods{\phi}\}|
+  > \frac{|\srcs|}{2}.
+\]
+Then for $W \in S_\phi$, $Q^*_\b[W] \cap S_\phi$ decides $\phi$ in all cases $c
+\in \css$.
+
+Indeed, take $c \in \css$. Letting $I_W$ denote the set of source with
+expertise on $\phi$ in $W$, for any two worlds $W, W' \in S_\phi$ there is
+necessarily some $i \in I_W \cap I_{W'}$; otherwise $|I_W \cup I_{W'}| = |I_W|
++ |I_{W'}| > |\srcs|$, which cannot be. Thus, $W, c \models \E_i\phi$ and $W',
+c \models \E_i\phi$. If additionally $W \speceq_\b W'$ then $W, c \models_\b
+\B_i\phi$ if and only if $W', c \models_\b \B_i\phi$.  But by
+\cref{tt_prop_belief_exp_sound_compatibility}
+\cref{tt_item_expertise_correct_beliefs}, this means $W, c \models \phi$ if and
+only if $W', c \models \phi$. That is to say, each world in $Q^*_\b[W] \cap
+S_\phi$ agrees with $W$ on the truth value of $\phi$ in case $c$, and
+consequently $Q^*_\b[W] \cap S_\phi$ decides $\phi$.
+
+In other words, any $\b$-truth-tracking method is guaranteed to eventually find
+the correct truth value of $\phi$, if worlds outside $S_\phi$ are deemed
+impossible.
+
+\paragraph{Plurality coalitions.}
+
+Requiring a strict majority of experts as above may be deemed too strong an
+assumption; we now consider a weaker notion. Write $\bel{W}{i}{c} = \{\phi \in
+\Lprop \mid W, c \models_\b \B_i\phi\}$ for the beliefs of $i$ in case $c$. Say
+$I \subseteq \srcs$ is a \emph{coalition} (w.r.t $W$) if $\bigcup_{i \in
+I}{\bel{W}{i}{c}}$ is consistent for each $c \in \css$. Note that the set of
+sources $J_W = \{i \mid \forall c \in \css, W, c \models \bel{W}{i}{c}\}$ with
+correct beliefs forms a coalition, which we call the \emph{correct coalition}.
+
+Now let $S_\plurality$ be the set of worlds in which the correct coalition
+forms a \emph{plurality}, i.e. $W \in S_\plurality$ iff $|J_W| > |I|$ for all
+coalitions $I$ w.r.t $W$ such that $I \ne J_W$. Note that $J_W$ need not be a
+majority: we may have $|J_W| \le \frac{|\srcs|}{2}$.
+
+Then for any $W \in S_\plurality$, and $c \in \css$, we have $Q^*_\b[W] \cap
+S_\plurality, c \models \bigcup_{i \in J_W}{\bel{W}{i}{c}}$. That is, any
+$\b$-truth-tracking method -- when restricted to consider only worlds in
+$S_\plurality$ -- eventually comes to believe all the correct sources in $J_W$.
+
+Indeed, if $W' \in Q^*_\b[W] \cap S_\plurality$ then $\bel{W}{i}{c} =
+\bel{W'}{i}{c}$ for all $i$ and $c$, so $I \subseteq \srcs$ is a coalition
+w.r.t $W$ if and only if $I$ is a coalition w.r.t $W'$. In particular, $J_W$ is
+a coalition w.r.t $W'$, which implies $|J_W| \le |J_{W'}|$. Likewise, $J_{W'}$
+is a coalition w.r.t $W$, so $|J_{W'}| \le |J_W|$. Hence $|J_W| = |J_{W'}|$.
+Since $J_W$ is the largest coalition w.r.t $W$, this means $J_W = J_{W'}$.
+Thus, recalling that $i \in J_{W'}$ implies $W', c \models \bel{W'}{i}{c}$, we
+have $W', c \models \bigcup_{i \in J_W}{\bel{W}{i}{c}}$ as required.
 
 \begin{example}
-    Fix a belief structure $\b$.
-    \begin{enumerate}
-        \item For a given formula $\phi \in \Lprop$, let $S_\phi$ denote the
-              set of worlds in which a strict majority of sources have
-              expertise on $\phi$:
-              \[
-                  W \in S_\phi
-                  \iff
-                  |\{i \in \srcs \mid \Pi^W_i[\phi] = \propmods{\phi}\}|
-                  > \frac{|\srcs|}{2}.
-              \]
-              Then for $W \in S_\phi$, $Q^*_\b[W] \cap S_\phi$ decides $\phi$
-              in all cases $c \in \css$.
-
-              Indeed, take $c \in \css$. Letting $I_W$ denote the set of source
-              with expertise on $\phi$ in $W$, for any two worlds $W, W' \in
-              S_\phi$ there is necessarily some $i \in I_W \cap I_{W'}$;
-              otherwise $|I_W \cup I_{W'}| = |I_W| + |I_{W'}| > |\srcs|$, which
-              cannot be. Thus, $W, c \models \E_i\phi$ and $W', c \models
-              \E_i\phi$. If additionally $W \speceq_\b W'$ then $W, c
-              \models_\b \B_i\phi$ if and only if $W', c \models_\b \B_i\phi$.
-              But by \cref{tt_prop_belief_exp_sound_compatibility}
-              \cref{tt_item_expertise_correct_beliefs}, this means $W, c
-              \models \phi$ if and only if $W', c \models \phi$. That is to
-              say, each world in $Q^*_\b[W] \cap S_\phi$ agrees with $W$ on the
-              truth value of $\phi$ in case $c$, and consequently $Q^*_\b[W]
-              \cap S_\phi$ decides $\phi$.
-
-              In other words, any $\b$-truth-tracking method is guaranteed to
-              eventually find the correct truth value of $\phi$, if worlds
-              outside $S_\phi$ are deemed impossible.
-
-        \item Requiring a strict majority of experts as above may be deemed too
-              strong an assumption; we now consider a weaker notion. Write
-              $\bel{W}{i}{c} = \{\phi \in \Lprop \mid W, c \models_\b
-              \B_i\phi\}$ for the beliefs of $i$ in case $c$. Say $I \subseteq
-              \srcs$ is a \emph{coalition} (w.r.t $W$) if $\bigcup_{i \in
-              I}{\bel{W}{i}{c}}$ is consistent for each $c \in \css$. Note that
-              the set of sources $J_W = \{i \mid \forall c \in \css, W, c
-              \models \bel{W}{i}{c}\}$ with correct beliefs forms a coalition,
-              which we call the \emph{correct coalition}.
-
-              Now let $S_\plurality$ be the set of worlds in which the correct
-              coalition forms a \emph{plurality}, i.e. $W \in S_\plurality$ iff
-              $|J_W| > |I|$ for all coalitions $I$ w.r.t $W$ such that $I \ne
-              J_W$. Note that $J_W$ need not be a majority: we may have $|J_W|
-              \le \frac{|\srcs|}{2}$.
-
-              Then for any $W \in S_\plurality$, and $c \in \css$, we have
-              $Q^*_\b[W] \cap S_\plurality, c \models \bigcup_{i \in
-              J_W}{\bel{W}{i}{c}}$. That is, any $\b$-truth-tracking method --
-              when restricted to consider only worlds in $S_\plurality$ --
-              eventually comes to believe all the correct sources in $J_W$.
-
-              Indeed, if $W' \in Q^*_\b[W] \cap S_\plurality$ then
-              $\bel{W}{i}{c} = \bel{W'}{i}{c}$ for all $i$ and $c$, so $I
-              \subseteq \srcs$ is a coalition w.r.t $W$ if and only if $I$ is a
-              coalition w.r.t $W'$. In particular, $J_W$ is a coalition w.r.t
-              $W'$, which implies $|J_W| \le |J_{W'}|$. Likewise, $J_{W'}$ is a
-              coalition w.r.t $W$, so $|J_{W'}| \le |J_W|$. Hence $|J_W| =
-              |J_{W'}|$. Since $J_W$ is the largest coalition w.r.t $W$, this
-              means $J_W = J_{W'}$. Thus, recalling that $i \in J_{W'}$ implies
-              $W', c \models \bel{W'}{i}{c}$, we have $W', c \models \bigcup_{i
-              \in J_W}{\bel{W}{i}{c}}$ as required.
-
-              As a concrete example, consider the setting $\propvars = \{p,
-              q\}$, $\srcs = \{i_1,i_2,i_3,j_1,j_2\}$, $\css = \{c,d,e\}$. One
-              can construct $W$ and $\b$ such that $\neg{p}$ holds in each
-              case, and the beliefs of sources are described by the following
-              sequence:
-              \begin{align*}
-                  \sigma =&
-                  (\tuple{i_1, c, p},
-                  \tuple{i_2, c, p \land q},
-                  \tuple{i_3, c, p \land \neg{q}},
-                  \tuple{j_1, c, \neg{p}},
-                  \tuple{j_2, c, \neg{p}},
-                  \\
-                  &
-                  \tuple{i_1, d, p \land q},
-                  \tuple{i_2, d, p \land \neg{q}},
-                  \tuple{i_3, d, p},
-                  \tuple{j_1, d, \neg{p}},
-                  \tuple{j_2, d, \neg{p}},
-                  \\
-                  &
-                  \tuple{i_1, e, p \land q},
-                  \tuple{i_2, e, p},
-                  \tuple{i_3, e, p \land \neg{q}},
-                  \tuple{j_1, e, \neg{p}},
-                  \tuple{j_2, e, \neg{p}}).
-              \end{align*}
-              Observe that $j_1$ and $j_2$ report $\neg{p}$ in each case, but
-              are out-voted by $i_1, i_2$ and $i_3$, whose reports imply $p$.
-              However, $i_2$ and $i_3$ disagree on $q$ in case $c$, $i_1$ and
-              $i_2$ disagree in case $d$, and $i_3$ disagree in case $e$.
-              Consequently the only non-empty coalitions are $\{i_1\}$,
-              $\{i_2\}$, $\{i_3\}$ and $\{j_1, j_2\}$, with $J_W$ being the
-              latter. We see that even though $j_1$ and $j_2$ are in the
-              minority on $p$ in each case, they form the largest coalition
-              consistent \emph{across cases}, and thus $W \in S_\plurality$. In
-              particular, any $\b$-truth-tracking method eventually believes
-              $\neg{p}$ in all cases.
-    \end{enumerate}
+    Consider the setting $\propvars = \{p, q\}$, $\srcs =
+    \{i_1,i_2,i_3,j_1,j_2\}$, $\css = \{c,d,e\}$. One can construct $W$ and
+    $\b$ such that $\neg{p}$ holds in each case, and the beliefs of sources are
+    described by the following sequence:
+    \begin{align*}
+      \sigma =&
+      (\tuple{i_1, c, p},
+      \tuple{i_2, c, p \land q},
+      \tuple{i_3, c, p \land \neg{q}},
+      \tuple{j_1, c, \neg{p}},
+      \tuple{j_2, c, \neg{p}},
+      \\
+      &
+      \tuple{i_1, d, p \land q},
+      \tuple{i_2, d, p \land \neg{q}},
+      \tuple{i_3, d, p},
+      \tuple{j_1, d, \neg{p}},
+      \tuple{j_2, d, \neg{p}},
+      \\
+      &
+      \tuple{i_1, e, p \land q},
+      \tuple{i_2, e, p},
+      \tuple{i_3, e, p \land \neg{q}},
+      \tuple{j_1, e, \neg{p}},
+      \tuple{j_2, e, \neg{p}}).
+    \end{align*}
+    Observe that $j_1$ and $j_2$ report $\neg{p}$ in each case, but
+    are out-voted by $i_1, i_2$ and $i_3$, whose reports imply $p$.
+    However, $i_2$ and $i_3$ disagree on $q$ in case $c$, $i_1$ and
+    $i_2$ disagree in case $d$, and $i_3$ disagree in case $e$.
+    Consequently the only non-empty coalitions are $\{i_1\}$,
+    $\{i_2\}$, $\{i_3\}$ and $\{j_1, j_2\}$, with $J_W$ being the
+    latter. We see that even though $j_1$ and $j_2$ are in the
+    minority on $p$ in each case, they form the largest coalition
+    consistent \emph{across cases}, and thus $W \in S_\plurality$. In
+    particular, any $\b$-truth-tracking method eventually believes
+    $\neg{p}$ in all cases.
 \end{example}
+
+Clearly these two choices of $S$ are not exhaustive, and the reader may
+conceive of other reasonable assumptions to be placed on worlds in order to
+improve the informativeness of truth-tracking with belief streams. We leave a
+more in-depth study to future work; in the meantime it is hoped that the above
+results show the approach is at least feasible, and yields interesting results
+in the aforementioned special cases.
 
 \section{Conclusion}
 \label{tt_sec_conclusion}
