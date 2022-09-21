@@ -606,7 +606,7 @@ enough cases to uniquely identify the source partitions. Of particular interest
 is the case where $Q^*[W]$ contains only $W$; starting in such a world,
 truth-tracking methods are able to find the true world exactly.
 
-In what follows, say $S$ \emph{decides $\Phi$ in case
+In what follows, say $S \subseteq \worlds$ \emph{decides $\Phi$ in case
 $c$} iff either $S, c \models \Phi$ or $S, c \models \neg\Phi$. That is, the
 truth value of $\Phi$ in case $c$ is unambiguously defined across $S$. If
 $\Phi$ does not depend on the case (e.g. if $\Phi = \E_i\phi$) we simply say
@@ -1701,13 +1701,52 @@ That is, $i$ believes $\phi$ in case $c$ if $\phi$ holds in all the most
 plausible states among those indistinguishable from the actual one. Since
 $\vals$ is finite and $\Pi^W_i[v^W_c]$ is non-empty (it contains $v^W_c$, at
 least), so too is the minimum. Consequently, the beliefs of each source in each
-case are consistent. Moreover, if $i$ believes $\phi$ then $W, c \models
-\S_i\phi$, so all beliefs are sound.
-
+case are consistent.
+%
 There is also similarity with the conditioning methods
 from \cref{tt_sec_conditioning_methods}, where a plausibility order is used to
 select the most plausible worlds. A key difference here is that each source has
 a plausibility order over \emph{valuations}, not worlds.
+
+This notion of belief is compatible with expertise and soundness: all beliefs
+are sound, and experts hold correct beliefs.
+
+\begin{proposition}
+    \label{tt_prop_belief_exp_sound_compatibility}
+    Let $\b$ be a belief structure and $W$ a world. Then
+    \begin{enumerate}
+        \item \label{tt_item_beliefs_are_sound} If $W, c \models_\b \B_i\phi$
+              then $W, c \models \S_i\phi$.
+          \item \label{tt_item_expertise_correct_beliefs} If $W, c \models
+                \E_i\phi$, then $W, c \models_\b \B_i\phi$ if and only if $W, c
+                \models \phi$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Fix $\b$ and $W$.
+    \begin{enumerate}
+        \item Suppose $W, c \models_\b \B_i\phi$. As noted above,
+              $\min_{\le_{ic}}{\Pi^W_i[v^W_c]}$ is non-empty, and thus contains
+              some valuation $v$. Since $\B_i\phi$ holds, we have $v \in
+              \propmods{\phi}$. But also $v \in \Pi^W_i[v^W_c]$; hence $v^W_c
+              \in \Pi^W_i[v] \subseteq \Pi^W_i[\phi]$, i.e. $W, c \models
+              \S_i\phi$.
+        \item Suppose $W, c \models \E_i\phi$. First suppose $W, c \models_\b
+            \B_i\phi$. By \cref{tt_item_beliefs_are_sound}, $W, c \models
+            \S_i\phi$. Since $\E_i\phi \land \S_i\phi \limplies \phi$ is a
+            validity, $W, c \models \phi$ as required.
+            %
+            Conversely, suppose $W, c \models \phi$. Then $v^W_c \in
+            \propmods{\phi}$, so $\Pi^W_i[v^W_c] \subseteq \Pi^W_i[\phi]$. But
+            since $i$ has expertise on $\phi$, we have $\Pi^W_i[\phi] =
+            \propmods{\phi}$; hence $\Pi^W_i[v^W_c] \subseteq \propmods{\phi}$.
+            Clearly the $\le_{ic}$-minimal valuations in $\Pi^W_i[v^W_c]$ are
+            also members of $\propmods{\phi}$, so $W, c \models_\b \B_i\phi$.
+    \end{enumerate}
+\end{proof}
+
+We come to an example.
 
 \begin{example}
     \label{tt_ex_belief_structure}
@@ -1957,59 +1996,108 @@ methods are $\b$-truth-tracking for all other $\b$.\footnotemark{}
 }
 
 Rather, \cref{tt_prop_qstar_refines_qstarb} places an upper bound on the
-informativeness of truth-tracking via belief-based streams. In order to improve
-this bound so that more can be learned, it is necessary to exclude certain
-problematic worlds. For instance, consider the simple case $\propvars = \{p\}$.
-One can construct $W$ and $W'$ such that all sources believe $p$ in all cases
--- so that $W \speceq_\b W'$ -- and where $p$ holds in $W$ but $\neg{p}$ holds
-in $W'$. Consequently, $Q^*_\b[W]$ does not even determine $p$, despite the
-fact that all sources are unanimously correct in their beliefs in $W$.
+informativeness of truth-tracking via belief-based streams. Indeed, in certain
+instances belief-based streams are particularly \emph{uninformative}. For
+example, consider $W$ such that all sources have complete expertise, i.e.
+$\Pi^W_i = \Pi_\bot$ for all $i \in \srcs$. Under soundness-based streams, the
+actual valuation $v^W_c$ is determined exactly in $Q^*[W]$, and is thus found
+by truth-tracking methods. However, one can easily construct a belief structure
+$\b$ and an alternative world $W'$ such that all sources share the same beliefs
+in $W$ as in $W'$ -- i.e. $W \speceq_\b W'$ -- but where these beliefs are
+\emph{false} in $W'$. Consequently, $Q^*_\b[W]$ reveals no information about
+the actual valuations whatsoever, despite the fact that the sources are
+unanimously correct in $W$.
 
-The problem here is the existence of ``degenerate'' worlds such as $W'$. In the
-first part of this chapter, non-experts such as the sources in $W'$ were
-obliged to report both $p$ and $\neg{p}$, thus signalling their lack of
-expertise; this is no longer the case when considering belief-based streams.
+The problem here is the existence of ``degenerate'' worlds such as $W'$, where
+all sources are unanimously incorrect in their beliefs. In probability-based
+Jury theorems~\cite{grofman1983thirteen}, such degenerate worlds occur with low
+probability due to the choice of the probabilistic model and assumption placed
+on sources. We presently sketch a somewhat more extreme solution, where such
+worlds are excluded from consideration entirely.
 
-In probability-based Jury theorems~\cite{grofman1983thirteen} such degenerate
-worlds occur with low probability due to the choice of the probabilistic model
-and assumption placed on sources. One possible solution in our framework is to
-exclude such worlds from consideration entirely. For example, one could look at
-subsets $S \subseteq \worlds$ and consider the extent to which $Q^*_\b[W] \cap
-S$ reveals information about $W \in S$. In other words, what can $\b$-streams
-tell us about $W$ if we do not need to worry about worlds in $\worlds \setminus
-S$? We leave these considerations for future work.
+Concretely, given a belief structure and a set of worlds $S \subseteq \worlds$
+and $W \in S$, thought of as the ``actual'' world, one can consider the extent
+to which $Q^*_\b[W] \cap S$ reveals information about $W$. In place of a
+systemic study, we explore this concept via examples of particular choices of
+$S$.
 
-% We sketch a somewhat more extreme solution to the problem, where such worlds
-% are excluded from consideration entirely.
-%Concretely, given a belief structure and a set of worlds $S \subseteq \worlds$
-%and $W \in S$, thought of as the ``actual'' world, one can consider the extent
-%to which $Q^*_\b[W] \cap S$ reveals information about $W$. In place of a
-%systemic study, we explore this concept via examples of particular choices of
-%$S$.
+\begin{example}
+    Fix a belief structure $\b$.
+    \begin{enumerate}
+        \item For a given formula $\phi \in \Lprop$, let $S_\phi$ denote the
+              set of worlds in which a strict majority of sources have
+              expertise on $\phi$:
+              \[
+                  W \in S_\phi
+                  \iff
+                  |\{i \in \srcs \mid \Pi^W_i[\phi] = \propmods{\phi}\}|
+                  > \frac{|\srcs|}{2}.
+              \]
+              Then for $W \in S_\phi$, $Q^*_\b[W] \cap S_\phi$ decides $\phi$
+              in all cases $c \in \css$.
 
-%\begin{example}
-%    Fix a belief structure $\b$.
-%    \begin{enumerate}
-%        \item For a world $W$, say a set of sources $I \subseteq \srcs$ is a
-%              \emph{$W$-coalition} if for each $c \in \css$ the set $\bigcup_{i
-%              \in I}\{\phi \mid W, c \models_\b \B_i\phi\}$ is consistent. Let
-%              $\mathcal{I}_W$ denote the set of $W$-coalitions.
-%              %
-%              Then take $S^\plurality_\b$ to be the set of worlds $W$ in which
-%              the set of sources with correct beliefs in all cases forms a
-%              plurality, i.e.
-%              \[
-%                  W \in S^\plurality_\b
-%                  \iff
-%                    \exists I \in \mathcal{I}_W \text{ s.t. }
-%                        (i \in I, W, c \models_\b \B_i\phi \implies W, c
-%                        \models \phi)
-%                        \text{ and }
-%                        (J \in \mathcal{I}_W \setminus \{I\} \implies |I| > |J|)
-%                  \}
-%              \]
-%    \end{enumerate}
-%\end{example}
+              Indeed, take $c \in \css$. Letting $I_W$ denote the set of source
+              with expertise on $\phi$ in $W$, for any two worlds $W, W' \in
+              S_\phi$ there is necessarily some $i \in I_W \cap I_{W'}$;
+              otherwise $|I_W \cup I_{W'}| = |I_W| + |I_{W'}| > |\srcs|$, which
+              cannot be. Thus, $W, c \models \E_i\phi$ and $W', c \models
+              \E_i\phi$. If additionally $W \speceq_\b W'$ then $W, c
+              \models_\b \B_i\phi$ if and only if $W', c \models_\b \B_i\phi$.
+              But by \cref{tt_prop_belief_exp_sound_compatibility}
+              \cref{tt_item_expertise_correct_beliefs}, this means $W, c
+              \models \phi$ if and only if $W', c \models \phi$. That is to
+              say, each world in $Q^*_\b[W] \cap S_\phi$ agrees with $W$ on the
+              truth value of $\phi$ in case $c$, and consequently $Q^*_\b[W]
+              \cap S_\phi$ decides $\phi$.
+
+              In other words, any $\b$-truth-tracking method is guaranteed to
+              eventually find the correct truth value of $\phi$, if worlds
+              outside $S_\phi$ are deemed impossible.
+
+        \item Requiring a strict majority of experts as above may be deemed too
+              strong an assumption; we now consider a weaker notion. Write
+              $\bel{W}{i}{c} = \{\phi \in \Lprop \mid W, c \models_\b
+              \B_i\phi\}$ for the beliefs of $i$ in case $c$. Say $I \subseteq
+              \srcs$ is a \emph{coalition} (w.r.t $W$) if $\bigcup_{i \in
+              I}{\bel{W}{i}{c}}$ is consistent for each $c \in \css$. Note that
+              the set of sources $J_W = \{i \mid \forall c \in \css, W, c
+              \models \bel{W}{i}{c}\}$ with correct beliefs forms a coalition,
+              which we call the \emph{correct coalition}.
+
+              Now let $S_\plurality$ be the set of worlds in which there is at
+              least a plurality of correct sources, i.e. $W \in S_\plurality$
+              iff $|J_W| > |I|$ for all coalitions $I \ne J_W$. Note that $J_W$
+              need not be a majority: we may have $|J_W| \le
+              \frac{|\srcs|}{2}$.
+
+              Then for any $W \in S_\plurality$, $i \in J_W$, $c \in \css$ and
+              $\phi \in \bel{W}{i}{c}$, we have $Q^*_\b[W] \cap S_\plurality, c
+              \models \phi$. That is, any $\b$-truth-tracking method -- when
+              restricted to consider only worlds in $S_\plurality$ --
+              eventually learns the correct beliefs of all sources in $J_W$.
+              \todo{Prove this, and give an example where $J_W$ are case-wise
+              in the minority.}
+
+        %\item For a world $W$, say a set of sources $I \subseteq \srcs$ is a
+        %      \emph{$W$-coalition} if for each $c \in \css$ the set $\bigcup_{i
+        %      \in I}\{\phi \mid W, c \models_\b \B_i\phi\}$ is consistent. Let
+        %      $\mathcal{I}_W$ denote the set of $W$-coalitions.
+        %      %
+        %      Then take $S^\plurality_\b$ to be the set of worlds $W$ in which
+        %      the set of sources with correct beliefs in all cases forms a
+        %      plurality, i.e.
+        %      \[
+        %          W \in S^\plurality_\b
+        %          \iff
+        %            \exists I \in \mathcal{I}_W \text{ s.t. }
+        %                (i \in I, W, c \models_\b \B_i\phi \implies W, c
+        %                \models \phi)
+        %                \text{ and }
+        %                (J \in \mathcal{I}_W \setminus \{I\} \implies |I| > |J|)
+        %          \}
+        %      \]
+    \end{enumerate}
+\end{example}
 
 \section{Conclusion}
 \label{tt_sec_conclusion}
