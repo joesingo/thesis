@@ -27,13 +27,13 @@ takes place in a logical framework. \emph{Belief merging} has close links with
 judgement aggregation, and generalised jury theorems have been found here
 too~\cite{everaere_epistemic_2010}.
 
-In crowdsourcing, and familiar from \cref{chapter_td}, the problem of
-\emph{truth discovery}~\cite{li_survey_2016} looks at how information from
-unreliable sources can be aggregated to find the true claims associated with a
-number of objects, and to find the true reliability level of the sources.
-Work in this area typically combines empirical results (e.g. how well methods
-find the truth on test datasets for which true values are known) and
-theoretical guarantees, and is typically set in a probabilistic framework.
+The problem of \emph{truth discovery}~\cite{li_survey_2016}, from the
+crowdsourcing literature and familiar from \cref{chapter_td}, looks at how
+information from unreliable sources can be aggregated to find the true claims
+associated with a number of objects, and to find the true reliability level of
+the sources.  Work in this area typically combines empirical results (e.g. how
+well methods find the truth on test datasets for which true values are known)
+and theoretical guarantees, and is typically set in a probabilistic framework.
 
 On the other hand, \emph{formal learning theory}~\cite{jain1999systems} offers
 a non-probabilistic view on truth-tracking, stemming from the classical
@@ -58,16 +58,17 @@ For the most part, formal learning theory supposes that all information
 received is true, and that all true information is eventually
 received.\footnotemark{} This is not a tenable assumption with non-expert
 sources: some sources may simply lack the expertise to know whether $\phi$ is
-true or false. Instead we make a different (and strong) assumption: all and
-only sound reports are received. Thus, sources report everything
-consistent with their expertise, which necessitates inconsistent reports from
-non-experts. Consequently, the input to
-our learning methods should be distinguished from the inputs to belief revision
-and belief merging methods~\cite{alchourron1985logic,konieczny2002merging} --
-also propositional formulas -- which represent \emph{beliefs} of the reporting
-sources. Indeed, we do not model beliefs of the sources at all.
-
-\todo{reconsider this, if we extent to model beliefs.}
+true or false. In the bulk of this chapter we make a different (and strong)
+assumption: all and only \emph{sound reports} are received. Thus, sources
+report everything consistent with their expertise, which necessitates
+inconsistent reports from non-experts. Inputs of this form should therefore be
+distinguished from the inputs to belief revision and belief merging
+methods~\cite{alchourron1985logic,konieczny2002merging} -- also propositional
+formulas -- which represent \emph{beliefs} of the reporting sources.
+%
+Later we go on to model beliefs of sources directly, and sketch an approach to
+learning in which sources report all and only that which they believe. Some
+preliminary results are presented for this alternative model.
 
 \footnotetext{
     But see \textcite[\sectionsymbol{}8.1]{jain1999systems}, which considers
@@ -124,8 +125,10 @@ will be returned to throughout the chapter.
     truth-tracking and solvable questions. We characterise solvable questions in
     \cref{tt_sec_characterising_solvable_questions}, and explore what they can reveal
     about the actual world in \cref{tt_sec_learning_info}. \cref{tt_sec_methods} looks at
-    learning methods themselves, and characterises truth-tracking methods. We
-    conclude in \cref{tt_sec_conclusion}.
+    learning methods themselves, and characterises truth-tracking methods. In
+    \cref{tt_sec_belief_based_streams} we consider a different model for
+    learning, in which source beliefs are modelled directly.
+    \cref{tt_sec_conclusion} concludes.
 \end{chapteroutline}
 
 \section{Preliminaries}
@@ -238,7 +241,7 @@ we write $S, c \models \Phi$ iff $W, c \models \Phi$ for all $W \in S$.
 \paragraph{Reports.}
 
 A \emph{report} is a triple $\tuple{i, c, \phi}$, where $i \in \srcs$, $c \in
-\css$ and $\phi \in \Lprop$ with $\phi \not\equiv \falsum$. In this chapter, we
+\css$ and $\phi \in \Lprop$ with $\phi \not\equiv \falsum$. In most of this chapter, we
 interpret such triples as source $i$ reporting that $\phi$ is possible in case
 $c$. An \emph{input sequence} $\sigma$ is a finite sequence of reports.
 
@@ -1321,17 +1324,18 @@ In this section we turn to the family of \emph{conditioning} methods from
 % postulates} for a belief change problem with non-expert sources. By studying
 % them in relation to truth-tracking, we will see that rationality is compatible
 % with truth-tracking.
-While the interpretation of input sequences is different in this chapter -- we
+While the interpretation of input sequences is different when considering sound
+and complete streams -- we
 read $\tuple{i, c, \phi}$ as $i$ reporting $\phi$ is \emph{possible} in case
 $c$, whereas before such reports were read as $i$
-\emph{believes} $\phi$ -- this class of methods can still be applied in our
-setting. \todo{revisit} Moreover, while conditioning methods were put forward in
+\emph{believes} $\phi$ -- this class of methods can still be applied.
+Moreover, while conditioning methods were put forward in
 \cref{kr_sec_conditioning_operators} in order to satisfy rationality
 postulates, we will soon see that they are also compatible with truth-tracking.
 
 Conditioning methods operate by successively restricting a fixed
 \emph{plausibility total preorder} to the information corresponding to each
-new report $\tuple{i, c, \phi}$. In this chapter, we take a report $\tuple{i, c,
+new report $\tuple{i, c, \phi}$. In this section, we take a report $\tuple{i, c,
 \phi}$ to correspond to the information that $\S_i\phi$ holds in case $c$; this
 fits with our assumption throughout that sources only report sound
 statements.\footnotemark{}
@@ -1575,6 +1579,7 @@ The proof is essentially identical to that of
 \cref{tt_thm_conditioning_tt_characterisation}, and is thus omitted.
 
 \begin{example}
+    \label{tt_ex_exm_truth_tracking}
     Revisiting \cref{tt_ex_exm}, we find that $L_\exm$ is truth-tracking.
     Indeed, it is clear that $d$ treats equivalent formula identically, since
     $d(W, \tuple{i, c, \phi})$ only depends on $\Pi^W_i$ and $\propmods{\phi}$.
@@ -1610,62 +1615,21 @@ The proof is essentially identical to that of
 \end{example}
 
 \section{Belief-based streams}
+\label{tt_sec_belief_based_streams}
 
-% \begin{notes}
-%     \begin{itemize}
-%         \item Problem: completeness assumption is very strong.
-%         \item Idea: replace with beliefs.
-%         \item Definition: belief structure $U$ assigns a non-empty belief set
-%               $U_{ic}$ for each $i$ and $c$. $U$ is compatible with $W$ iff
-%               $U_{ic} \subseteq \Pi^W_i$.
-%         \item A $U$-stream enumerates $\tuple{i, c, \phi}$ such that $U_{ic}
-%               \subseteq \propmods{\phi}$.
-%         \item We want to investigate what can be learned about a world $W$ on
-%               the basis of a $U$-stream.
-%         \item We do not systematically study what can be learned (e.g. as we
-%               did via $Q^*$ above), but look at ``local'' question solving.
-%         \item $L$ $U$-solves $Q$ at $W$ iff for all $U$-streams $\rho$ there is
-%               $n$ such that $L(\rho[m]) \subseteq Q[W]$ for all $m \ge n$.
-%         \item Note that $U$-solvability at $W$ is not a meaningful property:
-%               for each $W$ the method $L(\sigma) = \{W\}$ clearly $U$-solves
-%               \emph{any} question at $W$, but not at any other $W'$.
-%         \item However, the notion is still useful for particular methods (e.g.
-%               $L_\vbc$, $L_\pbc$, $L_\exm$) which we know is not designed to
-%               output one particular world $W$.
-%         \item Results:
-%         \begin{itemize}
-%             \item Truthful belief structure for $W$: $U_{ic} = \Pi^W_i$. Here
-%                   all beliefs are true. Our methods guess $\Pi_\ast$ for all
-%                   sources, and beliefs are the intersections of active cells.
-%             \item Suppose there is at least 2 sources with total expertise, and
-%                   any pair of non-expert sources have inconsistent beliefs in
-%                   some case. Then our methods find and believe the experts
-%             \item Interesting example: there are sequences where our methods
-%                   correctly ignore a majority in a particular case.
-%         \end{itemize}
-%     \end{itemize}
-% \end{notes}
-
-\begin{notes}
-    \begin{itemize}
-        \item So far our model of source inputs is based on complete streams,
-              where sources report \emph{all} sound formulas.
-        \item This is perhaps not realistic cases where sources have
-              \emph{beliefs}, possibly going beyond their knowledge.
-          \item E.g. in our running example, the doctor $\dr$ may \emph{believe}
-              $\patientA$ suffers from $p$ but not \emph{know} so; in this case
-              $\neg{p}$ is sound -- and would thus be reported, in our model so
-              far -- when in fact $\dr$ believes its negation.
-        \item To remedy this we introduce additional structure on top of worlds
-              which express sources' beliefs about the true valuation in each
-              case.
-        \item A \emph{belief stream} then enumerates the beliefs of each
-              source.  Such streams differ from our earlier notion in that
-              while all beliefs are sound, not all sound statements are
-              believed. Intuitively such streams are less informative than
-              before; this will be formalised below.
-    \end{itemize}
-\end{notes}
+So far our model of source inputs is based on sound and complete streams, in
+which sources report all (and only) sound formulas. This is perhaps not
+realistic cases where sources have \emph{beliefs}, possibly going beyond their
+knowledge.  For instance, in our running example the doctor $\dr$ may
+\emph{believe} $\patientA$ suffers from $p$ but not \emph{know} so; in this
+case $\neg{p}$ is sound -- and would thus be reported, in our model so far --
+when in fact $\dr$ believes its negation. To remedy this we introduce
+additional structure on top of worlds which express sources' beliefs about the
+true valuation in each case. The analogue of a stream then enumerates the
+beliefs of each source. Such streams differ from the earlier notion in that
+while all beliefs are sound, not all sound statements are believed. Intuitively
+such streams are less informative; this will be formalised in
+\cref{tt_prop_qstar_refines_qstarb} below.
 
 Formally, each source's beliefs in a particular case will be modelled by
 \emph{plausibility orders} over valuations.
@@ -2132,14 +2096,20 @@ in the aforementioned special cases.
 
 \paragraph{Summary.}
 
-In this chapter we studied truth-tracking in the presence of non-expert sources.
-The model assumes sources report everything true \emph{up to their lack of
-expertise}, i.e. all that they consider possible. We obtained precise
-characterisations of when truth-tracking methods can uniquely find the
-valuations and partitions of a world $W$. We then gave a postulational
-characterisation of truth-tracking methods under mild assumptions, before looking
-specifically at the conditioning and score-based methods of
+In this chapter we studied truth-tracking in the presence of non-expert
+sources.  To start with, the model assumes sources report everything true
+\emph{up to their lack of expertise}, i.e. all that they consider possible. We
+obtained precise characterisations of when truth-tracking methods can uniquely
+find the valuations and partitions of a world $W$. We then gave a postulational
+characterisation of truth-tracking methods under mild assumptions, before
+looking specifically at the conditioning and score-based methods of
 \cref{chapter_belief_change}.
+
+We then introduced a mechanism by which sources form beliefs -- possibly going
+beyond their knowledge, and possibly false in the actual world. Similar notions
+of truth-tracking were introduced, and some examples were given of how certain
+assumptions on worlds can improve the informativeness of truth-tracking in this
+setting.
 
 \paragraph{Limitations and future work.}
 
@@ -2153,13 +2123,19 @@ i.e. they \emph{know} when they do not know something. Indeed, as seen in
 \cref{chapter_expertise,chapter_belief_change}, soundness is closely related to
 \emph{S5 knowledge} (when partitions are used to represent expertise) which has
 been criticised in the philosophical literature as too strong.
-%
-In reality, non-expert sources may have \emph{beliefs} about the world, and may
-prefer to report only that which they believe. A source may even believe a
-sound report $\phi$ is \emph{false}, since soundness only says the source does
-not \emph{know} $\neg\phi$. For example, in \cref{tt_ex_informal_example} the
-doctor $\dr{}$ may think it is more likely that $\patientA{}$ suffers from $p$
-than $q$, but we cannot express this in our framework.
+
+While this was partially remedied in \cref{tt_sec_belief_based_streams}, the
+results there are somewhat preliminary. For instance, we did not proceed
+systematically in identifying assumptions under which belief-based
+truth-tracking can be made more informative, in sense of revealing more
+information about the actual world $W$. Instead, we presented two ad-hoc
+examples based on the number of expert sources and coalitions of jointly
+consistent sources. It also remains to investigate our concrete example methods
+from \cref{chapter_belief_change} in relation to belief-based truth-tracking.
+Some of these methods were shown to be truth-tracking on sound and complete
+streams in
+\cref{tt_ex_conditioning_operators_revisited,tt_ex_exm_truth_tracking}; are
+they also $\b$-truth-tracking?
 
 On the technical side, our results on solvability of $Q^*$ and the
 characterisation of \cref{tt_thm_tt_characterisation} rely on the fact that we
