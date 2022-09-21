@@ -2012,14 +2012,14 @@ The problem here is the existence of ``degenerate'' worlds such as $W'$, where
 all sources are unanimously incorrect in their beliefs. In probability-based
 Jury theorems~\cite{grofman1983thirteen}, such degenerate worlds occur with low
 probability due to the choice of the probabilistic model and assumption placed
-on sources. We presently sketch a somewhat more extreme solution, where such
+on sources. We sketch a somewhat more extreme solution, where such
 worlds are excluded from consideration entirely.
 
 Concretely, given a belief structure and a set of worlds $S \subseteq \worlds$
 and $W \in S$, thought of as the ``actual'' world, one can consider the extent
-to which $Q^*_\b[W] \cap S$ reveals information about $W$. In place of a
-systemic study, we explore this concept via examples of particular choices of
-$S$.
+to which $Q^*_\b[W] \cap S$ reveals information about $W$. That is, worlds in
+$\worlds \setminus S$ are ignored. In place of a systemic study, we explore
+this concept via examples of particular choices of $S$.
 
 \begin{example}
     Fix a belief structure $\b$.
@@ -2064,38 +2064,67 @@ $S$.
               \models \bel{W}{i}{c}\}$ with correct beliefs forms a coalition,
               which we call the \emph{correct coalition}.
 
-              Now let $S_\plurality$ be the set of worlds in which there is at
-              least a plurality of correct sources, i.e. $W \in S_\plurality$
-              iff $|J_W| > |I|$ for all coalitions $I \ne J_W$. Note that $J_W$
-              need not be a majority: we may have $|J_W| \le
-              \frac{|\srcs|}{2}$.
+              Now let $S_\plurality$ be the set of worlds in which the correct
+              coalition forms a \emph{plurality}, i.e. $W \in S_\plurality$ iff
+              $|J_W| > |I|$ for all coalitions $I$ w.r.t $W$ such that $I \ne
+              J_W$. Note that $J_W$ need not be a majority: we may have $|J_W|
+              \le \frac{|\srcs|}{2}$.
 
-              Then for any $W \in S_\plurality$, $i \in J_W$, $c \in \css$ and
-              $\phi \in \bel{W}{i}{c}$, we have $Q^*_\b[W] \cap S_\plurality, c
-              \models \phi$. That is, any $\b$-truth-tracking method -- when
-              restricted to consider only worlds in $S_\plurality$ --
-              eventually learns the correct beliefs of all sources in $J_W$.
-              \todo{Prove this, and give an example where $J_W$ are case-wise
-              in the minority.}
+              Then for any $W \in S_\plurality$, and $c \in \css$, we have
+              $Q^*_\b[W] \cap S_\plurality, c \models \bigcup_{i \in
+              J_W}{\bel{W}{i}{c}}$. That is, any $\b$-truth-tracking method --
+              when restricted to consider only worlds in $S_\plurality$ --
+              eventually comes to believe all the correct sources in $J_W$.
 
-        %\item For a world $W$, say a set of sources $I \subseteq \srcs$ is a
-        %      \emph{$W$-coalition} if for each $c \in \css$ the set $\bigcup_{i
-        %      \in I}\{\phi \mid W, c \models_\b \B_i\phi\}$ is consistent. Let
-        %      $\mathcal{I}_W$ denote the set of $W$-coalitions.
-        %      %
-        %      Then take $S^\plurality_\b$ to be the set of worlds $W$ in which
-        %      the set of sources with correct beliefs in all cases forms a
-        %      plurality, i.e.
-        %      \[
-        %          W \in S^\plurality_\b
-        %          \iff
-        %            \exists I \in \mathcal{I}_W \text{ s.t. }
-        %                (i \in I, W, c \models_\b \B_i\phi \implies W, c
-        %                \models \phi)
-        %                \text{ and }
-        %                (J \in \mathcal{I}_W \setminus \{I\} \implies |I| > |J|)
-        %          \}
-        %      \]
+              Indeed, if $W' \in Q^*_\b[W] \cap S_\plurality$ then
+              $\bel{W}{i}{c} = \bel{W'}{i}{c}$ for all $i$ and $c$, so $I
+              \subseteq \srcs$ is a coalition w.r.t $W$ if and only if $I$ is a
+              coalition w.r.t $W'$. In particular, $J_W$ is a coalition w.r.t
+              $W'$, which implies $|J_W| \le |J_{W'}|$. Likewise, $J_{W'}$ is a
+              coalition w.r.t $W$, so $|J_{W'}| \le |J_W|$. Hence $|J_W| =
+              |J_{W'}|$. Since $J_W$ is the largest coalition w.r.t $W$, this
+              means $J_W = J_{W'}$. Thus, recalling that $i \in J_{W'}$ implies
+              $W', c \models \bel{W'}{i}{c}$, we have $W', c \models \bigcup_{i
+              \in J_W}{\bel{W}{i}{c}}$ as required.
+
+              As a concrete example, consider the setting $\propvars = \{p,
+              q\}$, $\srcs = \{i_1,i_2,i_3,j_1,j_2\}$, $\css = \{c,d,e\}$. One
+              can construct $W$ and $\b$ such that $\neg{p}$ holds in each
+              case, and the beliefs of sources are described by the following
+              sequence:
+              \begin{align*}
+                  \sigma =&
+                  (\tuple{i_1, c, p},
+                  \tuple{i_2, c, p \land q},
+                  \tuple{i_3, c, p \land \neg{q}},
+                  \tuple{j_1, c, \neg{p}},
+                  \tuple{j_2, c, \neg{p}},
+                  \\
+                  &
+                  \tuple{i_1, d, p \land q},
+                  \tuple{i_2, d, p \land \neg{q}},
+                  \tuple{i_3, d, p},
+                  \tuple{j_1, d, \neg{p}},
+                  \tuple{j_2, d, \neg{p}},
+                  \\
+                  &
+                  \tuple{i_1, e, p \land q},
+                  \tuple{i_2, e, p},
+                  \tuple{i_3, e, p \land \neg{q}},
+                  \tuple{j_1, e, \neg{p}},
+                  \tuple{j_2, e, \neg{p}}).
+              \end{align*}
+              Observe that $j_1$ and $j_2$ report $\neg{p}$ in each case, but
+              are out-voted by $i_1, i_2$ and $i_3$, whose reports imply $p$.
+              However, $i_2$ and $i_3$ disagree on $q$ in case $c$, $i_1$ and
+              $i_2$ disagree in case $d$, and $i_3$ disagree in case $e$.
+              Consequently the only non-empty coalitions are $\{i_1\}$,
+              $\{i_2\}$, $\{i_3\}$ and $\{j_1, j_2\}$, with $J_W$ being the
+              latter. We see that even though $j_1$ and $j_2$ are in the
+              minority on $p$ in each case, they form the largest coalition
+              consistent \emph{across cases}, and thus $W \in S_\plurality$. In
+              particular, any $\b$-truth-tracking method eventually believes
+              $\neg{p}$ in all cases.
     \end{enumerate}
 \end{example}
 
