@@ -118,7 +118,7 @@ satisfy. The satisfaction (or failure) of such properties then shines new light
 on the \emph{intuitive behaviour} of an algorithm, and may guide development of
 new ones.
 
-With this in mind, we develop a simplified framework for truth discovery in
+With this in mind, we develop a framework for truth discovery in
 which axioms can be formulated, and go on to give impossibility results and an
 axiomatic characterisation of a baseline voting algorithm. We also define the
 class of \emph{recursive} truth discovery algorithms, which includes most
@@ -161,7 +161,16 @@ lifted in future work.
 
 \paragraph{Contributions.}
 
-\todo{Contributions and publication statement.}
+The primary contribution of this chapter is a mathematical framework for truth
+discovery, which allows for axiomatic analysis of truth discovery algorithms in
+the style of social choice theory. We introduce several axioms -- many inspired
+by similar axioms in the social choice literature -- which to date have not
+been considered in relation to truth discovery. Moreover, we observe that one
+particularly well-known truth discovery method fails one of our axioms, and
+propose a modification to resolve this issue.
+
+This chapter is a significantly re-worked version of previously published
+work~\cite{singleton_booth_2020,singleton2022towards}.
 
 \begin{chapteroutline}
 
@@ -3171,5 +3180,17 @@ the style of belief revision as opposed to truth discovery.
 
 \paragraph{Outlook.}
 
-\todo{Lead into tournament stuff, and prepare reader for logic-based analogue
-of truth discovery in the second half.}
+In the following chapter we continue with a social-choice-based approach, and
+tackle the problem of \emph{bipartite tournament ranking}. This is related to
+truth discovery -- and we again consider ranking-based operators and axioms
+governing them -- but is a separate problem in its own right.
+%
+Buy in fact, \cref{chapter_belief_change,chapter_truthtracking} are more
+closely connected to truth discovery. We consider a logic-based belief change
+problem, in which an operator takes as input reports from several sources of
+unknown trustworthiness, and produces a conjecture concerning the true facts of
+the world and the trustworthiness of the sources themselves. A major point of
+difference as compared to truth discovery, however, is that we impose strict
+semantics on ``trustworthiness'', rooted in \emph{expertise}. That is, a source
+is considered trustworthy if they are believed to be an expert in the relevant
+domain.
