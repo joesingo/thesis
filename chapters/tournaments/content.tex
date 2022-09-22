@@ -1,11 +1,6 @@
 \chapter{Bipartite Tournaments}
 \label{chapter_bipartite_tournaments}
 
-\todo{Sort out this chapter.}
-
-% \section{Introduction}
-% \label{tourn_sec_introduction}
-
 A tournament consists of a finite set of players equipped with a \emph{beating
 relation} describing pairwise comparisons between each pair of players.
 Determining a ranking of the players in a tournament has applications in voting
@@ -22,45 +17,73 @@ between players from opposite sets. We consider ranking methods which produce
 two rankings for each tournament -- one for each side of the bipartition. Such
 tournaments model situations in which two different kinds of entity compete
 \emph{indirectly} via matches against entities of the opposite kind.
-%
-The notion of competition may be abstract, which allows the model to be applied
-in a variety of settings. An important example is
-education~\cite{jiao2017algorithms}, where $A$ represents students, $B$ exam
-questions, and student $a$ `beats' question $b$ by answering it correctly. Here
-the ranking of students reflects their performance in the exam, and the ranking
-of questions reflects their \emph{difficulty}. The simultaneous ranking of both
-sides allows one ranking to influence the other; e.g. so that students are
-rewarded for correctly answering difficult questions. This may prove
-particularly useful in the context of crowdsourced questions provided by
-students themselves, which may vary in their difficulty (see for example the
-PeerWise system \cite{denny_peerwise_2008}).
 
-A related example is \emph{truth discovery}~\cite{li_survey_2016,
-singleton_booth_2020}: the task of finding true information on a number of
-topics when faced with conflicting reports from sources of varying (but
-unknown) reliability. Many truth discovery algorithms operate iteratively,
-alternately estimating the reliability of sources based on current estimates of
-the true information, and obtaining new estimates of the truth based on source
-reliability levels. The former is an instance of a bipartite tournament;
-similar to the education example, $A$ represents data sources, $B$ topics of
-interest, and $a$ defeats $b$ by providing true information on topic $b$
-(according to the current estimates of the truth). Applying a bipartite
-tournament ranking method at this step may therefore facilitate development of
-\emph{difficulty-aware} truth discovery algorithms, which reward sources for
-providing accurate information on difficult topics
-\cite{galland_corroborating_2010}.
-%
-Other application domains include the evaluation of generative models
-in machine learning~\cite{olsson2018skill} (where $A$ represents generators and
+The notion of competition may be abstract, which allows the model to be applied
+in a variety of settings. However, the principal motivation in the context of this
+thesis is the ranking of information sources by \emph{expertise} or
+\emph{trustworthiness}, as expressed by the following example.
+
+\begin{example}
+    \label{tourn_ex_td_example}
+    Consider a truth discovery setting in which information sources $\{a_1,
+    \ldots, a_m\}$ provide possible answers to a number of questions. Among
+    these questions, the `ground truth' answers are known for a subset $\{b_1,
+    \ldots, b_n\}$, and thus for any pair $(a, b)$ it is known whether $a$
+    provided the correct answers or not. A natural question arises: how can the
+    sources be ranked based on their trustworthiness?
+
+    The straightforward approach of simply counting the number of correct
+    answers fails when the questions differ in their \emph{difficulty}. Indeed,
+    it may be preferable to reward sources for correctly answering difficult
+    questions, or to penalise them for failing easy questions. Furthermore, the
+    notion of difficulty is not intrinsic to a question, but depends on how
+    easily sources are able to answer it.\footnotemark{}
+
+    The setting of bipartite tournament ranking addresses these issues.
+    Indeed, the two kinds of `players' are the sources and questions; a source
+    `beats' a question by answering it correctly and otherwise the question
+    beats the source. While we wish to compare sources based on their
+    trustworthiness and questions based on their difficulty, there are no
+    direct source-to-source or question-to-questions comparisons available: the
+    ranking must be constructed on the basis of the indirect patterns of
+    correctness between the set of sources and questions.
+\end{example}
+
+\footnotetext{
+    This is reminiscent of the mutual dependence between trustworthiness of
+    sources and belief in claims in truth discovery in \cref{chapter_td}.
+}
+
+The truth discovery setting described in \cref{tourn_ex_td_example} clearly
+applies in the case of \emph{semi-supervised truth
+discovery}~\cite{yin_supervised_2011}, in which a subset of ground truth is
+available. However, even when no such ground truth is available, many recursive
+operators (including those described in \cref{td_new_sec_recursive_operators})
+update source trust scores on the basis of the current \emph{estimate} of the
+true claims; one could therefore consider a bipartite tournament at each stage
+of the iteration.
+
+A related example education~\cite{jiao2017algorithms}, where $A$ represents
+students, $B$ exam questions, and student $a$ `beats' question $b$ by answering
+it correctly. As in the truth discovery case, the ranking of students reflects
+their proficiency, and the ranking of questions reflects their difficulty.
+This may prove particularly useful in the context automated grading of
+crowdsourced questions provided by students themselves, which may vary in their
+difficulty (see for example the PeerWise system \cite{denny_peerwise_2008}).
+
+Other application domains include the evaluation of generative models in
+machine learning~\cite{olsson2018skill} (where $A$ represents generators and
 $B$ discriminators) and solo sports contests (e.g. where $A$ represents golfers
-and $B$ golf courses).
+and $B$ golf courses). In the remainder of this chapter we take the abstract
+view in which $A$ and $B$ are simply `players', while keeping
+\cref{tourn_ex_td_example} in mind as our motivating example.
 
 In principle, bipartite tournaments are a special case of \emph{generalised}
 tournaments
 \cite{gonzalez2014paired,slutzki2005ranking,csato2019impossibility}, which
 allow intensities of victories and losses beyond a binary win or loss (thus
 permitting draws or multiple comparisons), and drop the requirement that every
-player is compared to all others.  However, many existing ranking methods in
+player is compared to all others. However, many existing ranking methods in
 the literature do not apply to bipartite tournaments due to the violation of an
 \emph{irreducibility} requirement, which requires that the tournament graph be
 strongly connected. In any case, bipartite tournament ranking presents a unique
@@ -200,12 +223,11 @@ simple solution if this graph happens to be a \emph{chain graph}.
 
 \footnotetext{
     $A \sqcup B$ is the \emph{disjoint union} of $A$ and $B$, which we define
-    as $\{(a, \asymb) \mid a \in A\} \cup \{(b, \bsymb) \mid b \in B\}$, where
-    $\asymb$ and $\bsymb$ are constant symbols.
+    as $\{(a, 0) \mid a \in A\} \cup \{(b, 1) \mid b \in B\}$.
 }
 
 %\begin{definition}[Chain graph~\cite{yannakakis1981computing}]
-\begin{definition}[\cite{yannakakis1981computing}]
+\begin{definition}[\textcite{yannakakis1981computing}]
 \label{tourn_def_chain_graph}
 
     A bipartite graph $G = (U, V, E)$ is a \emph{chain graph} if there is an
@@ -217,27 +239,24 @@ simple solution if this graph happens to be a \emph{chain graph}.
 
 \begin{figure}
     \centering
-    \begin{tikzpicture}
+    \begin{tikzpicture}[thick,scale=1.7]
 
         \def \m {3}
         \def \n {4}
         \def \width {2}
-        \def \height {2}
-        \def \edges {{{1,1},{1,2}}}
-
-        \tikzset{mynode/.style={circle,draw}}
+        \def \height {3}
 
         \footnotesize
 
         % Draw vertices
         \foreach \a in {1,...,\m} {
             \def \y {\height * (\a - 1) / (\m - 1)}
-            \node (a-\a) at (0, -{\y}) [mynode] {$u_{\a}$};
+            \node (a-\a) at (0, -{\y}) {\Large $u_{\a}$};
         }
         \foreach \b in {1,...,\n} {
             \def \y {\height * (\b - 1) / (\n - 1)}
             \def \index {\pgfmathparse{int(1 + \n - \b)}\pgfmathresult}
-            \node (b-\b) at (\width, -{\y}) [mynode] {$v_{\index}$};
+            \node (b-\b) at (\width, -{\y}) {\Large $v_{\index}$};
         }
         % Draw edges
         \def \drawedge#1#2{\draw[-] (a-#1) -- (b-#2);}
@@ -1536,25 +1555,22 @@ and consequently it is possible to satisfy \chainmin{} and
         K'(a_2) = X'
     \end{align*}
     and $X \cap Y = X' \cap Y' = \emptyset$. Rewriting the above we have
-    \begin{align*}
+    \begin{align}
         d(K, K') - d(K, K'')
         &= |K(a_1) \symdiff K'(a_1)|
            + |K(a_2) \symdiff K'(a_2)|
-            \\
+            \nonumber \\
         &  \quad
            - |K(a_1) \symdiff K'(a_2)|
-           - |K(a_2) \symdiff K'(a_1)| \\
+           - |K(a_2) \symdiff K'(a_1)| \nonumber \\
         &= |X \symdiff (X' \cup Y')|
-           + |(X \cup Y) \symdiff X'| \\
+           + |(X \cup Y) \symdiff X'| \nonumber \\
         &  \quad
            -
            |X \symdiff X'|
            - |(X \cup Y) \symdiff (X' \cup Y')|
-           % Number the final equation in the align* environment
-           % Code courtesy of https://tex.stackexchange.com/a/42728
-           \addtocounter{equation}{1}\tag{\theequation}
            \label{tourn_eqn_swap_lemma_symdiffs}
-    \end{align*}
+    \end{align}
 
     Each of the symmetric differences in \cref{tourn_eqn_swap_lemma_symdiffs} are
     depicted in \Cref{tourn_fig_swap_lemma_venns}. Note that each of these sets can
@@ -1589,13 +1605,12 @@ for the upper- and lower-sets of $x$ respectively.
     Write $A = \{a_1,\ldots,a_m\}$, ordered such that $|L(a_1, {\anle_K})| \le
     \cdots \le |L(a_m, {\anle_K})|$. We will show by induction that for each $0
     \le i \le m$ there is $K_i \in \minch{K}$ such that:
-    \[
+    \begin{equation}
         1 \le j \le i
         \implies
         U(a_j, {\anlt_K}) \subseteq U(a_j, {\anle_{K_i}})
-        \tag{$\ast$}
         \label{tourn_eqn_mon_lemma_induction}
-    \]
+    \end{equation}
     The result follows by taking $K' = K_m$.
 
     The case $i=0$ is vacuously true, and we may take $K_0$ to be an arbitrary
@@ -1822,7 +1837,7 @@ enumeration of $A \times B$ such that $(a_i,b_i) \trianglelefteq
 
 \footnotetext{
     This denotes the restriction of ${\trianglelefteq}$ to $A \times B$, i.e.
-    ${\trianglelefteq} \cap ((A \times B) \times (A \times B))$.
+    ${\trianglelefteq} \cap (A \times B)^2$.
 }
 
 The operator corresponding to $\trianglelefteq$ is defined using the notion of
@@ -1886,13 +1901,6 @@ $\T$ by setting $\T(K) = ({\anle_{\alpha(K)}}, {\bnle_{\alpha(K)}})$.
     That is, $(a, b) \trianglelefteq (a', b')$ iff $a < a'$ or ($a = a'$ and
     $b \le b'$).
 }
-
-% To conclude the discussion of match-preference operators, we note that one can
-% compute $\alpha_{\trianglelefteq}(K)$ via an optimisation process akin to chain
-% editing, and thereby avoid the need to enumerate $\minch{K}$ in full as per
-% \cref{tourn_eqn_match_preference_alpha_definition}. Specifically,
-% $\alpha_{\trianglelefteq}(K)$ is the unique closest chain tournament to $K$
-% w.r.t a \emph{weighted} Hamming distance.
 
 To conclude the discussion of match-preference operators, we note that one can
 compute $\alpha_{\trianglelefteq}(K)$ as the unique closest chain tournament to
@@ -3595,14 +3603,23 @@ model; namely that the true state of the world can be reduced to vectors of
 numerical skill levels which totally describe the tournament participants. This
 assumption may be violated when the competitive element of a tournament is
 \emph{multi-faceted}, since a single number cannot represent multiple
-orthogonal components of a player's capabilities. Nevertheless, if skill levels
+orthogonal components of a player's capabilities. \todo{expertise example;
+topics.}
+Nevertheless, if skill levels
 are taken as \emph{aggregations} of these components, chain editing may prove
 to be a useful, albeit simplified, model.
 
+The basic assumptions on tournaments could also be relaxed to bring our setting
+closer to generalised tournaments; e.g. by considering \emph{partial
+tournaments}, in which not every $a$ faces every $b$, and \emph{graded
+outcomes}, in which results are not limited to $0$ or $1$ (indicating a win for
+$a$ or $b$, respectively), but may take any value in the interval $[0, 1]$.
+Such extensions would improve the applicability of bipartite tournaments to new
+domains. The question of how best to adapt chain editing in these cases remains
+open.
+
 Finally, there is room for more detailed axiomatic investigation. In this
-chapter
-we have stuck with fairly standard social choice axioms and performed
+chapter we have stuck with fairly standard social choice axioms and performed
 preliminary analysis. However, the indirect nature of the comparisons in a
 bipartite tournament presents unique challenges; new axioms may need to be
-formulated to properly evaluate bipartite ranking methods in a normative
-sense.
+formulated to properly evaluate bipartite ranking methods in a normative sense.

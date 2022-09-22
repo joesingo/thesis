@@ -16,9 +16,11 @@ important task. Truth discovery has emerged as a set of techniques to achieve
 this by considering the \emph{trustworthiness} of
 sources~\cite{li_survey_2016,gupta2011survey,berti2015veracity}. The general
 principle is that true claims are those reported by trustworthy sources, and
-trustworthy sources are those that report believable claims. Application areas
-include real-time traffic navigation~\cite{du2019}, drug side-effect
-discovery~\cite{ma2017}, crowdsourcing and social
+trustworthy sources are those that report believable claims. Note that there is
+a \emph{mutual dependence} between the trust and belief parts of the problem,
+whereby highly trusted sources bestow credibility on their claims and vice
+versa. Application areas include real-time traffic navigation~\cite{du2019},
+drug side-effect discovery~\cite{ma2017}, crowdsourcing and social
 sensing~\cite{zhang_robust_2016,wang_truth_2012,ma_faitcrowd_2015}.
 
 For a simple example of a situation where trust can play an important role in
@@ -124,7 +126,7 @@ axiomatic characterisation of a baseline voting algorithm. We also define the
 class of \emph{recursive} truth discovery algorithms, which includes most
 examples from the literature. We outline several examples:
 \emph{Sums}~\cite{pasternack2010},
-\emph{TruthFinder}~\cite{yin_supervised_2011} and \emph{CRH}~\cite{li2016}, and
+\emph{TruthFinder}~\cite{yin2008} and \emph{CRH}~\cite{li2016}, and
 analyse Sums in more detail with respect to the axioms.
 
 However, as a first step towards a social choice perspective of truth
@@ -555,9 +557,8 @@ zero in order for $U$ to be well-defined.
 Note that the limit operator $T^*$ is unique, when it exists. We can consider
 any scheme to converge to a \emph{partial} operator $T^*$, defined on the
 networks $N$ such that $\lim_{n \to \infty}{U^n(T_0)_N(z)}$ exists for all $z
-\in S \cup C$. Convergence and fixed-point properties -- i.e. whether $U(T^*) =
-T^*$ -- will be discussed in \cref{td_new_sec_satisfaction_of_the_axioms}. For
-now, we introduce examples of recursive operators from the literature.
+\in S \cup C$. We now consider examples of recursive operators from the
+literature.
 
 \paragraph{Sums.}
 

@@ -91,6 +91,13 @@ class TestSuite:
         assert not re.search(r"{proof}\[(?!Proof )", line)
 
     @test(line_based=True)
+    def test_theorem_citation(self, line):
+        """
+        the label for a theorem environment should use text citation
+        """
+        assert not re.search(r"\\begin{.+}\[\\cite.+\]", line)
+
+    @test(line_based=True)
     def test_paper_mention(self, line):
         """
         should not mention 'paper'
