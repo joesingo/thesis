@@ -6,9 +6,9 @@ relation} describing pairwise comparisons between each pair of players.
 Determining a ranking of the players in a tournament has applications in voting
 in social choice~\cite{brandt2016a} (where players represent alternatives and
 $x$ beats $y$ if a majority of voters prefer $x$ over $y$), paired comparisons
-analysis~\cite{gonzalez2014paired} (where players may represent products and
-the beating relation the preferences of a user), search engines
-\cite{slutzki2006scoring}, sports tournaments~\cite{bozoki2016application} and
+analysis~\cite{gonzalez2014paired} (where players represent products and
+the beating relation expresses the preferences of a consumer), search engines
+\cite{slutzki2006scoring}, sports~\cite{bozoki2016application} and
 other domains.
 
 In this chapter we introduce \emph{bipartite tournaments}, which consist of two
@@ -26,66 +26,69 @@ thesis is the ranking of information sources by \emph{expertise} or
 \begin{example}
     \label{tourn_ex_td_example}
     Consider a truth discovery setting in which information sources $\{a_1,
-    \ldots, a_m\}$ provide possible answers to a number of questions. Among
-    these questions, the `ground truth' answers are known for a subset $\{b_1,
+    \ldots, a_m\}$ provide possible values to a number of objects. Among
+    these objects, the `ground truth' values are known for a subset $\{b_1,
     \ldots, b_n\}$, and thus for any pair $(a, b)$ it is known whether $a$
-    provided the correct answers or not. A natural question arises: how can the
+    provided the correct value or not. A natural question arises: how can the
     sources be ranked based on their trustworthiness?
 
     The straightforward approach of simply counting the number of correct
-    answers fails when the questions differ in their \emph{difficulty}. Indeed,
-    it may be preferable to reward sources for correctly answering difficult
-    questions, or to penalise them for failing easy questions. Furthermore, the
-    notion of difficulty is not intrinsic to a question, but depends on how
-    easily sources are able to answer it.\footnotemark{}
+    values fails when the objects vary in \emph{difficulty}. Indeed, it may be
+    preferable to reward sources for correctly values on difficult objects, or
+    to penalise them for failing on easy objects. Furthermore, the notion of
+    difficulty is not intrinsic to an object, but depends on how easily
+    sources are able to determine its correct value.\footnotemark{}
 
     The setting of bipartite tournament ranking addresses these issues.
-    Indeed, the two kinds of `players' are the sources and questions; a source
-    `beats' a question by answering it correctly and otherwise the question
+    Indeed, the two kinds of `players' are the sources and objects; a source
+    `beats' a object by providing the correct value, and otherwise the object
     beats the source. While we wish to compare sources based on their
-    trustworthiness and questions based on their difficulty, there are no
-    direct source-to-source or question-to-questions comparisons available: the
-    ranking must be constructed on the basis of the indirect patterns of
-    correctness between the set of sources and questions.
+    trustworthiness and objects based on their difficulty, there are no direct
+    source-to-source or object-to-objects comparisons available: the ranking
+    must be constructed on the basis of the indirect patterns of correctness
+    between the set of sources and objects.
 \end{example}
 
 \footnotetext{
     This is reminiscent of the mutual dependence between trustworthiness of
-    sources and belief in claims in truth discovery in \cref{chapter_td}.
+    sources and belief in claims in truth discovery.
 }
 
-The truth discovery setting described in \cref{tourn_ex_td_example} clearly
-applies in the case of \emph{semi-supervised truth
+Note that this related to but not the same as the ranking problem of truth
+discovery itself, as studied in \cref{chapter_td}, since it does not concern
+finding the true values associated with objects. The setting of
+\cref{tourn_ex_td_example} is clearly relevant for \emph{semi-supervised truth
 discovery}~\cite{yin_supervised_2011}, in which a subset of ground truth is
 available. However, even when no such ground truth is available, many recursive
 operators (including those described in \cref{td_new_sec_recursive_operators})
-update source trust scores on the basis of the current \emph{estimate} of the
-true claims; one could therefore consider a bipartite tournament at each stage
-of the iteration.
+iteratively update source trust scores on the basis of current \emph{estimates}
+of the true values for objects. One could therefore consider a bipartite
+tournament at each stage of the iteration.
 
 A related example education~\cite{jiao2017algorithms}, where $A$ represents
 students, $B$ exam questions, and student $a$ `beats' question $b$ by answering
-it correctly. As in the truth discovery case, the ranking of students reflects
-their proficiency, and the ranking of questions reflects their difficulty.
-This may prove particularly useful in the context automated grading of
-crowdsourced questions provided by students themselves, which may vary in their
-difficulty (see for example the PeerWise system \cite{denny_peerwise_2008}).
+it correctly. The ranking of students then reflects their proficiency, and the
+ranking of questions reflects their difficulty. This may be particularly useful
+in the context automated grading of crowdsourced questions provided by students
+themselves, which may vary in their difficulty (see for example the PeerWise
+system \cite{denny_peerwise_2008}).
 
 Other application domains include the evaluation of generative models in
 machine learning~\cite{olsson2018skill} (where $A$ represents generators and
 $B$ discriminators) and solo sports contests (e.g. where $A$ represents golfers
-and $B$ golf courses). In the remainder of this chapter we take the abstract
-view in which $A$ and $B$ are simply `players', while keeping
-\cref{tourn_ex_td_example} in mind as our motivating example.
+and $B$ golf courses). In the remainder of the chapter we take the abstract
+view in which $A$ and $B$ are simply `players', without any fixed
+interpretation. However, we keep \cref{tourn_ex_td_example} in mind as our
+motivating example.
 
 In principle, bipartite tournaments are a special case of \emph{generalised}
 tournaments
 \cite{gonzalez2014paired,slutzki2005ranking,csato2019impossibility}, which
 allow intensities of victories and losses beyond a binary win or loss (thus
-permitting draws or multiple comparisons), and drop the requirement that every
+permitting draws or multiple comparisons), and do not require that every
 player is compared to all others. However, many existing ranking methods in
 the literature do not apply to bipartite tournaments due to the violation of an
-\emph{irreducibility} requirement, which requires that the tournament graph be
+\emph{irreducibility} requirement, which requires that the tournament graph is
 strongly connected. In any case, bipartite tournament ranking presents a unique
 problem -- since we aim to rank players with only indirect information
 available -- which we believe is worthy of study in its own right.
@@ -3603,11 +3606,15 @@ model; namely that the true state of the world can be reduced to vectors of
 numerical skill levels which totally describe the tournament participants. This
 assumption may be violated when the competitive element of a tournament is
 \emph{multi-faceted}, since a single number cannot represent multiple
-orthogonal components of a player's capabilities. \todo{expertise example;
-topics.}
-Nevertheless, if skill levels
-are taken as \emph{aggregations} of these components, chain editing may prove
-to be a useful, albeit simplified, model.
+orthogonal components of a player's capabilities. For instance, in the truth
+discovery scenario of \cref{tourn_ex_td_example} sources may have varying
+levels of trustworthiness across different topics.\footnotemark{} Nevertheless,
+if skill levels are taken as \emph{aggregations} of these components, chain
+editing may prove to be a useful, albeit simplified, model.
+
+\footnotetext{
+    Topic-dependent expertise will be considered in the next chapter.
+}
 
 The basic assumptions on tournaments could also be relaxed to bring our setting
 closer to generalised tournaments; e.g. by considering \emph{partial
@@ -3615,7 +3622,7 @@ tournaments}, in which not every $a$ faces every $b$, and \emph{graded
 outcomes}, in which results are not limited to $0$ or $1$ (indicating a win for
 $a$ or $b$, respectively), but may take any value in the interval $[0, 1]$.
 Such extensions would improve the applicability of bipartite tournaments to new
-domains. The question of how best to adapt chain editing in these cases remains
+domains. The question of how best to adapt chain editing to these cases remains
 open.
 
 Finally, there is room for more detailed axiomatic investigation. In this
