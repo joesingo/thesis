@@ -129,6 +129,16 @@ class TestSuite:
         assert '"' not in line
 
     @test(line_based=True)
+    def test_double_quotation(self, line):
+        """
+        should use double quotation marks
+        """
+        assert not re.search("[^`]`[^`']+'", line)
+        assert not re.search("^`[^`']+'", line)
+        assert not re.search("`[^`']+'[^']", line)
+        assert not re.search("`[^`']+'$", line)
+
+    @test(line_based=True)
     def test_paragraph_heading_fullstop(self, line):
         """
         paragraph headings should end with a full stop.
@@ -151,7 +161,6 @@ class TestSuite:
             contents += c
 
         assert contents.endswith(".")
-
 
 if __name__ == "__main__":
     suite = TestSuite()

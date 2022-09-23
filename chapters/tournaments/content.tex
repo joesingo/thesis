@@ -27,7 +27,7 @@ thesis is the ranking of information sources by \emph{expertise} or
     \label{tourn_ex_td_example}
     Consider a truth discovery setting in which information sources $\{a_1,
     \ldots, a_m\}$ provide possible values to a number of objects. Among
-    these objects, the `ground truth' values are known for a subset $\{b_1,
+    these objects, the ``ground truth'' values are known for a subset $\{b_1,
     \ldots, b_n\}$, and thus for any pair $(a, b)$ it is known whether $a$
     provided the correct value or not. A natural question arises: how can the
     sources be ranked based on their trustworthiness?
@@ -40,8 +40,8 @@ thesis is the ranking of information sources by \emph{expertise} or
     sources are able to determine its correct value.\footnotemark{}
 
     The setting of bipartite tournament ranking addresses these issues.
-    Indeed, the two kinds of `players' are the sources and objects; a source
-    `beats' a object by providing the correct value, and otherwise the object
+    Indeed, the two kinds of ``players'' are the sources and objects; a source
+    ``beats'' a object by providing the correct value, and otherwise the object
     beats the source. While we wish to compare sources based on their
     trustworthiness and objects based on their difficulty, there are no direct
     source-to-source or object-to-objects comparisons available: the ranking
@@ -66,7 +66,7 @@ of the true values for objects. One could therefore consider a bipartite
 tournament at each stage of the iteration.
 
 A related example education~\cite{jiao2017algorithms}, where $A$ represents
-students, $B$ exam questions, and student $a$ `beats' question $b$ by answering
+students, $B$ exam questions, and student $a$ ``beats'' question $b$ by answering
 it correctly. The ranking of students then reflects their proficiency, and the
 ranking of questions reflects their difficulty. This may be particularly useful
 in the context automated grading of crowdsourced questions provided by students
@@ -77,7 +77,7 @@ Other application domains include the evaluation of generative models in
 machine learning~\cite{olsson2018skill} (where $A$ represents generators and
 $B$ discriminators) and solo sports contests (e.g. where $A$ represents golfers
 and $B$ golf courses). In the remainder of the chapter we take the abstract
-view in which $A$ and $B$ are simply `players', without any fixed
+view in which $A$ and $B$ are simply ``players'', without any fixed
 interpretation. However, we keep \cref{tourn_ex_td_example} in mind as our
 motivating example.
 
@@ -96,7 +96,7 @@ available -- which we believe is worthy of study in its own right.
 In this work we focus particularly on ranking via \emph{chain graphs} and
 \emph{chain editing}. A chain graph is a bipartite graph in which the
 neighbourhoods of vertices on one side form a chain with respect to set
-inclusion. A (bipartite) tournament of this form represents an `ideal'
+inclusion. A (bipartite) tournament of this form represents an ``ideal''
 situation in which the capabilities of the players are perfectly nested: weaker
 players defeat a subset of the opponents that stronger players defeat. In this
 case a natural ranking can be formed according to the set of opponents defeated
@@ -121,7 +121,7 @@ class of ranking mechanisms for bipartite tournaments defined by chain editing.
 We also provide a new probabilistic characterisation of chain editing via
 maximum likelihood estimation. To our knowledge this is the first in-depth
 study of chain editing as a ranking mechanism. Secondly, we introduce a new
-class of `chain-definable' mechanisms by relaxing the minimisation constraint
+class of ``chain-definable'' mechanisms by relaxing the minimisation constraint
 of chain editing in order to obtain tractable algorithms and to resolve the
 failure of an important anonymity axiom. We present a concrete example of such
 an algorithm, and characterise it axiomatically.
@@ -350,7 +350,7 @@ non-bipartite tournaments \cite{brandt2016a}.
 
 We have seen that chain tournaments
 come equipped with natural rankings of $A$ and $B$. Such tournaments represent
-an `ideal' situation, wherein the abilities of the players on both sides of the
+an ``ideal'' situation, wherein the abilities of the players on both sides of the
 tournament are perfectly nested. Of course this may not be so in reality:
 the nesting may be broken by some $a \in A$ winning a match it ought not to by
 chance, or by losing a match by accident.
@@ -358,7 +358,7 @@ chance, or by losing a match by accident.
 One idea for recovering a ranking in this case, originally suggested
 by \textcite{jiao2017algorithms}, is to apply \emph{chain editing}: find the
 minimum number of edge changes required to convert the graph $G_K$ into a chain
-graph. This process can be seen as correcting the `noise' in an observed
+graph. This process can be seen as correcting the ``noise'' in an observed
 tournament $K$ to obtain an ideal ranking. In this section we introduce the
 class of operators producing rankings in this way.
 
@@ -448,7 +448,8 @@ rankings for some closest chain tournament $K'$. Operators satisfying
     % Note that the $(3, 1)$
     % entry of $K$ is changed to a $1$ in each matrix of $\minch{K}$, and
     % consequently $3 \in A$ ranks maximally in each case. This can be
-    % interpreted as $3 \in A$ being the strongest player of $A$ in any `ideal'
+    % interpreted as $3 \in A$ being the strongest player of $A$ in any
+    % ``ideal''
     % ranking; otherwise more than 2 changes would be required to obtain a chain
     % tournament.
 
@@ -481,7 +482,7 @@ discovery~\cite{wang_truth_2012}, belief merging~\cite{everaere2020} and other
 related problems.
 
 In this approach we take an epistemic view of tournament ranking: it is assumed
-there exists a true `state of the world' which determines the tournament
+there exists a true ``state of the world'' which determines the tournament
 results along with objective rankings of $A$ and $B$. A given
 tournament $K$ is then seen as a \emph{noisy observation} derived from the
 true state, and a \emph{maximum likelihood estimate} is a state for which the
@@ -951,7 +952,7 @@ properties to the bipartite tournament setting.
 %
 We consider two symmetry properties. The first is a classic \emph{anonymity}
 axiom, which says that an operator $\T$ should not be sensitive to the
-`labels' used to identify participants in a tournament. Axioms of this form are
+``labels'' used to identify participants in a tournament. Axioms of this form are
 standard in social choice theory; a tournament version goes at least as far
 back as~\cite{rubinstein1980ranking}.
 
@@ -1227,7 +1228,7 @@ $\minch{K}$ yields this ranking.
 
 The MLE results of \Cref{tourn_sec_mle} provides informal
 explanation for this result. For $K$ above to arise in the noise model of
-\Cref{tourn_def_probdist} there must have been two `mistakes' (false positives or
+\Cref{tourn_def_probdist} there must have been two ``mistakes'' (false positives or
 false negatives). This is less likely than a single mistake from just one of
 $1,2 \in A$, but the likelihood maximisation forces us to choose one or the
 other. A similar argument explains the \posresp{} failure.
@@ -1341,7 +1342,7 @@ need a preliminary result.
     \times m$ tournament with the chain property, which shows $\dual{K'} \in
     \minch{\dual{K}}$ as required.
 
-    ``if'': Suppose $\dual{K'} \in \minch{\dual{K}}$. By the `only if' statement
+    ``if'': Suppose $\dual{K'} \in \minch{\dual{K}}$. By the ``only if'' statement
     above, we have $\dual{\dual{K'}} \in \minch{\dual{\dual{K}}}$. But
     $\dual{\dual{K}} = K$ and $\dual{\dual{K'}} = K'$, so $K' \in \minch{K}$ as
     required.
@@ -1371,7 +1372,7 @@ We can now find an operator with both \chainmin{} and \dualaxiom{}.
     \]
     Note that since $K \ne \dual{K}$ for all $K$, exactly one of $K$ and
     $\dual{K}$ lies in $T$. Informally, we view the tournaments in $T$ as
-    somehow `canonical', and those in $\K \setminus T$ as the dual of a
+    somehow ``canonical'', and those in $\K \setminus T$ as the dual of a
     canonical tournament. We use this notion to define $\alpha'$:
     \[
         \alpha'(K) = \begin{cases}
@@ -1981,7 +1982,7 @@ The characterisation in terms of weighted Hamming distances is as follows
         =
         1 + |\{(a',b') \in [m] \times [n] : (a',b') \vartriangleleft (a,b)\}|
     \]
-    for the `position' of $(a,b)$ in ${\trianglelefteq} \rs ([m] \times [n])$
+    for the ``position'' of $(a,b)$ in ${\trianglelefteq} \rs ([m] \times [n])$
     (where 1 corresponds to the minimal pair). Define $w$ by
     \[
         w(a,b) = 1 + 2^{-p(a,b)}
@@ -2113,7 +2114,7 @@ $K$. We call this property \emph{chain-definability}.
     $\T(K) = ({\anle_{K'}}, {\bnle_{K'}})$.
 \end{axiom}
 
-Clearly \chainmin{} implies \chaindef{}. `Chain-definable'
+Clearly \chainmin{} implies \chaindef{}. ``Chain-definable''
 operators can also be cast in the MLE framework of \Cref{tourn_sec_mle} as those
 whose rankings correspond to \emph{some} (not necessarily MLE) state $\theta$.
 
@@ -2147,7 +2148,7 @@ its symmetric part.
     Also note that $\preceq$ can be extended to a total order on the ranks by
     setting $[z]_{\preceq} \le [z']_{\preceq}$ iff $z \preceq z'$.
 
-    We start with the `only if' statement of the theorem. Suppose
+    We start with the ``only if'' statement of the theorem. Suppose
     $\T$ satisfies \chaindef{}, and let $K$ be a tournament. We need
     to show that $|\ranks{\ale_K^\T} - \ranks{\ble_K^\T}| \le 1$.
 
@@ -2194,7 +2195,7 @@ its symmetric part.
     |\mathcal{Y}|$, it is clear that $\ranks{\ale_K^\T}$ and
     $\ranks{\ble_K^\T}$ can differ by at most one, as required.
 
-    Now we prove the `if' statement. Let $K$ be a tournament. We have
+    Now we prove the ``if'' statement. Let $K$ be a tournament. We have
     $|\ranks{\ale_K^\T} - \ranks{\ble_K^\T}| \le 1$, and must show there is
     tournament $K'$ with the chain property such that $\T(K) = ({\anle_{K'}},
     {\bnle_{K'}})$.
@@ -2403,10 +2404,10 @@ selection functions $f$ and $g$.
 \begin{proof}
 
     Throughout the proof we will refer to a pair of total preorders
-    $({\ale}, {\ble})$ as `chain-definable' if there is a chain tournament $K$
+    $({\ale}, {\ble})$ as ``chain-definable'' if there is a chain tournament $K$
     such that ${\ale} = {\anle_K}$ and ${\ble} = {\bnle_K}$.
 
-    First we prove the `if' direction. Let $\T = \intop{f,g}$ be an
+    First we prove the ``if'' direction. Let $\T = \intop{f,g}$ be an
     interleaving operator with selection functions $f, g$, and fix a
     tournament $K$. We will show that $\T(K)$ is chain-definable.
 
@@ -2440,7 +2441,7 @@ selection functions $f$ and $g$.
     Hence $|j - j'| \le 1$ in all cases, and $\T(K)$ is chain-definable as
     required.
 
-    Now for the `only if' direction. Suppose $\T$ satisfies
+    Now for the ``only if'' direction. Suppose $\T$ satisfies
     \chaindef{}. We will define $f, g$ such that $\T = \intop{f,g}$.
     The idea behind the construction is straightforward: since $f$ and $g$ pick
     off the next-top-ranked $A$s and $B$s at each iteration, simply define
@@ -2589,7 +2590,7 @@ We now come to an important example.
     \intop{f,g}$ where $f(K, A', B') = \argmax_{a \in A'}{|K(a) \cap B'|}$ and
     \\  % Prevent a really long line
     $g(K, A', B') = \argmin_{b \in B'}{|K^{-1}(b) \cap A'|}$, so that the
-    `winners' at each iteration are the $A$s with the most wins, and the $B$s
+    ``winners'' at each iteration are the $A$s with the most wins, and the $B$s
     with the least losses, when restricting to $A'$ and $B'$ only.  We take the
     $\argmin$/$\argmax$ to be the emptyset whenever $A'$ or $B'$ is empty.
 
@@ -2707,7 +2708,7 @@ g(K, A_i, B_i)$ from the neighbourhoods of all $a \in A_{i+1}$, we eventually
 obtain a chain graph. We show this process in the $K'_i$ column of
 \Cref{tourn_tab_cardint_example}, where only three entries need to be
 changed.\footnotemark{} The selection functions $f$ and $g$ can therefore be
-seen as \emph{heuristics} with the goal of finding a chain graph `close' to
+seen as \emph{heuristics} with the goal of finding a chain graph ``close'' to
 $K$.
 
 \footnotetext{
@@ -3003,7 +3004,7 @@ For the specific operator $\Tcardint$,
         &= \argmax_{\hat{a} \in \sigma(A')}{|K'(\hat{a}) \cap \pi(B')|} \\
         &= \sigma(\argmax_{a \in A'}{|K'(\sigma(a)) \cap \pi(B')|})
     \end{align*}
-    where we make the `substitution' $a = \sigma^{-1}(\hat{a})$. Using the
+    where we make the ``substitution'' $a = \sigma^{-1}(\hat{a})$. Using the
     definition of $K' = \pi(\sigma(K))$ it is easily seen that $K'(\sigma(a)) =
     \pi(K(a))$. Also, since $\pi$ is a bijection we have $\pi(X) \cap \pi(Y) =
     \pi(X \cap Y)$ for any sets $X$ and $Y$, and $|\pi(X)| = |X|$. Thus
@@ -3306,7 +3307,7 @@ following we show it is \emph{equivalent} to \smi{}, when taken with
 \end{proposition}
 
 \begin{proof}
-    For the `if'' direction, suppose $\T = \intop{f, g}$ is an interleaving
+    For the ``if'' direction, suppose $\T = \intop{f, g}$ is an interleaving
     operator satisfying \smi{}. Then $\T$ satisfies
     \chaindef{} by \Cref{tourn_result_chaindef_iff_interleaving}. We
     show \rankremoval{}. Let $\{a_1, \ldots, a_{m'}\}$, $\{b_1,
@@ -3409,7 +3410,7 @@ following we show it is \emph{equivalent} to \smi{}, when taken with
     \rankremoval{}. The case for the $B$ ranking is identical, and we
     are done.
 
-    Now for the `only if'' direction, suppose $\T$ satisfies
+    Now for the ``only if'' direction, suppose $\T$ satisfies
     \chaindef{} and \rankremoval{}. By
     \Cref{tourn_result_chaindef_iff_interleaving} there are selection functions
     $f$ and $g$ such that $\T = \intop{f, g}$. We need to show that
@@ -3507,7 +3508,7 @@ notion of a \emph{nested colouring} was introduced in \cite{cook2015nested}.
 Tournaments have important applications in the design of voting rules, where an
 alternative $x$ beats $y$ in a pairwise comparison if a majority of voters
 prefer $x$ to $y$.  Various \emph{tournament solutions} have been proposed,
-which select a set of `winners' from a given tournament.\footnote{Note that a
+which select a set of ``winners'' from a given tournament.\footnote{Note that a
 ranking, such as we consider in this chapter, induces a set of winners by taking
 the maximally ranked players.}
 %
