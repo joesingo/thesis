@@ -44,16 +44,17 @@
 %     \end{itemize}
 % \end{notes}
 
-The overall theme of this thesis is unreliable information. How should
+The overall theme of this thesis is \emph{unreliable information}. How should
 unreliable information be aggregated? Who should be trusted when conflicts
-arise between information sources? And what, if anything, can be learned from
-non-expert information? These are the central issues the thesis to address.
+arise between unreliable sources? And what, if anything, can be \emph{learned}
+from non-expert information? These are the central issues the thesis aims to
+address.
 
 Indeed, methods for understanding and reasoning with unreliable information are
 becoming ever more relevant in today's world, as the volume of data produced
 and consumed grows year-on-year \todo{c}. With the growth of user-generated
 content on the internet, most prominently on social media platforms, false
-information can spread rapidly if unchecked -- sometimes with dramatic
+information can spread rapidly -- sometimes with dramatic
 consequences \todo{c}. As such, much research effort has gone into identifying
 false information, estimating source reliability, and understanding the nature
 of how people may come to believe and share false information \todo{cs}.
@@ -61,20 +62,22 @@ of how people may come to believe and share false information \todo{cs}.
 The gap this thesis aims to fill concerns \emph{formal models} of problems
 surrounding unreliable information. We take a mathematical approach, putting
 forward formal frameworks in which the relevant problems can be formulated
-precisely. In doing so we obtain conceptual results shining light on their core
-properties and limitations. It is hoped that the thesis complements the various
-empirical, practical and philosophical approaches \todo{c} to our topic, and
-contributes to the broad understanding of trustworthiness, expertise and
-unreliable information from a mathematical point of view.
+precisely. In doing so we obtain conceptual results which aim to shine light on
+the core, abstract features of such problems. It is hoped that the thesis
+complements the various empirical, practical and philosophical approaches
+\todo{c} to our topic, and contributes to the broader understanding of
+trustworthiness, expertise and unreliable information from a mathematical point
+of view.
 
 The thesis is split into two parts along methodological lines. In
 \cref{chapter_td,chapter_bipartite_tournaments} we use the tools and ideas of
 \emph{social choice theory}~\cite{zwicker2016voting} to explore the problems of
 aggregating unreliable information and ranking sources by trustworthiness. We
-employ the \emph{axiomatic method}, in which desirable properties called
-\emph{axioms} are introduced and studied. Aggregation and ranking methods can
-then be evaluated and compared with respect to these axioms, often leading to
-fresh insights on both individual methods and the nature of the problem itself.
+employ the \emph{axiomatic method}, in which intuitively desirable properties
+called \emph{axioms} are introduced and studied. Aggregation and ranking
+methods can then be evaluated and compared with respect to these axioms, often
+leading to fresh insights on both individual methods and the nature of the
+problem itself.
 %
 \cref{chapter_expertise,chapter_belief_change,chapter_truthtracking} take a
 \emph{logic-based} approach. We develop a modal logic framework to give precise
@@ -87,12 +90,9 @@ intersection of formal learning theory and belief revision \todo{c}) to
 investigate the extent to which one can \emph{learn} from unreliable
 information.
 
-We now briefly survey existing work both from social choice theory and from
-logic.
-
 \section{Social Choice Perspectives}
 
-Loosely speaking, social choice theory is the study of \emph{aggregating
+Broadly speaking, social choice theory is the study of \emph{aggregating
 preferences}. The prototypical example is \emph{voting}. In an election, each
 member of the electorate submits a vote in the form of their preferences over
 the candidates. A voting rule then aggregates these preferences into a
@@ -104,33 +104,44 @@ contexts across the world \todo{c}.
 In analysing and comparing such methods, the \emph{axiomatic approach} has been
 a crucial methodological tool since the seminal work of \textcite{arrow1952},
 who initiated the age of so-called \emph{classical social choice theory}. In
-taking this approach, one formulates formal, desirable properties called
+taking this approach, one formalises intuitively desirable properties called
 \emph{axioms}, which are expected to hold for ``reasonable'' aggregation
 methods. The benefits of this approach were already shown by Arrow, who proved
 it is mathematically impossible for any voting method to simultaneously satisfy
 a short list of seemingly desirable axioms. This type of result -- known as an
 \emph{impossibility theorem} -- highlights a fundamental and inescapable
-property of voting.\footnotemark{} There are also practical consequences. If
-one needs to actually choose a rule for use in a vote, which axiom will be
-sacrificed?
+property of voting.\footnotemark{} This has practical consequences: if one
+needs to actually choose a rule for use in a vote, which axiom will be
+sacrificed? The axioms also provide a normative basis on which to judge and
+compare different voting rules.
+%
+The axiomatic approach has since been adapted to various domains besides
+voting, including tournaments~\cite{brandt2016a}, judgement
+aggregation~\cite{endriss2016ja}, the ranking of web
+pages~\cite{altman2005ranking}, reputation systems~\cite{tennenholtz2004} and
+collective annotation~\cite{kruger2014}.
+
 
 \footnotetext{
     At least, a property of voting in the sense of Arrow's formal framework.
 }
 
-The axiomatic approach has since been adapted to various domains besides
-voting; e.g. tournaments~\cite{brandt2016a}, judgement
-aggregation~\cite{endriss2016ja}, the ranking of web
-pages~\cite{altman2005ranking}, reputation systems~\cite{tennenholtz2004} and
-collective annotation~\cite{kruger2014}. It is in this spirit we proceed in
-\cref{chapter_td,chapter_bipartite_tournaments}, introducing a
+In the last 20 years, \emph{computational social choice}~\cite{moulin_2016} has
+combined social choice theory with ideas from theoretical computer science. For
+example, complexity theory has been used to show certain voting rules are
+resistant to strategic manipulation, approximation algorithms have been
+developed for computationally difficult rules, and SAT solvers have been used
+to automatically discover new impossibility theorems \todo{cs}.
+
+In the spirit of combining the axiomatic approach with computer science, we
+proceed in \cref{chapter_td,chapter_bipartite_tournaments} by introducing a
 social-choice-style framework and several axioms for the problems of
 \emph{truth discovery} and \emph{bipartite tournament ranking}. As it turns
 out, many existing axioms from different problems in the literature can be
 applied in our settings; if not directly, then the underlying idea can be
-adapted to fit our problem. By looking at the consequences of such axioms we
-obtain insights into the similarities and differences between our problems and
-other social choice problems.
+adapted. By looking at the consequences of such axioms we obtain insights into
+the similarities and differences between our problems and other social choice
+problems.
 
 \section{Logic-based Perspectives}
 
