@@ -124,10 +124,12 @@ With this in mind, we develop a framework for truth discovery in
 which axioms can be formulated, and go on to give impossibility results and an
 axiomatic characterisation of a baseline voting algorithm. We also define the
 class of \emph{recursive} truth discovery algorithms, which includes most
-examples from the literature. We outline several examples:
+examples from the literature. We outline several specific examples:
 \emph{Sums}~\cite{pasternack2010},
 \emph{TruthFinder}~\cite{yin2008} and \emph{CRH}~\cite{li2016}, and
-analyse Sums in more detail with respect to the axioms.
+analyse Sums in more detail with respect to the axioms. Surprisingly, Sums
+fails some crucial axioms, which leads us to introducing a modified version
+with better axiomatic properties.
 
 However, as a first step towards a social choice perspective of truth
 discovery, our framework involves a number of simplifying assumptions not
@@ -161,9 +163,6 @@ simplified setting, and that interesting axioms can still be put forth. The
 framework as set out here lays the groundwork for these assumptions to be
 lifted in future work.
 
-This chapter is a significantly re-worked version of previously published
-work~\cite{singleton_booth_2020,singleton2022towards}.
-
 \paragraph{Contributions.}
 
 The primary contribution of this chapter is a mathematical framework for truth
@@ -174,25 +173,8 @@ been considered in relation to truth discovery. Moreover, we observe that one
 particularly well-known truth discovery method fails one of our axioms, and
 propose a modification to resolve this issue.
 
-\begin{chapteroutline}
-
-    The framework is motivated and formally defined in the next section.
-    %
-    \cref{td_new_sec_example_operators} expresses in the framework several
-    truth discovery algorithms from the literature.
-    %
-    In \cref{td_new_sec_axioms} we formally introduce the axioms, present some
-    impossibility results showing that certain subsets of axioms cannot be
-    satisfied simultaneously, and obtain an axiomatic characterisation of a
-    baseline voting method.
-    %
-    Some of the examples of \cref{td_new_sec_example_operators} are then
-    revisited in \cref{td_new_sec_satisfaction_of_the_axioms}, where we analyse
-    them with respect to the axioms. We also propose modifications to one
-    well-known method -- Sums -- in order to resolve some axiom failures.
-    Related work is discussed in \cref{td_new_sec_related_work}, and we
-    conclude in \cref{td_new_sec_conclusion}.
-\end{chapteroutline}
+This chapter is a significantly re-worked version of previously published
+work~\cite{singleton_booth_2020,singleton2022towards}.
 
 \section{Preliminaries}
 \label{td_new_sec_preliminaries}
