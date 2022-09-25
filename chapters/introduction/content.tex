@@ -141,16 +141,117 @@ out, many existing axioms from different problems in the literature can be
 applied in our settings; if not directly, then the underlying idea can be
 adapted. By looking at the consequences of such axioms we obtain insights into
 the similarities and differences between our problems and other social choice
-problems.
+problems. Further details, and a more detailed overview of related work, will
+be given in \cref{chapter_td,chapter_bipartite_tournaments}.
 
 \section{Logic-based Perspectives}
 
+\paragraph{Modal logic.}
+
+In the logic-based part of the thesis, we start with a \emph{modal logic}
+framework for reasoning about expertise. A modal language augments a
+propositional logical language with one or more \emph{modalities} which qualify
+the truth value of a proposition~\cite{seplogicmodal}. A classic example is
+\emph{necessity}: $\modalnec\phi$ means the proposition $\phi$ is
+\emph{necessarily true}, as opposed to merely being true. The dual notion of
+\emph{possibility}, typically denoted $\modalposs\phi$, is defined in terms of
+necessity by $\modalposs\phi \equiv \neg\modalnec\neg\phi$. That is, $\phi$ is
+\emph{possibly true} if it is not necessarily false.
+
+The various senses of ``necessity'' give rise to a rich landscape of logical
+systems, useful for modelling various domains. For example, in temporal logics
+$\modalnec\phi$ means $\phi$ will necessarily always hold in the future. In
+deontic logics, $\modalnec\phi$ means $\phi$ is a moral necessity; it is
+obligatory for $\phi$ to hold. In epistemic and doxastic logics,
+$\modalnec\phi$ means $\phi$ is necessary from the point of view of an agent's
+knowledge or beliefs about the world; one typically writes $\mathsf{K}\phi$ or
+$\mathsf{B}\phi$ instead of $\modalnec\phi$ in these cases, to express that the
+agent ``knows'' or ``believes'' $\phi$ \todo{cs}.
+
+The most prominent semantic interpretation of modal formulas is based on
+\emph{relational models} (also known as \emph{Kripke models}). The key
+ingredients here are a set of \emph{states} and a binary relation called the
+\emph{accessibility relation}. The modal formula $\modalnec\phi$ holds at a
+state $x$ if $\phi$ holds at all states $y$ accessible from $x$.\footnotemark{}
+In this way the accessibility relation directly reflects which states are
+``possible'' from others.
+
+\footnotetext{
+    A formal definition will be given in \cref{exp_sec_connection_with_ep_logic};
+    for now we only wish to sketch the underlying ideas.
+}
+
+Later, \emph{neighbourhood semantics} were developed by \textcite{Scott1970}
+and \textcite{montague1970universal}, which generalise relational semantics.
+The idea is to replace the accessibility relation with a so-called
+\emph{neighbourhood function}, which assigns to each state a collection of sets
+of states (called its \emph{neighbourhood}). This neighbourhood explicitly
+lists the ``necessary'' propositions at each state: $\modalnec\phi$ holds at
+$x$ if the set of states where $\phi$ holds is a member of the neighbourhood of
+$x$~\cite{pacuit2017neighborhood}.
+
+Both relational and neighbourhood semantics have proven to be useful for
+modelling notions related to our topic, such as information, trust, belief, and
+evidence.
+%
+\textcite{Liau_2003} considered modalities $B_i\phi$ (agent $i$ believes
+$\phi$), $I_{ij}\phi$ ($i$ acquires information $\phi$ from $j$) and
+$T_{ij}\phi$ ($i$ trusts $j$ on $\phi$), where trust has a neighbourhood
+interpretation. \textcite{dastani2004inferring} extended this framework with
+notions of topics and questions, and to consider how trust may be inferred.
+\textcite{bonanno2005simple} also considered the interaction between belief and
+information, by introducing a logic for belief revision. \todo{Other logics of
+trust papers.}
+
 \begin{notes}
     \begin{itemize}
-        \item Write a bit about AGM revision (revising propositional theories
-              by reliable information) and explicitly list the postulates.
+        \item Other logical approaches to unreliable information: e.g.
+              many-valued logics, possibilistic logic, rough sets (?).
+        \item We introduce a modal logic of expertise, with a modality
+              $\mathsf{E}$ representing expertise. To the best of our knowledge
+              it is the first treatment of expertise explicitly in terms of
+              modal logic
+        \item Prime reader for the results: conceptual links with epistemic
+              logic, collection notions of expertise, technical axiomatisation
+              results, dynamics.
     \end{itemize}
 \end{notes}
+
+% different acccounts of trust.
+% primitive:
+%     liau
+% non-primitive:
+%     herzig (a logic of trust and reputation): built from beliefs, goals,
+%       actions
+
+\paragraph{Belief change.}
+
+\begin{notes}
+    \begin{itemize}
+        \item AGM introduced postulates for rational belief change
+        \item Uses propositional theories to represent beliefs. Such theories
+              are to be revised by incoming reliable information
+        \item List postulates in full
+        \item Selective revision: drop Success.
+        \item Representation of expertise (or credibility, etc) is still at the
+              meta-level; go through constructions of Ferme and Hansson, Booth
+              and Hunter
+        \item Like AGM, we use logically closed theories to represent beliefs
+        \item But we bring expertise to the object level by adapting the modal
+              framework for expertise
+        \item Trust is represented by belief in expertise: $i$ is trusted on
+            $\phi$ if $\mathsf{E}_i\phi$ is in the belief set
+        \item Our work is also close to belief merging. Give some background
+              here, but refer reader to related work section of the actual
+              chapter.
+        \item Mention Yasser and Ismail's work at some point
+    \end{itemize}
+\end{notes}
+
+\section{Contributions}
+
+\todo{Needed? Already mention contributions at the start of the introduction
+and in each chapter.}
 
 \section{Overview}
 
