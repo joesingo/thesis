@@ -225,20 +225,19 @@ Our truth conditions for expertise and soundness also have topological
 interpretations, if one views $P$ as the collection of closed sets of a
 topology on $X$:\footnote{For this to be the case, $P$ must be closed under
 intersections and finite unions, and contain both the empty set and $X$ itself.
-We will turn to these closure properties in \cref{exp_sec_closure_properties}.} $\E\phi$ holds
-iff $\|\phi\|_M$ is closed, and $\S\phi$ holds at $x$ iff $x$ lies in the
-\emph{closure} of $\|\phi\|_M$.\footnotemark{} In this case we can view the
-closure operation as \emph{expanding} the set $\|\phi\|_M$ along the lines of
-the source's expertise; $\phi$ is sound if the ``actual'' state $x$ is included
-in this expansion.
+We will turn to these closure properties in \cref{exp_sec_closure_properties}.}
+$\E\phi$ holds iff $\|\phi\|_M$ is closed, and $\S\phi$ holds at $x$ iff $x$
+lies in the \emph{closure} of $\|\phi\|_M$. Our semantics for soundness is
+therefore dual to the \emph{interior semantics} for modal logic, where
+$\modalnec\phi$ is true at $x$ iff $x$ lies in the interior of $\|\phi\|$. We
+can also view the closure operation as \emph{expanding} the set $\|\phi\|_M$
+along the lines of the source's expertise; $\phi$ is sound if the ``actual''
+state $x$ is included in this expansion.
 %
 Finally, the clause for the universal modality $\A$ states that $\A\phi$ holds
 iff $\phi$ holds at all states $y \in X$.
 
 \footnotetext{
-    Our semantics for soundness is therefore dual to the \emph{interior
-    semantics} for modal logic, where $\modalnec\phi$ is true at $x$ iff $x$
-    lies in the interior of $\|\phi\|$.
 }
 
 \def\w{1}
@@ -2563,7 +2562,7 @@ Then, with $\phi = p \lor (q \land \neg\S p)$ we have $M, 1 \not\models
 [\expinc\phi]\E\phi$.\footnotemark{} This counterexample is reminiscent of
 \emph{Moore sentences} as formalised in Dynamic Epistemic Logic; e.g. an agent
 cannot know $p \land \neg\K p$ (``$p$ is true but I do not know it'') after this
-is truthfully announced \cite{baltag2008qualitative}.
+is truthfully announced~\cite{baltag2008qualitative}.
 
 \footnotetext{In detail, we have $\|\phi\|_M = \{1, 2\}$, so
 $P^{\expinc\phi} = \{\emptyset, X, \{1, 3\}, \{1, 2\}, \{1\}\}$. Then

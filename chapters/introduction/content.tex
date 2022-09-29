@@ -72,16 +72,17 @@ of view.
 The thesis is split into two parts along methodological lines. In
 \cref{chapter_td,chapter_bipartite_tournaments} we use the tools and ideas of
 \emph{social choice theory}~\cite{zwicker2016voting} to explore the problems of
-aggregating unreliable information and ranking sources by trustworthiness. We
-employ the \emph{axiomatic method}, in which intuitively desirable properties
-called \emph{axioms} are introduced and studied. Aggregation and ranking
-methods can then be evaluated and compared with respect to these axioms, often
-leading to fresh insights on both individual methods and the nature of the
-problem itself.
+aggregating unreliable information and ranking sources by trustworthiness.
+%
+% We employ the \emph{axiomatic method}, in which intuitively desirable
+% properties called \emph{axioms} are introduced and studied. Aggregation and
+% ranking methods can then be evaluated and compared with respect to these
+% axioms, often leading to fresh insights on both individual methods and the
+% nature of the problem itself.
 %
 \cref{chapter_expertise,chapter_belief_change,chapter_truthtracking} take a
 \emph{logic-based} approach. We develop a modal logic framework to give precise
-semantics of expertise, and explore the connection between expertise,
+semantics for expertise, and explore the connection between expertise,
 knowledge, and the truthfulness of information. This framework is used as the
 foundation for a belief change problem in the tradition of knowledge
 representation and rational belief change \todo{c}. Finally, we combine ideas
@@ -89,6 +90,9 @@ from \emph{formal learning theory} \todo{c} (and in particular, the
 intersection of formal learning theory and belief revision \todo{c}) to
 investigate the extent to which one can \emph{learn} from unreliable
 information.
+%
+In the remainder of this chapter we briefly survey the literature for both
+halves, and outline the main contributions of the thesis.
 
 \section{Social Choice Perspectives}
 
@@ -114,13 +118,12 @@ property of voting.\footnotemark{} This has practical consequences: if one
 needs to actually choose a rule for use in a vote, which axiom will be
 sacrificed? The axioms also provide a normative basis on which to judge and
 compare different voting rules.
-%
+
 The axiomatic approach has since been adapted to various domains besides
 voting, including tournaments~\cite{brandt2016a}, judgement
 aggregation~\cite{endriss2016ja}, the ranking of web
 pages~\cite{altman2005ranking}, reputation systems~\cite{tennenholtz2004} and
 collective annotation~\cite{kruger2014}.
-
 
 \footnotetext{
     At least, a property of voting in the sense of Arrow's formal framework.
@@ -136,35 +139,40 @@ to automatically discover new impossibility theorems \todo{cs}.
 In the spirit of combining the axiomatic approach with computer science, we
 proceed in \cref{chapter_td,chapter_bipartite_tournaments} by introducing a
 social-choice-style framework and several axioms for the problems of
-\emph{truth discovery} and \emph{bipartite tournament ranking}. As it turns
-out, many existing axioms from different problems in the literature can be
-applied in our settings; if not directly, then the underlying idea can be
-adapted. By looking at the consequences of such axioms we obtain insights into
-the similarities and differences between our problems and other social choice
-problems. Further details, and a more detailed overview of related work, will
-be given in \cref{chapter_td,chapter_bipartite_tournaments}.
+\emph{truth discovery} and \emph{bipartite tournament ranking}. \todo{explain
+what these are.}
+
+As it turns out, many existing axioms from different problems in the literature
+can be applied in our settings; if not directly, then the underlying idea can
+be adapted. By looking at the consequences of such axioms we obtain insights
+into the similarities and differences between our problems and other social
+choice problems. \todo{explicit contributions?}
 
 \section{Logic-based Perspectives}
 
 \paragraph{Modal logic.}
 
+{
+
+\input{chapters/expertise/macros.tex}
+
 In the logic-based part of the thesis, we start with a \emph{modal logic}
 framework for reasoning about expertise. A modal language augments a
 propositional logical language with one or more \emph{modalities} which qualify
-the truth value of a proposition~\cite{seplogicmodal}. A classic example is
-\emph{necessity}: $\modalnec\phi$ means the proposition $\phi$ is
+the truth value of a proposition~\cite{seplogicmodal}. A typical interpretation
+is \emph{necessity}: $\modalnec\phi$ means the proposition $\phi$ is
 \emph{necessarily true}, as opposed to merely being true. The dual notion of
-\emph{possibility}, typically denoted $\modalposs\phi$, is defined in terms of
-necessity by $\modalposs\phi \equiv \neg\modalnec\neg\phi$. That is, $\phi$ is
+\emph{possibility}, denoted $\modalposs\phi$, is defined in terms of necessity
+by $\modalposs\phi \equiv \neg\modalnec\neg\phi$. That is, $\phi$ is
 \emph{possibly true} if it is not necessarily false.
 
-The various senses of ``necessity'' give rise to a rich landscape of logical
+Various senses of ``necessity'' give rise to a rich landscape of logical
 systems, useful for modelling various domains. For example, in temporal logics
 $\modalnec\phi$ means $\phi$ will necessarily always hold in the future. In
 deontic logics, $\modalnec\phi$ means $\phi$ is a moral necessity; it is
 obligatory for $\phi$ to hold. In epistemic and doxastic logics,
 $\modalnec\phi$ means $\phi$ is necessary from the point of view of an agent's
-knowledge or beliefs about the world; one typically writes $\mathsf{K}\phi$ or
+knowledge or beliefs about the world; one typically writes $\K\phi$ or
 $\mathsf{B}\phi$ instead of $\modalnec\phi$ in these cases, to express that the
 agent ``knows'' or ``believes'' $\phi$ \todo{cs}.
 
@@ -175,12 +183,7 @@ ingredients here are a set of \emph{states} and a binary relation called the
 state $x$ if $\phi$ holds at all states $y$ accessible from $x$.\footnotemark{}
 In this way the accessibility relation directly reflects which states are
 ``possible'' from others.
-
-\footnotetext{
-    A formal definition will be given in \cref{exp_sec_connection_with_ep_logic};
-    for now we only wish to sketch the underlying ideas.
-}
-
+%
 Later, \emph{neighbourhood semantics} were developed by \textcite{Scott1970}
 and \textcite{montague1970universal}, which generalise relational semantics.
 The idea is to replace the accessibility relation with a so-called
@@ -189,19 +192,81 @@ of states (called its \emph{neighbourhood}). This neighbourhood explicitly
 lists the ``necessary'' propositions at each state: $\modalnec\phi$ holds at
 $x$ if the set of states where $\phi$ holds is a member of the neighbourhood of
 $x$~\cite{pacuit2017neighborhood}.
-
-Both relational and neighbourhood semantics have proven to be useful for
-modelling notions related to our topic, such as information, trust, belief, and
-evidence.
 %
-\textcite{Liau_2003} considered modalities $B_i\phi$ (agent $i$ believes
-$\phi$), $I_{ij}\phi$ ($i$ acquires information $\phi$ from $j$) and
+Further still, \emph{topological semantics} (also called the \emph{interior
+semantics}) were first studied mathematically by \textcite{mckinsey41} and
+\textcite{mckinseytarski44}, and later reinterpreted in epistemic terms (see
+\textcite[Chapter 1]{ozgun_evidence} for a historical overview). Here one
+equips the set states with a topology, and $\modalnec\phi$ holds at all points
+in the \emph{interior} of the set where $\phi$ holds. That is, $\phi$ is
+necessary at a state $x$ when there is an open neighbourhood of $x$ in which
+$\phi$ holds at all points.
+
+\footnotetext{
+    A formal definition will be given in \cref{exp_sec_connection_with_ep_logic};
+    for now we only wish to sketch the underlying ideas.
+}
+
+Relational, neighbourhood and topological semantics have each proven to be
+useful for modelling notions related to our topic, such as information, trust,
+belief, and evidence.
+
+On trust, \textcite{Liau_2003} considered modalities $B_i\phi$ (agent $i$
+believes $\phi$), $I_{ij}\phi$ ($i$ acquires information $\phi$ from $j$) and
 $T_{ij}\phi$ ($i$ trusts $j$ on $\phi$), where trust has a neighbourhood
-interpretation. \textcite{dastani2004inferring} extended this framework with
-notions of topics and questions, and to consider how trust may be inferred.
-\textcite{bonanno2005simple} also considered the interaction between belief and
-information, by introducing a logic for belief revision. \todo{Other logics of
-trust work.}
+interpretation. \textcite{dastani2004inferring} extended this framework to
+consider how trust may be inferred, using notions of topics and
+\emph{questions}. \textcite{herzig2010logic} introduced notions of trust and
+\emph{reputation}, in a framework where trust is not primitive but built from
+beliefs, goals and actions. Further logical developments of trust were set out
+by \textcite{rodenhauser2014matter} and \textcite{tagliaferri2019logical}; see
+the references therein for a more thorough review of the literature on trust.
+
+Interactions between knowledge, belief and \emph{evidence} have been studied in
+epistemic logic. \textcite{moss1992topological} introduced the so-called subset
+space semantics to model knowledge and \emph{epistemic effort}, which
+represents a kind of evidence-gathering performed by an epistemic agent, and
+has topological roots. \textcite{ozgun_evidence} further developed notions of
+evidence in epistemic logic from a topological perspective. In a series of
+papers, \textcite{van2011dynamic,van2012evidence,vanbenthem2014106} made
+extensive use of neighbourhood structures to model evidence, and in particular
+how inconsistent evidence can be combined to form beliefs.
+
+The final strand of the modal literature we mention is \emph{dynamic epistemic
+logic}~\cite{van_Ditmarsch_2008,sep_del}. Here the modal operators describe
+\emph{actions}; in general one has formulas $[a]\phi$ to express that $\phi$ is
+true after the action $a$ is performed~\cite{sep_del}. Examples include public
+announcements~\cite{plaza2007logics}, testimony~\cite{holliday2009dynamic} --
+both particularly interesting in the case of multiple agents -- belief
+revision~\cite{baltag2008qualitative} and
+learning~\cite{gierasimczuk2009bridging,gierasimczuk2010knowing}.
+
+Our work in \cref{chapter_expertise} combines elements from each of the
+above-surveyed areas of the literature to model \emph{expertise} and its
+relation to relation to \emph{truthfulness of information}. Specifically, we
+introduce a logical system with two new modalities: $\E\phi$, meaning the
+source in question is an expert on $\phi$, and $\S\phi$, meaning the
+information $\phi$ is ``sound'' for the source to report. Informally, the
+latter notion means $\phi$ is true \emph{up to lack of expertise}, i.e. if the
+report becomes true when discarding parts of the statement on which the
+reporting source lacks expertise.
+
+For example, suppose an economist reports that energy policies proposed by the
+government will stimulate economic growth and help tackle climate change. Since
+this goes beyond the expertise of the economist (who we assume is not a climate
+expert), we should only take their comments on the economy into account. Our
+notion of soundness models this kind of filtering: whereas the statement in its
+entirety may be false (e.g. if the proposed policies are not in fact
+climate-friendly), the report is \emph{sound} whenever the economist is correct
+on its economic content.
+
+On the technical side, we use (a special case of) neighbourhood semantics for
+expertise, and topological semantics for soundness. We show in detail how such
+notions relate to knowledge in epistemic logic under relational semantics.
+Dynamic operators are also considered; we define an analogue of public
+announcements (called ``sound announcements'') and consider ``expertise
+increase'', which models the effects of a source increasing their domain of
+expertise by learning.
 
 \begin{notes}
     \begin{itemize}
@@ -224,6 +289,8 @@ trust work.}
 %     herzig (a logic of trust and reputation): built from beliefs, goals,
 %       actions
 
+}
+
 \paragraph{Belief change.}
 
 \begin{notes}
@@ -245,6 +312,15 @@ trust work.}
               here, but refer reader to related work section of the actual
               chapter.
         \item Mention Yasser and Ismail's work at some point
+    \end{itemize}
+\end{notes}
+
+\paragraph{Learning.}
+
+\begin{notes}
+    \begin{itemize}
+        \item Inductive reasoning and learning
+        \item e.g. Kevin Kelly's work, Nina
     \end{itemize}
 \end{notes}
 
