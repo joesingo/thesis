@@ -95,6 +95,7 @@ In the remainder of this chapter we briefly survey the literature for both
 halves, and outline the main contributions of the thesis.
 
 \section{Social Choice Perspectives}
+\label{intro_sec_social_choice_perspectives}
 
 Broadly speaking, social choice theory is the study of \emph{aggregating
 preferences}. The prototypical example is \emph{voting}. In an election, each
@@ -149,6 +150,7 @@ into the similarities and differences between our problems and other social
 choice problems. \todo{explicit contributions?}
 
 \section{Logic-based Perspectives}
+\label{intro_sec_logic_based_perspectives}
 
 \paragraph{Modal logic.}
 
@@ -157,8 +159,8 @@ choice problems. \todo{explicit contributions?}
 \input{chapters/expertise/macros.tex}
 
 In the logic-based part of the thesis, we start with a \emph{modal logic}
-framework for reasoning about expertise. A modal language augments a
-propositional logical language with one or more \emph{modalities} which qualify
+framework for reasoning about expertise. A modal language augments
+propositional logic with one or more \emph{modalities}, which qualify
 the truth value of a proposition~\cite{seplogicmodal}. A typical interpretation
 is \emph{necessity}: $\modalnec\phi$ means the proposition $\phi$ is
 \emph{necessarily true}, as opposed to merely being true. The dual notion of
@@ -233,12 +235,12 @@ extensive use of neighbourhood structures to model evidence, and in particular
 how inconsistent evidence can be combined to form beliefs.
 
 The final strand of the modal literature we mention is \emph{dynamic epistemic
-logic}~\cite{van_Ditmarsch_2008,sep_del}. Here the modal operators describe
-\emph{actions}; in general one has formulas $[a]\phi$ to express that $\phi$ is
-true after the action $a$ is performed~\cite{sep_del}. Examples include public
-announcements~\cite{plaza2007logics}, testimony~\cite{holliday2009dynamic} --
-both particularly interesting in the case of multiple agents -- belief
-revision~\cite{baltag2008qualitative} and
+logic}~\cite{van_Ditmarsch_2008,sep_del}. Here modal operators describe
+\emph{actions}: one has formulas of the form $[a]\phi$ to express that $\phi$
+is true after the action $a$ is performed~\cite{sep_del}. Examples include
+public announcements~\cite{plaza2007logics},
+testimony~\cite{holliday2009dynamic} -- both particularly interesting in the
+case of multiple agents -- belief revision~\cite{baltag2008qualitative} and
 learning~\cite{gierasimczuk2009bridging,gierasimczuk2010knowing}.
 
 Our work in \cref{chapter_expertise} combines elements from each of the
@@ -268,20 +270,6 @@ announcements (called ``sound announcements'') and consider ``expertise
 increase'', which models the effects of a source increasing their domain of
 expertise by learning.
 
-\begin{notes}
-    \begin{itemize}
-        \item Other logical approaches to unreliable information: e.g.
-              many-valued logics, possibilistic logic, rough sets (?).
-        \item We introduce a modal logic of expertise, with a modality
-              $\mathsf{E}$ representing expertise. To the best of our knowledge
-              it is the first treatment of expertise explicitly in terms of
-              modal logic
-        \item Prime reader for the results: conceptual links with epistemic
-              logic, collection notions of expertise, technical axiomatisation
-              results, dynamics.
-    \end{itemize}
-\end{notes}
-
 % different acccounts of trust.
 % primitive:
 %     liau
@@ -293,27 +281,192 @@ expertise by learning.
 
 \paragraph{Belief change.}
 
+{
+    \newcommand{\contract}{\dot{-}}
+    \newcommand{\reviseby}{\ast}
+
+Whereas \cref{chapter_expertise} proceeds in the tradition of modal epistemic
+logic, \cref{chapter_belief_change} takes inspiration from the literature on
+\emph{belief change}~\cite{booth_belief_2011,sep_belief_change,ferme_2018}.
+This research area concerns how a rational agent should change its beliefs --
+represented by a logically closed set of formulas $K$\footnotemark{} --
+in response to some operation. In belief \emph{contraction}, the agent must
+remove some formula $\alpha$ from its belief set, obtaining new beliefs $K
+\contract \alpha$. In belief \emph{revision}, the agent adjusts their beliefs
+to incorporate $\alpha$, with the revised belief set denoted by $K \reviseby
+\alpha$. Other operations include \emph{update}~\cite{katsuno_mendelzon_1992},
+where the agent must change their beliefs to account for changes in the outside
+world, and \emph{merging}, where inputs from several sources -- not necessarily
+consistent with one another -- must be combined~\cite{konieczny2002merging}.
+
+\footnotetext{
+    But note that this is not the only way to represent beliefs. For iterated
+    change, abstract ``epistemic states'' are used instead of belief
+    sets~\cite{Darwiche_1997}. In belief \emph{base} change~\cite{hansson1999},
+    ``belief bases'' are again sets of formulas but are not necessarily closed
+    under logical consequence.
+}
+
+Note that unlike in epistemic and doxastic logics, where belief is represented
+at the ``object-level'' via formulas $\mathsf{B}\phi$, belief change research
+typically represents beliefs at the ``meta-level'' via sets of formulas
+(typically propositional formulas).
+
+A common principle guiding belief change methods is \emph{minimal change}: an
+agent's belief after contraction/revision should remain as close to the initial
+beliefs as possible. However, such minimal change may often be carried out in
+several ways. For example, consider an agent who believes $p$ and $p \limplies
+q$. Assuming beliefs are closed under logical consequence, the agent also
+believes $q$. If the agent now learns $q$ is false, i.e. has to revise by
+$\neg{q}$, there are two options: drop the belief in $p$ and retain $p
+\limplies q$, or maintain $p$ but drop $p \limplies q$. From a purely logical
+point of view, both are viable revision strategies. With this in mind, one
+cannot single out a single contraction/revision operator. Instead, the dominant
+approach is to set out \emph{rationality postulates} which constrain the
+operation in question (much like the axioms of social choice theory, described
+in \cref{intro_sec_social_choice_perspectives}). Additional structure (e.g.
+preferences over formulas or propositional worlds) is then used to define
+specific operators within the bounds of the postulates.
+
+The seminal work of \textcite{alchourron1985logic} set out postulates for
+contraction and revision. The influence of this work is such that belief
+revision in this framework is now called \emph{AGM revision}, and the
+postulates the \emph{AGM postulates}, named after its originators. We list the
+revision postulates below.\footnotemark{}
+
+\footnotetext{
+    Note that some authors refer to the first six postulates as the ``basic
+    postulates'' postulates, and the final two as the ``supplementary
+    postulates''.  In this thesis, ``AGM postulates'' refers to all eight
+    postulates.
+}
+
+\newcommand{\cn}[1]{\operatorname{Cn}\left({#1}\right)}
+
+\begin{axiomlist}
+
+    \begin{axiom}[\axiomref{Closure}]
+        $K = \cn{K}$
+    \end{axiom}
+
+    \begin{axiom}[\axiomref{Success}]
+        $\alpha \in K \reviseby \alpha$
+    \end{axiom}
+
+    \begin{axiom}[\axiomref{Inclusion}]
+        $K \reviseby \alpha \subseteq \cn{K \cup \{\alpha\}}$
+    \end{axiom}
+
+    \begin{axiom}[\axiomref{Vacuity}]
+        If $K \cup \{\alpha\}$ is consistent, then $K \reviseby \alpha
+        = \cn{K \cup \{\alpha\}}$
+    \end{axiom}
+
+    \begin{axiom}[\axiomref{Consistency}]
+        If $\alpha$ is consistent, then $K \reviseby \alpha$ is consistent
+    \end{axiom}
+
+    \begin{axiom}[\axiomref{Extensionality}]
+        If $\alpha \equiv \beta$, then $K \reviseby \alpha = K \reviseby \beta$
+    \end{axiom}
+
+    \begin{axiom}[\axiomref{Subexpansion}]
+        $K \reviseby (\alpha \land \beta) \subseteq \cn{(K \reviseby \alpha)
+        \cup \{\beta\}}$
+    \end{axiom}
+
+    \begin{axiom}[\axiomref{Superexpansion}]
+        If $(K \reviseby \alpha) \cup \{\beta\}$ is consistent, then $K
+        \reviseby (\alpha \land \beta) \supseteq \cn{(K \reviseby \alpha) \cup
+        \{\beta\}}$
+    \end{axiom}
+
+\end{axiomlist}
+
+Note that \axiomref{Vacuity} goes some way to formalising the idea of minimal
+change: if the $\alpha$ is already consistent with current beliefs, the agent
+should just add $\alpha$ and close under logical consequence.
+
+In our context, an important postulate which underlies the assumptions of the
+AGM framework is \axiomref{Success}. As its name suggests, this says the
+revision process was successful: $\alpha$ is indeed believed after revision by
+$\alpha$. Consequently, the framework assumes the information by which to
+revise is \emph{completely reliable}. While clearly useful in some contexts,
+this severely limits the application scenarios of AGM revision.
+\emph{Non-prioritised} revision subsequently arose to model situations where
+the incoming information $\alpha$ is not prioritised over existing beliefs $K$.
+Various approaches were surveyed by \textcite{hansson1999survey}. Typically
+some extra structure accompanies a revision operator in order to decide to what
+extent the new information is accepted. For instance, \emph{screened
+revision}~\cite{makinson1997screened} maintains a subset $A \subseteq K$ of
+``core'' beliefs which are untouchable; $\alpha$ is only accepted if it is
+consistent with core beliefs. A similar construction for iterated revision was
+proposed by \textcite{booth2005}. \emph{Selective
+revision}~\cite{ferme1999selective} adds a pre-processing step to AGM revision:
+a so-called ``selection function'' $f$ is used to weaken the incoming
+information $\alpha$, and the revised belief set is $K \reviseby f(\alpha)$,
+where $\reviseby$ is a (prioritised) AGM revision operator. In
+\emph{credibility-limited revision}~\cite{hansson_2001} one considers a set
+$\mathcal{C}$ of ``credible'' formulas; on receiving some $\alpha \in
+\mathcal{C}$ one revises by $\alpha$ with an AGM operator as usual, but if
+$\alpha \notin \mathcal{C}$ beliefs are unchanged.
+
+Note that screened revision uses extra information about the \emph{agent},
+whereas selective and credibility-limited revision use extra information about
+the \emph{information source}. Indeed, the selection function $f$ can be used
+to filter out parts of the input $\alpha$ on which the source is deemed to be
+trustworthy. \textcite{booth_trust_2018} take this idea further, introducing a
+specialisation of selective revision in which the selection function is derived
+from an explicit representation of trust in the source. The idea is similar for
+credibility-limited revision, where $\mathcal{C}$ represents the formulas on
+which the source is trusted.
+
+However, these approaches share a common deficiency: the non-prioritisation
+mechanism remains fixed. That is, the trustworthiness of the reporting source
+itself it not subject to revision. This is problematic in scenarios where
+information sources are not well-known up front, and becomes especially
+important when dealing with multiple sources. For example, consider conflicting
+reports on a breaking news story posted on Twitter by unfamiliar users
+$\mathsf{X}$ and $\mathsf{Y}$.  Initially we may be reluctant to commit to
+believing either, not knowing much about their expertise. As time goes on,
+however, more information becomes available. Perhaps a consensus emerges around
+the report of $\mathsf{Y}$, or a report from a known, trusted source validates
+$\mathsf{Y}$. In this case it may be natural to revise beliefs not only on the
+news in question, but on the \emph{expertise of $\mathsf{X}$ and $\mathsf{Y}$
+themselves}.
+
+We take steps to resolve the situation by using the framework for expertise of
+\cref{chapter_expertise} as the logical background for a belief change problem.
+Our operators take a sequence of reports from multiple sources, and output a
+belief set in the extended language with expertise and soundness modalities. In
+keeping with the AGM paradigm, beliefs and trustworthiness are expressed on the
+meta-level. By using the extended language of expertise we unify the trust and
+belief aspects in a common logical language.\footnotemark{} Beliefs about the
+world are expressed as propositional formulas as usual, and trust is expressed
+via \emph{belief in expertise}. That is, a belief change agent trusts a source
+$\mathsf{X}$ on a formula $\phi$ if $\mathsf{E}_{\mathsf{X}}\phi$ is included
+in its belief set.
+
+\footnotetext{
+    See the work of \textcite{yasser_21} -- which is discussed in detail in
+    \cref{kr_sec_relatedwork} -- for an alternative approach in which trust and
+    belief are treated separately.
+}
+
+Our approach is mainly postulational: we put forward a collection of postulates
+for expetise-and-belief revision and offer a number of constructions satisfying
+the postulates. Formally, the framework is closer to belief merging {\`a} la
+\textcite{konieczny2002merging} than AGM-style revision, and a detailed
+comparison with merging is given in \cref{kr_sec_relatedwork}.
+
 \begin{notes}
     \begin{itemize}
-        \item AGM introduced postulates for rational belief change
-        \item Uses propositional theories to represent beliefs. Such theories
-              are to be revised by incoming reliable information
-        \item List postulates in full
-        \item Selective revision: drop Success.
-        \item Representation of expertise (or credibility, etc) is still at the
-              meta-level; go through constructions of Ferme and Hansson, Booth
-              and Hunter
-        \item Like AGM, we use logically closed theories to represent beliefs
-        \item But we bring expertise to the object level by adapting the modal
-              framework for expertise
-        \item Trust is represented by belief in expertise: $i$ is trusted on
-            $\phi$ if $\mathsf{E}_i\phi$ is in the belief set
-        \item Our work is also close to belief merging. Give some background
-              here, but refer reader to related work section of the actual
-              chapter.
-        \item Mention Yasser and Ismail's work at some point
+        \item Other logical approaches to unreliable information: e.g.
+              many-valued logics, possibilistic logic, rough sets (?).
     \end{itemize}
 \end{notes}
+
+}
 
 \paragraph{Learning.}
 
