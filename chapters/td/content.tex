@@ -99,7 +99,7 @@ books.\footnote{\url{https://www.nytimes.com/2019/08/19/technology/amazon-orwell
 In this work we take first steps towards a more general approach, in which we
 aim to study truth discovery without reference to any specific methodology or
 probabilistic framework. To do so we note the similarities between truth
-discovery and problems such as judgment aggregation~\cite{endriss2016ja},
+discovery and problems such as judgement aggregation~\cite{endriss2016ja},
 voting theory~\cite{zwicker2016voting} ranking and recommendation
 systems~\cite{altman2008,altman2005ranking,andersen2008,tennenholtz2004} in
 which the \emph{axiomatic approach} of social choice has been successfully
@@ -293,13 +293,13 @@ which claims are in conflict with one another.
 framework: the ``binary'' case in which the domain of each object consists of
 two values $D_o = \{+, -\}$.  In this case we can
 think of each object as a propositional variable. This brings us close to the
-setting studied in \emph{judgment aggregation}~\cite{endriss2016ja} and,
+setting studied in \emph{judgement aggregation}~\cite{endriss2016ja} and,
 specifically (since sources do not necessarily provide a claim for each
 object) to the setting of \emph{binary aggregation with
 abstentions}~\cite{christoffbinary,dokow}. An important difference, however, is
 that for simplicity we do not assume any \emph{constraints} on the possible
 configurations of true claims across objects. That is, any combination of truth
-values is feasible. In judgment aggregation such an assumption has the effect
+values is feasible. In judgement aggregation such an assumption has the effect
 of neutralising the impossibility results that arise in that domain (see
 e.g.,~\cite{christoffbinary}). We shall see later that that is not the case in
 our setting.
@@ -364,7 +364,7 @@ general may not carry any semantic meaning at all. This means that meaningful
 axioms for truth discovery should not refer to specific numeric scores, but
 only the ranking they introduce.
 
-We will ultimately take a hybrid approach: our methods and example will be
+We will ultimately take a hybrid approach: our methods and examples will be
 defined in terms of numeric scores, but the axioms will only refer to ordinal
 properties. This approach is summarised succinctly by \textcite{altman2008},
 who write of ranking systems: ``We feel that the numeric approach is more
@@ -1337,7 +1337,7 @@ To prove it, we need a preliminary result.
 
 Suppose $\src_N(d) = \src_N(c) \cup \{s\}$. The relative ranking of $c$ and
 $d$ depends on the marginal effect of $s$: if $s$ is ``trustworthy'' then $d$
-gains credibility from the extra support of $s$, whereas $s$ is
+gains credibility from the extra support of $s$, whereas if $s$ is
 ``untrustworthy'' this extra support has the opposite effect. Our next axiom
 requires that such marginal effects are compatible with the source
 trustworthiness ranking. First, some terminology is required.
@@ -1394,7 +1394,7 @@ theory~\cite{arrow1952}, which says, roughly speaking, that the ranking of
 candidates $A$ and $B$ should depend only on the individual rankings of $A$ and
 $B$, not on any ``irrelevant'' alternative $C$. It has been adapted to several
 settings in which the axiomatic method has been applied. Perhaps closest to our
-setting is judgment aggregation, where independence requires the collective
+setting is judgement aggregation, where independence requires the collective
 acceptance of a report $\phi$ does not depend on how the individuals accept or
 reject some other report $\psi$~\cite{endriss2016ja}.
 
@@ -1557,8 +1557,7 @@ by the addition of a disjoint network.
     \cle_{N \sqcup N'}^T d$.
 \end{axiom}
 
-\todo{If bothered, explain graph-theoretic interpretation in terms of connected
-components.}
+\todo{Explain graph-theoretic interpretation in terms of connected components.}
 
 \subsection{Conflicting claims}
 \label{td_new_sec_conflicting_claims}
@@ -2899,7 +2898,7 @@ and is taken sufficiently large. It follows that $U(\usums) \rankequiv \usums$.
 With the normalisation problems aside, UnboundedSums provides an example of a
 principled operator satisfying many of our core axioms, including
 \sourcecoherence{}, \claimcoherence{} and \disjointindependence{}. In
-particular, we avoid the desirable behaviour of Sums in
+particular, we avoid the undesirable behaviour of Sums in
 \cref{td_new_fig_sums_counterex}; whereas Sums trivialises the ranking of
 sources and claims in the upper component, UnboundedSums allows meaningful
 comparison (e.g. we have $d \clt c$). We conjecture that UnboundedSums also
@@ -3142,7 +3141,7 @@ Next, our model does not account for any associations or constraints between
 objects, whereas in reality the belief in a fact for one object may strengthen
 or weaken our belief in other facts for related objects. These types of
 constraints or correlations have been studied both on the theoretical side
-(e.g. in judgment aggregation) and practical side in truth
+(e.g. in judgement aggregation) and practical side in truth
 discovery~\cite{yang_probabilistic_2019}.
 
 The axioms can also be further refined to relax some of the simplifying
@@ -3168,7 +3167,7 @@ tackle the problem of \emph{bipartite tournament ranking}. This is related to
 truth discovery -- and we again consider ranking-based operators and axioms
 governing them -- but is a separate problem in its own right.
 %
-Buy in fact, \cref{chapter_belief_change,chapter_truthtracking} are more
+But in fact, \cref{chapter_belief_change,chapter_truthtracking} are more
 closely connected to truth discovery. We consider a logic-based belief change
 problem, in which an operator takes as input reports from several sources of
 unknown trustworthiness, and produces a conjecture concerning the true facts of
