@@ -110,6 +110,8 @@ class TestSuite:
             r"~\cite{yin2008} for the",
             "describe the axiom in rough terms, deferring to the paper for the"
             " technical",
+            r"papers, \textcite{van2011dynamic,van2012evidence,vanbenthem20141"
+            "06} made",
         ]
         if line not in exceptions:
             assert "paper" not in line

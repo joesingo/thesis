@@ -289,11 +289,11 @@ Whereas \cref{chapter_expertise} proceeds in the tradition of modal epistemic
 logic, \cref{chapter_belief_change} takes inspiration from the literature on
 \emph{belief change}~\cite{booth_belief_2011,sep_belief_change,ferme_2018}.
 This research area concerns how a rational agent should change its beliefs --
-represented by a logically closed set of formulas $K$\footnotemark{} --
-in response to some operation. In belief \emph{contraction}, the agent must
-remove some formula $\alpha$ from its belief set, obtaining new beliefs $K
-\contract \alpha$. In belief \emph{revision}, the agent adjusts their beliefs
-to incorporate $\alpha$, with the revised belief set denoted by $K \reviseby
+represented by a logically closed set of formulas $K$\footnotemark{} -- in
+response to some operation. In belief \emph{contraction}, the agent must remove
+some formula $\alpha$ from its belief set, obtaining new beliefs $K \contract
+\alpha$. In belief \emph{revision}, the agent adjusts their beliefs to
+incorporate $\alpha$, with the revised belief set denoted by $K \reviseby
 \alpha$. Other operations include \emph{update}~\cite{katsuno_mendelzon_1992},
 where the agent must change their beliefs to account for changes in the outside
 world, and \emph{merging}, where inputs from several sources -- not necessarily
@@ -436,16 +436,16 @@ news in question, but on the \emph{expertise of $\mathsf{X}$ and $\mathsf{Y}$
 themselves}.
 
 We take steps to resolve the situation by using the framework for expertise of
-\cref{chapter_expertise} as the logical background for a belief change problem.
-Our operators take a sequence of reports from multiple sources, and output a
-belief set in the extended language with expertise and soundness modalities. In
-keeping with the AGM paradigm, beliefs and trustworthiness are expressed on the
-meta-level. By using the extended language of expertise we unify the trust and
-belief aspects in a common logical language.\footnotemark{} Beliefs about the
-world are expressed as propositional formulas as usual, and trust is expressed
-via \emph{belief in expertise}. That is, a belief change agent trusts a source
-$\mathsf{X}$ on a formula $\phi$ if $\mathsf{E}_{\mathsf{X}}\phi$ is included
-in its belief set.
+\cref{chapter_expertise} as the logical background for a belief change problem
+with non-expert sources. Our operators take a sequence of reports from multiple
+sources, and output a belief set in the extended language with expertise and
+soundness modalities. In keeping with the AGM paradigm, beliefs and
+trustworthiness are expressed on the meta-level. By using the extended language
+of expertise we unify the trust and belief aspects in a common logical
+language.\footnotemark{} Beliefs about the world are expressed as propositional
+formulas as usual, and trust is expressed via \emph{belief in expertise}. That
+is, a belief change agent trusts a source $\mathsf{X}$ on a formula $\phi$ if
+$\mathsf{E}_{\mathsf{X}}\phi$ is included in its belief set.
 
 \footnotetext{
     See the work of \textcite{yasser_21} -- which is discussed in detail in
@@ -455,9 +455,11 @@ in its belief set.
 
 Our approach is mainly postulational: we put forward a collection of postulates
 for expetise-and-belief revision and offer a number of constructions satisfying
-the postulates. Formally, the framework is closer to belief merging {\`a} la
-\textcite{konieczny2002merging} than AGM-style revision, and a detailed
-comparison with merging is given in \cref{kr_sec_relatedwork}.
+the postulates. Crucially we do \emph{not} require \axiomref{Success}, and our
+operators cope with inconsistent reports. Formally, the framework is closer to
+belief merging {\`a} la \textcite{konieczny2002merging} than AGM-style
+revision, and a detailed comparison with merging is given in
+\cref{kr_sec_relatedwork}.
 
 \begin{notes}
     \begin{itemize}
@@ -466,21 +468,49 @@ comparison with merging is given in \cref{kr_sec_relatedwork}.
     \end{itemize}
 \end{notes}
 
-}
-
 \paragraph{Learning.}
 
-\begin{notes}
-    \begin{itemize}
+While AGM revision tells us how to revise beliefs in a rational and minimal
+way, it says nothing about whether the revised beliefs become \emph{closer to
+the truth}. Indeed, belief revision theory does not include a model of the
+``true'' state of the world, and thus the question of verisimilitude cannot be
+addressed without extending the framework in some way.
+
+On an intuitive level, the conservative principle of minimal change -- as
+expressed by the AGM postulates -- may even conflict with pursuit of the truth:
+sometimes radical changes are required. For example, consider a conservative
+agent who strongly believes a biased coin is in fact fair. Then a sequence of
+1000 consecutive heads, while vanishingly unlikely, is nevertheless
+\emph{consistent} with a fair coin, and our agent will see no reason to change
+beliefs.
+
+Fortunately, not all AGM operators embody conservatism to this extreme extent.
+\textcite{kelly1997reliable} analysed AGM revision from the point of view of
+formal learning
+theory~\cite{jain1999systems},\cite[\sectionsymbol{2.1}]{gierasimczuk2010knowing},
+and showed that AGM operators are \emph{universal}, in the sense that if the
+truth can be found by any learning method at all, it can be found by an AGM
+operator. However, the initial beliefs need to be chosen carefully to avoid
+situations like the one described above. Specific AGM operators from the
+literature were also studied for their learning-theoretic properties in this
+framework~\cite{kelly1998learning,Kelly_1999}. In a similar framework,
+\textcite{gierasimczuk2010knowing,baltag_tt_2019,Baltag_2016} also studied
+various belief revision methods in relation to learning, and proved
+universality of AGM learning.
+
+While our belief change operators in \cref{chapter_belief_change} are inspired
+by the AGM paradigm, there is a crucial difference: we expressly aim to handle
+non-expert, and therefore \emph{false}, information. \todo{finish}
+
+}
+
+\begin{notes} \begin{itemize}
         \item Inductive reasoning and learning
-        \item e.g. Kevin Kelly's work, Nina
-    \end{itemize}
-\end{notes}
+        \item e.g. Kevin Kelly's work, Nina \end{itemize} \end{notes}
 
 \section{Contributions}
 
-\todo{Needed? Already mention contributions at the start of the introduction
-and in each chapter.}
+\todo{Consolidate contribution paragraphs here, and present in bullet form.}
 
 \section{Overview}
 
