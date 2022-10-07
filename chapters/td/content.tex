@@ -388,10 +388,15 @@ associated with $T$ and $N$ by
     c \cle_N^T c' &\iff T_N(c) \le T_N(c').
 \end{align*}
 Then $s \sle_N^T s'$ if $s'$ is at least as trustworthy as $s$, and similar for
-$\cle_N^T$. Note that $\sle_N^T$ and $\cle_N^T$ are total preorders. We denote
+$\cle_N^T$. Note that $\sle_N^T$ and $\cle_N^T$ are total
+preorders.\footnotemark{} We denote
 the strict parts by $\slt_N^T$ and $\clt_N^T$ respectively, and the symmetric
 parts by $\seq_N^T$ and $\ceq_N^T$. We omit the sub- and super-scripts when
 $N$ and $T$ are clear from context.
+
+\footnotetext{
+    A total preorder is a transitive and complete binary relation.
+}
 
 Given that our axioms will only refer to the rankings produced by operators,
 two operators yielding exactly the same rankings -- possibly with different
@@ -2964,8 +2969,6 @@ this remains to be proven.\footnotemark{}
 
 \section{Related Work}
 \label{td_new_sec_related_work}
-
-In this section we discuss related work.
 
 \paragraph{Ranking systems.} \textcite{altman2008} initiated axiomatic study of
 ranking systems. First we discuss their framework in relation to ours, and then

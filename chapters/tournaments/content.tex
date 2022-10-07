@@ -34,7 +34,7 @@ thesis is the ranking of information sources by \emph{expertise} or
 
     The straightforward approach of simply counting the number of correct
     values fails when the objects vary in \emph{difficulty}. Indeed, it may be
-    preferable to reward sources for correctly values on difficult objects, or
+    preferable to reward sources for correct values on difficult objects, or
     to penalise them for failing on easy objects. Furthermore, the notion of
     difficulty is not intrinsic to an object, but depends on how easily
     sources are able to determine its correct value.\footnotemark{}
@@ -54,7 +54,7 @@ thesis is the ranking of information sources by \emph{expertise} or
     sources and belief in claims in truth discovery.
 }
 
-Note that this related to but not the same as the ranking problem of truth
+Note that this is related to but not the same as the ranking problem of truth
 discovery itself, as studied in \cref{chapter_td}, since it does not concern
 finding the true values associated with objects. The setting of
 \cref{tourn_ex_td_example} is clearly relevant for \emph{semi-supervised truth
@@ -63,15 +63,22 @@ available. However, even when no such ground truth is available, many recursive
 operators (including those described in \cref{td_new_sec_recursive_operators})
 iteratively update source trust scores on the basis of current \emph{estimates}
 of the true values for objects. One could therefore consider a bipartite
-tournament at each stage of the iteration.
+tournament at each stage of the iteration. This may lead to
+\emph{difficulty-aware} truth discovery methods (c.f. \textcite{galland2010}).
 
-A related example education~\cite{jiao2017algorithms}, where $A$ represents
-students, $B$ exam questions, and student $a$ ``beats'' question $b$ by answering
-it correctly. The ranking of students then reflects their proficiency, and the
-ranking of questions reflects their difficulty. This may be particularly useful
-in the context automated grading of crowdsourced questions provided by students
-themselves, which may vary in their difficulty (see for example the PeerWise
-system \cite{denny_peerwise_2008}).
+\todo{From Richard: ``It would be nice if, at the end of this chapter, you
+actually gave an example of how you could use the methods of this chapter to
+define a recursive TD operator. I guess this might be too difficult, though.
+But even just a definition of an operator, plus an example (i.e., without
+investigating its properties) would be ok.''}
+
+A related example is education~\cite{jiao2017algorithms}, where $A$ represents
+students, $B$ exam questions, and student $a$ ``beats'' question $b$ by
+answering it correctly. The ranking of students then reflects their
+proficiency, and the ranking of questions reflects their difficulty. This may
+be particularly useful in the context of automated grading of crowdsourced
+questions provided by students themselves, which may vary in their difficulty
+(see for example the PeerWise system \cite{denny_peerwise_2008}).
 
 Other application domains include the evaluation of generative models in
 machine learning~\cite{olsson2018skill} (where $A$ represents generators and
@@ -181,13 +188,9 @@ define a ranking \emph{operator} for this purpose.
 
     An \emph{operator} $\T$ assigns each tournament $K$ a pair $\T(K) =
     ({\ale_K^\T}, {\ble_K^\T})$ of total preorders on $A$ and $B$
-    respectively.\footnotemark{}
+    respectively.
 
 \end{definition}
-
-\footnotetext{
-    A total preorder is a transitive and complete binary relation.
-}
 
 For $a, a' \in A$, we interpret $a \ale_K^\T a'$ to mean that $a'$ is ranked
 \emph{at least as strong} as $a$ in the tournament $K$, according to the
@@ -954,6 +957,8 @@ brevity.
     a'$ iff $\sigma(a) \ale_{\pi(\sigma(K))}^\T \sigma(a')$.
 \end{axiom}
 
+\todo{Consider giving examples for all the axioms.}
+
 Our second axiom is specific to bipartite tournaments, and expresses a
 \emph{duality} between the two sides $A$ and $B$: given the two sets of
 conceptually disjoint entities participating in a bipartite tournament, it
@@ -1042,7 +1047,9 @@ again introduced in~\cite{rubinstein1980ranking}, where together with
 ranking method for round-robin tournaments, which simply ranks players
 according to the number of victories. The analogous operator in our framework
 is $\Tcount$, and it can be shown that $\Tcount$ is uniquely characterised
-by \anon{}, \iim{}, \posresp{} and \dualaxiom{}.
+by \anon{}, \iim{}, \posresp{} and \dualaxiom{} (in fact, the proof follows the
+same argument as characterisation of voting in truth discovery in
+\cref{td_new_thm_voting_characterisation}).
 %
 Finally, note that \posresp{} also acts as a kind of
 \emph{strategyproofness}: $a$ cannot improve its ranking by deliberately losing
@@ -1218,14 +1225,15 @@ false negatives). This is less likely than a single mistake from just one of
 $1,2 \in A$, but the likelihood maximisation forces us to choose one or the
 other. A similar argument explains the \posresp{} failure.
 
-It is also worth noting that \anon{} only fails at the last step of
-chain editing, where a single element of $\minch{K}$ is chosen. Indeed, the set
+It is also worth noting that \anon{} only fails at the last step of chain
+editing, where a single element of $\minch{K}$ is chosen. Indeed, the set
 $\minch{K}$ itself \emph{does} exhibit the kind of symmetry one might expect:
 we have $\minch{\pi(\sigma(K))} = \{\pi(\sigma(K')) \mid K' \in \minch{K}\}$.
 This means that an operator which aggregates the rankings from \emph{all} $K'
-\in \minch{K}$ -- e.g. any anonymous social welfare function --
-would satisfy \anon{}. The other axioms are compatible with
-\chainmin{}.
+\in \minch{K}$ -- e.g. any anonymous and neutral social welfare
+function~\cite{zwicker2016voting} -- would satisfy \anon{}. \todo{Consider
+exaplaining in more detail.} The other axioms
+are compatible with \chainmin{}.
 
 \begin{theorem}
     \label{tourn_result_chainmin_axiom_compatibilities}
@@ -1409,7 +1417,7 @@ To find an operator satisfying \chainmin{} and \mon{}, we
 proceed in three stages. First, \Cref{tourn_result_chainmin_mon_swapping} shows
 that if $K(a_1) \subseteq K(a_2)$ and $K' \in \minch{K}$ is some closest chain
 tournament with the reverse inclusion $K'(a_2) \subseteq K'(a_1)$, then
-swapping $a_1$ and $a_2$ in $K'$ yields obtain another closest chain tournament
+swapping $a_1$ and $a_2$ in $K'$ yields another closest chain tournament
 $K'' \in \minch{K}$. Next, we show in
 \Cref{tourn_result_chainmin_mon_extend_strict_part} that by performing
 successive swaps in this way, we can find $K' \in \minch{K}$ such that $K'(a_1)
@@ -1797,7 +1805,7 @@ for this case.
 
 The core idea is to single out a unique chain tournament close to $K$ by paying
 attention to not only the \emph{number} of entries in $K$ that need to be
-changed to produce a chain tournament, \emph{which} entries. Specifically, we
+changed to produce a chain tournament, but \emph{which} entries. Specifically, we
 assume the availability of a total order on the set of matrix indices $\N
 \times \N$ (the \emph{matches}) which indicates our willingness to change an
 entry in $K$: the higher up $(a, b)$ is in the ranking, the more acceptable it
@@ -3472,7 +3480,7 @@ Finally, we can state the axiomatic characterisation of $\Tcardint$.
 \section{Related Work}
 \label{tourn_sec_related_work}
 
-\paragraph{On chain graphs.}
+\paragraph{Chain graphs.}
 %
 Chain graphs were originally introduced by \textcite{yannakakis1981computing}, who
 proved that \emph{chain completion} -- finding the minimum number of edges that
@@ -3488,7 +3496,7 @@ Outside of complexity theory, chain graphs have been studied for their spectral
 properties in \cite{andelic_2015,ghorbani2017spectral}, and the more general
 notion of a \emph{nested colouring} was introduced in \cite{cook2015nested}.
 
-\paragraph{On tournaments in social choice.}
+\paragraph{Tournaments in social choice.}
 %
 Tournaments have important applications in the design of voting rules, where an
 alternative $x$ beats $y$ in a pairwise comparison if a majority of voters
@@ -3522,7 +3530,7 @@ linearisation of the chain ranking $\anle_K$. This suggests a connection
 between chain deletion and the standard \emph{feedback arc set} problem for
 removing cycles and obtaining a ranking.
 
-\paragraph{On generalised tournaments.}
+\paragraph{Generalised tournaments.}
 %
 A \emph{generalised} tournament~\cite{gonzalez2014paired} is a pair $(X, A)$,
 where $X = [t]$ for some $t \in \N$ and $A \in \R_{\ge 0}^{t \times t}$ is a
@@ -3579,13 +3587,17 @@ $\Tcardint$ by way of new axioms.
 %
 The hardness of chain editing remains a limitation of our approach. A possible
 remedy is to look to one of the numerous variant problems that are
-polynomial-time solvable~\cite{jiao2017algorithms}; determining their
-applicability to ranking is an interesting topic for future work. One could
+polynomial-time solvable. For instance, \textcite{jiao2017algorithms} found a
+polynomial-time algorithm for \emph{constrained $k$-near chain editing}, where
+the ranking of $B$ is fixed, and one must minimise edge edits to find a chain
+graph in which each $a \in A$ deviates from a given fixed ranking by no more
+than $k$ positions. This scenario could be relevant to our problem if prior
+rankings are available (for instance, from a previous tournament). One could
 develop approximation algorithms for chain editing, possibly based on existing
 approximations of chain completion \cite{natanzon2000polynomial}. The
-interleaving operators of \Cref{tourn_sec_interleaving} go in this direction, but we
-did not yet obtain any theoretical or experimental bounds on the approximation
-ratio.
+interleaving operators of \Cref{tourn_sec_interleaving} go in this direction,
+but we did not yet obtain any theoretical or experimental bounds on the
+approximation ratio.
 
 A second limitation of our work lies in the assumptions of the probabilistic
 model; namely that the true state of the world can be reduced to vectors of
