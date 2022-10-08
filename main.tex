@@ -4,7 +4,7 @@
 % \usepackage{newpxtext} % palatino font
 % \usepackage[T1]{fontenc}
 \usepackage{xcolor}
-\usepackage[backend=biber,backref=true,style=authoryear]{biblatex}
+\usepackage[backend=biber,backref=true,style=authoryear,useprefix]{biblatex}
 \usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{amsthm}
@@ -58,7 +58,22 @@
     backrefpage = {cited on page},
     backrefpages = {cited on pages},
 }
+\DeclareSortingNamekeyTemplate{
+  \keypart{
+    \namepart{family}
+  }
+  \keypart{
+    \namepart{prefix}
+  }
+  \keypart{
+    \namepart{given}
+  }
+  \keypart{
+    \namepart{suffix}
+  }
+}
 
+\renewbibmacro{begentry}{\midsentence}
 % global macros
 \input{macros.tex}
 
