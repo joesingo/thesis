@@ -32,8 +32,8 @@ instead apply some form of \emph{non-prioritised}
 revision~\cite{hansson1999survey}.
 
 Suppose it now emerges that $\drX$ had earlier claimed $\patientA$ did \emph{not}
-suffer from condition p, contrary to the test results. We now have reason to
-suspect $\drX$ may \emph{lack expertise} on diagnosing p, and may subsequently
+suffer from condition $p$, contrary to the test results. We now have reason to
+suspect $\drX$ may \emph{lack expertise} on diagnosing $p$, and may subsequently
 revise beliefs about $\drX$'s domain of expertise and the status of patient
 $\patientB$ (e.g. by opting to trust $\drY$ instead).
 
@@ -59,10 +59,11 @@ belief bases from multiple sources; a detailed comparison will be given in
 
 Our work is also connected to trust and belief revision. As
 \textcite{yasser_21} note in recent work, trust and belief are inexorably
-linked: we should accept reports from sources we believe are trustworthy, and
-we should trust sources whose reports turn out to be reliable. Trust and belief
-should also be revised in tandem, so that we may increase or decrease trust in
-a source as more reports are received, and revoke or reinstate previous reports
+linked. As set out in \cref{chapter_td} in the context of truth discovery, we
+should accept reports from sources we believe are trustworthy, and we should
+trust sources whose reports turn out to be reliable. Trust and belief should
+also be revised in tandem, so that we may increase or decrease trust in a
+source as more reports are received, and revoke or reinstate previous reports
 from a source as its perceived trustworthiness changes.
 
 To unify the trust and belief aspects, we work in (a fragment of) the language
@@ -583,7 +584,8 @@ cases or for none. We also have
 $
     \cnprop\proppart{\Gamma_c} = \proppart{\Gamma_c},
 $
-i.e. the propositional parts of $G$ are (classically) closed.
+i.e. the propositional parts of $G$ are (classically) closed. \todo{Richard
+wants to see a proof of this.}
 
 In propositional logic, $\propmods{\cdot}$ is a 1-to-1 correspondence between closed
 sets of formulas and sets of valuations. This is not so in our setting, since
@@ -1177,11 +1179,8 @@ presence of a \emph{plausibility ordering} on $\X_\sigma$, which is used to
 select $\Y_\sigma$.
 %
 For our first construction we take this approach: we condition a fixed
-plausibility total preorder\footnotemark{} on the knowledge $\X_\sigma$, and
+plausibility total preorder on the knowledge $\X_\sigma$, and
 obtain $\Y_\sigma$ by selecting the minimal (i.e. most plausible) worlds.
-\footnotetext{
-    A total preorder is a reflexive, transitive and total relation.
-}
 
 \begin{definition}
 \label{kr_def_conditioning_operator}
@@ -1259,7 +1258,6 @@ basic postulates. \todo{Show?}
 partitions, and thereby maximise the number of propositions on which they have
 expertise. Unlike \varbasedcond{}, the propositional variables play no special
 role. As expected, \partbasedcond{} satisfies the basic postulates.
-\todo{Show?}
 
 \begin{example}
     Applying \partbasedcond{} to $\sigma$ from
@@ -1358,6 +1356,8 @@ auxiliary postulates -- each of which follows from the basic postulates and
     \phi}} = B^\sigma$ and $K^{\sigma \concat \tuple{i, c, \phi}} = K^\sigma$
 \end{axiom}
 \end{axiomlist}
+
+\todo{Description of what these postulates are saying.}
 
 \begin{lemma}
     \label{kr_lemma_condcons_duprem_follow}
@@ -1921,7 +1921,11 @@ for each sequence $\sigma$. We represent these rankings by \emph{scoring
 functions}, and call the resulting operators \emph{score-based}.
 
 \todo{Also consider presenting the ``Cancellation'' postulate as a case against
-simple conditioning.}
+simple conditioning. From Richard: ``I would. It yields a version of Darwiche
+and Pearl’s C1 but for ordinary sources, so it’s good to link with DP. It’s
+going in the journal version, in any case. If you include Cancellation it might
+be worth pointing out that it is a strengthening of Duplicate-removal (given
+the other postulates).''}
 
 \begin{definition}
 \label{kr_def_score_based}
@@ -3616,7 +3620,7 @@ integrity constraint $\mu$ represents sure information which must be respected
 represents the merged result. Various operators and postulates have been
 proposed in the literature; see \cite{Konieczny_2011} for a review.
 
-Merging can be seen as the special case of our framework, if we impose an upper
+Merging can be seen as a special case of our framework, if we impose an upper
 bound $N$ on the size of the multisets considered as inputs. Indeed,
 instantiating our framework with $\srcs = \{1, \ldots, N, \ast\}$ and a single
 case $\C = \{c\}$, we can interpret a multiset $\Psi$ and integrity constraint
@@ -3889,6 +3893,8 @@ inferences are blocked, and conditioning is largely incompatible with
 \strongcondsucc{}. Score-based operators, and in particular \scorebasedop{},
 were introduced as a possible way around these limitations. \todo{Possible
 downsides of \scorebasedop{}; e.g. failure of \duprem{}.}
+
+\todo{Summary of selectivity and expertise, in case readers skip it.}
 
 \paragraph{Limitations and future work.}
 There are many possibilities for future work.
