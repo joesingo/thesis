@@ -1,7 +1,7 @@
-\chapter{Truth-Tracking}
+\chapter{Truth-Tracking with Non-Expert Sources}
 \label{chapter_truthtracking}
 
-In this chapter we study apply the framework of the previous chapter to study
+In this chapter we apply the framework of the previous chapter to study
 \emph{truth-tracking}.
 %
 Broadly speaking, the goal of truth-tracking is to find
@@ -50,7 +50,7 @@ setting of \textcite{baltag_tt_2019}. We apply this to the logical framework of
 \cref{chapter_belief_change}, which extends a finitely-generated propositional
 language with two new notions: that of a source having expertise on a
 formula, and a formula being sound for a source to report. Consequently
-we can consider learning both both the \emph{ontic} facts of the world, via
+we can consider learning both the \emph{ontic} facts of the world, via
 purely propositional formulas, and the \emph{epistemic} state of the
 sources, via expertise and soundness formulas.
 
@@ -159,10 +159,10 @@ by the following grammar:
 \[
     \Phi
     ::= p
-    \mid \E_i\phi
-    \mid \S_i\phi
     \mid \Phi \land \Phi
-    \mid \neg\Phi,
+    \mid \neg\Phi
+    \mid \E_i\phi
+    \mid \S_i\phi,
 \]
 for $i \in \srcs$, $p \in \propvars$ and $\phi \in \Lprop$. Formulas in $\L$
 will be denoted by upper-case Greek letters ($\Phi$, $\Psi$ etc). Other logical
@@ -243,9 +243,11 @@ we write $S, c \models \Phi$ iff $W, c \models \Phi$ for all $W \in S$.
 \paragraph{Reports.}
 
 A \emph{report} is a triple $\tuple{i, c, \phi}$, where $i \in \srcs$, $c \in
-\css$ and $\phi \in \Lprop$ with $\phi \not\equiv \falsum$. In most of this chapter, we
-interpret such triples as source $i$ reporting that $\phi$ is possible in case
-$c$. An \emph{input sequence} $\sigma$ is a finite sequence of reports.
+\css$ and $\phi \in \Lprop$ with $\phi \not\equiv \falsum$. In most of this
+chapter, we interpret such triples as source $i$ reporting that $\phi$ is
+\emph{possible} in case $c$ (note that this interpretation was \emph{not} used
+in \cref{chapter_belief_change}). An \emph{input sequence} $\sigma$ is a finite
+sequence of reports.
 
 A \emph{method} $L$ maps each input sequence $\sigma$ to a set of worlds
 $L(\sigma) \subseteq \worlds$, called the \emph{conjecture} of $L$ on $\sigma$.
@@ -485,6 +487,8 @@ selective conditioning operators in
     stream for $W$ iff it is a stream for $W'$.
 \end{proof}
 
+\todo{Example of two worlds which are equivalent and two which are not.}
+
 Since it will play a special role throughout, we denote by $Q^*$ the question
 formed by the equivalence relation $\speceq$. Then $Q^*[W]$ is the set of $W'$
 with $W \speceq W'$. Since no solvable question can distinguish
@@ -595,21 +599,25 @@ we make the following definition.
 
 Solving a question $Q$ has a \emph{global} character: we must find the correct
 answer $Q[W]$ starting from \emph{any} world $W$. As we saw in
-\cref{tt_ex_questions_revisited}, this rules out the possibility of solving many
-interesting questions due to the presence of ``abnormal'' worlds (e.g. those in
-which no sources have any expertise). In this section we take a more
+\cref{tt_ex_questions_revisited}, this rules out the possibility of solving
+many interesting questions due to the presence of ``abnormal'' worlds (e.g.
+those in which no sources have any expertise). In this section we take a more
 fine-grained approach by looking \emph{locally}: given some \emph{particular}
-world $W$, what can we learn about $W$ via truth-tracking methods?
-Concretely, what properties of $W$ are uniquely defined across $Q^*[W]$?
+world $W$, what can we learn about $W$ via truth-tracking methods?  Concretely,
+what properties of $W$ are uniquely defined across $Q^*[W]$? For instance, in
+\cref{tt_ex_informal_example} we took this local perspective and argued that in
+the particular world $W$ modelling the medial scenario, it is possible to find
+the true value of $q$ for patient $\patientA{}$ but not for $\patientB{}$. The
+results and examples of this section will formalise this informal argument.
 
-Clearly this depends on $W$. If no sources have expertise then
-source partitions are uniquely defined (since \emph{all} consistent formulas
-are sound, and only the trivial partitions have this property), but any
-combination of valuations is possible. On the other hand if all sources have
-total expertise then valuations are uniquely defined, but there may not be
-enough cases to uniquely identify the source partitions. Of particular interest
-is the case where $Q^*[W]$ contains only $W$; starting in such a world,
-truth-tracking methods are able to find the true world exactly.
+In general, the extent to which one can learn depends on $W$. If no sources
+have expertise then source partitions are uniquely defined (since \emph{all}
+consistent formulas are sound, and only the trivial partitions have this
+property), but any combination of valuations is possible. On the other hand if
+all sources have total expertise then valuations are uniquely defined, but
+there may not be enough cases to uniquely identify the source partitions. Of
+particular interest is the case where $Q^*[W]$ contains only $W$; starting in
+such a world, truth-tracking methods are able to find the true world exactly.
 
 In what follows, say $S \subseteq \worlds$ \emph{decides $\Phi$ in case
 $c$} iff either $S, c \models \Phi$ or $S, c \models \neg\Phi$. That is, the
@@ -631,7 +639,7 @@ $\psi \in \Gamma$ there is $i \in \srcs'$ such that $W \models \E_i\psi$. Then
 the group $\srcs'$ have expertise on $\Gamma$ in a collective sense, even if no
 single source has expertise on \emph{all} formulas in $\Gamma$.\footnotemark{}
 %
-We have that $\phi$ is decided if $\srcs$ have group expertise on a set of true
+We have that $\phi$ is decided if $\srcs$ has group expertise on a set of true
 formulas $\Gamma \subseteq \Lprop$ such that either $\Gamma \propmodels \phi$
 or $\Gamma \propmodels \neg\phi$.
 
@@ -659,7 +667,7 @@ or $\Gamma \propmodels \neg\phi$.
 \end{theorem}
 
 $Q^*[W]$ decides \emph{all} propositional formulas -- and thus determines the
-$c$-valuation $v^W_c$ exactly -- iff $\srcs$ have group expertise on a
+$c$-valuation $v^W_c$ exactly -- iff $\srcs$ has group expertise on a
 maximally consistent set of true formulas. For $S \subseteq \worlds$ and $c \in
 \css$, write $\vals^S_c = \{v^W_c \mid W \in S\}$ for the $c$-valuations
 appearing in $S$.
@@ -1099,7 +1107,7 @@ Then $W \in T_\sigma$ iff $\sigma$ is sound for $W$ and any $\delta$ sound for
 $W$ has $\delta \seqss \sigma$. In this sense $\sigma$ contains \emph{all}
 soundness statements for $W$ -- up to equivalence -- so can be seen as a finite
 version of a stream. Let us call $\sigma$ a \emph{pseudo-stream} for $W$
-whenever $W \in T_\sigma$.
+whenever $W \in T_\sigma$. \todo{Richard says an example is needed here.}
 %
 The truth-tracking characterisation uses the following postulate.
 
@@ -1140,7 +1148,7 @@ explicitly in terms of expertise:
 \cref{tt_eqn_stronger_tt_property} implies \credulity{}
 in the presence of \soundness{}, and is thus a sufficient condition for
 truth-tracking (when also taken with \equivalence{} and
-\repetition{}).\footnotemark{}
+\repetition{}).\footnotemark{} \todo{Show.}
 
 \footnotetext{
     We conjecture \cref{tt_eqn_stronger_tt_property} is strictly stronger than
@@ -1148,9 +1156,10 @@ truth-tracking (when also taken with \equivalence{} and
 }
 
 \cref{tt_thm_tt_characterisation} also shows truth-tracking cannot be performed
-\emph{deductively}: the method $L(\sigma) = \Xsnd_\sigma$, which does not go
-beyond the mere information that each report is sound, fails
-\credulity{}. Some amount of or \emph{non-monotonic} reasoning, as captured by
+\emph{deductively}: the method $L(\sigma) = \Xsnd_\sigma$ -- which does not go
+beyond the mere information that each report is sound, and corresponds to the
+weak model-based operator from \cref{kr_def_weakop} -- fails \credulity{}.
+\todo{Show} Some amount of or \emph{non-monotonic} reasoning, as captured by
 \credulity{}, is necessary.
 
 The rest of this section works towards the proof of
@@ -1320,20 +1329,18 @@ Finally, we prove the characterisation of truth-tracking.
 
 In this section we turn to the family of \emph{conditioning} methods from
 \cref{kr_sec_conditioning_operators}.
-% and inspired by similar methods in the
-% belief change literature~\cite{spohn1988ordinal}.
-% These methods were originally proposed in relation to \emph{rationality
-% postulates} for a belief change problem with non-expert sources. By studying
-% them in relation to truth-tracking, we will see that rationality is compatible
-% with truth-tracking.
+% and inspired by similar methods in the belief change
+% literature~\cite{spohn1988ordinal}.  These methods were originally proposed
+% in relation to \emph{rationality postulates} for a belief change problem with
+% non-expert sources. By studying them in relation to truth-tracking, we will
+% see that rationality is compatible with truth-tracking.
 While the interpretation of input sequences is different when considering sound
-and complete streams -- we
-read $\tuple{i, c, \phi}$ as $i$ reporting $\phi$ is \emph{possible} in case
-$c$, whereas before such reports were read as $i$
-\emph{believes} $\phi$ -- this class of methods can still be applied.
-Moreover, while conditioning methods were put forward in
-\cref{kr_sec_conditioning_operators} in order to satisfy rationality
-postulates, we will soon see that they are also compatible with truth-tracking.
+and complete streams -- we read $\tuple{i, c, \phi}$ as $i$ reporting $\phi$ is
+\emph{possible} in case $c$, whereas no such fixed interpretation was in place
+before -- this class of methods can still be applied.  Moreover, while
+conditioning methods were put forward in \cref{kr_sec_conditioning_operators}
+in order to satisfy rationality postulates, we will soon see that they are also
+compatible with truth-tracking.
 
 Conditioning methods operate by successively restricting a fixed
 \emph{plausibility total preorder} to the information corresponding to each
@@ -1622,9 +1629,9 @@ The proof is essentially identical to that of
 
 So far our model of source inputs is based on sound and complete streams, in
 which sources report all (and only) sound formulas. This is perhaps not
-realistic cases where sources have \emph{beliefs}, possibly going beyond their
-knowledge.  For instance, in our running example the doctor $\dr$ may
-\emph{believe} $\patientA$ suffers from $p$ but not \emph{know} so; in this
+realistic in situations where sources have \emph{beliefs}, possibly going
+beyond their knowledge. For instance, in our running example the doctor $\dr$
+may \emph{believe} $\patientA$ suffers from $p$ but not \emph{know} so; in this
 case $\neg{p}$ is sound -- and would thus be reported, in our model so far --
 when in fact $\dr$ believes its negation. To remedy this we introduce
 additional structure on top of worlds which express sources' beliefs about the
@@ -1735,7 +1742,8 @@ We come to an example.
     is the flat one in which all possibilities are equally plausible.
 
     Supposing $W$ from \cref{tt_fig_example_world} is the actual world, $\dr$
-    then observes both patients. Since the actual valuations $v^W_{\patientA}$
+    then observes both patients. \todo{Richard wants the figure repeated here.}
+    Since the actual valuations $v^W_{\patientA}$
     and $v^W_{\patientB}$ lie in the same cell in $\Pi^W_{\dr}$, $\dr$ lacks
     expertise to distinguish them with certainty; we have
     \[
@@ -2103,16 +2111,33 @@ In this chapter we studied truth-tracking in the presence of non-expert
 sources.  To start with, the model assumes sources report everything true
 \emph{up to their lack of expertise}, i.e. all that they consider possible. We
 obtained precise characterisations of when truth-tracking methods can uniquely
-find the valuations and partitions of a world $W$. We then gave a postulational
-characterisation of truth-tracking methods under mild assumptions, before
-looking specifically at the conditioning and score-based methods of
-\cref{chapter_belief_change}.
+find the valuations of a world $W$, and in doing so showed how sources may
+\emph{combine} their expertise to track the truth. Similar results were
+presented for finding the actual partitions of a world $W$, i.e. finding the
+true extent of each source's expertise.
 
-We then introduced a mechanism by which sources form beliefs -- possibly going
-beyond their knowledge, and possibly false in the actual world. Similar notions
-of truth-tracking were introduced, and some examples were given of how certain
-assumptions on worlds can improve the informativeness of truth-tracking in this
-setting.
+We then presented the \credulity{} postulate, which characterises
+truth-tracking methods under mild assumptions. Roughly speaking, this postulate
+says that one needs to \emph{trust} sources to be experts wherever possible.
+Purely deductive reasoning -- in which one does not conjecture beyond the fact
+that each received report is sound -- fails to be credulous enough in this
+sense, and thus some amount of \emph{non-monotonic} reasoning is required for
+truth-tracking.
+
+Next, we reconsidered the conditioning and score-based methods of
+\cref{chapter_belief_change} in the context of truth-tracking. Interestingly,
+it was seen that the variable-based conditioning method $L_\vbc{}$ is
+\emph{not} truth-tracking, but the partition-based conditioning method
+$L_\pbc{}$ and score-based method $L_\exm$ are. The success of the latter two
+methods showed that truth-tracking is compatible with rational belief change as
+expressed by the postulates of \cref{chapter_belief_change} (which are
+satisfied by all three methods).
+
+Finally, we introduced a mechanism by which sources form \emph{beliefs} --
+possibly going beyond their knowledge, and possibly false in the actual world.
+Similar notions of truth-tracking were introduced, and some examples were given
+of how certain assumptions on worlds can improve the informativeness of
+truth-tracking in this setting.
 
 \paragraph{Limitations and future work.}
 
