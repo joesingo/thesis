@@ -241,17 +241,17 @@ iff $\phi$ holds at all states $y \in X$.
 }
 
 \def\w{1}
-\def\h{0.4}
+\def\h{0.5}
 \newcommand{\examplemodel}{
     \tikzset{mynode/.style={color=black}}
-    \node[mynode] (a) at (0, 0) {$ipd$};
-    \node[mynode] (b) at (\w, 0) {$pd$};
-    \node[mynode] (c) at (0, \h) {$ip$};
-    \node[mynode] (d) at (\w, \h) {$p$};
-    \node[mynode] (e) at (0, 2*\h) {$id$};
-    \node[mynode] (f) at (\w, 2*\h) {$d$};
-    \node[mynode] (g) at (0, 3*\h) {$i$};
-    \node[mynode] (h) at (\w, 3*\h) {$\emptyset$};
+    \node[mynode] (a) at (0, 0) {\large $ipd$};
+    \node[mynode] (b) at (\w, 0) {\large $pd$};
+    \node[mynode] (c) at (0, \h) {\large $ip$};
+    \node[mynode] (d) at (\w, \h) {\large $p$};
+    \node[mynode] (e) at (0, 2*\h) {\large $id$};
+    \node[mynode] (f) at (\w, 2*\h) {\large $d$};
+    \node[mynode] (g) at (0, 3*\h) {\large $i$};
+    \node[mynode] (h) at (\w, 3*\h) {\large $\emptyset$};
 }
 
 \begin{example}
@@ -276,14 +276,14 @@ iff $\phi$ holds at all states $y \in X$.
 
 \begin{figure}
     \centering
-    \begin{tikzpicture}[scale=1.9]
+    \begin{tikzpicture}[scale=2]
         \def\px{0.4}
         \def\py{0.2}
-        \def\s{0.8}
+        \def\s{0.95}
 
         % economist's expertise sets
         \tikzset{expertiseset/.style={
-            rounded corners,draw=red,thick
+            rounded corners,draw=red,line width=0.4mm
         }}
         \draw[expertiseset]
             (-\px, -\py*\s) -- (\w + \px, -\py*\s) -- (\w + \px, \h + \py*\s)
@@ -291,23 +291,22 @@ iff $\phi$ holds at all states $y \in X$.
         \draw[expertiseset]
             (-\px, 2*\h -\py*\s) -- (\w + \px, 2*\h -\py*\s) -- (\w + \px, 3*\h + \py*\s)
             -- (-\px, 3*\h + \py*\s) -- cycle;
-        \node[color=red,anchor=east] at (-\px, 0.5*\h) {$\|p\|$};
-        \node[color=red,anchor=east] at (-\px, 2.5*\h) {$\|\neg p\|$};
+        \node[color=red,anchor=east] at (-\px, 0.5*\h) {\large $\|p\|$};
+        \node[color=red,anchor=east] at (-\px, 2.5*\h) {\large $\|\neg p\|$};
 
         % e ∧ ¬d
         \def\r{0.7}
-        \draw[rounded corners,draw=blue,thick,dashed]
+        \draw[rounded corners,draw=blue,thick,line width=0.4mm]
             (-\px*\r, \h + -\py*\s*\r) -- (\w + \px*\r, \h + -\py*\s*\r) --
             (\w + \px*\r, \h + \py*\s*\r) -- (-\px*\r, \h + \py*\s*\r) -- cycle;
-        \node[color=blue,anchor=west] at (\w + \px, \h) {$\|p \land \neg d\|$};
+        \node[color=blue,anchor=west] at (\w + \px, \h) {\large $\|p \land \neg d\|$};
 
         \examplemodel{}
 
     \end{tikzpicture}
     \caption{
         Expertise model from \cref{exp_ex_economist_formalisation}, which
-        formalises \cref{exp_ex_economist_motivation}. \todo{Make this
-        consistent with figures in later chapters, and use bar notation.}
+        formalises \cref{exp_ex_economist_motivation}.
     }
     \label{exp_fig_economist_example}
 \end{figure}
