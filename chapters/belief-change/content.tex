@@ -700,55 +700,6 @@ seek an operator with the following behaviour:
 
 \end{itemize}
 
-%\begin{example}
-%    \label{kr_ex_most_basic_example}
-
-%    \todo{Make sure this example links back to the informal one in the
-%    introduction, and discuss knowledge before belief}
-%    %
-%    Consider ordinary sources $i$, $j$ and the sequence
-%    $
-%        \sigma = (\tuple{i, c, p}, \tuple{j, c, \neg p})
-%    $.
-%    Here $\sigma$ exhibits total symmetry between $i$, $j$ and $p$, $\neg p$,
-%    so intuitively any operator should be uncertain about $p$ (i.e. $p \notin
-%    B^\sigma_c$ and $\neg p \notin B^\sigma_c$) and uncertain about $i$ and $j$
-%    (i.e.  $\E_i{p} \notin B^\sigma_c$ and $\E_j{p} \notin B^\sigma_c$).
-%    %
-%    An ``optimistic'' operator might have $\E_i{p} \lor \E_j{p} \in B^\sigma_c$
-%    (i.e. we believe \emph{at least one} of the sources has expertise on $p$).
-%    %
-%    We would not want to commit this to the knowledge set
-%    $K^\sigma_c$, though, since it is \emph{possible} that neither $i$ nor $j$ have
-%    expertise on $p$. Under the assumption that sources are honest, we do
-%    however know that both cannot be experts: $\neg(\E_i{p} \land \E_j{p}) \in
-%    K^\sigma_c$.\footnote{This will in fact follow from the \closure{} and
-%    \soundness{} postulates we introduce in \cref{kr_sec_basic_postulates}.}
-
-%\end{example}
-
-%\begin{example}
-%    \label{kr_ex_most_basic_example_extended}
-%    Consider an extension of \cref{kr_ex_most_basic_example}: set
-%    $
-%        \sigma = (
-%            \tuple{i, c, p}, \tuple{j, c, \neg p}, \tuple{i, d, p},
-%            \tuple{\ast, d, \neg p}
-%        )
-%    $ (also c.f. the introductory example).
-%    Here the symmetry is broken by source $i$ reporting $p$ in another case
-%    $d$, where we know $\neg p$ due to the completely reliable source $\ast$.
-%    From this we should have $\neg \E_i{p} \in K^\sigma_c$, which could be
-%    enough to tip the scales in favour of source $j$ in case $c$, so that
-%    $\E_j{p} \land \neg p \in B^\sigma_c$.\footnote{Indeed, this is the case for
-%    the example operators we define later.}
-%    %
-%    While simple, this important
-%    example shows how trust affects belief (we disbelieve $p$ since we do not
-%    trust $i$ on $p$) and how reports in one case can affect beliefs in
-%    another.
-%\end{example}
-
 \subsection{Basic Postulates}
 \label{kr_sec_basic_postulates}
 
@@ -1357,7 +1308,11 @@ auxiliary postulates -- each of which follows from the basic postulates and
 \end{axiom}
 \end{axiomlist}
 
-\todo{Description of what these postulates are saying.}
+\condcons{} is another consistency postulate which says beliefs $B^\sigma$ can
+only be inconsistent if the knowledge $K^\sigma$ is too. \duprem{} says that
+the output does not change when a report $\tuple{i, c, \phi}$ in $\sigma$ is
+repeated; together with \rearr{}, this means any duplicate reports may be
+ignored.
 
 \begin{lemma}
     \label{kr_lemma_condcons_duprem_follow}
@@ -2671,8 +2626,6 @@ have more expertise are preferred.
     $\phi_1 \in B^\rho_d$ gives $W_2, d \models \phi_1$. Since $v^{W_2}_d =
     v_2$ and $\propmods{\phi_1} = \{v_1\}$, this means $v_1 = v_2$. But $v_1$
     and $v_2$ were assumed to be distinct: contradiction.
-
-    \todo{Show that any strict subset is satisfiable}
 \end{proof}
 
 \Cref{kr_prop_strongcondsucc_conditioning_impossibilitity} highlights an important
@@ -3893,8 +3846,6 @@ inferences are blocked, and conditioning is largely incompatible with
 \strongcondsucc{}. Score-based operators, and in particular \scorebasedop{},
 were introduced as a possible way around these limitations. \todo{Possible
 downsides of \scorebasedop{}; e.g. failure of \duprem{}.}
-
-\todo{Summary of selectivity and expertise, in case readers skip it.}
 
 \paragraph{Limitations and future work.}
 There are many possibilities for future work.
