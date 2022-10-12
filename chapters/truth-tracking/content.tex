@@ -487,8 +487,6 @@ selective conditioning operators in
     stream for $W$ iff it is a stream for $W'$.
 \end{proof}
 
-\todo{Example of two worlds which are equivalent and two which are not.}
-
 Since it will play a special role throughout, we denote by $Q^*$ the question
 formed by the equivalence relation $\speceq$. Then $Q^*[W]$ is the set of $W'$
 with $W \speceq W'$. Since no solvable question can distinguish
@@ -1107,7 +1105,7 @@ Then $W \in T_\sigma$ iff $\sigma$ is sound for $W$ and any $\delta$ sound for
 $W$ has $\delta \seqss \sigma$. In this sense $\sigma$ contains \emph{all}
 soundness statements for $W$ -- up to equivalence -- so can be seen as a finite
 version of a stream. Let us call $\sigma$ a \emph{pseudo-stream} for $W$
-whenever $W \in T_\sigma$. \todo{Richard says an example is needed here.}
+whenever $W \in T_\sigma$.
 %
 The truth-tracking characterisation uses the following postulate.
 
@@ -1145,10 +1143,10 @@ explicitly in terms of expertise:
     \text{ then }
     L(\sigma), c \models \E_i\phi.
 \end{equation}
-\cref{tt_eqn_stronger_tt_property} implies \credulity{}
-in the presence of \soundness{}, and is thus a sufficient condition for
+We show below that \cref{tt_eqn_stronger_tt_property} implies \credulity{} in
+the presence of \soundness{}, and is thus a sufficient condition for
 truth-tracking (when also taken with \equivalence{} and
-\repetition{}).\footnotemark{} \todo{Show.}
+\repetition{}).\footnotemark{}
 
 \footnotetext{
     We conjecture \cref{tt_eqn_stronger_tt_property} is strictly stronger than
@@ -1158,9 +1156,21 @@ truth-tracking (when also taken with \equivalence{} and
 \cref{tt_thm_tt_characterisation} also shows truth-tracking cannot be performed
 \emph{deductively}: the method $L(\sigma) = \Xsnd_\sigma$ -- which does not go
 beyond the mere information that each report is sound, and corresponds to the
-weak model-based operator from \cref{kr_def_weakop} -- fails \credulity{}.
-\todo{Show} Some amount of or \emph{non-monotonic} reasoning, as captured by
+weak model-based operator from \cref{kr_def_weakop} -- fails
+\credulity{}.\footnotemark{}
+Some amount of or \emph{non-monotonic} reasoning, as captured by
 \credulity{}, is necessary.
+
+\footnotetext{
+    Indeed, consider the world $W$ such that $\Pi^W_i$ is the one-cell
+    partition $\{\vals\}$ for all sources $i$. Then $W \in \Xsnd_\sigma$ for
+    any $\sigma$, since all reports are sound when sources have expertise only
+    on tautologies. Consequently $\S_i\phi$ is always consistent with
+    $\Xsnd_\sigma$, so we can never have $\Xsnd_\sigma, c \models
+    \neg\S_i\phi$. To show \credulity{} fails, it suffices to take any $W'$
+    such that $W', c \not\models \S_i\phi$ for some $i, c, \phi$, and to
+    take $\sigma$ such that $W' \in T_\sigma$.
+}
 
 The rest of this section works towards the proof of
 \cref{tt_thm_tt_characterisation}. We collect some useful properties of
@@ -1200,6 +1210,40 @@ finite sequence: $T_\sigma$ is a cell in $Q^*$ whenever it is non-empty.
     \cref{tt_item_ps_upperset} gives $W \specleq W'$.  But we also have $W' \in
     T_\sigma$ and $W \in \Xsnd_\sigma$, so \cref{tt_item_ps_upperset} again gives
     $W' \specleq W$. Hence $W \speceq W'$, i.e. $W' \in Q^*[W]$.
+\end{proof}
+
+We can now show that property \cref{tt_eqn_stronger_tt_property} implies
+\credulity{} together with \soundness{}.
+
+\begin{proposition}
+    Suppose $L$ satisfies \soundness{} and property
+    \cref{tt_eqn_stronger_tt_property}. Then $L$ satisfies \credulity{}.
+\end{proposition}
+
+\begin{proof}
+    Suppose $T_\sigma, c \not\models \S_i\phi$. By assumption, there is some $W
+    \in T_\sigma$ such that $W, c \not\models \S_i\phi$. Take some $W' \in
+    L(\sigma)$. We need to show that $W', c \not\models \S_i\phi$.
+
+    Now, from $W, c \not\models \S_i\phi$ we get $\Pi^W_i[v^W_c] \cap
+    \propmods{\phi} = \emptyset$. Taking $\psi$ such that $\propmods{\psi} =
+    \Pi^W_i[v^W_c]$, we have $\propmods{\psi} \cap \propmods{\phi} = \emptyset$
+    and $W, c \models \E_i\psi$. Thus $T_\sigma, c \not\models \neg\E_i\psi$,
+    so property \cref{tt_eqn_stronger_tt_property} gives $L(\sigma), c \models
+    \E_i\psi$. Since $W' \in L(\sigma)$, we get $W', c \models \E_i\psi$, i.e.
+    $\Pi^{W'}_i[\psi] = \propmods{\psi}$.
+
+    On the other hand, from \soundness{} we have $L(\sigma) \subseteq
+    \Xsnd_\sigma$, so $W' \in \Xsnd_\sigma$. Since $W \in T_\sigma$,
+    \cref{tt_lemma_tsigma_qstar} gives $W \specleq W'$, and so $\propmods{\psi}
+    = \Pi^W_i[v^W_c] \subseteq \Pi^{W'}_i[v^{W'}_c]$ by
+    \cref{tt_lemma_spec_active_cell}. Now since $\propmods{\psi}$ is a subset
+    of the cell $\Pi^{W'}_i[v^{W'}_c]$, its expansion under $\Pi^{W'}_i$ is
+    equal to this cell, i.e. $\Pi^{W'}_i[\psi] = \Pi^{W'}_i[v^{W'}_c]$. But we
+    showed above that $\Pi^{W'}_i[\psi] = \propmods{\psi}$. Hence
+    $\Pi^{W'}_i[v^{W'}_c] = \propmods{\psi}$. In particular,
+    $\Pi^{W'}_i[v^{W'}_c] \cap \propmods{\phi} = \emptyset$, and $W', c
+    \not\models \S_i\phi$ as required.
 \end{proof}
 
 The next two results show that initial segments of streams are (eventually)
@@ -1741,11 +1785,12 @@ We come to an example.
     of $\patientB$'s age, and thus the plausibility order $\le_{\dr,\patientB}$
     is the flat one in which all possibilities are equally plausible.
 
-    Supposing $W$ from \cref{tt_fig_example_world} is the actual world, $\dr$
-    then observes both patients. \todo{Richard wants the figure repeated here.}
-    Since the actual valuations $v^W_{\patientA}$
-    and $v^W_{\patientB}$ lie in the same cell in $\Pi^W_{\dr}$, $\dr$ lacks
-    expertise to distinguish them with certainty; we have
+    Supposing $W$ from \cref{tt_fig_example_world} is the actual world (for
+    convenience we reproduce the figure in \cref{tt_fig_example_world_repro}),
+    $\dr$ then observes both patients. Since the actual valuations
+    $v^W_{\patientA}$ and $v^W_{\patientB}$ lie in the same cell in
+    $\Pi^W_{\dr}$, $\dr$ lacks expertise to distinguish them with certainty; we
+    have
     \[
         \Pi^W_{\dr}[v^W_{\patientA}]
         =
@@ -1775,6 +1820,15 @@ We come to an example.
     $\min_{\le_{\dr,\patientB}}{\Pi^W_{\dr}[v^W_{\patientB}]}$.
 \end{example}
 
+\begin{figure}
+    \centering
+    \input{chapters/truth-tracking/tikz/world_example.tex}
+    \caption{
+        Reproduction of \cref{tt_fig_example_world}.
+    }
+    \label{tt_fig_example_world_repro}
+\end{figure}
+
 We can now consider ``belief-based'' streams, which enumerate source beliefs.
 
 \begin{definition}
@@ -1789,10 +1843,10 @@ This is essentially the same notion as streams from \cref{tt_def_stream}, but
 with $\B_i\phi$ replacing $\S_i\phi$.
 
 \begin{example}
-    Consider $W$ from \cref{tt_fig_example_world} and source $\dr$. Continuing
-    from \cref{tt_ex_belief_structure}, the reports from $\dr$ for case
-    $\patientA$ in any $\b$-stream enumerate $\cnprop{p \land \neg{q}}$, and
-    the reports for case $\patientB$ enumerate $\cnprop{p \lor q}$.
+    Consider $W$ from \cref{tt_fig_example_world_repro} and source $\dr$.
+    Continuing from \cref{tt_ex_belief_structure}, the reports from $\dr$ for
+    case $\patientA$ in any $\b$-stream enumerate $\cnprop{p \land \neg{q}}$,
+    and the reports for case $\patientB$ enumerate $\cnprop{p \lor q}$.
 \end{example}
 
 A notion of \emph{$\b$-solvability} comes naturally.
