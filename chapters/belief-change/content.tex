@@ -1875,13 +1875,6 @@ way is to have a ranking for each
 for each sequence $\sigma$. We represent these rankings by \emph{scoring
 functions}, and call the resulting operators \emph{score-based}.
 
-\todo{Also consider presenting the ``Cancellation'' postulate as a case against
-simple conditioning. From Richard: ``I would. It yields a version of Darwiche
-and Pearl’s C1 but for ordinary sources, so it’s good to link with DP. It’s
-going in the journal version, in any case. If you include Cancellation it might
-be worth pointing out that it is a strengthening of Duplicate-removal (given
-the other postulates).''}
-
 \begin{definition}
 \label{kr_def_score_based}
     An operator is \emph{score-based} if there is a mapping $\sigma \mapsto
@@ -1974,11 +1967,6 @@ this ideal.
 One can verify that \scorebasedop{} satisfies the basic postulates of
 \cref{kr_sec_basic_postulates}. It can also be seen that $\X_\sigma$ and
 $\Y_\sigma$ are elementary, and \scorebasedop{} fails \incvac{}.
-%
-\todo{
-    Show? It is enough to show that \duprem{} fails, since \incvac{} plus the
-    basic postulates implies \duprem{}.
-}
 %
 It follows from
 \cref{kr_thm_conditioning_characterisation} that \scorebasedop{} is \emph{not} a
@@ -3844,8 +3832,7 @@ properties, and our concrete instances make useful inferences that go
 beyond \weakop{}. However, we have examples in which intuitively plausible
 inferences are blocked, and conditioning is largely incompatible with
 \strongcondsucc{}. Score-based operators, and in particular \scorebasedop{},
-were introduced as a possible way around these limitations. \todo{Possible
-downsides of \scorebasedop{}; e.g. failure of \duprem{}.}
+were introduced as a possible way around these limitations.
 
 \paragraph{Limitations and future work.}
 There are many possibilities for future work.

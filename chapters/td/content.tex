@@ -1562,7 +1562,15 @@ by the addition of a disjoint network.
     \cle_{N \sqcup N'}^T d$.
 \end{axiom}
 
-\todo{Explain graph-theoretic interpretation in terms of connected components.}
+\disjointindependence{} also has a natural graphical interpretation. For any
+network we may consider the tripartite graph with nodes $S \cup C \cup O$, and
+with edges from sources to their claims and from claims to their respective
+objects. Any network $N$ can then be expressed as the disjoint union of the
+networks corresponding to the \emph{connected components} of this graph. For
+instance, the network shown in \cref{td_new_fig_disjointindep_example} --
+viewed as a graph -- has two connected components. In graphical terms,
+\disjointindependence{} says that the ranking of sources and claims in one
+component does not depend on the presence of the other.
 
 \subsection{Conflicting claims}
 \label{td_new_sec_conflicting_claims}
