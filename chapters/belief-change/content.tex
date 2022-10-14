@@ -540,8 +540,10 @@ $\mods(G)$ denote the models of $G$, and say that $G$ is
 \[
     \cn_c(G) = \{\Phi \in \lext \mid \forall W \in \mods(G), W, c \models \Phi\}.
 \]
-We write $\cn(G)$
-for the collection $\{\cn_c(G)\}_{c \in \C}$.
+That is, $\Phi$ is a $c$-consequence of a collection $G$ if $\Phi$ holds in
+case $c$ for every model $W$ of $G$.
+%
+We write $\cn(G)$ for the collection $\{\cn_c(G)\}_{c \in \C}$.
 
 \begin{example}
     Suppose $\C = \{c_1, c_2, c_3\}$, and define $G$ by $\Gamma_{c_1} = \{\S_i(p
@@ -575,17 +577,42 @@ analogues of the Tarskian consequence properties.\footnotemark{}
 
 Say a collection $G$ is \emph{closed} if $\cn(G) = G$. Closed collections
 provide an idealised representation of beliefs, which will become useful later
-on. For instance, when $G$ is closed we have
-$
-    \E_i\phi \in \Gamma_c \text{ iff } \E_i\phi \in \Gamma_d
-$
-for all $c, d \in \C$; i.e. expertise statements are either present for all
-cases or for none. We also have
-$
-    \cnprop\proppart{\Gamma_c} = \proppart{\Gamma_c},
-$
-i.e. the propositional parts of $G$ are (classically) closed. \todo{Richard
-wants to see a proof of this.}
+on. For instance, when $G$ is closed any expertise formula $\E_i\phi$ is either
+present in $\Gamma_c$ for all cases $c$ or for none, reflecting the fact that
+expertise is fixed across cases. We also have that propositional beliefs about
+the world in each case $c$ are closed under classical consequences.
+
+\begin{proposition}
+    Suppose a collection $G = \{\Gamma_c\}_{c \in \C}$ is closed. Then
+    \begin{enumerate}
+        \item $\E_i\phi \in \Gamma_c$ if and only if $\E_i\phi \in \Gamma_d$.
+        \item $\cnprop\proppart{\Gamma_c} = \proppart{\Gamma_c}$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}\leavevmode
+    \begin{enumerate}
+        \item Suppose $\E_i\phi \in \Gamma_c$. Since $G = \cn(G)$ we have
+              $\Gamma_d = \cn_d(G)$. Take $W \in \mods(G)$. Then $W$ satisfies
+              all formulas of $\Gamma_c$ in case $c$, so $W, c \models
+              \E_i\phi$.  As expertise is independent of case, this means $W, d
+              \models \E_i\phi$. By definition of $d$-consequences, we have
+              $\E_i\phi \in \cn_d(G) = \Gamma_d$ as required. The reverse
+              direction holds by symmetry.
+         \item Clearly $\proppart{\Gamma_c} \subseteq
+               \cnprop\proppart{\Gamma_c}$. For the reverse inclusion, suppose
+               $\phi \in \cnprop\proppart{\Gamma_c}$. We will show $\phi \in
+               \cn_c(G)$, which implies $\phi \in \proppart{\Gamma_c}$ since
+               $G$ is closed. Indeed, take $W \in \mods(G)$. Then, $W, c
+               \models \psi$ for all $\psi \in \proppart\Gamma_c$. By
+               definition of the semantics for propositional formulas, this
+               means the valuation $v^W_c$ satisfies each $\psi$, so $v^W_c$ is
+               a model of $\proppart{\Gamma_c}$. By the definition of the
+               classical consequence operator $\cnprop$, this means $v^W_c$ is
+               also a model of $\phi$, i.e. $W, c \models \phi$. Hence $\phi
+               \in \cn_c(G)$ as required.
+    \end{enumerate}
+\end{proof}
 
 In propositional logic, $\propmods{\cdot}$ is a 1-to-1 correspondence between closed
 sets of formulas and sets of valuations. This is not so in our setting, since
@@ -792,7 +819,7 @@ fully determined once $K^\emptyset$ is chosen.
     \label{kr_prop_prior_knowledge}
     Suppose an operator satisfies the basic postulates. Then
     \begin{enumerate}
-        \item $K^\sigma = \cn(G^\sigma_\snd \sqcup K^\emptyset)$
+        \item $K^\sigma = \cn(G^\sigma_\snd \sqcup K^\emptyset)$.
         \item $K^\emptyset = \cn(\emptyset)$ iff $K^\sigma =
               \cn(G^\sigma_\snd)$ for all $\sigma$.
     \end{enumerate}
@@ -1077,22 +1104,42 @@ exactly those satisfying the soundness constraint for each report in
 $\sigma$, i.e. false reports are only due to lack of expertise of the
 corresponding source.
 %
-Syntactically, $K^\sigma = B^\sigma = \cn(G^\sigma_\snd)$.
+Syntactically, we have $K^\sigma = B^\sigma = \cn(G^\sigma_\snd)$.
 
-Clearly \weakop{} satisfies \soundness{}, and one
-can show that it satisfies all of the basic postulates of
-\cref{kr_sec_basic_postulates}.\footnotemark In fact, it is the \emph{weakest}
-operator satisfying \closure{}, \containment{} and \soundness{}, in that
-for any other operator $\sigma \mapsto \tuple{\hat{B}^\sigma,
-\hat{K}^\sigma}$ with these properties we have $B^\sigma \sqsubseteq
-\hat{B}^\sigma$ and $K^\sigma \sqsubseteq \hat{K}^\sigma$ for any $\sigma$.
-\footnotetext{
-    For \consistency{}, note that for any $\ast$-consistent sequence
-    $\sigma$ one can form a world $W$ such that $v_c$ is a model of all
-    reports from $\ast$ at case $c$, and $\Pi_i = \{\vals\}$ for all $i \ne
-    \ast$. This satisfies all the soundness constraints, so $W \in
-    \X_\sigma = \Y_\sigma$.
-}
+\begin{proposition}
+    \label{kr_prop_weakop_basic_postulates}
+    \weakop{} satisfies all of the basic postulates.
+\end{proposition}
+
+\begin{proof}[Proof (sketch)]
+    Most of the postulates are straightforward. Clearly \closure{} and
+    \containment{} hold by \cref{kr_thm_model_based_characterisation}.
+    \soundness{} holds by construction.  \kbound{} holds by monotonicity of
+    $\cn$, since $K^\sigma = \cn(G^\sigma_\snd) \sqsubseteq \cn(G^\sigma_\snd
+    \sqcup K^\emptyset)$. \priorext{} holds since $\X_\emptyset = \W \supseteq
+    \X_\sigma$, so $K^\emptyset \sqsubseteq K^\sigma$. \rearr{} holds
+    trivially, and \equivpost{} follows from the fact that $\S_i\phi$ is
+    equivalent to $\S_i\psi$ whenever $\phi \equiv \psi$
+    (\cref{kr_prop_validities} \cref{kr_item_replacement_equivalents_e_s}).
+
+    In fact, the only non-trivial postulate is \consistency{}. To show this
+    holds, take any $\ast$-consistent sequence $\sigma$. By definition, for
+    each case $c$ the set of reports from $\ast$ is consistent, and is thus
+    modelled by some valuation $v_c$. Forming a world $W$ with these valuations
+    and with each ordinary source $i \ne \ast$ having the trivial one-cell
+    partition $\Pi_i = \{\vals\}$, we have that \emph{all} $\phi \not\equiv
+    \falsum$ are sound for each $i$ (since $\Pi_i[\phi] = \vals \ni v_c$), and
+    all reports from $\ast$ are true, and in particular sound for $\ast$.
+    Consequently $W \in \X_\sigma \subseteq \mods(K^\sigma)$, so $K^\sigma =
+    B^\sigma$ are consistent.  \end{proof}
+
+In fact, \weakop{} is the \emph{weakest} operator satisfying \closure{},
+\containment{} and \soundness{}, in that for any other operator $\sigma \mapsto
+\tuple{\widehat{B}^\sigma, \widehat{K}^\sigma}$ with these properties we have
+$B^\sigma \sqsubseteq \widehat{B}^\sigma$ and $K^\sigma \sqsubseteq
+\widehat{K}^\sigma$ for any $\sigma$.
+%
+We come to an example.
 
 \begin{example}
 \label{kr_ex_model_based}
@@ -1175,7 +1222,8 @@ We now present examples of how the plausibility ordering $\le$ may be defined.
 
 \varbasedcond{} aims to trust each source on \emph{as many propositional
 variables} as possible. One can check that \varbasedcond{} satisfies the
-basic postulates. \todo{Show?}
+basic postulates, using essentially the same argument as for \weakop{} in
+\cref{kr_prop_weakop_basic_postulates}.
 
 \begin{example}
     \label{kr_ex_conditioning_operator}
@@ -1964,9 +2012,10 @@ they have expertise}. The minimum score 0 is attained exactly when $i$ has
 expertise on $\phi$; other worlds are ordered by how much they deviate from
 this ideal.
 
-One can verify that \scorebasedop{} satisfies the basic postulates of
-\cref{kr_sec_basic_postulates}. It can also be seen that $\X_\sigma$ and
-$\Y_\sigma$ are elementary, and \scorebasedop{} fails \incvac{}.
+Again, one can verify that \scorebasedop{} satisfies the basic postulates of
+\cref{kr_sec_basic_postulates} by an argument similar to the one employed in
+\cref{kr_prop_weakop_basic_postulates}. It can also be seen that $\X_\sigma$
+and $\Y_\sigma$ are elementary, and \scorebasedop{} fails \incvac{}.
 %
 It follows from
 \cref{kr_thm_conditioning_characterisation} that \scorebasedop{} is \emph{not} a
