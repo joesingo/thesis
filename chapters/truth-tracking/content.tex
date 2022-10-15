@@ -240,30 +240,44 @@ We write $W, c \models \Gamma$, for a set of formulas $\Gamma \subseteq \L$, if
 $W, c \models \Phi$ for all $\Phi \in \Gamma$. For a set $S \subseteq \worlds$,
 we write $S, c \models \Phi$ iff $W, c \models \Phi$ for all $W \in S$.
 
-\paragraph{Reports.}
+\paragraph{Reports and methods.}
 
 A \emph{report} is a triple $\tuple{i, c, \phi}$, where $i \in \srcs$, $c \in
 \css$ and $\phi \in \Lprop$ with $\phi \not\equiv \falsum$. In most of this
 chapter, we interpret such triples as source $i$ reporting that $\phi$ is
 \emph{possible} in case $c$ (note that this interpretation was \emph{not} used
 in \cref{chapter_belief_change}). An \emph{input sequence} $\sigma$ is a finite
-sequence of reports.
+sequence of reports. Such sequences are inputs to \emph{learning
+methods}.\footnotemark{}
 
-A \emph{method} $L$ maps each input sequence $\sigma$ to a set of worlds
-$L(\sigma) \subseteq \worlds$, called the \emph{conjecture} of $L$ on $\sigma$.
+\footnotetext{
+    We use the terminology ``method'' instead of the usual ``operator'' for
+    consistency with the learning theory literature.
+}
+
+\begin{definition}
+    A \emph{learning method} $L$ maps each input sequence $\sigma$ to a set of
+    worlds $L(\sigma) \subseteq \worlds$, called the \emph{conjecture} of $L$
+    on $\sigma$.
+\end{definition}
+
 We say $L$ \emph{implies} $S \subseteq \worlds$ on the basis of $\sigma$ if
 $L(\sigma) \subseteq S$. $L$ is \emph{consistent} if $L(\sigma) \ne \emptyset$
 for all input sequences $\sigma$.
 
-This is the main point of difference between the framework of the present
-chapter and \cref{chapter_belief_change}: here we take a purely semantic view,
-by taking the output of a method to be a set of worlds instead of a collection
-of formulas. Of course, an operator in the sense of
-\cref{chapter_belief_change} defines a method by setting $L(\sigma) =
-\operatorname{mod}(B^\sigma)$, and a method defines an operator in the manner
-of model-based operators (\cref{kr_def_model_based}). The difference is
-therefore in presentation only, and the semantic viewpoint will prove to be
-more convenient in what follows.
+This definition is the main point of difference between the framework of the
+present chapter and of \cref{chapter_belief_change}. Firstly, we no longer
+consider separate belief and knowledge outputs for each sequence $\sigma$; the
+conjecture $L(\sigma)$ should be though of as analogous to the belief set of an
+operator in the sense of \cref{kr_def_operator}.
+%
+Secondly, we take a purely semantic view here by considering the output of a
+method to be a set of \emph{worlds} instead of a collection of \emph{formulas}.
+Of course, an operator in the sense of \cref{chapter_belief_change} defines a
+method by setting $L(\sigma) = \operatorname{mod}(B^\sigma)$, and a method
+defines the belief set for an operator in the manner of model-based operators
+(\cref{kr_def_model_based}). The difference is therefore in presentation only,
+and the semantic viewpoint will prove to be more convenient in what follows.
 
 \section{Truth-Tracking}
 \label{tt_sec_truthtracking}
@@ -2178,7 +2192,7 @@ that each received report is sound -- fails to be credulous enough in this
 sense, and thus some amount of \emph{non-monotonic} reasoning is required for
 truth-tracking.
 
-Next, we reconsidered the conditioning and score-based methods of
+Next, we reconsidered the belief and expertise operators of
 \cref{chapter_belief_change} in the context of truth-tracking. Interestingly,
 it was seen that the variable-based conditioning method $L_\vbc{}$ is
 \emph{not} truth-tracking, but the partition-based conditioning method

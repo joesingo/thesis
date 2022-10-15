@@ -139,7 +139,8 @@ discussion in \cref{kr_sec_relatedwork}.
 \label{kr_sec_framework}
 
 Let $\srcs$ be a finite set of information sources. For convenience, we assume
-there is a \emph{completely reliable} source in $\srcs$, which we denote by
+there is a \emph{completely reliable} source in $\srcs$, which in a nod to the
+AGM tradition we denote by
 $\ast$. For example, we can treat our first-hand observations as if they are
 reported by $\ast$. Other sources besides $\ast$ will be termed \emph{ordinary
 sources}. Let $\C$ be a finite set of \emph{cases}, which we interpret as
@@ -709,23 +710,22 @@ combinations of partition-equivalent worlds.
 \section{The Problem}
 \label{kr_sec_the_problem}
 
-With the framework set out, we can formally define the problem. We
-seek an operator with the following behaviour:
+With the framework set out, we can formally define the problem.  As input, we
+consider sequences of \emph{reports}, typically denoted $\sigma$, where each
+report is a triple $\tuple{i, c, \phi} \in \srcs \times \C \times \lprop$ with
+$\phi \not\equiv \falsum$. Such a report represents that {\em source $i$
+reports $\phi$ to hold in case $c$}. Note that we only allow sources to make
+\emph{propositional} reports. A \emph{belief and expertise operator} produces a
+collection of belief and knowledge sets on the basis of such sequences.
 
-\begin{itemize}
-
-\item \textbf{Input:} A sequence of reports $\sigma$, where each report is a
-      triple $\tuple{i, c, \phi} \in \srcs \times \C \times \lprop$ and $\phi
-      \not\equiv \falsum$. Such a report represents that {\em source $i$
-      reports $\phi$ to hold in case $c$}. Note that we only allow sources to
-      make \emph{propositional} reports.
-
-\item \textbf{Output:} A pair $\tuple{B^\sigma, K^\sigma}$, where $B^\sigma =
-      \{B^\sigma_c\}_{c \in \C}$ is a collection of \emph{belief sets}
-      $B^\sigma_c \subseteq \lext$ and $K^\sigma = \{K^\sigma_c\}_{c \in \C}$
-      is a collection of \emph{knowledge sets} $K^\sigma_c \subseteq \lext$.
-
-\end{itemize}
+\begin{definition}
+    \label{kr_def_operator}
+    A \emph{belief and expertise operator} maps each sequence of reports
+    $\sigma$ to a pair $\tuple{B^\sigma, K^\sigma}$, where $B^\sigma =
+    \{B^\sigma_c\}_{c \in \C}$ is a collection of \emph{belief sets}
+    $B^\sigma_c \subseteq \lext$ and $K^\sigma = \{K^\sigma_c\}_{c \in \C}$ is
+    a collection of \emph{knowledge sets} $K^\sigma_c \subseteq \lext$.
+\end{definition}
 
 \subsection{Basic Postulates}
 \label{kr_sec_basic_postulates}
