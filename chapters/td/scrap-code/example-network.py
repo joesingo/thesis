@@ -1,6 +1,6 @@
 import math
 
-from truthdiscovery import Dataset, TruthFinder, CRH, FixedIterator
+# from truthdiscovery import Dataset, TruthFinder, CRH, FixedIterator
 
 
 def get_ranks(scores):
@@ -13,6 +13,15 @@ def get_ranks(scores):
         ranks[x] = rank
         prev_score = score
     return ranks
+
+def argmax(f, xs):
+    if not xs:
+        return set()
+    y, *_ = sorted(map(f, xs), reverse=True)
+    return {x for x in xs if f(x) == y}
+
+def argmin(f, xs):
+    return argmax(lambda x: -f(x), xs)
 
 t0 = 0.9
 gamma = 0.3
@@ -41,11 +50,11 @@ def imp(var, val1, val2):
     return -lam if val1 != val2 else 0
 
 
-mydata = Dataset(tuples, implication_function=imp)
-it = FixedIterator(limit=max_its)
-alg = TruthFinder(influence_param=rho, dampening_factor=gamma,
-                  initial_trust=t0, iterator=it)
-res = alg.run(mydata)
+# mydata = Dataset(tuples, implication_function=imp)
+# it = FixedIterator(limit=max_its)
+# alg = TruthFinder(influence_param=rho, dampening_factor=gamma,
+#                   initial_trust=t0, iterator=it)
+# res = alg.run(mydata)
 
 # print("from td library:")
 # print(res.trust)
@@ -75,9 +84,16 @@ siblings = {
     "e": {"e", "f"},
     "f": {"e", "f"},
 }
+obj = {
+    "c": "o",
+    "d": "o",
+    "e": "p",
+    "f": "p",
+}
 
 sources = {"s", "t", "u", "v"}
 claims = {"c", "d", "e", "f"}
+objects = {"o", "p"}
 
 # # truth finder
 # scores = {x: t0 for x in set.union(sources, claims)}
@@ -128,7 +144,7 @@ claims = {"c", "d", "e", "f"}
 # for c in sorted(claims):
 #     print(f"{c}: {scores[c]:.4f}")
 
-print("USums")
+# print("USums")
 # sources = {"s", "t", "u", "s'", "t'"}
 # claims = {"c", "d", "e", "f", "c'", "d'"}
 # src = {
@@ -144,22 +160,85 @@ print("USums")
 #     for s in src[c]:
 #         claim[s].add(c)
 
-scores = {x: 1 for x in set.union(sources, claims)}
-for c in claims:
-    scores[c] = len(src[c])
+# scores = {x: 1 for x in set.union(sources, claims)}
+# for c in claims:
+#     scores[c] = len(src[c])
 
-for its in range(max_its):
-    for s in sources:
-        scores[s] = sum(scores[c] for c in claim[s])
+# for its in range(max_its):
+#     for s in sources:
+#         scores[s] = sum(scores[c] for c in claim[s])
+#     for c in claims:
+#         scores[c] = sum(scores[s] for s in src[c])
+# print("pre-sorted scores:")
+# print(scores)
+
+# source_ranks = get_ranks({s: scores[s] for s in sources})
+# claim_ranks = get_ranks({c: scores[c] for c in claims})
+# for s in sorted(sources):
+#     print(f"{s}: {source_ranks[s]:.4f}")
+# print("")
+# for c in sorted(claims):
+#     print(f"{c}: {claim_ranks[c]:.4f}")
+
+# chain editing
+scores = {x: 1 for x in set.union(sources, claims)}
+prev_scores = None
+for _ in range(max_its):
+    prev_scores = dict(scores)
+    print([(s, scores[s]) for s in sources])
+    # weighted scores for claims
     for c in claims:
         scores[c] = sum(scores[s] for s in src[c])
-print("pre-sorted scores:")
-print(scores)
+    # compute estimated "correct" facts; may be multiple in case of ties
+    best_scores = {}
+    for o in objects:
+        best_scores[o], *_ = sorted(
+            (scores[c] for c in claims if obj[c] == o),
+            reverse=True
+        )
+        # best_claims = [c for c in claims if obj[c] == o
+        #                and scores[c] == best_scores[o]]
+        # print(f"best claims for {o}: {sorted(best_claims)}")
+    # compute tournament
+    k = {}
+    for s in sources:
+        for o in objects:
+            o_claims = [c for c in claim[s] if obj[c] == o]
+            if not o_claims:
+                k[(s, o)] = 0  # s fails if they don't provide a claim
+            else:
+                c, *_ = o_claims
+                k[(s, o)] = 1 if scores[c] == best_scores[o] else 0
+    k_forwards = {s: {o for o in objects if k[(s, o)] == 1} for s in sources}
+    k_backwards = {o: {s for s in sources if k[(s, o)] == 1} for o in objects}
+    # perform cardinality-based interleaving
+    def f(a, b):
+        return argmax(lambda s: len(set.intersection(k_forwards[s], b)), a)
+    def g(a, b):
+        return argmin(lambda o: len(set.intersection(k_backwards[o], a)), b)
+    s_o_scores = {x: None for x in set.union(sources, objects)}
+    a = set(sources)
+    b = set(objects)
+    rank = 0
+    while a or b:
+        s_rank = f(a, b)
+        o_rank = g(a, b)
+        for x in set.union(s_rank, o_rank):
+            s_o_scores[x] = rank
+        a = a - s_rank
+        b = b - o_rank
+        rank -= 1
+    s_o_scores = {s: len(k_forwards[s]) for s in sources}  # baseline
+    min_s_score = min(s_o_scores[s] for s in sources)
+    for s in sources:
+        scores[s] = s_o_scores[s] - min_s_score
 
-source_ranks = get_ranks({s: scores[s] for s in sources})
-claim_ranks = get_ranks({c: scores[c] for c in claims})
+    if scores == prev_scores:
+        break
+
+print("interleaving:")
 for s in sorted(sources):
-    print(f"{s}: {source_ranks[s]:.4f}")
-print("")
+    print(f"{s}: {scores[s]:.4f}")
 for c in sorted(claims):
-    print(f"{c}: {claim_ranks[c]:.4f}")
+    print(f"{c}: {scores[c]:.4f}")
+
