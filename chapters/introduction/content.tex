@@ -1,49 +1,5 @@
 \chapter{Introduction}
 
-% \begin{notes}
-%     \begin{itemize}
-%         \item Overall theme: how should we deal with unreliable information?
-%         \item We want to:
-%         \begin{itemize}
-%             \item Aggregate conflicting reports (crowdsourcing, news)
-%             \item Assess the trustworthiness of information sources
-%             \item Understand what reliability, trustworthiness and expertise
-%                   \emph{mean}
-%             \item Find the truth with imperfect information
-%         \end{itemize}
-%         \item This thesis offers two main perspectives on these general themes
-%         \begin{itemize}
-%             \item \textbf{Social choice theory.}
-%             \begin{itemize}
-%                 \item By posing the aggregation problem as one of social
-%                       choice, we can apply the axiomatic method to investigate
-%                       desirable properties of aggregation methods. We can then
-%                       analyse and evaluate such methods in a formal and
-%                       principled way.
-%                 \item Related ranking problems can be addressed through the
-%                       lens of social choice.
-%             \end{itemize}
-%             \item \textbf{Logic and knowledge representation.}
-%             \begin{itemize}
-%                 \item We develop a logical system to formalise notions of
-%                       expertise, and explore connections with knowledge and
-%                       information.
-%                 \item We use these formal notions to express the aggregation
-%                       problem in logical terms, taking an alternative look at
-%                       the problems of the first part of the thesis. We use what
-%                       is essentially still an axiomatic approach, but now in
-%                       the tradition of knowledge representation and rational
-%                       belief change.
-%                 \item This logical model is well-suited to investigate
-%                       \emph{truth-tracking}: the question of when we can find
-%                       the truth given that not all sources are experts.
-%             \end{itemize}
-%         \end{itemize}
-%         \item Note that while there are many links between the two major parts,
-%               they are not tightly connected and may be read independently.
-%     \end{itemize}
-% \end{notes}
-
 The overall theme of this thesis is \emph{unreliable information}. How should
 unreliable information be aggregated? Who should be trusted when conflicts
 arise between unreliable sources? And what, if anything, can be \emph{learned}
@@ -52,12 +8,12 @@ address.
 
 Indeed, methods for understanding and reasoning with unreliable information are
 becoming ever more relevant in today's world, as the volume of data produced
-and consumed grows year-on-year \todo{c}. With the growth of user-generated
+and consumed grows year-on-year. With the growth of user-generated
 content on the internet, most prominently on social media platforms, false
 information can spread rapidly -- sometimes with dramatic
-consequences \todo{c}. As such, much research effort has gone into identifying
+consequences As such, much research effort has gone into identifying
 false information, estimating source reliability, and understanding the nature
-of how people may come to believe and share false information \todo{cs}.
+of how people may come to believe and share false information.
 
 The gap this thesis aims to fill concerns \emph{formal models} of problems
 surrounding unreliable information. We take a mathematical approach, putting
@@ -65,31 +21,28 @@ forward formal frameworks in which the relevant problems can be formulated
 precisely. In doing so we obtain conceptual results which aim to shine light on
 the core, abstract features of such problems. It is hoped that the thesis
 complements the various empirical, practical and philosophical approaches
-\todo{c} to our topic, and contributes to the broader understanding of
+to our topic, and contributes to the broader understanding of
 trustworthiness, expertise and unreliable information from a mathematical point
 of view.
 
 The thesis is split into two parts along methodological lines. In
 \cref{chapter_td,chapter_bipartite_tournaments} we use the tools and ideas of
-\emph{social choice theory}~\cite{zwicker2016voting} to explore the problems of
-aggregating unreliable information and ranking sources by trustworthiness.
-%
-% We employ the \emph{axiomatic method}, in which intuitively desirable
-% properties called \emph{axioms} are introduced and studied. Aggregation and
-% ranking methods can then be evaluated and compared with respect to these
-% axioms, often leading to fresh insights on both individual methods and the
-% nature of the problem itself.
+\emph{computational social choice theory}~\cite{brandt2016introduction} to
+explore the problems of aggregating unreliable information and ranking sources
+by trustworthiness.
 %
 \cref{chapter_expertise,chapter_belief_change,chapter_truthtracking} take a
 \emph{logic-based} approach. We develop a modal logic framework to give precise
 semantics for expertise, and explore the connection between expertise,
 knowledge, and the truthfulness of information. This framework is used as the
 foundation for a belief change problem in the tradition of knowledge
-representation and rational belief change \todo{c}. Finally, we combine ideas
-from \emph{formal learning theory} \todo{c} (and in particular, the
-intersection of formal learning theory and belief revision \todo{c}) to
-investigate the extent to which one can \emph{learn} from unreliable
-information.
+representation and rational belief
+change~\cite{booth_belief_2011,sep_belief_change,ferme_2018}. Finally, we
+combine ideas from \emph{formal learning
+theory}~\cites{jain1999systems}[\sectionsymbol{2.1}]{gierasimczuk2010knowing}
+(and in particular, the intersection of formal learning theory and belief
+revision~\cite{baltag_tt_2019}) to investigate the extent to which one can
+\emph{learn} from unreliable information.
 %
 In the remainder of this chapter we briefly survey the literature for both
 halves, and outline the main contributions of the thesis.
@@ -246,13 +199,14 @@ by $\modalposs\phi \equiv \neg\modalnec\neg\phi$. That is, $\phi$ is
 
 Various senses of ``necessity'' give rise to a rich landscape of logical
 systems, useful for modelling various domains. For example, in temporal logics
-$\modalnec\phi$ means $\phi$ will necessarily always hold in the future. In
-deontic logics, $\modalnec\phi$ means $\phi$ is a moral necessity; it is
-obligatory for $\phi$ to hold. In epistemic and doxastic logics,
-$\modalnec\phi$ means $\phi$ is necessary from the point of view of an agent's
-knowledge or beliefs about the world; one typically writes $\K\phi$ or
-$\mathsf{B}\phi$ instead of $\modalnec\phi$ in these cases, to express that the
-agent ``knows'' or ``believes'' $\phi$ \todo{cs}.
+$\modalnec\phi$ means $\phi$ will necessarily always hold in the
+future~\cite{goranko_temporal}. In deontic logics, $\modalnec\phi$ means $\phi$
+is a moral necessity; it is obligatory for $\phi$ to
+hold~\cite{mcnama_deontic}. In epistemic and doxastic logics, $\modalnec\phi$
+means $\phi$ is necessary from the point of view of an agent's knowledge or
+beliefs about the world; one typically writes $\K\phi$ or $\mathsf{B}\phi$
+instead of $\modalnec\phi$ in these cases, to express that the agent ``knows''
+or ``believes'' $\phi$~\cite{rendsvig_epistemic}.
 
 The most prominent semantic interpretation of modal formulas is based on
 \emph{relational models} (also known as \emph{Kripke models}). The key
@@ -594,7 +548,7 @@ beliefs.
 Fortunately, not all AGM operators embody conservatism to this extreme extent.
 \textcite{kelly1997reliable} analysed AGM revision from the point of view of
 formal learning
-theory~\cite{jain1999systems},\cite[\sectionsymbol{2.1}]{gierasimczuk2010knowing},
+theory~\cites{jain1999systems}[\sectionsymbol{2.1}]{gierasimczuk2010knowing},
 and showed that AGM operators are \emph{universal}, in the sense that if the
 truth can be found by any learning method at all, it can be found by an AGM
 operator. However, the initial beliefs need to be chosen carefully to avoid
