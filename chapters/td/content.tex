@@ -951,14 +951,14 @@ axioms.
 \subsection{Symmetry}
 
 A standard class of axioms in social choice theory express \emph{symmetry
-properties}. In voting, for example, symmetry with respect to voters says that
-a voting rule should not care about the ``names'' of the voters: if voters $i$
-and $j$ swap their ballots, the election result remains the same (this is
-called \emph{anonymity} in the literature). Similarly, symmetry with respect to
-candidates says that if we re-label candidates, the outcome remains the same up
-to re-labelling (this is called \emph{neutrality}). In general, symmetry
-requires that the output of some process depends only on \emph{structural}
-features of the input, not the specific ``names'' of the entities involved.
+properties}. In \cref{intro_sec_social_choice_perspectives} we saw
+\axiomref{Anonymity}, which expressed symmetry with respect to voters: if
+voters $i$ and $j$ swap their ballots, the election result remains the same.
+\axiomref{Neutrality} expresses symmetry with respect to candidates: if we
+re-label candidates, the outcome remains the same up to re-labelling. In
+general, symmetry requires that the output of some process depends only on
+\emph{structural} features of the input, not the specific ``names'' of the
+entities involved.
 
 For truth discovery, we can consider symmetry with respect to sources, objects
 and claims. The central concept is an \emph{isomorphism} between networks.
@@ -1088,9 +1088,9 @@ reports are added. We start with the latter by adapting the idea of
 
 \paragraph{Responsiveness.}
 
-In the context of voting, positive responsiveness requires that if
-a voter switches their vote from candidate $B$ to a winning candidate $A$, then
-$A$ becomes the unique winner~\cite{zwicker2016voting}.
+In the context of voting, positive responsiveness requires that a voter
+changing their ballot to prefer a winning candidate $A$ does not cause $A$ to
+fare worse in the collective ranking~\cite{zwicker2016voting}
 %
 A naive version of positive responsiveness for truth discovery says that if we
 change a network $N$ by adding a new report $(s, c)$ -- possibly removing
