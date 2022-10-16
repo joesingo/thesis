@@ -522,13 +522,6 @@ belief merging {\`a} la \textcite{konieczny2002merging} than AGM-style
 revision, and a detailed comparison with merging is given in
 \cref{kr_sec_relatedwork}.
 
-\begin{notes}
-    \begin{itemize}
-        \item Other logical approaches to unreliable information: e.g.
-              many-valued logics, possibilistic logic, rough sets (?).
-    \end{itemize}
-\end{notes}
-
 \paragraph{Learning.}
 
 While AGM revision tells us how to revise beliefs in a rational and minimal
@@ -539,35 +532,50 @@ addressed without extending the framework in some way.
 
 On an intuitive level, the conservative principle of minimal change -- as
 expressed by the AGM postulates -- may even conflict with pursuit of the truth:
-sometimes radical changes are required. For example, consider a conservative
-agent who strongly believes a biased coin is in fact fair. Then a sequence of
-1000 consecutive heads, while vanishingly unlikely, is nevertheless
-\emph{consistent} with a fair coin, and our agent will see no reason to change
-beliefs.
+sometimes radical changes are required~\cite{kelly1997reliable}. For example,
+consider a conservative agent who strongly believes a biased coin is in fact
+fair. Then a sequence of 1000 consecutive heads, while vanishingly unlikely, is
+nevertheless \emph{consistent} with a fair coin, and our agent will see no
+reason to change beliefs.
 
-Fortunately, not all AGM operators embody conservatism to this extreme extent.
-\textcite{kelly1997reliable} analysed AGM revision from the point of view of
-formal learning
+Fortunately, not \emph{all} AGM operators embody conservatism to this extreme
+extent. \textcite{kelly1997reliable} analysed AGM revision from the point of
+view of formal learning
 theory~\cites{jain1999systems}[\sectionsymbol{2.1}]{gierasimczuk2010knowing},
 and showed that AGM operators are \emph{universal}, in the sense that if the
 truth can be found by any learning method at all, it can be found by an AGM
 operator. However, the initial beliefs need to be chosen carefully to avoid
 situations like the one described above. Specific AGM operators from the
-literature were also studied for their learning-theoretic properties in this
-framework~\cite{kelly1998learning,Kelly_1999}. In a similar framework,
-\textcite{gierasimczuk2010knowing,baltag_tt_2019,Baltag_2016} also studied
-various belief revision methods in relation to learning, and proved
-universality of AGM learning.
+literature were also studied for their learning-theoretic
+properties~\cite{kelly1998learning,Kelly_1999}. In a similar framework,
+\textcite{gierasimczuk2010knowing,baltag_tt_2019,Baltag_2016} studied various
+belief revision methods in relation to learning, and again proved universality
+of AGM learning.
 
 While our belief change operators in \cref{chapter_belief_change} are inspired
 by the AGM paradigm, there is a crucial difference: we expressly aim to handle
-non-expert, and therefore \emph{false}, information. \todo{finish}
+non-expert -- and therefore \emph{false} -- information. In
+\cref{chapter_truthtracking} we adapt the truth-tracking idea of
+\textcite{baltag_tt_2019} to this new setting, and formalise the notion of
+\emph{learning} from non-expert sources. We will investigate the extent to
+which learning is actually possible, both in terms of learning the true facts
+of the world and learning the true extent of the expertise of the sources
+themselves. In this respect the learning problem is similar to truth discovery,
+as studied in \cref{chapter_td}. A universality result of sorts is also
+available in our setting, and we offer a precise postulational characterisation
+of such truth-tracking methods. It turns out the some (but not all) of our
+example operators from the belief change problem in
+\cref{chapter_belief_change} are truth-tracking; this shows that the
+rationality postulates \emph{are} compatible with learning from non-experts.
 
 }
 
-\begin{notes} \begin{itemize}
-        \item Inductive reasoning and learning
-        \item e.g. Kevin Kelly's work, Nina \end{itemize} \end{notes}
+\begin{notes}
+    \begin{itemize}
+        \item Other logical approaches to unreliable information: e.g.
+              many-valued logics, possibilistic logic, rough sets (?).
+    \end{itemize}
+\end{notes}
 
 \section{Contributions}
 
