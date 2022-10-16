@@ -104,7 +104,7 @@ the candidates. A voting rule then aggregates these preferences into a
 \emph{collective decision} by declaring the winning candidate, the runner-up,
 and so on. There are, of course, many different voting methods which can be
 used to aggregate votes, and several distinct methods are in use in different
-contexts across the world \todo{c}.
+contexts across the world.
 
 In analysing and comparing such methods, the \emph{axiomatic approach} has been
 a crucial methodological tool since the seminal work of \textcite{arrow1952},
@@ -117,37 +117,113 @@ a short list of seemingly desirable axioms. This type of result -- known as an
 \emph{impossibility theorem} -- highlights a fundamental and inescapable
 property of voting.\footnotemark{} This has practical consequences: if one
 needs to actually choose a rule for use in a vote, which axiom will be
-sacrificed? The axioms also provide a normative basis on which to judge and
-compare different voting rules.
-
-The axiomatic approach has since been adapted to various domains besides
-voting, including tournaments~\cite{brandt2016a}, judgement
-aggregation~\cite{endriss2016ja}, the ranking of web
-pages~\cite{altman2005ranking}, reputation systems~\cite{tennenholtz2004} and
-collective annotation~\cite{kruger2014}.
+sacrificed? The axioms also provide a \emph{normative} basis on which to judge
+and compare different voting rules.
 
 \footnotetext{
     At least, a property of voting in the sense of Arrow's formal framework.
 }
 
+The axiomatic approach has since been adapted to various domains besides
+voting, including tournaments~\cite{brandt2016a}, judgement
+aggregation~\cite{endriss2016ja}, the ranking of web
+pages~\cite{altman2005ranking}, reputation systems~\cite{tennenholtz2004} and
+collective annotation~\cite{kruger2014}. While the aggregation problems of each
+domain have their own unique characteristics, some ``standard'' axioms appear
+across the board. While the precise mathematical formulation of such axioms
+varies across problems, the general intent is the same. We use the example of
+voting to illustrate a few. In this setting each voter submits a ranking over
+the set of candidates (the voter's \emph{ballot}), which a voting rule
+aggregates to form a collective ranking.
+
+\begin{axiomlist}
+
+    \begin{axiom}[\axiomref{Anonymity}]
+        All voters are treated equally: if voters $i$ and $j$ swap their
+        ballots, the collective ranking remains the same.
+    \end{axiom}
+
+    \begin{axiom}[\axiomref{Neutrality}]
+        All candidates are treated equally: if all voters swap the positions of
+        candidates $c$ and $d$ in their ballots, the positions of $c$ and $d$
+        are also swapped in the collective ranking.
+    \end{axiom}
+
+    \begin{axiom}[\axiomref{Pareto Optimality}]
+        If all voters rank candidate $c$ strictly above $d$, then so too does
+        the collective ranking.
+    \end{axiom}
+
+    \begin{axiom}[\axiomref{Independence of Irrelevant Alternatives (IIA)}]
+        The relative ranking of any two candidates $c$ and $d$ in the
+        collective ranking depends only on the rankings of $c$ and $d$ in each
+        voter's ballot.
+    \end{axiom}
+
+    \begin{axiom}[\axiomref{Positive Responsiveness}]
+        If $c$ ranks above $d$ in the collective ranking and some voter changes
+        their ballot to rank $c$ above $d$, then this remains so in the
+        collective ranking.
+    \end{axiom}
+
+\end{axiomlist}
+
+Some of these axioms are more clearly desirable than others.
+\axiomref{Anonymity} and \axiomref{Neutrality} are fairly straightforward
+fairness requirements\footnotemark{}, and \axiomref{Pareto Optimality} is
+generally seen as uncontroversial. \axiomref{IIA}, however, has come to be seen
+as a deceptively strong requirement, and plays a role in Arrow's impossibility
+theorem.
+
+\footnotetext{
+    Although there are situations where even these do not hold; see
+    \textcite[p. 32]{zwicker2016voting} for examples.
+}
+
 In the last 20 years, \emph{computational social choice}~\cite{moulin_2016} has
 combined social choice theory with ideas from theoretical computer science. For
 example, complexity theory has been used to show certain voting rules are
-resistant to strategic manipulation, approximation algorithms have been
-developed for computationally difficult rules, and SAT solvers have been used
-to automatically discover new impossibility theorems \todo{cs}.
+resistant to strategic manipulation~\cite{conitzer_manipulation_2016},
+approximation algorithms have been developed for computationally difficult
+rules~\cite{brandt2016a}, and SAT solvers have been used to automatically
+discover new impossibility theorems~\cite{endriss2020analysis}.
 
 In the spirit of combining the axiomatic approach with computer science, we
 proceed in \cref{chapter_td,chapter_bipartite_tournaments} by introducing a
 social-choice-style framework and several axioms for the problems of
-\emph{truth discovery} and \emph{bipartite tournament ranking}. \todo{explain
-what these are.}
+\emph{truth discovery} and \emph{bipartite tournament ranking}.
 
-As it turns out, many existing axioms from different problems in the literature
-can be applied in our settings; if not directly, then the underlying idea can
-be adapted. By looking at the consequences of such axioms we obtain insights
-into the similarities and differences between our problems and other social
-choice problems. \todo{explicit contributions?}
+\paragraph{Truth discovery.}
+
+Truth discovery has arisen recently as a branch of the literature on
+crowdsourcing~\cite{li_survey_2016}. When dealing with crowdsourced data one
+has no guarantees on its veracity; crowdsourcing workers are not generally
+experts, may exhibit biases, and may maliciously provide false information.
+False information provided in this way leads to conflicts among workers, and
+the dual goals of truth discovery: to find the \emph{true information} in light
+of conflicts, and to identify the \emph{trustworthy information sources}. The
+key principle underlying truth discovery methods is the \emph{mutual
+dependence} between these two goals. According to this principle, sources that
+provide true information are likely to be trustworthy, and information from
+trustworthy sources is likely to be true.
+
+Most truth discovery work in the literature has focussed on introducing new
+methods and evaluating them empirically.\footnotemark{} Our aim in
+\cref{chapter_td} is to instead study properties of truth discovery methods
+more generally, by emphasising the similarities between truth discovery and
+social choice aggregation problems. To that end, we introduce a mathematical
+framework in which social-choice-style axioms can be expressed. We then explore
+the interplay between the axioms, and analyse a particular well-known method
+from the literature.
+
+\footnotetext{
+    A more detailed overview of the literature will be given in
+    \cref{chapter_td}.
+}
+
+\paragraph{Bipartite tournaments.}
+
+\todo{write}
 
 \section{Logic-based Perspectives}
 \label{intro_sec_logic_based_perspectives}
@@ -268,9 +344,42 @@ notions relate to knowledge in epistemic logic under relational semantics.
 Dynamic operators are also considered; we define an analogue of public
 announcements (called ``sound announcements'') and consider ``expertise
 increase'', which models the effects of a source increasing their domain of
-expertise by learning. \todo{Mention axiomatisation results, and highlight that
-``axiom'' is meant in a different sense to the social choice work. Also need to
-formally define axiomatisation.}
+expertise by learning.
+
+We also obtain axiomatisation results for various classes of expertise models.
+Note that ``axiom'' here has a different meaning to the axioms of social choice
+theory. In a logical system, axioms are formulas which -- together with rules
+of inferrence -- give rise to a notion of \emph{syntactic entailment} or
+\emph{proof}: one writes $\Gamma \entails \phi$ if $\phi$ can be derived using
+the axioms and inferrence rules from the assumptions in $\Gamma$. Axioms
+therefore form the building blocks of (synactic) reasoning in a logic. There is
+also the dual notion of \emph{semantic entailment}: $\Gamma \models \phi$ if
+for every model and every state $x$, if all formulas in $\Gamma$ hold at $x$
+then $\phi$ also holds at $x$.
+
+The task of choosing axioms such that these two notions of entailment coincide
+is precisely what it means to find an axiomatisation. The implication $\Gamma
+\entails \phi \implies \Gamma \models \phi$ is called \emph{soundness}, and
+says that anything one can prove syntactically is actually true according to
+the semantics. The converse implication $\Gamma \models \phi \implies \Gamma
+\entails \phi$ is called (strong) \emph{completeness};\footnotemark{} this
+direction is typically more difficult to prove, and says that anything which is
+true semantically can indeed be proved.
+
+\footnotetext{
+    \emph{Weak} completeness is the special case of strong completeness in
+    which $\Gamma = \emptyset$.
+}
+
+By restricting to a sub-class of models, one obtains a different (and stronger)
+notion of semantic entailment. For example, one has $\modalnec\phi \models
+\modalnec\modalnec\phi$ when restricting to the class of \emph{transitive}
+relational models, but not in general. Generally speaking, restricting the
+class of models under consideration requires more axioms to ensure
+completeness. In our case, we will consider several classes of expertise models
+in which various assumptions are placed on the nature of the source's expertise
+(for instance, the ways in which they may combine their expertise on separate
+pieces of information), and introduce additional axioms in each case.
 
 }
 
