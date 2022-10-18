@@ -3,13 +3,13 @@
 
 A tournament consists of a finite set of players equipped with a \emph{beating
 relation} describing pairwise comparisons between each pair of players.
-Determining a ranking of the players in a tournament has applications in voting
-in social choice~\cite{brandt2016a} (where players represent alternatives and
-$x$ beats $y$ if a majority of voters prefer $x$ over $y$), paired comparisons
-analysis~\cite{gonzalez2014paired} (where players represent products and
-the beating relation expresses the preferences of a consumer), search engines
-\cite{slutzki2006scoring}, sports~\cite{bozoki2016application} and
-other domains.
+Determining a ranking of the players in a tournament has applications in
+\emph{voting}~\cite{brandt2016a}, where players represent alternatives and $x$
+beats $y$ if a majority of voters prefer $x$ over $y$, \emph{paired comparisons
+analysis}~\cite{gonzalez2014paired}, where players represent products and the
+beating relation expresses the preferences of a consumer, \emph{search
+engines}~\cite{slutzki2006scoring}, \emph{sports}~\cite{bozoki2016application}
+and other domains.
 
 In this chapter we introduce \emph{bipartite tournaments}, which consist of two
 disjoint sets of players $A$ and $B$ such that comparisons only take place
@@ -58,13 +58,14 @@ Note that this is related to but not the same as the ranking problem of truth
 discovery itself, as studied in \cref{chapter_td}, since it does not concern
 finding the true values associated with objects. The setting of
 \cref{tourn_ex_td_example} is clearly relevant for \emph{semi-supervised truth
-discovery}~\cite{yin_supervised_2011}, in which a subset of ground truth is
-available. However, even when no such ground truth is available, many recursive
-operators (including those described in \cref{td_new_sec_recursive_operators})
-iteratively update source trust scores on the basis of current \emph{estimates}
-of the true values for objects. One could therefore consider a bipartite
-tournament at each stage of the iteration. This may lead to
-\emph{difficulty-aware} truth discovery methods (c.f. \textcite{galland2010}).
+discovery}, in which a subset of ground truth is
+available~\cite{yin_supervised_2011,rekatsinas2017slimfast}. However, even when
+no such ground truth is available, many recursive operators (including those
+described in \cref{td_new_sec_recursive_operators}) iteratively update source
+trust scores on the basis of current \emph{estimates} of the true values for
+objects. One could therefore consider a bipartite tournament at each stage of
+the iteration. This may lead to \emph{difficulty-aware} truth discovery methods
+(c.f. \textcite{galland2010}).
 
 % \todo{From Richard: ``It would be nice if, at the end of this chapter, you
 % actually gave an example of how you could use the methods of this chapter to

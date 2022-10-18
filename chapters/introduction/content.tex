@@ -150,15 +150,18 @@ social-choice-style framework and several axioms for the problems of
 
 Truth discovery has arisen recently as a branch of the literature on
 crowdsourcing~\cite{li_survey_2016}. When dealing with crowdsourced data one
-has no guarantees on its veracity; crowdsourcing workers are not generally
-experts, may exhibit biases, and may maliciously provide false information.
-False information provided in this way leads to conflicts among workers, and
-the dual goals of truth discovery: to find the \emph{true information} in light
-of conflicts, and to identify the \emph{trustworthy information sources}. The
-key principle underlying truth discovery methods is the \emph{mutual
-dependence} between these two goals. According to this principle, sources that
-provide true information are likely to be trustworthy, and information from
-trustworthy sources is likely to be true.
+has no guarantees on its veracity: crowdsourcing workers are not generally
+experts, may exhibit biases, and may even maliciously provide false
+information. False information provided in this way leads to conflicts among
+workers, and the dual goals of truth discovery: to find the \emph{true
+information} in light of conflicts, and to identify the \emph{trustworthy
+information sources}. The key principle underlying truth discovery methods is
+the \emph{mutual dependence} between these two goals. According to this
+principle, sources that provide true information are likely to be trustworthy,
+and information from trustworthy sources is likely to be true. When sources
+provide information about multiple objects of interest (e.g. images to be
+classified), the patterns of agreement and disagreement can be used in
+conjunction with this principle to estimate both truth and trustworthiness.
 
 Most truth discovery work in the literature has focussed on introducing new
 methods and evaluating them empirically.\footnotemark{} Our aim in
@@ -176,7 +179,49 @@ from the literature.
 
 \paragraph{Bipartite tournaments.}
 
-\todo{write}
+While many truth discovery methods in the literature focus on the unsupervised
+case, so-called \emph{semi-supervised truth discovery} -- in which one has
+access to a subset of ground truth data -- has also been
+studied~\cite{yin_supervised_2011,rekatsinas2017slimfast}. In this situation it
+is known when sources were correct on the ground truth objects, and this
+information feeds into the truth discovery process. Using this ground truth may
+not be straightforward, however, if objects vary in their \emph{difficulty}.
+For example, it may be preferable to reward sources for correct answers on
+difficult objects, or penalise them for failures on easy objects. Moreover,
+difficulty may not be known \emph{a priori}, and is itself subject to
+estimation.
+
+In \cref{chapter_bipartite_tournaments} we observe and generalise the key
+features of this problem: we have entities of two different kinds (information
+sources and objects of interest), comparisons between them (a source is either
+correct or incorrect on the object) and wish to determine a ranking among each
+kind (sources by trustworthiness, and objects by their difficulty). These two
+rankings should express a kind of mutual dependence -- reminiscent of the
+principle of truth discovery described above -- wherein, for example, sources
+correct on difficult objects should rank highly. A novel aspect of this
+particular problem is that there are no \emph{direct} comparisons between
+entities of the same kind: sources to not go head-to-head, but must be ranked
+based on \emph{indirect} patterns of correctness across objects.
+
+This problem is an instance of a \emph{tournament}. Tournaments consists of a
+set of \emph{players} together with a \emph{beating relation} between them, and
+have been widely studied in social choice theory. Obvious application domains
+include sports, but tournaments can be applied more widely (e.g. in voting,
+where candidate $c$ ``beats'' $d$ if a majority of voters prefer $c$ to $d$).
+Many tournament solutions -- producing either a set of winners or a full
+ranking of the players -- have been proposed in the literature and studied
+axiomatically~\cite{gonzalez2014paired,brandt2016a}.
+
+While our problem can be seen as a tournament, the bipartite nature and
+indirectness of comparisons between players to be ranked gives it a unique
+character worthy of dedicated study. We focus on a particular class of
+intuitive bipartite tournament ranking methods based on \emph{chain editing}; a
+graph modification problem mainly studied for its computational complexity
+properties~\cite{yannakakis1981computing} and recently suggested in the context
+of ranking by \textcite{jiao2017algorithms}. While their work focussed on
+algorithms and the complexity of variants of chain editing, we take an
+axiomatic approach in the social choice tradition in order to understand its
+properties as a ranking mechanism.
 
 \section{Logic-based Perspectives}
 \label{intro_sec_logic_based_perspectives}
