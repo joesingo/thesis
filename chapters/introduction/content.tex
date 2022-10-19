@@ -64,18 +64,25 @@ a crucial methodological tool since the seminal work of \textcite{arrow1952},
 who initiated the age of so-called \emph{classical social choice theory}. In
 taking this approach, one formalises intuitively desirable properties called
 \emph{axioms}, which are expected to hold for ``reasonable'' aggregation
-methods. The benefits of this approach were already shown by Arrow, who proved
-it is mathematically impossible for any voting method to simultaneously satisfy
-a short list of seemingly desirable axioms. This type of result -- known as an
-\emph{impossibility theorem} -- highlights a fundamental and inescapable
-property of voting.\footnotemark{} This has practical consequences: if one
-needs to actually choose a rule for use in a vote, which axiom will be
-sacrificed? The axioms also provide a \emph{normative} basis on which to judge
-and compare different voting rules.
+methods. This provides a \emph{normative} basis on which to construct and judge
+voting rules. The benefits of this approach were already shown by Arrow, who
+proved, surprisingly, that it is mathematically impossible for any voting
+method to simultaneously satisfy a short list of seemingly desirable axioms.
+This type of result -- known as an \emph{impossibility theorem} -- highlights a
+fundamental and inescapable property of voting.\footnotemark{} This has
+practical consequences: if one needs to actually choose a rule for use in a
+vote, which axiom will be sacrificed?
 
 \footnotetext{
     At least, a property of voting in the sense of Arrow's formal framework.
 }
+
+Axiomatic analysis can also be applied in a \emph{descriptive} context, where
+one starts with a known voting rule and aims to find axioms satisfied by it. In
+many cases a set of axioms can be found to characterise a particular rule
+completely, in that it is the \emph{unique} rule satisfying them. This gives
+additional insight into the nature of the rule and in how different axioms
+interact.
 
 The axiomatic approach has since been adapted to various domains besides
 voting, including tournaments~\cite{brandt2016a}, judgement
@@ -624,10 +631,85 @@ rationality postulates \emph{are} compatible with learning from non-experts.
 
 \section{Contributions}
 
-\todo{Consolidate contribution paragraphs here, and present in bullet form.}
+The novel contributions of this thesis may be broken down per-chapter as
+follows.
 
-\section{Overview}
+\paragraph{\cref{chapter_td}.}
+\begin{itemize}
+    \item A formal framework for truth discovery suitable for axiomatic
+          analysis in the style of social choice theory.
+    \item The introduction of several axioms for truth discovery in this
+          framework. These include adaptions of ``standard'' axioms from the
+          literature, as well as new axioms specific to truth discovery.
+    \item The first impossibility theorems for truth discovery.
+    \item Axiomatic analysis of a well-known truth discovery method from the
+          literature, and a proposed modification of this method which resolves
+          axiomatic failures.
 
-\begin{notes}
-    Chapter-by-chapter breakdown of the thesis.
-\end{notes}
+\end{itemize}
+
+\paragraph{\cref{chapter_bipartite_tournaments}.}
+\begin{itemize}
+    \item The definition of a new class of \emph{bipartite tournaments} and the
+          associated ranking problem.
+    \item An in-depth study of \emph{chain editing} as a ranking method for
+          bipartite tournaments, including axiomatic analysis and a
+          probabilistic interpretation in terms of maximum likelihood
+          estimation.
+    \item A tractable class of ``chain-definable'' ranking methods, which
+          overcome the \complexityclass{NP}-hardness of chain editing and fare
+          better with respect to the axioms.
+    \item An axiomatic characterisation of one particularly intuitive
+          chain-definable method.
+
+\end{itemize}
+
+        % On the conceptual side, we develop a modal logic framework to reason
+        % about the expertise of a source and soundness of information. We also
+        % study collective expertise among multiple sources, and consider how
+        % expertise may evolve via learning and announcements. Importantly, both
+        % singular and collective expertise are shown to connected in a precise
+        % sense to standard notions from epistemic logic. This formalises the
+        % conceptual link between expertise and \emph{knowledge}. On the
+        % technical side we obtain a sound and complete axiomatisation, and
+        % axiomatise several sub-classes of models with additional axioms.
+
+% \paragraph{\cref{chapter_expertise}.}
+% \begin{itemize}
+%     \item
+
+% \end{itemize}
+
+%         The main contribution of this chapter is the formulation of a belief
+%         change problem in the setting of the logic of expertise developed in
+%         the previous chapter. This allows us to explore how belief and
+%         expertise-based trust should interact and evolve as reports are
+%         received from the various sources.  We put forward several postulates
+%         and two concrete classes of operators -- with a representation result
+%         for one class -- and analyse these operators with respect to the
+%         postulates.
+
+% \paragraph{\cref{chapter_belief_change}.}
+% \begin{itemize}
+%     \item
+
+% \end{itemize}
+
+%         This chapter adapts learning-theoretic notions from formal learning
+%         theory -- and in particular its intersection with belief
+%         revision~\cite{baltag_tt_2019} -- to handle non-expert information
+%         sources. We establish the limits of learning in this setting, and
+%         conditions under which one can learn the true facts of the world as
+%         well as the true extent of the expertise of the sources.  We go on to
+%         characterise truth-tracking learning methods in terms of syntactic
+%         postulates, and look specifically at the methods already introduced in
+%         \cref{chapter_belief_change}. Finally, we consider a different model in
+%         which the beliefs of sources are represented explicitly, and give some
+%         preliminary results in this setting.
+
+
+% \paragraph{\cref{chapter_truthtracking}.}
+% \begin{itemize}
+%     \item
+
+% \end{itemize}
