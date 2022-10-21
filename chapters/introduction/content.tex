@@ -45,7 +45,7 @@ revision~\cite{baltag_tt_2019}) to investigate the extent to which one can
 \emph{learn} from unreliable information.
 %
 In the remainder of this chapter we briefly survey the literature for both
-halves, and outline the main contributions of the thesis.
+halves.
 
 \section{Social Choice Perspectives}
 \label{intro_sec_social_choice_perspectives}
@@ -638,14 +638,9 @@ follows.
 \begin{itemize}
     \item A formal framework for truth discovery suitable for axiomatic
           analysis in the style of social choice theory.
-    \item The introduction of several axioms for truth discovery in this
-          framework. These include adaptions of ``standard'' axioms from the
-          literature, as well as new axioms specific to truth discovery.
-    \item The first impossibility theorems for truth discovery.
-    \item Axiomatic analysis of a well-known truth discovery method from the
-          literature, and a proposed modification of this method which resolves
-          axiomatic failures.
-
+    \item The introduction of several axioms in this framework, the first
+          impossibility theorems for truth discovery, and axiomatic analysis of
+          a well-known truth discovery method from the literature.
 \end{itemize}
 
 \paragraph{\cref{chapter_bipartite_tournaments}.}
@@ -653,63 +648,36 @@ follows.
     \item The definition of a new class of \emph{bipartite tournaments} and the
           associated ranking problem.
     \item An in-depth study of \emph{chain editing} as a ranking method for
-          bipartite tournaments, including axiomatic analysis and a
-          probabilistic interpretation in terms of maximum likelihood
-          estimation.
-    \item A tractable class of ``chain-definable'' ranking methods, which
-          overcome the \complexityclass{NP}-hardness of chain editing and fare
-          better with respect to the axioms.
-    \item An axiomatic characterisation of one particularly intuitive
-          chain-definable method.
-
+          bipartite tournaments, including axiomatic analysis in the style of
+          social choice theory.
 \end{itemize}
 
-        % On the conceptual side, we develop a modal logic framework to reason
-        % about the expertise of a source and soundness of information. We also
-        % study collective expertise among multiple sources, and consider how
-        % expertise may evolve via learning and announcements. Importantly, both
-        % singular and collective expertise are shown to connected in a precise
-        % sense to standard notions from epistemic logic. This formalises the
-        % conceptual link between expertise and \emph{knowledge}. On the
-        % technical side we obtain a sound and complete axiomatisation, and
-        % axiomatise several sub-classes of models with additional axioms.
+\paragraph{\cref{chapter_expertise}.}
+\begin{itemize}
+    \item A modal logic framework to reason about the expertise of an
+          information source, and ``soundness'' of information.
+    \item Results establishing the connection between expertise and
+          epistemic logic, so that expertise can be interpreted in terms of
+          \emph{knowledge}.
+    \item Technical results on the mathematical properties of the logic of
+          expertise, including axiomatisation results for several classes of
+          expertise models.
+\end{itemize}
 
-% \paragraph{\cref{chapter_expertise}.}
-% \begin{itemize}
-%     \item
+\paragraph{\cref{chapter_belief_change}.}
+\begin{itemize}
+    \item The statement of a new logic-based belief change problem for handling
+          reports from multiple non-expert sources, in which we aim to
+          determine what to believe both about the world and about the
+          expertise of the sources themselves.
+    \item New postulates and operators for this problem.
+\end{itemize}
 
-% \end{itemize}
-
-%         The main contribution of this chapter is the formulation of a belief
-%         change problem in the setting of the logic of expertise developed in
-%         the previous chapter. This allows us to explore how belief and
-%         expertise-based trust should interact and evolve as reports are
-%         received from the various sources.  We put forward several postulates
-%         and two concrete classes of operators -- with a representation result
-%         for one class -- and analyse these operators with respect to the
-%         postulates.
-
-% \paragraph{\cref{chapter_belief_change}.}
-% \begin{itemize}
-%     \item
-
-% \end{itemize}
-
-%         This chapter adapts learning-theoretic notions from formal learning
-%         theory -- and in particular its intersection with belief
-%         revision~\cite{baltag_tt_2019} -- to handle non-expert information
-%         sources. We establish the limits of learning in this setting, and
-%         conditions under which one can learn the true facts of the world as
-%         well as the true extent of the expertise of the sources.  We go on to
-%         characterise truth-tracking learning methods in terms of syntactic
-%         postulates, and look specifically at the methods already introduced in
-%         \cref{chapter_belief_change}. Finally, we consider a different model in
-%         which the beliefs of sources are represented explicitly, and give some
-%         preliminary results in this setting.
-
-
-% \paragraph{\cref{chapter_truthtracking}.}
-% \begin{itemize}
-%     \item
-
-% \end{itemize}
+\paragraph{\cref{chapter_truthtracking}.}
+\begin{itemize}
+    \item A framework for truth-tracking with multiple non-expert sources,
+          adapted from previous work from formal learning theory and belief
+          revision.
+    \item Mathematical analysis of when truth-tracking is possible with
+          non-experts, and the extent to which one can learn the truth.
+\end{itemize}
