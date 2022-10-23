@@ -67,12 +67,6 @@ objects. One could therefore consider a bipartite tournament at each stage of
 the iteration. This may lead to \emph{difficulty-aware} truth discovery methods
 (c.f. \textcite{galland2010}).
 
-% \todo{From Richard: ``It would be nice if, at the end of this chapter, you
-% actually gave an example of how you could use the methods of this chapter to
-% define a recursive TD operator. I guess this might be too difficult, though.
-% But even just a definition of an operator, plus an example (i.e., without
-% investigating its properties) would be ok.''}
-
 A related example is education~\cite{jiao2017algorithms}, where $A$ represents
 students, $B$ exam questions, and student $a$ ``beats'' question $b$ by
 answering it correctly. The ranking of students then reflects their
@@ -1233,8 +1227,7 @@ $\minch{K}$ itself \emph{does} exhibit the kind of symmetry one might expect:
 we have $\minch{\pi(\sigma(K))} = \{\pi(\sigma(K')) \mid K' \in \minch{K}\}$.
 This means that an operator which aggregates the rankings from \emph{all} $K'
 \in \minch{K}$ -- e.g. any anonymous and neutral social welfare
-function~\cite{zwicker2016voting} -- would satisfy \anon{}. \todo{Consider
-exaplaining in more detail.} The other axioms
+function~\cite{zwicker2016voting} -- would satisfy \anon{}. The other axioms
 are compatible with \chainmin{}.
 
 \begin{theorem}
