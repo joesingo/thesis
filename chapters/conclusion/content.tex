@@ -1,3 +1,88 @@
 \chapter{Conclusion}
-    \section{Summary}
-    \section{Future Work}
+
+\section{Summary}
+
+\begin{table}
+    \centering
+	\caption{Overview of the themes covered by each chapter of the thesis.}
+    \def\yes{\checkmark}
+    \footnotesize
+	\begin{tabular}{lccccc}
+                          & TD   & Tournaments & Modal & Belief change & Truth-tracking \\
+\toprule
+Aggregating reports       & \yes &             &       & \yes          & \yes \\
+Assessing trustworthiness & \yes & \yes        &       & \yes          & \yes \\
+Axiomatic analysis        & \yes & \yes        &       & \yes          &      \\
+Defining new methods      & \yes & \yes        &       & \yes          &      \\
+Reasoning with expertise  &      &             & \yes  & \yes          &      \\
+Learning the truth        &      &             &       &               & \yes \\
+\bottomrule
+
+	\end{tabular}
+    \label{conc_tab_themes}
+\end{table}
+
+This thesis has studied topics surrounding trustworthiness and expertise.
+\cref{conc_tab_themes} shows a rough overview of the different themes tackled
+in each chapter. We now reflect chapter-by-chapter on these themes in more
+detail, and discuss the connections between chapters.
+
+{
+    \input{chapters/td/macros.tex}
+
+In \cref{chapter_td} we took a social choice perspective on truth discovery.
+Truth discovery concerns aggregating reports from unreliable sources, and
+assessing their trustworthiness in the process. The representation of
+information was simple in this chapter: we considered a number of ``objects''
+of interest, each of which takes categorical values.  Trustworthiness was
+expressed via a ranking of the sources, allowing us to say when one source
+should be considered \emph{more trustworthy} than another. We would later take
+a different approach in \cref{chapter_belief_change}, with information
+represented by propositional formulas and with expertise-based semantics for
+trustworthiness. However, the open-ended nature of ranking-based
+trustworthiness without precise semantics allowed us to define several truth
+discovery methods from the literature in our framework. Most importantly,
+\cref{chapter_td} introduced several \emph{axioms} for truth discovery. We
+proved the first impossibility results for truth discovery; this showed there
+are fundamental constraints on which properties one can hope for when
+constructing new truth discovery methods. The axioms highlighted a possible
+problem with Sums -- a well known method introduced by
+\textcite{pasternack2010} -- in its failure of \disjointindependence{}. This
+led us to define a new method, called UnboundedSums, which modifies Sums to
+resolve this axiomatic failure.
+
+}
+
+{
+    \input{chapters/tournaments/macros.tex}
+
+\cref{chapter_bipartite_tournaments} stayed with the social choice methodology,
+this time applied to bipartite tournament ranking. This problem was motivated
+by truth discovery -- in particular, by semi-supervised truth discovery -- and
+also relates to assessing trustworthiness of sources. Concretely, bipartite
+tournaments naturally model situations where the performance of sources on a
+number of ``ground truth'' objects is known in advance. One can then use
+bipartite tournament ranking methods to rank the sources by trustworthiness
+(with respect to the ground truth) and the objects by difficulty. But in fact,
+we gave several other example domains where bipartite tournaments provide a
+natural model, such as education and solo sports. We therefore took a more
+general view throughout the chapter and considered \emph{abstract} bipartite
+tournaments, where no fixed interpretation was assigned to the players involved
+or the nature of the matches between them. The overall approach was again
+axiomatic.  We introduced several axioms; some adaptations of standard social
+choice ideas and some specific to bipartite tournaments (e.g. \dualaxiom). We
+also paid special attention to the class of \emph{chain-minimal} operators, the
+ranking operators associated with the graph modification problem of \emph{chain
+editing}. Such operators were rationalised by a result showing them to be
+maximum likelihood estimators in a particular probabilistic model. In a sense
+this is a truth-tracking result: chain-minimal operators find the ``true''
+strengths of the tournament participants, if one accepts the assumptions of the
+probabilistic model. However, this is a different sense of truth-tracking as
+studied in \cref{chapter_truthtracking}, which refers to finding true
+\emph{information} when given conflicting reports.
+
+}
+
+\todo{Other chapters.}
+
+\section{Future Work}
