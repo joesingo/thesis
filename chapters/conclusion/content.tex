@@ -12,7 +12,7 @@
 \toprule
 Aggregating reports       & \yes &             &       & \yes          & \yes \\
 Assessing trustworthiness & \yes & \yes        &       & \yes          & \yes \\
-Axiomatic analysis        & \yes & \yes        &       & \yes          &      \\
+Axiomatic analysis        & \yes & \yes        &       & \yes          & \yes \\
 Defining new methods      & \yes & \yes        &       & \yes          &      \\
 Reasoning with expertise  &      &             & \yes  & \yes          &      \\
 Learning the truth        &      &             &       &               & \yes \\
@@ -83,6 +83,55 @@ studied in \cref{chapter_truthtracking}, which refers to finding true
 
 }
 
-\todo{Other chapters.}
+The remainder of the thesis employed logic-based formalisms. The modal logic
+framework of \cref{chapter_expertise} studied expertise and ``soundness'' of
+information. Here we took a deep dive into conceptual and mathematical
+properties of expertise. For instance, we established precise connections
+between expertise and \emph{knowledge} via one-to-one mappings between classes
+of expertise models and relational models of epistemic logic. Roughly speaking,
+we saw that expertise on $\phi$ is equivalent to the statement that the source
+knows $\neg\phi$ in all states where $\phi$ is false. The properties of
+knowledge involved in this translation depend on the properties one takes for
+expertise; if expertise collections are closed under intersections and unions
+we get S4 knowledge, and closure under complements strengthens this to S5.
+Technical results included axiomatisation results for various classes of
+expertise models, with completeness for the class of all models requiring a
+novel and non-trivial proof technique.
+
+Importantly, \cref{chapter_expertise} laid the groundwork for subsequent
+chapters. \cref{chapter_belief_change} took up the expertise framework in
+pursuit of roughly the same goals as truth discovery: to handle conflicting
+reports from multiple sources, and to both form beliefs about the world and
+assess the trustworthiness of sources. The \emph{objects} of truth discovery
+played a similar role to the \emph{cases} in the belief change problem; in both
+problems the patterns of reports across objects/cases allows operators to
+reason about the trustworthiness or expertise of sources. The representations
+in use differed, though: in \cref{chapter_td} we used rankings of sources and
+claims, whereas \cref{chapter_belief_change} used sets of logical formulas.
+While rankings also played a major role in the construction of our belief and
+expertise operators, it was through rankings of \emph{worlds} rather than
+sources. We argued on \cpageref{chapter_interlude} that neither choice is
+better than the other; they merely give different perspectives on the broader
+problem. The result was that our axioms/postulates and operators share high
+level intuitions in places, but vary in their technical manifestation.
+
+{
+    \input{chapters/truth-tracking/macros.tex}
+
+Finally, \cref{chapter_truthtracking} took the same framework of the belief
+change problem to consider not just how to form \emph{rational} beliefs on the
+basis of non-expert information, but how to find the \emph{truth}. This
+concerned both finding the facts about the world in each case -- i.e. reliably
+\emph{aggregating} reports -- and finding the true expertise of each source.
+We saw that when sources make all possible sounds reports, an operator must be
+somewhat \emph{trusting}; this was expressed formally by the \credulity{}
+axiom. Consequently truth-tracking is inherently \emph{non-monotonic}. We also
+found precise conditions under which the facts of the world can be found by
+truth-tracking methods, which gives an insight into the extent to which
+truth-tracking is possible at all with non-expert sources. Indeed, the running
+example of \cref{chapter_truthtracking} served as an example where the truth
+cannot be found in some cases due to lack of relevant expertise.
+
+}
 
 \section{Future Work}
