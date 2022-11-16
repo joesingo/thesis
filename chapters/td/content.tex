@@ -40,7 +40,9 @@ conflict resolution, consider the following example.
         \report{u}{f};
         \report{v}{f};
     \end{tikzpicture}
-    \caption{
+    \caption[
+        Illustrative example of a truth discovery problem.
+    ]{
         Illustrative example of a truth discovery problem, with sources
         $s, t, u, v$ and objects $o_1, o_2$, each with associated values $+$
         and $-$.
@@ -264,7 +266,9 @@ which claims are in conflict with one another.
         \report{u}{f};
         \report{v}{f};
     \end{tikzpicture}
-    \caption{
+    \caption[
+        Claim-centric presentation of the illustrative problem.
+    ]{
         Claim-centric presentation of the network described in
         \cref{td_new_fig_intro_example_with_values,td_new_ex_intro_example}.
     }
@@ -735,8 +739,10 @@ each example operator on the network $N$ from \cref{td_new_fig_intro_example}.
 
 \begin{table}
     \centering
-	\caption{Output rankings of the example operators on the network from
-    \cref{td_new_fig_intro_example}.}
+    \caption[Output rankings of example truth discovery operators.]{
+        Output rankings of the example operators on the network from
+        \cref{td_new_fig_intro_example}.
+    }
 	\begin{tabular}{lcc}
     \toprule
     Voting             & $s \seq t \seq u \seq v$ & $c \ceq d \ceq e \clt f$ \\
@@ -1146,7 +1152,9 @@ claim $d$ should become less trusted.
         \report[dashed]{u}{f};
         \report[densely dashed]{v}{f};
     \end{tikzpicture}
-    \caption{
+    \caption[
+        Networks illustrating \freshposresp{} and \sourceposresp{}.
+    ]{
         Networks $N_0$ (solid edges only), $N_1 = \addclaim{N_0}{u}{f}$ and
         $N_2 = \addclaim{N_1}{v}{f}$ illustrating \freshposresp{} and
         \sourceposresp{}.
@@ -1632,7 +1640,7 @@ impossibility result.
         \report{t'}{d'}
     \end{tikzpicture}
     \caption{
-        Network used to illustrate the impossibility results of
+        Network illustrating the impossibility results of
         \cref{td_new_thm_conflict_impossibilities}.
     }
     \label{td_new_fig_conflict_impossibilities}
@@ -1849,7 +1857,9 @@ We can now characterise voting, up to ranking equivalence.
             $N''$ (all edges) and $N_0$ (excluding dashed edge)
         }
     \end{subfigure}
-    \caption{
+    \caption[
+        Illustration of the proof of \cref{td_new_thm_voting_characterisation}.
+    ]{
         Illustration of the proof of \cref{td_new_thm_voting_characterisation}.
         In $N'$, reports for claims other than $c$ and $d$ are removed. $N''$
         is an object reduction of $N'$. The dashed edge shows the reports added
