@@ -1,0 +1,48 @@
+\newcommand{\todo}[1]{{\color{red}[\textbf{TODO:} {#1}]}}
+
+\newenvironment{nitemize}
+    {\begin{itemize}\color{violet}}
+    {\end{itemize}}
+% td network macros, copied from thesis
+\tikzset{
+    objectgrouping/.style={
+        decorate,decoration={brace,raise=10pt,amplitude=6pt}
+    }
+}
+\tikzset{
+    objectlabel/.style={
+        pos=0.5,right=15pt
+    }
+}
+\newcommand{\networkinitwithnames}[4]{
+    \readlist \sourcelabels {#1}
+    \readlist \sourcenames {#2}
+    \readlist \claimlabels {#3}
+    \readlist \claimnames {#4}
+    \def \height {max(\sourcelabelslen, \claimlabelslen)}
+    \foreachitem \s \in \sourcelabels{
+        \def \offset {(\height -  \sourcelabelslen) / 2}
+        \def \y {\offset + \sourcelabelslen * ((\scnt - 1) / (\sourcelabelslen - 1))}
+        \node (\s) at (0, -{(\y)}) {\large $\sourcenames[\scnt]$};
+    }
+    \foreachitem \c \in \claimlabels{
+        \def \offset {(\height -  \claimlabelslen) / 2}
+        \def \y {\offset + \claimlabelslen * ((\ccnt - 1) / (\claimlabelslen - 1))}
+        \node (\c) at (3, -{(\y)}) {$\claimnames[\ccnt]$};
+    }
+}
+\newcommand{\networkinit}[2]{
+    \networkinitwithnames{#1}{#1}{#2}{#2}
+}
+\newcommand{\report}[3][]{% optional arg is extra params to \draw (e.g. dashed)
+    \draw[-,#1] (#2.east) -- (#3.west);
+}
+\newcommand{\object}[3]{
+    \draw[objectgrouping] (#2.center) -- (#3.center) node[objectlabel] {\large $#1$};
+}
+\newcommand{\objectsingleclaim}[2]{
+    \draw[objectgrouping] ($ (#2.center) + (0, 0.3) $)
+        -- ($ (#2.center) + (0, -0.3) $)
+        node[objectlabel] {\large $#1$};
+}
+

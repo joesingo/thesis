@@ -1,0 +1,151 @@
+\documentclass[10pt]{beamer}
+
+% Packages
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{pifont}
+\usepackage{booktabs}
+\usepackage{listofitems}
+
+% tikz setup
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
+
+% Metropolis options
+\usetheme{metropolis}
+\metroset{progressbar=frametitle,
+          block=fill}
+
+\input{macros}
+
+% Metadata
+\title{
+    Trustworthiness and Expertise: Social Choice and Logic-based Perspectives
+}
+\date{}
+\author{
+    Joseph Singleton
+    \\singletonj1@cardiff.ac.uk
+}
+\titlegraphic{\includegraphics[width=1cm]{images/cardifflogo}}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}{Thesis Overview}
+    \begin{itemize}
+        \item The thesis studies problems relating to \alert{unreliable
+              information} and \alert{expertise}
+        \item Emphasis on applying formal methods
+        \begin{itemize}
+            \item social choice theory
+            \item modal logic
+            \item belief revision
+            \item formal learning theory
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Social Choice Perspectives}
+    \begin{itemize}
+        \item The first half of the thesis uses the methodology of
+              computational social choice theory
+          \item We develop an axiomatic framework for \alert{truth discovery}
+              and \alert{bipartite tournament ranking}
+        \item Axioms formalise ``desirable'' properties for a method
+        \item Axiomatic analysis complements empirical work for comparing and
+              developing new methods
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Truth Discovery}
+    \begin{itemize}
+        \item Truth Discovery has recently arisen as a branch of the literature
+              on crowdsourcing
+        \item Central question: given conflicting information, who should we
+              trust and what should we believe?
+        \item We set out new axioms for truth discovery, and analyse an
+              existing method from the literature
+    \end{itemize}
+
+    % Copied from thesis with minor modifications
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}[thick,scale=0.8]
+            \LARGE
+            \networkinitwithnames{s,t,u,v}{s,t,u,v}{c,d,e,f}{+,-,+,-}
+            \object{o_1}{c}{d};
+            \object{o_2}{e}{f};
+            \report{s}{c};
+            \report{s}{e};
+            \report{t}{d};
+            \report{t}{f};
+            \report{u}{f};
+            \report{v}{f};
+        \end{tikzpicture}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}{Bipartite Tournament Ranking}
+    \begin{itemize}
+        \item ``Ground truth'' data can help with truth discovery:
+        \begin{itemize}
+            \item We already know something about the trustworthiness of
+                  sources
+            \item But this is not straightforward if objects vary in
+                  \emph{difficulty}
+        \end{itemize}
+        \item We generalise aspects of this problem: how should players in a
+              \alert{bipartite tournament} be ranked?
+    \end{itemize}
+
+    \todo{Example tournament}
+\end{frame}
+
+\begin{frame}{Logic-based Perspectives}
+    \begin{itemize}
+        \item The second half of the thesis uses logic-based methods:
+        \begin{itemize}
+            \item Modal logic framework to reason about expertise
+            \item Multi-source belief change problem with non-experts
+            \item Investigation into truth-tracking with non-experts
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Logic of Expertise}
+    \begin{nitemize}
+        \item new logical framework with E and S modalities
+        \item connections with epistemic logic
+        \item investigation into different properties of expertise
+    \end{nitemize}
+\end{frame}
+
+\begin{frame}{Multi-Source Belief Change}
+    \begin{nitemize}
+        \item belief change problem in the style of AGM and KP belief merging
+        \item uses the expertise framework to reason about expertise and trust
+            (we trust a source if we believe they are an expert)
+        \item key feature: trust can be revised as well as beliefs about the
+              world
+        \item approach is axiomatic: rationality postulates
+    \end{nitemize}
+\end{frame}
+
+\begin{frame}{Truth-Tracking with Non-Expert Sources}
+    \begin{nitemize}
+        \item AGM revision focusses on rationality, not on truth-tracking
+        \item we adapt previous belief change problem with notions of
+              truth-tracking
+        \item see what can be learned in principle with non-experts: there are
+              fundamental limits
+          \item look at whether rationality is compatible with truth-tracking
+              (yes)
+    \end{nitemize}
+\end{frame}
+
+\end{document}
