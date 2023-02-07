@@ -63,8 +63,8 @@
 
 \begin{frame}{Truth Discovery}
     \begin{itemize}
-        \item Truth Discovery has recently arisen as a branch of the literature
-              on crowdsourcing
+        \item \alert{Truth Discovery} has recently arisen as a branch of the
+              literature on crowdsourcing
         \item Central question: given conflicting information, who should we
               trust and what should we believe?
         \item We set out new axioms for truth discovery, and analyse an
@@ -103,49 +103,77 @@
               \alert{bipartite tournament} be ranked?
     \end{itemize}
 
-    \todo{Example tournament}
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}[thick,scale=0.8]
+            \tournamentinit{a_1,a_2,a_3,a_4}{b_1,b_2,b_3}
+            \tournmatch{a_1}{b_1}
+            \tournmatch{a_2}{b_1}
+            \tournmatch{a_2}{b_2}
+            \tournmatch{a_3}{b_1}
+            \tournmatch{a_3}{b_3}
+            \tournmatch{a_4}{b_3}
+        \end{tikzpicture}
+    \end{figure}
+
 \end{frame}
 
 \begin{frame}{Logic-based Perspectives}
     \begin{itemize}
         \item The second half of the thesis uses logic-based methods:
         \begin{itemize}
-            \item Modal logic framework to reason about expertise
-            \item Multi-source belief change problem with non-experts
-            \item Investigation into truth-tracking with non-experts
+            \item \alert{Modal logic} framework to reason about expertise
+            \item Multi-source \alert{belief change} problem with non-experts
+            \item Investigation into \alert{truth-tracking} with non-experts
         \end{itemize}
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Logic of Expertise}
-    \begin{nitemize}
-        \item new logical framework with E and S modalities
-        \item connections with epistemic logic
-        \item investigation into different properties of expertise
-    \end{nitemize}
+    \begin{itemize}
+        \item We develop a modal logic framework to reason about
+              \alert{expertise}
+        \item Key notion: information is \emph{sound} if it is true ``up to
+              lack of expertise''
+        \item We explore connections between expertise and \emph{knowledge} via
+              epistemic logic
+        \item This serves as the logical foundation for the following two
+              chapters\ldots
+    \end{itemize}
+
+    \[
+        \E\phi \limplies \A(\S\phi \limplies \phi)
+    \]
 \end{frame}
 
 \begin{frame}{Multi-Source Belief Change}
-    \begin{nitemize}
-        \item belief change problem in the style of AGM and KP belief merging
-        \item uses the expertise framework to reason about expertise and trust
-            (we trust a source if we believe they are an expert)
-        \item key feature: trust can be revised as well as beliefs about the
-              world
-        \item approach is axiomatic: rationality postulates
-    \end{nitemize}
+
+    \begin{itemize}
+        \item How can the methods of \alert{belief revision} be used to
+              handle information from non-expert sources?
+        \item How do we revise \emph{trust} in sources?
+        \item We set out a belief change problem using the expertise framework
+              of the previous chapter
+        \item Axiomatic approach once again; inspired by AGM-style rationality
+              postulates
+    \end{itemize}
+
+    \[
+        \phi \in K(\sigma) \implies \neg\E\phi \in K(\sigma \concat
+        \tuple{i, \neg\phi})
+    \]
 \end{frame}
 
 \begin{frame}{Truth-Tracking with Non-Expert Sources}
-    \begin{nitemize}
-        \item AGM revision focusses on rationality, not on truth-tracking
-        \item we adapt previous belief change problem with notions of
-              truth-tracking
-        \item see what can be learned in principle with non-experts: there are
-              fundamental limits
-          \item look at whether rationality is compatible with truth-tracking
-              (yes)
-    \end{nitemize}
+    \begin{itemize}
+        \item AGM revision focusses on rationality, not on \alert{finding the
+              truth}
+        \item We augment the belief change problem with notions of
+              truth-tracking from formal learning theory
+        \item This shows what can be learned in principle with non-experts
+        \item Even with strong assumptions, there are fundamental limits on
+              what one can learn
+    \end{itemize}
 \end{frame}
 
 \end{document}

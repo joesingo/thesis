@@ -1,0 +1,94 @@
+Truth Discovery
+---------------
+
+Why only a few algorithms?
+
+- In practise TD algorithms seem to be difficult to analyse axiomatically. this
+  is a downside of the approach
+- Iterative definition (and non-consideration of convergence issues, in some
+  work) prevents one obtaining a closed-form expression for the operator
+- Chose not to present partial results for loads of operators
+
+No truth tracking?
+
+- Initially we aimed to target td generally without reference to a specific
+  probabilistic model of the "truth"
+- We rectified this a bit in the final chapter, but of course it is still very
+  different from mainstream probability-based approaches
+
+Why are \S, \O and \V infinite sets?
+
+- Technically: we make use of this to show that every network has an object
+  reduction, where we use the fact that \O is infinite so that we can choose an
+  object for each claim of the original network N. This in turn was used to
+  state an axiom (Object-Irrelevance) which characterises Voting.
+
+- Conceptually: TD algorithms never care about the number of sources etc; they
+  work for *any* number of sources. So setting up the framework this way does
+  no harm.
+
+  In a previous version of this work we had an axiom similar to one from belief
+  merging (Majority), which required this setup on a technical level. Roughly
+  speaking, it ensures one can always add new sources to a network.
+
+What's the point?
+
+- We show that computational social-choice-style axioms can be applied to other
+  settings. Hopefully encourage others to take a principled axiom-based look at
+  this problem
+
+Difficulty of objects?
+
+- It is true that we don't really address this. This kind of consideration
+  might have bearing on the desirability of axioms like Source-Coherence
+
+- We *do* look at difficulty in the chapter on tournaments, although admittedly
+  for a different problem
+
+Bipartite Tournaments
+---------------------
+
+Why chain editing?
+
+- Has a nice appeal with the players being totally ordered sub set inclusion on
+  their neighbourhoods, and nice interpretation via the maximum likelihood
+  connection
+
+- Real answer: people suggested it for ranking before in the literature, and it
+  looked interesting
+
+Framework versus TD stuff?
+
+- We could have used a matrix-based formulation for TD, or a graph-based
+  formulation for tournaments. Ultimately I went with whatever felt nicest at
+  the time; I admit that the thesis would be more cohesive if the frameworks
+  were bought closer together.
+
+Resolving anonymity problem by averaging?
+
+- I looked into this but didn't obtain enough results to include it (and the
+  thesis is already quite long). The main problem is that the average
+  tournament is no longer chain. It also seems difficult to compute this
+  average and to investigate properties of it.
+
+Maximum likelihood stuff:
+
+- Note that we don't have a joint distribution over tournaments *and* states.
+  We just have a "conditional" distribution over tournaments for each θ
+
+Interleaving operators: why violate sub-matrix independence?
+
+- No good reason: but in the more general form we have the characterisation of
+  chain-definable operators. Interesting in a minor way. Rank-removal captures
+  the specialised case of SMI
+
+- TODO: need to revisit in a bit more detail
+
+
+
+TD algorithm based on bipartite tournament ranking?
+
+- We believe chain editing could be a part of an iterative TD algorithm. There
+  are of course computational issues (which could be resolved by using our
+  interleaving "approximation" to chain editing). I did not explore this
+  idea in much detail, unfortunately

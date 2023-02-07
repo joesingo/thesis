@@ -1,9 +1,11 @@
+% Misc
 \newcommand{\todo}[1]{{\color{red}[\textbf{TODO:} {#1}]}}
 
 \newenvironment{nitemize}
     {\begin{itemize}\color{violet}}
     {\end{itemize}}
-% td network macros, copied from thesis
+
+% TD network macros, copied from thesis
 \tikzset{
     objectgrouping/.style={
         decorate,decoration={brace,raise=10pt,amplitude=6pt}
@@ -46,3 +48,38 @@
         node[objectlabel] {\large $#1$};
 }
 
+% Tournament graph: hacky copy-and-paste-and-modify from TD networks
+\newcommand{\tournamentinit}[2]{
+    \readlist \alabels {#1}
+    \readlist \blabels {#2}
+    \def \height {max(\alabelslen, \blabelslen)}
+    \foreachitem \s \in \alabels{
+        \def \offset {(\height -  \alabelslen) / 2}
+        \def \y {\offset + \alabelslen * ((\scnt - 1) / (\alabelslen - 1))}
+        \node (\s) at (0, -{(\y)}) {$\alabels[\scnt]$};
+    }
+    \foreachitem \c \in \blabels{
+        \def \offset {(\height -  \blabelslen) / 2}
+        \def \y {\offset + \blabelslen * ((\ccnt - 1) / (\blabelslen - 1))}
+        \node (\c) at (3, -{(\y)}) {$\blabels[\ccnt]$};
+    }
+}
+\newcommand{\tournmatch}[2]{
+    \draw (#1.east) -- (#2.west);
+}
+
+% Modal logic
+\renewcommand{\phi}{\varphi}
+\newcommand{\E}{\mathsf{E}}
+\renewcommand{\S}{\mathsf{S}}
+\newcommand{\A}{\mathsf{A}}
+\newcommand{\K}{\mathsf{K}}
+
+% logical symbols
+\newcommand{\limplies}{\rightarrow}
+\newcommand{\liff}{\leftrightarrow}
+\newcommand{\limpliedby}{\leftarrow}
+
+% Belief change
+\newcommand{\concat}{\cdot}
+\newcommand{\tuple}[1]{\langle {#1} \rangle}
