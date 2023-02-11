@@ -84,8 +84,6 @@ Interleaving operators: why violate sub-matrix independence?
 
 - TODO: need to revisit in a bit more detail
 
-
-
 TD algorithm based on bipartite tournament ranking?
 
 - We believe chain editing could be a part of an iterative TD algorithm. There
