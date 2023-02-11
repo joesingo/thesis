@@ -77,7 +77,7 @@ example, we should \emph{know} reports from the reliable source are true,
 whereas reports from ordinary sources may only be believed.
 
 We do, however, make some simplifying assumptions compared to the modal
-framework in \cref{chapter_expertise}. Firstly, we only consider only a finite
+framework in \cref{chapter_expertise}. Firstly, we consider only a finite
 set of propositional variables, and identify states of the world with
 propositional valuations. Secondly, we assume expertise is closed under both
 intersections and complements, so that -- by \cref{exp_thm_s5_semantic_link} --
@@ -3074,17 +3074,17 @@ Say an operator is \emph{case-independent-selective} if it is selective
 according to some case independent scheme. This stronger notion of selectivity
 can again be characterised by a postulate which bounds propositional beliefs.
 For any set of cases $H \subseteq \C$, sequence $\sigma$ and $c \in \C$, write
-\begin{align*}
+\[
     \Gamma^{\sigma,H}_c
     = \{
         \phi \in \lprop
         \mid
         \exists i \in \srcs:
-            &\tuple{i, \phi} \in \sigma \rs c \\
-            &\text{ and }
-            \forall d \in H : \tuple{i, \phi} \notin \sigma \rs d
+            \tuple{i, \phi} \in \sigma \rs c
+            \text{ and }
+            \forall d \in H: \tuple{i, \phi} \notin \sigma \rs d
     \}.
-\end{align*}
+\]
 
 \begin{axiom}[\hboundedness{}]
     For any $\ast$-consistent $\sigma$, $H \subseteq \C$ and $c \in \C$,

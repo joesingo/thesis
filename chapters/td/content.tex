@@ -20,7 +20,7 @@ trustworthy sources are those that report believable claims. Note that there is
 a \emph{mutual dependence} between the trust and belief parts of the problem,
 whereby highly trusted sources bestow credibility on their claims and vice
 versa. Application areas include real-time traffic navigation~\cite{du2019},
-drug side-effect discovery~\cite{ma2017}, crowdsourcing and social
+drug side-effect discovery~\cite{ma2017}, and crowdsourcing and social
 sensing~\cite{zhang_robust_2016,wang_truth_2012,ma_faitcrowd_2015}.
 
 For a simple example of a situation where trust can play an important role in
@@ -102,7 +102,7 @@ In this work we take first steps towards a more general approach, in which we
 aim to study truth discovery without reference to any specific methodology or
 probabilistic framework. To do so we note the similarities between truth
 discovery and problems such as judgement aggregation~\cite{endriss2016ja},
-voting theory~\cite{zwicker2016voting} ranking and recommendation
+voting theory~\cite{zwicker2016voting} and ranking and recommendation
 systems~\cite{altman2008,altman2005ranking,andersen2008,tennenholtz2004} in
 which the \emph{axiomatic approach} of social choice has been successfully
 applied.
@@ -400,7 +400,7 @@ parts by $\seq_N^T$ and $\ceq_N^T$. We omit the sub- and super-scripts when
 $N$ and $T$ are clear from context.
 
 \footnotetext{
-    A total preorder is a transitive and complete binary relation.
+    A total preorder is a transitive, reflexive and complete binary relation.
 }
 
 Given that our axioms will only refer to the rankings produced by operators,
@@ -685,7 +685,7 @@ claim on $o$ is minimised.
 To express CRH in our framework we use the ``probabilistic'' encoding of
 categorical variables as described in \cite[\sectionsymbol{2.4.1}]{li2016},
 where each categorical value is represented as a one-hot vector, and the source
-weight regularisation from \cite[Eq. (4)]{li2016}. We make a minor
+weight regularisation from \cite[Eq.\ (4)]{li2016}. We make a minor
 modification, however, by adding a small quantity $\epsilon$ to $\alpha_s$ and
 $T'_N(s)$ defined below; this ensures the logarithm in $T'_N(s)$ and the
 division in $T'_N(c)$ is well-defined and simplifies analysis of CRH later on.
@@ -788,7 +788,7 @@ so we adapt the idea behind the \emph{Transitivity} axiom of
 Now, a difficulty arises when considering how to compare the claims of two
 sources. For a simple example, suppose sources have either \emph{low},
 \emph{medium} or \emph{high} trustworthiness. How should we rank a claim $c$
-with one \emph{medium} sources versus a claim $d$ with a \emph{low} and a
+with one \emph{medium} source versus a claim $d$ with a \emph{low} and a
 \emph{high} source? In some situations we may want to prioritise the number of
 claims, so that $d$ is preferred. In others we may want to avoid trusting
 \emph{low} sources as much as possible, so that $c$ is preferred. The third
@@ -1417,9 +1417,10 @@ $c$ and $d$ should depend only on the sources reporting $c$ and $d$, not on the
 sources for other claims. However, this axiom is clearly \emph{undesirable} for
 truth discovery. Indeed, consider again the network $N$ from
 \cref{td_new_fig_intro_example}. As we have argued informally, claim $c$ is
-intuitively weaker than $d$ because how of their respective sources interact
-with other claims in the network. Nevertheless, we state this axiom as a point
-of comparison with classical social choice problems such as voting.
+intuitively weaker than $d$ because of the way in which their respective
+sources interact with other claims in the network. Nevertheless, we state this
+axiom as a point of comparison with classical social choice problems such as
+voting.
 
 \begin{axiom}[\classicalindependence{}]
     Suppose $C_N = C_{N'}$. Then $\src_N(c) = \src_{N'}(c)$ and $\src_N(d) =
@@ -1492,7 +1493,7 @@ since \sourceposresp{} can also be replaced with \sourcecoherence{}.
 
 \begin{theorem}
     \label{td_new_thm_classical_indep_impossibility}
-    Suppose and operator satisfies \symmetry{}, \claimcoherence{} and
+    Suppose an operator satisfies \symmetry{}, \claimcoherence{} and
     \freshposresp{}. Then the following axioms cannot hold simultaneously.
     \begin{enumerate}
         \item \label{td_new_item_classical_indep_impossibility_spr}
@@ -1734,7 +1735,7 @@ of ``reducing'' the objects of a network.
         \item $S' = S$.
         \item $f$ is a bijection $C_N \to C_{N'}$ such that $(s, c) \in R$
               iff $(s, f(c)) \in R'$.
-        \item For al $o \in O'$, $|D'_o| = 1$.
+        \item For all $o \in O'$, $|D'_o| = 1$.
     \end{enumerate}
 \end{definition}
 

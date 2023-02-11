@@ -137,7 +137,8 @@ new material in \cref{tt_sec_score_based_methods,tt_sec_belief_based_streams}.
 \label{tt_sec_preliminaries}
 
 In this section we introduce the logical framework, which is largely the same
-as in \cref{chapter_belief_change} but with minor differences.
+as in \cref{chapter_belief_change} but with minor differences. Most
+importantly, we exclude the special source $\ast$.
 
 \paragraph{Syntax.}
 
@@ -270,7 +271,7 @@ for all input sequences $\sigma$.
 This definition is the main point of difference between the framework of the
 present chapter and of \cref{chapter_belief_change}. Firstly, we no longer
 consider separate belief and knowledge outputs for each sequence $\sigma$; the
-conjecture $L(\sigma)$ should be though of as analogous to the belief set of an
+conjecture $L(\sigma)$ should be thought of as analogous to the belief set of an
 operator in the sense of \cref{kr_def_operator}.
 %
 Secondly, we take a purely semantic view here by considering the output of a
@@ -2082,7 +2083,7 @@ which a strict majority of sources have expertise on $\phi$:
 Then for $W \in S_\phi$, $Q^*_\b[W] \cap S_\phi$ decides $\phi$ in all cases $c
 \in \css$.
 
-Indeed, take $c \in \css$. Letting $I_W$ denote the set of source with
+Indeed, take $c \in \css$. Letting $I_W$ denote the set of sources with
 expertise on $\phi$ in $W$, for any two worlds $W, W' \in S_\phi$ there is
 necessarily some $i \in I_W \cap I_{W'}$; otherwise $|I_W \cup I_{W'}| = |I_W|
 + |I_{W'}| > |\srcs|$, which cannot be. Thus, $W, c \models \E_i\phi$ and $W',
@@ -2227,7 +2228,7 @@ been criticised in the philosophical literature as too strong.
 While this was partially remedied in \cref{tt_sec_belief_based_streams}, the
 results there are somewhat preliminary. For instance, we did not proceed
 systematically in identifying assumptions under which belief-based
-truth-tracking can be made more informative, in sense of revealing more
+truth-tracking can be made more informative, in the sense of revealing more
 information about the actual world $W$. Instead, we presented two ad-hoc
 examples based on the number of expert sources and coalitions of jointly
 consistent sources. It also remains to investigate our concrete example methods

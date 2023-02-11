@@ -184,7 +184,7 @@ We define a tournament ranking operator for this purpose.
 
 \begin{definition}%[Operator]
 
-    An \emph{tournament ranking operator} $\T$ assigns each tournament $K$ a
+    A \emph{tournament ranking operator} $\T$ assigns each tournament $K$ a
     pair $\T(K) = ({\ale_K^\T}, {\ble_K^\T})$ of total preorders on $A$ and $B$
     respectively.
 
@@ -1049,7 +1049,7 @@ same argument as characterisation of voting in truth discovery in
 \cref{td_new_thm_voting_characterisation}).
 %
 Finally, note that \posresp{} also acts as a kind of
-\emph{strategyproofness}: $a$ cannot improve its ranking by deliberately losing
+\emph{strategy-proofness}: $a$ cannot improve its ranking by deliberately losing
 a match. Specifically, if $K_{ab} = 1$ and $a \ale_K^\T a'$, then
 \posresp{} implies $a \alt_{K - \bm{1}_{ab}}^\T a'$.
 
@@ -1851,10 +1851,10 @@ $\T$ by setting $\T(K) = ({\anle_{\alpha(K)}}, {\bnle_{\alpha(K)}})$.
         \label{tourn_eqn_match_preference_alpha_definition}
         \alpha_{\trianglelefteq}(K)
         = \argmin_{K' \in \minch{K}}{
-            \vect_{\trianglelefteq}(K \oplus K')
+            \vect_{\trianglelefteq}(K \ominus K')
         }
     \end{equation}
-    where $[K \oplus K']_{ab} = |K_{ab} - K_{ab}'|$, and the minimum is taken
+    where $[K \ominus K']_{ab} = |K_{ab} - K_{ab}'|$, and the minimum is taken
     w.r.t the lexicographic ordering on $\{0,1\}^{|A| \cdot
     |B|}$.\footnotemark{} Operators generated in this way will be called
     \emph{match-preference operators}.
@@ -1862,7 +1862,7 @@ $\T$ by setting $\T(K) = ({\anle_{\alpha(K)}}, {\bnle_{\alpha(K)}})$.
 \end{definition}
 
 \footnotetext{
-    Note that $K \oplus K'$ is 1 in exactly the entries where $K$ and $K'$
+    Note that $K \ominus K'$ is 1 in exactly the entries where $K$ and $K'$
     differ.
 }
 
@@ -1870,13 +1870,13 @@ $\T$ by setting $\T(K) = ({\anle_{\alpha(K)}}, {\bnle_{\alpha(K)}})$.
     \label{tourn_ex_match_preference_example}
 
     Let $\trianglelefteq$ be the lexicographic order\footnotemark{} on $\N
-    \times \N$ so that $\vect_{\trianglelefteq}(K \oplus K')$ is obtained by
-    collecting the entries of $K \oplus K'$ row-by-row, from top to
+    \times \N$ so that $\vect_{\trianglelefteq}(K \ominus K')$ is obtained by
+    collecting the entries of $K \ominus K'$ row-by-row, from top to
     bottom and left to right.
     %
     Take $K$ from \Cref{tourn_ex_minch}. Writing $K_1,\ldots,K_4$ for the elements of
     $\minch{K}$ in the order that they appear in \Cref{tourn_ex_minch} and setting
-    $v_i = \vect_{\trianglelefteq}(K \oplus K_i)$, we have
+    $v_i = \vect_{\trianglelefteq}(K \ominus K_i)$, we have
     \begin{align*}
         v_1 = (0\bm{{\color{red}1}}00\ 0000\ \bm{{\color{red}1}}0000);
         & \quad \quad
@@ -1982,21 +1982,21 @@ The characterisation in terms of weighted Hamming distances is as follows
     \]
     If we abuse notation slightly and view $w$ as an $m \times n$ matrix, we
     have, by construction, $\vect_{\trianglelefteq}(w) = (1 +
-    2^{-1},\ldots,1 + 2^{-mn})$. Noting that $|K_{ab} - K'_{ab}| = [K \oplus
+    2^{-1},\ldots,1 + 2^{-mn})$. Noting that $|K_{ab} - K'_{ab}| = [K \ominus
     K']_{ab}$ for any tournaments $K, K'$, and letting $\dotprod$ denote the
     dot product, it is easy to see that
     \begin{align*}
         d_w(K, K')
         &= \vect_{\trianglelefteq}(w)
-            \dotprod \vect_{\trianglelefteq}(K \oplus K') \\
+            \dotprod \vect_{\trianglelefteq}(K \ominus K') \\
         &= (1 + 2^{-1},\ldots,1 + 2^{-mn})
            \dotprod
-           \vect_{\trianglelefteq}(K \oplus K') \\
-        &= d(K, K') + \bm{x} \dotprod \vect_{\trianglelefteq}(K \oplus K')
+           \vect_{\trianglelefteq}(K \ominus K') \\
+        &= d(K, K') + \bm{x} \dotprod \vect_{\trianglelefteq}(K \ominus K')
     \end{align*}
     where $\bm{x} = (2^{-1},\ldots,2^{-mn})$ and $d(K, K')$ is the
     unweighted Hamming distance. In particular, since $\bm{x}$ and
-    $\vect_{\trianglelefteq}(K \oplus K')$ are non-negative, we have $d_w(K, K')
+    $\vect_{\trianglelefteq}(K \ominus K')$ are non-negative, we have $d_w(K, K')
     \ge d(K, K')$.
 
     Now, we will show that for any $m \times n$ tournament $K$ and $K' \in
@@ -2007,8 +2007,8 @@ The characterisation in terms of weighted Hamming distances is as follows
     unique minimum in \Cref{tourn_eqn_matchpref_argmin}, as required.
 
     So, let $K$ be an $m \times n$ tournament and $K' \in \ch_{m,n}$. To ease
-    notation, write $v = \vect_{\trianglelefteq}(K \oplus
-    \alpha_{\trianglelefteq}(K))$ and $v' = \vect_{\trianglelefteq}(K \oplus K')$.
+    notation, write $v = \vect_{\trianglelefteq}(K \ominus
+    \alpha_{\trianglelefteq}(K))$ and $v' = \vect_{\trianglelefteq}(K \ominus K')$.
     There are two cases.
 
     \textbf{Case 1:} $K' \not\in \minch{K}$. In this case we have $d(K, K')
@@ -2223,7 +2223,7 @@ its symmetric part.
     $X_i$, we have $a \ale_K^\T a'$ if and only if $p(a) \le p(a')$.
 
     Let $K'$ be the unique tournament such that $K'(a) = N_{p(a)}$ for each $a
-    \in A$. Since $N_1 \subset \cdots \subset N_p$, we have
+    \in A$. Since $N_1 \subset \cdots \subset N_s$, we have
     \begin{equation}
         \label{tourn_eqn_ale_k_t_iff_anle_kprime}
         \begin{aligned}
@@ -3326,7 +3326,7 @@ following we show it is \emph{equivalent} to \smi{}, when taken with
     \cref{tourn_eqn_smi_rr_induction} for $i = 0$.
 
     For the inductive step, suppose \cref{tourn_eqn_smi_rr_induction}
-    holds for some $i \ge 0$. We consider cases. First, suppose $A^-_i =
+    holds for some $i \ge 0$. We consider three cases. First, suppose $A^-_i =
     \emptyset$. Then $A^-_{i + 1} \subseteq A^-_i$ means $A^-_{i + 1} =
     \emptyset$. On the other hand the inductive hypothesis gives $A_{i + 1} =
     \emptyset$, so we get $A_{i + 2} = \emptyset$. In particular, the first
@@ -3341,7 +3341,9 @@ following we show it is \emph{equivalent} to \smi{}, when taken with
     \]
     By the inductive hypothesis again we have $A_{i + 1} = \emptyset$, so the
     same line of reasoning gives $B_{i + 1} = \emptyset$. Thus
-    \cref{tourn_eqn_smi_rr_induction} holds. The case $B^-_i = \emptyset$
+    \cref{tourn_eqn_smi_rr_induction} holds.
+
+    The case $B^-_i = \emptyset$
     is identical, using properties of $f$ instead of $g$.
 
     Now suppose both $A^-_i$ and $B^-_i$ are non-empty. Recall $A^-_i \subseteq
@@ -3506,7 +3508,7 @@ ranking, such as we consider in this chapter, induces a set of winners by taking
 the maximally ranked players.}
 %
 Of particular relevance to our work are the \emph{Slater set} and
-\emph{Kemeney's rule} \cite{brandt2016a}, which find minimal sets of edges to
+\emph{Kemeny's rule} \cite{brandt2016a}, which find minimal sets of edges to
 invert in the tournament graph such that the beating relation becomes a total
 order.\footnotemark{}
 % The tournament winners are then those ranked maximally in
