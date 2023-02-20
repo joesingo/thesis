@@ -1,4 +1,8 @@
-\documentclass[a4paper,12pt,oneside]{memoir}
+\ifdefined\printedversion
+    \documentclass[a4paper,12pt]{memoir}
+\else
+    \documentclass[a4paper,12pt,oneside]{memoir}
+\fi
 
 % packages
 % \usepackage{newpxtext} % palatino font
@@ -28,7 +32,10 @@
 % line spacing
 % \OnehalfSpacing
 
-\setlrmarginsandblock{3.5cm}{*}{1}
+\ifdefined\printedversion
+\else
+    \setlrmarginsandblock{3.5cm}{*}{1}
+\fi
 \setulmarginsandblock{3.5cm}{*}{1}
 \checkandfixthelayout
 
@@ -41,16 +48,22 @@
 \chapterstyle{dash}
 \renewcommand{\midpartskip}{\par\parbox{\textwidth}{\hrulefill}\par}
 
-% links
-\hypersetup{
-	colorlinks,
-	citecolor={blue!80!black},
-	urlcolor={blue!80!black},
-	linkcolor={blue!80!black}
-}
-
-% graphics path
-\graphicspath{ {./chapters/truthdiscovery/images/} }
+% links: black for printed version, blue for PDF
+\ifdefined\printedversion
+    \hypersetup{
+        colorlinks,
+        citecolor=black,
+        urlcolor=black,
+        linkcolor=black
+    }
+\else
+    \hypersetup{
+        colorlinks,
+        citecolor={blue!80!black},
+        urlcolor={blue!80!black},
+        linkcolor={blue!80!black}
+    }
+\fi
 
 % tikz setup
 \usetikzlibrary{calc}
@@ -85,9 +98,6 @@
 \title{
     Trustworthiness and Expertise: Social Choice and Logic-based Perspectives
 }
-
-% for development only
-\usepackage{lipsum}
 
 \begin{document}
 
