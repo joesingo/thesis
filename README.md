@@ -1,6 +1,7 @@
 # Trustworthiness and Expertise: Social Choice and Logic-based Perspectives
 
-This repository contains the LaTeX source for my PhD thesis.
+This repository contains the LaTeX source for my PhD thesis. The [final PDF
+version is here](/thesis.pdf).
 
 ## Abstract
 
