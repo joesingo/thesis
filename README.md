@@ -1,7 +1,6 @@
 # Trustworthiness and Expertise: Social Choice and Logic-based Perspectives
 
-This repository contains the LaTeX source for my PhD thesis (under examination
-at the time of writing).
+This repository contains the LaTeX source for my PhD thesis.
 
 ## Abstract
 
@@ -37,3 +36,9 @@ Finally, we address *truth-tracking*: the problem of finding the truth
 given non-expert reports. Adapting recent work combining logic with formal
 learning theory, we investigate the extent to which truth-tracking is possible,
 and how truth-tracking interacts with rationality.
+
+## Compiling
+
+The thesis should be compiled with XeLaTeX, using biber and biblatex for
+references. For convenience a Makefile is provided: use `make pdf` and `make
+bib` to build.
